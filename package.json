@@ -1,0 +1,30 @@
+{
+  "name": "rainbow",
+  "version": "0.0.0",
+  "description": "Kate&Andrew project for geekhub's final challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/syrotchukandrew/rainbow"
+  },
+  "keywords": [
+    "rainbow"
+  ],
+  "author": "Kate and Andrew Syrotchuk",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/syrotchukandrew/rainbow/issues"
+  },
+  "dependencies": {
+    "bower": "~1.7.7",
+    "gulp": "~3.9.1",
+    "less": "~2.6.0",
+    "gulp-less": "~3.0.5",
+    "gulp-clean": "~0.3.1",
+    "gulp-concat": "~2.6.0",
+    "gulp-uglify": "~1.5.2"
+  }
+}
