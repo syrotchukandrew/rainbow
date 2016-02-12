@@ -1,0 +1,24 @@
+{
+  "name": "rainbow",
+  "description": "Kate&Andrew project for geekhub's final challenge",
+  "main": "index.js",
+  "authors": [
+    "Kate and Andrew Syrotchuk"
+  ],
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "rainbow"
+  ],
+  "moduleType": [],
+  "homepage": "https://github.com/syrotchukandrew/rainbow",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
