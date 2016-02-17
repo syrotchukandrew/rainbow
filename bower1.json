@@ -1,15 +1,16 @@
 {
-  "name": "rainbow",
-  "description": "Kate&Andrew project for geekhub's final challenge",
+  "name": "startbootstrap-sb-admin-2",
+  "version": "1.0.7",
+  "homepage": "http://startbootstrap.com/template-overviews/sb-admin-2/",
   "authors": [
-    "Kate and Andrew Syrotchuk"
+    "David Miller"
   ],
-  "license": "BSD-2-Clause",
+  "description": "A free, open source, Bootstrap admin theme created by Start Bootstrap",
   "keywords": [
-    "rainbow"
+    "bootstrap",
+    "theme"
   ],
-  "moduleType": [],
-  "homepage": "https://github.com/syrotchukandrew/rainbow",
+  "license": "Apache",
   "ignore": [
     "**/.*",
     "node_modules",
