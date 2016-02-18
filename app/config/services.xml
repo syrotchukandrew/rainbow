@@ -15,6 +15,17 @@
            </argument>
        </service>
 
+       <service id="app.twig_extension" class="AppBundle\Twig\AppExtension" public="false">
+           <tag name="twig.extension"/>
+           <argument>%app_locales%</argument>
+           <argument type="service" id="service_container"/>
+       </service>
+
+       <service id="app.socialBarHelper" class="AppBundle\Templating\Helper\SocialBarHelper">
+           <argument type="service" id="templating"/>
+           <tag name="templating.helper" alias="social-buttons"/>
+       </service>
+
    </services>
 
 </container>
