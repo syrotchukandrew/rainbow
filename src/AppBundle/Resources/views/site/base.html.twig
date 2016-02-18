@@ -60,7 +60,11 @@
 
                 <div class="panel">
                     <div class="panel-body">
-                        You may want to put some news here  <span class="glyphicon glyphicon-heart-empty"></span>
+                        <ul>
+                            <li>{{ facebookButton() }}</li>
+                            <li>{{ googlePlusButton() }}</li>
+                            <li>{{ twitterButton() }}</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -110,8 +114,6 @@
         <div class="col col-sm-9">
             <div class="panel">
                 <h1>The Top Stories from Around</h1>
-
-                {{ facebookButton() }}
 
                 <div class="row">
                     <div class="col col-sm-8">
