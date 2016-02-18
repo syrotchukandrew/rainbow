@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        {% endblock stylesheets %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block footer %}
-            <!-- Footer -->
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>Copyright &copy; Syrotchuk's Website 2016</p>
-                    </div>
-                </div>
-                <!-- /.row -->
-            </footer>
-        {% endblock footer %}
-        {% block javascripts %}
-            <script src="{{ asset('js/app.js') }}"></script>
-            <script src="{{ asset('js/sb-admin-2.js') }}"></script>
-            <script src="{{ asset('js/morris-data.js') }}"></script>
-           {# <script src="{{ asset('js/flot-data.js') }}"></script>#}
-        {% endblock javascripts %}
-    </body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% endblock stylesheets %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+{% block nav %}{% endblock %}
+{% block header %}{% endblock %}
+{% block body %}
+    {% block sidebar %}{% endblock %}
+    {% block panel %}{% endblock %}
+{% endblock %}
+{% block footer %}
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Syrotchuk's Website 2016</p>
+            </div>
+        </div>
+        <!-- /.row -->
+    </footer>
+{% endblock footer %}
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/morris-data.js') }}"></script>
+    {# <script src="{{ asset('js/flot-data.js') }}"></script>#}
+{% endblock javascripts %}
+</body>
 </html>

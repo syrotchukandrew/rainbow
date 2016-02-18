@@ -71,7 +71,7 @@ class SiteController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render("AppBundle::site/base.html.twig");
+        return $this->render("AppBundle::site/index.html.twig");
     }
 
 }
