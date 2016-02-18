@@ -20,7 +20,11 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+<<<<<<< HEAD
+        );
+=======
             );
+>>>>>>> 253c7113e117fd2889b11c86c73e0e38cf54055c
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
