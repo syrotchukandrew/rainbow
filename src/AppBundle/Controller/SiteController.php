@@ -20,9 +20,9 @@ use AppBundle\Entity\Cat as CategoryEntity;
 class SiteController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/menus", name="menus")
      */
-    public function indexAction(Request $request)
+    public function menusAction(Request $request)
     {
 //        $em = $this->getDoctrine()->getManager();
 //        $rootMenuItems = $em->getRepository("AppBundle:Category")->findBy(['parent' => null]);
@@ -36,12 +36,12 @@ class SiteController extends Controller
 //        dump($iterator);
 //        return new Response('ok');
         //return $this->render("AppBundle::menu.html.twig", ['menuitems' => $iterator]);
-       // return $this->render("AppBundle::menu.html.twig", ['links' => $iterator]);
+        // return $this->render("AppBundle::menu.html.twig", ['links' => $iterator]);
 
 
         // ... your code before
-      $em = $this->getDoctrine()->getManager();
-        $cat1= new CategoryEntity();
+        $em = $this->getDoctrine()->getManager();
+        $cat1 = new CategoryEntity();
         $cat1->setTitle('Фрукты');
 
         $subcat = new CategoryEntity();
@@ -64,6 +64,14 @@ class SiteController extends Controller
         return $this->render("AppBundle::menu.html.twig", ['links' => $categories]);
 
 
+    }
+
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction(Request $request)
+    {
+        return $this->render("AppBundle::site/base.html.twig");
     }
 
 }
