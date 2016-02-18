@@ -38,12 +38,6 @@ class User extends BaseUser
      */
     protected $vkontakteId;
 
-    protected $facebookAccessToken;
-
-    protected $googleAccessToken;
-
-    protected $vkontakteAccessToken;
-
     public function getId()
     {
         return $this->id;
@@ -68,24 +62,6 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $facebookAccessToken
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebookAccessToken = $facebookAccessToken;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebookAccessToken;
-    }
-
-    /**
      * @param string $vkontakteId
      * @return User
      */
@@ -104,25 +80,6 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $vkontakteAccessToken
-     * @return User
-     */
-    public function setVkontakteAccessToken($vkontakteAccessToken)
-    {
-        $this->vkontakteAccessToken = $vkontakteAccessToken;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVkontakteAccessToken()
-    {
-        return $this->vkontakteAccessToken;
-    }
-
-
-    /**
      * @param string $googleId
      * @return User
      */
@@ -138,23 +95,5 @@ class User extends BaseUser
     public function getGoogleId()
     {
         return $this->googleId;
-    }
-
-    /**
-     * @param string $googleAccessToken
-     * @return User
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->googleAccessToken = $googleAccessToken;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->googleAccessToken;
     }
 }

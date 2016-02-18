@@ -9,20 +9,41 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
+        hwi:
+            id: my.custom.user_provider
 
     firewalls:
+        main:
+            pattern: ^/
+
+            anonymous: true
+
+            form_login:
+                provider: fos_userbundle
+                check_path: security_login_check
+                login_path: security_login_form
+                csrf_token_generator: security.csrf.token_manager
+
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                    vkontakte:          "/login/check-vkontakte"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: my.custom.user_provider
+
+
+            logout:
+                path: logout
+                target: homepage
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
-
-            logout:       true
-            anonymous:    true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

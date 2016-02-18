@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
+    - { resource: services.xml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -65,6 +65,42 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+hwi_oauth:
+    connect:
+        account_connector: my.custom.user_provider
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook:    facebook_id
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           1091967407491877
+            client_secret:       11f5698f39cbc2703c0ca2114cafc785
+            options:
+                display:    popup
+            csrf:                true
+            scope:               "email"
+            infos_url:     "https://graph.facebook.com/me?fields=id,name,email,picture.type(square)"
+            paths:
+                email:     email
+                profilepicture: picture.data.url
+
+        google:
+            type:                google
+            client_id:           615778508332-602jrkb9bimpcdrhedum1qnrito9bfnq.apps.googleusercontent.com
+            client_secret:       7REmhPckYGL4ivE1g5seC-uE
+            scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+            paths:
+                email: email
+
+        vkontakte:
+            type:                vkontakte
+            client_id:           5303545
+            client_secret:       KJUrM7DhNH4iJBKEF7Gb
+            scope:               email status
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
