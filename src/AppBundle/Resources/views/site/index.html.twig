@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block body %}
+    {% block nav %}
 <nav class="navbar navbar-static">
     <div class="container">
         <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
@@ -38,7 +38,8 @@
         </div>
     </div>
 </nav><!-- /.navbar -->
-
+    {% endblock nav %}
+    {% block header %}
 <header class="masthead">
     <div class="container">
         <div class="row">
@@ -68,11 +69,13 @@
         </div>
     </div>
 </header>
-
-<!-- Begin Body -->
+    {% endblock header %}
+{% block body %}
+    <!-- Begin Body -->
 <div class="container">
     <div class="row">
         <div class="col col-sm-3">
+            {% block sidebar %}
             <div id="sidebar">
                 <ul class="nav nav-stacked">
                     <li><h3 class="highlight">Channels <i class="glyphicon glyphicon-dashboard pull-right"></i></h3></li>
@@ -106,8 +109,10 @@
                     </div>
                 </div>
             </div>
+            {% endblock sidebar %}
         </div>
         <div class="col col-sm-9">
+            {% block panel %}
             <div class="panel">
                 <h1>The Top Stories from Around</h1>
 
@@ -200,8 +205,8 @@
                 <h4><a href="http://bootply.com/">Bootply</a></h4>
                 <hr>
             </div>
+            {% endblock panel %}
         </div>
     </div>
 </div>
-
 {% endblock body %}
