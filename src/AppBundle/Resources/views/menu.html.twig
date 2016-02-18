@@ -1,0 +1,33 @@
+{#
+<ul class="mainmenu">
+    {% set _depth = 0 %}
+    {% for item in menuitems %}
+    {% if loop.index > 1 %}
+        {% if menuitems.depth < _depth %}
+            <ul class="submenu">
+        {% elseif  loop.index == _depth%}
+            </li></ul>
+        {% else %}
+            </li>
+        {% endif %}
+
+        {% set _depth = menuitems.depth %}
+    {% endif %}
+
+    <li><a href="{{ item.url }}">{{ item.name }}</a>
+
+{% endfor %}#}
+{% extends  'base.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            {% include "AppBundle::includes/menu-links.html.twig" with {'links':links} only %}
+        </ul>
+    </div>
+
+</div>
+{% endblock body %}
+

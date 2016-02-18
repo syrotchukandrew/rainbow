@@ -1,0 +1,13 @@
+<!--includes/menu-links.html.twig-->
+{% for link in links %}
+    <li>
+        <a href="#">{{ link.title }}</a>
+        {% if link.__children %}
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <span class="caret"></span></button>
+            <ul  class="dropdown-menu">
+                {% include "AppBundle::includes/menu-links.html.twig" with {'links': link.__children}%}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}
