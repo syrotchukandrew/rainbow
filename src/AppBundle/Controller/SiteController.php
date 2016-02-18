@@ -41,20 +41,20 @@ class SiteController extends Controller
 
         // ... your code before
       $em = $this->getDoctrine()->getManager();
-//        $cat1= new CategoryEntity();
-//        $cat1->setTitle('Фрукты');
-//
-//        $subcat = new CategoryEntity();
-//        $subcat->setTitle('Экзотические');
-//        $subcat->setParent($cat1);
-//
-//        $cat2 = new CategoryEntity();
-//        $cat2->setTitle('Овощи');
-//
-//        $em->persist($cat1);
-//        $em->persist($cat2);
-//        $em->persist($subcat);
-//        $em->flush();
+        $cat1= new CategoryEntity();
+        $cat1->setTitle('Фрукты');
+
+        $subcat = new CategoryEntity();
+        $subcat->setTitle('Экзотические');
+        $subcat->setParent($cat1);
+
+        $cat2 = new CategoryEntity();
+        $cat2->setTitle('Овощи');
+
+        $em->persist($cat1);
+        $em->persist($cat2);
+        $em->persist($subcat);
+        $em->flush();
 
         $categoryEntity = $em->getRepository('AppBundle\Entity\Cat');
         $categories = $categoryEntity->childrenHierarchy();

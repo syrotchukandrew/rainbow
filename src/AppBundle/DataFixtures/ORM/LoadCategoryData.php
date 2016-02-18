@@ -68,6 +68,4 @@ class LoadCategoryData extends  AbstractFixture implements  OrderedFixtureInterf
         // the lower the number, the sooner that this fixture is loaded
         return 2;
     }
-
 }
-
