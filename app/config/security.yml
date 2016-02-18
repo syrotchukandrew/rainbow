@@ -38,8 +38,8 @@ security:
 
 
             logout:
-                path: logout
-                target: homepage
+                path: /logout
+                target: /login
 
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

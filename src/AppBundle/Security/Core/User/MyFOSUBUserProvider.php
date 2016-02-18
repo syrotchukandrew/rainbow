@@ -36,6 +36,7 @@ class MyFOSUBUserProvider extends BaseClass
                 $user->setEmail($email);
                 $user->setPlainPassword(md5(uniqid()));
                 $user->setEnabled(true);
+                $user->setRoles(array('ROLE_USER'));
             }
             //then set its corresponding social id
             $service = $response->getResourceOwner()->getName();

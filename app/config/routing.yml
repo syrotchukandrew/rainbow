@@ -4,7 +4,7 @@ hwi_oauth_redirect:
 
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
+    prefix:   /login-social
 
 facebook_login:
     path: /login/check-facebook
@@ -21,3 +21,6 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+logout:
+    path: /logout

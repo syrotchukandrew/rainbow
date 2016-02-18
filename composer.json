@@ -23,8 +23,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
 
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "hwi/oauth-bundle": "^0.4.0"
-        "incenteev/composer-parameter-handler": "~2.0",
+        "hwi/oauth-bundle": "^0.4.0",
         "stof/doctrine-extensions-bundle": "^1.2"
     },
     "require-dev": {
