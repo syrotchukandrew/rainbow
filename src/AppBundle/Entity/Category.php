@@ -1,91 +1,268 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: kate
+ * Date: 18.02.16
+ * Time: 16:56
+ */
+// src/Acme/DemoBundle/Entity/Category.php
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Category
- *
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * @Gedmo\Tree(type="nested")
+ * @ORM\Table(name="categories")
+ * use repository for handy tree functions
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
 class Category
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Gedmo\Translatable
+     * @ORM\Column(name="title", type="string", length=64)
      */
-    private $name;
+    private $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="url", type="string")
      */
     private $url;
 
+    /**
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer")
+     */
+    private $lft;
 
     /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    private $lvl;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    private $rgt;
+
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    private $root;
+
+    /**
+     * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_item_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
 
-    public function __construct()
-    {
-        $this->children = new ArrayCollection();
-    }
-
-
     /**
-     * Get id
      *
-     * @return integer
+
+     * @Gedmo\Translatable
+
+     * @Gedmo\Slug(fields={"title"})
+
+     * @ORM\Column(name="slug", type="string", length=128)
+
      */
+
+    private $slug;
+
     public function getId()
     {
         return $this->id;
     }
 
+    public function getSlug()
+
+    {
+
+        return $this->slug;
+
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setParent(Category $parent = null)
+    {
+        $this->parent = $parent;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
     /**
-     * Set name
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set lft
      *
-     * @param string $name
+     * @param integer $lft
      * @return Category
      */
-    public function setName($name)
+    public function setLft($lft)
     {
-        $this->name = $name;
+        $this->lft = $lft;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get lft
      *
-     * @return string
+     * @return integer 
      */
-    public function getName()
+    public function getLft()
     {
-        return $this->name;
+        return $this->lft;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param integer $lvl
+     * @return Category
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer 
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param integer $rgt
+     * @return Category
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer 
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * Set root
+     *
+     * @param integer $root
+     * @return Category
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+
+        return $this;
+    }
+
+    /**
+     * Get root
+     *
+     * @return integer 
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Category
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \AppBundle\Entity\Category $children
+     * @return Category
+     */
+    public function addChild(\AppBundle\Entity\Category $children)
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \AppBundle\Entity\Category $children
+     */
+    public function removeChild(\AppBundle\Entity\Category $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 
     /**
@@ -104,77 +281,10 @@ class Category
     /**
      * Get url
      *
-     * @return string
+     * @return string 
      */
     public function getUrl()
     {
         return $this->url;
     }
-
-    /**
-     * Set parent
-     *
-     * @param \AppBundle\Entity\Category $parent
-     * @return Category
-     */
-    public function setParent(\AppBundle\Entity\Category $parent = null)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \AppBundle\Entity\Category
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Add children
-     *
-     * @param \AppBundle\Entity\Category $children
-     * @return Category
-     */
-    public function addChild(\AppBundle\Entity\Category $children)
-    {
-        //$this->children[] = $children;
-        $this->children->add($children);
-
-        return $this;
-    }
-
-    /**
-     * @param ArrayCollection $child
-     */
-    public function setChild(ArrayCollection $child){
-        $this->children = $child;
-
-    }
-
-/**
- * Remove children
- *
- * @param \AppBundle\Entity\Category $children
- */
-public
-function removeChild(\AppBundle\Entity\Category $children)
-{
-    $this->children->removeElement($children);
-}
-
-/**
- * Get children
- *
- * @return \Doctrine\Common\Collections\ArrayCollection
- */
-public
-function getChildren()
-{
-    return $this->children;
-}
 }
