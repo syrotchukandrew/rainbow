@@ -14,26 +14,25 @@ class SocialBarHelper extends Helper
         $this->templating  = $templating;
     }
 
-
-   /* public function socialButtons($parameters)
+    public function socialButtons($parameters)
     {
-        return $this->templating->render('AcmeDemoBundle:helper:socialButtons.html.twig', $parameters);
-    }*/
+        return $this->templating->render('AppBundle:helper:socialButtons.html.twig', $parameters);
+    }
 
     public function facebookButton($parameters)
     {
         return $this->templating->render('AppBundle:helper:facebookButton.html.twig', $parameters);
     }
 
-    /*public function twitterButton($parameters)
+    public function twitterButton($parameters)
     {
-        return $this->templating->render('AcmeDemoBundle:helper:twitterButton.html.twig', $parameters);
-    }*/
+        return $this->templating->render('AppBundle:helper:twitterButton.html.twig', $parameters);
+    }
 
-   /* public function googlePlusButton($parameters)
+    public function googlePlusButton($parameters)
     {
-        return $this->templating->render('AcmeDemoBundle:helper:googlePlusButton.html.twig', $parameters);
-    }*/
+        return $this->templating->render('AppBundle:helper:googlePlusButton.html.twig', $parameters);
+    }
 
     public function getName()
     {
