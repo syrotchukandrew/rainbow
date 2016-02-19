@@ -34,6 +34,7 @@ gulp.task('lib-js', function() {
             'bower_components/metisMenu/dist/metisMenu.min.js',
             'bower_components/raphael/raphael-min.js',
             'bower_components/morrisjs/morris.min.js'
+
         ])
         .pipe(concatJs('app.js'))
         .pipe(minifyJs())

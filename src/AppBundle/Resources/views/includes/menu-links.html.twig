@@ -1,15 +1,14 @@
-<!--includes/menu-links.html.twig-->
 {% for link in links %}
-    {% if link.__children %}
-        <li class="dropdown-submenu">
+    {% if not link.__children %}
+        <li><a href="#">{{ link.title }}</a>
     {% else %}
-        <li>
+        <li><a href="#">{{ link.title }} <span class="fa arrow"></span></a>
     {% endif %}
-    <a href="#">{{ link.title }}</a>
+
     {% if link.__children %}
-        <ul class="dropdown-menu">
+        <ul class="nav nav-second-level">
             {% include "AppBundle::includes/menu-links.html.twig" with {'links': link.__children} %}
         </ul>
-    {% endif %}
-    </li>
+        {% endif %}
+        </li>
 {% endfor %}
