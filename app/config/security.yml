@@ -39,7 +39,7 @@ security:
 
             logout:
                 path: /logout
-                target: /login
+                target: /
 
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

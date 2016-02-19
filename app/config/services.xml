@@ -26,6 +26,13 @@
            <tag name="templating.helper" alias="social-buttons"/>
        </service>
 
+       <service id="app.redirect_to_preferred_locale_listener" class="AppBundle\EventListener\RedirectToPreferredLocaleListener">
+           <argument type="service" id="router"/>
+           <argument>%app_locales%</argument>
+           <argument>%locale%</argument>
+           <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+       </service>
+
    </services>
 
 </container>

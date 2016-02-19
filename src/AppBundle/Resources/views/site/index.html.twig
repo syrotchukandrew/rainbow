@@ -7,11 +7,23 @@
         </a>
         <div class="nav-collapse collase">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
+                <li><a href="{{ path('homepage') }}">{{ 'menu.homepage'|trans }}</a></li>
                 <li><a href="#">Link</a></li>
                 <li><a href="#">Link</a></li>
             </ul>
             <ul class="nav navbar-right navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <span class="glyphicon glyphicon-globe"></span><span class="caret"></span></a>
+                    <ul class="dropdown-menu locales" role="menu">
+                        {% for locale in locales() %}
+                            <li {% if app.request.locale == locale.code %}class="active"{% endif %}>
+                                <a href="{{ path(app.request.get('_route', 'blog_index'),
+                                app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}">
+                                    {{ locale.name|capitalize }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
                     <ul class="dropdown-menu" style="padding:12px;">
@@ -28,10 +40,18 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">About</a></li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{ path('logout') }}">{{ 'menu.logout'|trans }}</a></li>
+                        {% else %}
+                            <li><a href="{{ path('security_login_form') }}">{{ 'action.sign_in'|trans }}</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('user_registration') }}">Registration</a></li>
+                            <li class="divider"></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('user_registration') }}">{{ 'menu.admin'|trans }}</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
