@@ -91,6 +91,11 @@ class Estate
      */
     private $exclusive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\File", mappedBy="file", orphanRemoval=true)
+     */
+    private $files;
+
 
     /**
      * Get id
@@ -330,5 +335,45 @@ class Estate
     public function getExclusive()
     {
         return $this->exclusive;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add files
+     *
+     * @param \AppBundle\Entity\File $files
+     * @return Estate
+     */
+    public function addFile(\AppBundle\Entity\File $files)
+    {
+        $this->files[] = $files;
+
+        return $this;
+    }
+
+    /**
+     * Remove files
+     *
+     * @param \AppBundle\Entity\File $files
+     */
+    public function removeFile(\AppBundle\Entity\File $files)
+    {
+        $this->files->removeElement($files);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 }

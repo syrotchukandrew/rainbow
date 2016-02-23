@@ -74,8 +74,8 @@ stof_doctrine_extensions:
         default:
             tree: true
             sluggable: true
-
-
+            blameable: true
+            uploadable: true
 
 hwi_oauth:
     connect:
