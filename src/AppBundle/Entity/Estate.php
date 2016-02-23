@@ -106,6 +106,11 @@ class Estate
     private $district;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\File", mappedBy="file", orphanRemoval=true)
+     */
+    private $files;
+
+    /**
      * @var array
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="estate")
      * @ORM\OrderBy({"createdAt" = "DESC"})
@@ -122,13 +127,14 @@ class Estate
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -151,7 +157,7 @@ class Estate
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -174,7 +180,7 @@ class Estate
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -197,7 +203,7 @@ class Estate
     /**
      * Get createdBy
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedBy()
     {
@@ -220,7 +226,7 @@ class Estate
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -243,7 +249,7 @@ class Estate
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -266,7 +272,7 @@ class Estate
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -289,7 +295,7 @@ class Estate
     /**
      * Get price
      *
-     * @return integer 
+     * @return integer
      */
     public function getPrice()
     {
@@ -312,7 +318,7 @@ class Estate
     /**
      * Get rentOrSell
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRentOrSell()
     {
@@ -335,7 +341,7 @@ class Estate
     /**
      * Get floor
      *
-     * @return array 
+     * @return array
      */
     public function getFloor()
     {
@@ -358,7 +364,7 @@ class Estate
     /**
      * Get exclusive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExclusive()
     {
@@ -381,11 +387,44 @@ class Estate
     /**
      * Get district
      *
-     * @return \AppBundle\Entity\District 
+     * @return \AppBundle\Entity\District
      */
     public function getDistrict()
     {
         return $this->district;
+    }
+
+    /**
+     * Add files
+     *
+     * @param \AppBundle\Entity\File $files
+     * @return Estate
+     */
+    public function addFile(\AppBundle\Entity\File $files)
+    {
+        $this->files[] = $files;
+
+        return $this;
+    }
+
+    /**
+     * Remove files
+     *
+     * @param \AppBundle\Entity\File $files
+     */
+    public function removeFile(\AppBundle\Entity\File $files)
+    {
+        $this->files->removeElement($files);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
@@ -414,7 +453,7 @@ class Estate
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {
@@ -437,7 +476,7 @@ class Estate
     /**
      * Get category
      *
-     * @return \AppBundle\Entity\Category 
+     * @return \AppBundle\Entity\Category
      */
     public function getCategory()
     {
