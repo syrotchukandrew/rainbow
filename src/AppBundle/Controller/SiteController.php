@@ -38,4 +38,24 @@ class SiteController extends Controller
         return $this->render("AppBundle::includes/menu.html.twig", ['links' => $categories]);
     }
 
+    /**
+     * @Route("/tree", name="tree")
+     */
+    public function treeAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('AppBundle\Entity\Category');
+        $query = $em
+            ->createQueryBuilder()
+            ->select('node')
+            ->from('AppBundle\Entity\Category', 'node')
+            ->orderBy('node.root, node.lft', 'ASC')
+            ->where('node.root = 1')
+            ->getQuery()
+        ;
+        $options = array('decorate' => true);
+        $tree = $repo->buildTree($query->getArrayResult(), $options);
+        return $this->render("AppBundle::tree.html.twig", ['tree' => $tree]);
+    }
+
 }
