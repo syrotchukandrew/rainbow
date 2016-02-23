@@ -10,6 +10,7 @@ namespace AppBundle\DataFixtures;
 
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\District;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -192,6 +193,12 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $category->setParent($this->getReference("buy_for_steads"));
         $this->setReference("buy_for_steads_in_town", $category);
         $manager->persist($category);
+
+        //check a slug in District Entity
+
+        $district = new District();
+        $district->setTitle('new district');
+        $manager->persist($district);0
 
         $manager->flush();
     }
