@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\District as District;
 
 /**
  * Estate
@@ -90,6 +91,13 @@ class Estate
      * @ORM\Column(name="exclusive", type="boolean")
      */
     private $exclusive;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="District", inversedBy="estates")
+     * @ORM\JoinColumn(name="district_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $district;
 
 
     /**
@@ -330,5 +338,28 @@ class Estate
     public function getExclusive()
     {
         return $this->exclusive;
+    }
+
+    /**
+     * Set district
+     *
+     * @param \AppBundle\Entity\District $district
+     * @return Estate
+     */
+    public function setDistrict(\AppBundle\Entity\District $district = null)
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * Get district
+     *
+     * @return \AppBundle\Entity\District 
+     */
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }
