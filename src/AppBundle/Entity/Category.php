@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -87,6 +88,13 @@ class Category
 
     private $slug;
 
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Estate", mappedBy="category")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $estates;
+
     public function getId()
     {
         return $this->id;
@@ -124,7 +132,8 @@ class Category
      */
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->estates = new ArrayCollection();
     }
 
     /**
@@ -286,5 +295,38 @@ class Category
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Add estates
+     *
+     * @param \AppBundle\Entity\Estate $estates
+     * @return Category
+     */
+    public function addEstate(\AppBundle\Entity\Estate $estates)
+    {
+        $this->estates[] = $estates;
+
+        return $this;
+    }
+
+    /**
+     * Remove estates
+     *
+     * @param \AppBundle\Entity\Estate $estates
+     */
+    public function removeEstate(\AppBundle\Entity\Estate $estates)
+    {
+        $this->estates->removeElement($estates);
+    }
+
+    /**
+     * Get estates
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEstates()
+    {
+        return $this->estates;
     }
 }

@@ -2,8 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\District;
 use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Category;
 
 /**
  * Estate
@@ -106,11 +110,31 @@ class Estate
      */
     private $files;
 
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="estate")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="estates")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -133,7 +157,7 @@ class Estate
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -156,7 +180,7 @@ class Estate
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -179,7 +203,7 @@ class Estate
     /**
      * Get createdBy
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedBy()
     {
@@ -202,7 +226,7 @@ class Estate
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -225,7 +249,7 @@ class Estate
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -248,7 +272,7 @@ class Estate
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -271,7 +295,7 @@ class Estate
     /**
      * Get price
      *
-     * @return integer 
+     * @return integer
      */
     public function getPrice()
     {
@@ -294,7 +318,7 @@ class Estate
     /**
      * Get rentOrSell
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRentOrSell()
     {
@@ -317,7 +341,7 @@ class Estate
     /**
      * Get floor
      *
-     * @return array 
+     * @return array
      */
     public function getFloor()
     {
@@ -340,7 +364,7 @@ class Estate
     /**
      * Get exclusive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExclusive()
     {
@@ -368,13 +392,6 @@ class Estate
     public function getDistrict()
     {
         return $this->district;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -408,5 +425,61 @@ class Estate
     public function getFiles()
     {
         return $this->files;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     * @return Estate
+     */
+    public function addComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
+     * @return Estate
+     */
+    public function setCategory(\AppBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

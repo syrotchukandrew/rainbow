@@ -198,7 +198,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $district = new District();
         $district->setTitle('new district');
-        $manager->persist($district);0
+        $manager->persist($district);
 
         $manager->flush();
     }
