@@ -5,7 +5,7 @@
  * Date: 18.02.16
  * Time: 16:56
  */
-// src/Acme/DemoBundle/Entity/Category.php
+
 namespace AppBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
