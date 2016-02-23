@@ -76,6 +76,7 @@ stof_doctrine_extensions:
             sluggable: true
             blameable: true
             uploadable: true
+            timestampable: true
 
 hwi_oauth:
     connect:

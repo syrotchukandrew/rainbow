@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\District as District;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
