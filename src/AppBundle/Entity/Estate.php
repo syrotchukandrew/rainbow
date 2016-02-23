@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\District as District;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Estate
@@ -31,6 +32,8 @@ class Estate
 
     /**
      * @var string
+     *
+     * @Gedmo\Slug(fields={"title"})
      *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
