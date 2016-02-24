@@ -1,44 +1,39 @@
 <?php
-/*
+
 namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Estate;
 use AppBundle\Entity\Comment;
 use Faker\Factory;
 
-class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
+class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
-        for ($i = 0; $i < 50; $i++) {
-            static $id = 1;
-            $post = new Post();
-            $post->setTitle($faker->sentence);
-            $post->setAuthorEmail('user_admin@blog.com');
-            $post->setImageName("images/post/foto$id.jpg");
-            $post->setShortText($faker->sentences(10,true));
-            $post->setContent($faker->realText($maxNbChars = 5000, $indexSize = 2));
-            $marks = array();
-            for ($q = 0; $q < rand(1,10); $q++) {
-                $marks[] = rand(1,5);
+        for ($i = 0; $i < 150; $i++) {
+            $estate = new Estate();
+            $estate->setTitle($faker->sentence);
+            $estate->setCreatedBy('user_admin');
+            $estate->setPrice(rand(10000,50000));
+            if (in_array($i, array(11,22,33,44,55,66,77,88,99,111,122))) {
+                $estate->setExclusive(true);
             }
-            $post->setMarks($marks);
-            $post->addMark(5);
-            $manager->persist($post);
-            $this->addReference("{$id}", $post);
-            $id = $id + 1;
+            $countFloors = rand(4,16);
+            $estate->setFloor(array('floor'=>rand(1,$countFloors), 'count_floor'=>$countFloors));
+            $estate->setDescription($faker->realText($maxNbChars = 5000, $indexSize = 2));
+            $estate->setCategory();
 
             $rand = rand(3, 7);
             for ($j = 0; $j < $rand; $j++) {
                 $comment = new Comment();
-                $comment->setAuthorEmail('user_user@blog.com');
+                $comment->setCreatedBy('user_user');
                 $comment->setContent($faker->realText($maxNbChars = 500, $indexSize = 2));
-                $comment->setPost($post);
-                $post->getComments()->add($comment);
+                $comment->setEstate($estate);
+                $estate->getComments()->add($comment);
                 $manager->persist($comment);
                 $manager->flush();
             }
@@ -48,6 +43,6 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 1;
+        return 5;
     }
-}*/
+}

@@ -74,7 +74,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $category->setTitle("В области");
         $category->setUrl("#");
         $category->setParent($this->getReference("houses"));
-        $this->setReference("1", $category);
+        $this->setReference("2", $category);
         $manager->persist($category);
 
         $category = new Category();

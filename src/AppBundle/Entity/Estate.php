@@ -4,10 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\District;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Category;
 
 /**
  * Estate
