@@ -1,8 +1,8 @@
 {% for link in links %}
     {% if not link.__children %}
-        <li class="ind"><a href="#">{{ link.title }}</a>
+        <li><a href="#" class="ind">{{ link.title }}</a>
     {% else %}
-        <li class="ind"><a href="#">{{ link.title }} <span class="fa arrow"></span></a>
+        <li><a href="#" class="ind">{{ link.title }} <span class="fa arrow"></span></a>
     {% endif %}
     {% if link.__children %}
         <ul class="nav">

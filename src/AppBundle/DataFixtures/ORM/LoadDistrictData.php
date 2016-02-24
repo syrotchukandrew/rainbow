@@ -11,29 +11,16 @@ use AppBundle\Entity\District;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterface
 {
-
-    /** @var ContainerInterface */
-    private $container;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
     public function load(ObjectManager $manager)
     {
         $districts = array('Центр', 'Казбет', 'Днепровский', 'Хим. посолек', 'ЮЗР', 'Громова', 'Луна', 'Сосновка', 'Дахновка', 'Школьная');
         for ($i = 0; $i < count($districts); $i++) {
             $district = new District();
             $district->setTitle($districts[$i]);
+            $this->setReference('district '.($i+1), $district);
             $manager->persist($district);
         }
 
