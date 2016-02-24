@@ -1,3 +1,4 @@
+@import "variables.less";
 footer {
     text-align: center;
 }
@@ -6,4 +7,7 @@ footer {
 }
 .ind {
     padding-left: 30px;
+}
+.ind:hover {
+    background-color: @gray-lighter;
 }
