@@ -6,8 +6,8 @@ footer {
     overflow: visible;
 }
 .ind {
-    padding-left: 30px;
-}
+    margin-left: 30px;
+}/*
 .ind:hover {
     background-color: @gray-lighter;
-}
+}*/

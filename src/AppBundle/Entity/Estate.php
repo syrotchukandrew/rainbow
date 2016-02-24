@@ -78,11 +78,12 @@ class Estate
     private $price;
 
     /**
+     * if $rent = false, estate is for sell
      * @var bool
      *
-     * @ORM\Column(name="RentOrSell", type="boolean")
+     * @ORM\Column(name="Rent", type="boolean")
      */
-    private $rentOrSell;
+    private $rent;
 
     /**
      * @var array
@@ -128,8 +129,9 @@ class Estate
     {
         $this->comments = new ArrayCollection();
         $this->files = new ArrayCollection();
+        $this->exclusive = false;
+        $this->setRent(false);
     }
-
 
     /**
      * Get id
@@ -303,26 +305,26 @@ class Estate
     }
 
     /**
-     * Set rentOrSell
+     * Set rent
      *
-     * @param boolean $rentOrSell
+     * @param boolean $rent
      * @return Estate
      */
-    public function setRentOrSell($rentOrSell)
+    public function setRent($rent)
     {
-        $this->rentOrSell = $rentOrSell;
+        $this->rent = $rent;
 
         return $this;
     }
 
     /**
-     * Get rentOrSell
+     * Get rent
      *
      * @return boolean
      */
-    public function getRentOrSell()
+    public function isForRent()
     {
-        return $this->rentOrSell;
+        return $this->rent;
     }
 
     /**
@@ -366,7 +368,7 @@ class Estate
      *
      * @return boolean
      */
-    public function getExclusive()
+    public function isExclusive()
     {
         return $this->exclusive;
     }
