@@ -34,171 +34,125 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $category = new Category();
-        $category->setTitle('Houses');
+        $category->setTitle('Дома');
         $category->setUrl('#');
         $this->setReference("houses", $category);
         $manager->persist($category);
 
         $category = new Category();
-        $category->setTitle('Flats');
+        $category->setTitle('Квартиры');
         $category->setUrl('#');
         $this->setReference("flats", $category);
         $manager->persist($category);
 
         $category = new Category();
-        $category->setTitle('Steads');
+        $category->setTitle('Участки');
         $category->setUrl('#');
         $this->setReference("steads", $category);
         $manager->persist($category);
 
+        $category = new Category();
+        $category->setTitle('Аренда ');
+        $category->setUrl('#');
+        $this->setReference("rent", $category);
+        $manager->persist($category);
+
+        $category = new Category();
+        $category->setTitle('Комерция');
+        $category->setUrl('#');
+        $this->setReference("commerce", $category);
+        $manager->persist($category);
+
         $category =new Category();
-        $category->setTitle("Rent");
+        $category->setTitle("В городе");
         $category->setUrl("#");
         $category->setParent($this->getReference("houses"));
-        $this->setReference("rent_for_houses", $category);
+        $this->setReference("1", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("Houses in town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_houses"));
-        $this->setReference("rent_for_houses_in_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Houses outside the town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_houses"));
-        $this->setReference("rent_for_houses_outside_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Buy");
+        $category->setTitle("В области");
         $category->setUrl("#");
         $category->setParent($this->getReference("houses"));
-        $this->setReference("buy_for_houses", $category);
+        $this->setReference("1", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("Houses in town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_houses"));
-        $this->setReference("buy_for_houses_in_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Houses outside the town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_houses"));
-        $this->setReference("buy_for_houses_outside_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Rent");
+        $category->setTitle("Комната");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("rent_for_flats", $category);
-        $manager->persist($category);
-
-
-        $category =new Category();
-        $category->setTitle("Studio apartment");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_flats"));
-        $this->setReference("rent_for_flats_studio_apartment", $category);
+        $this->setReference("3", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("two-roomed flat");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_flats"));
-        $this->setReference("rent_for_flats_two_roomed_flat", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("three-roomed and upper flat");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_flats"));
-        $this->setReference("rent_for_flats_tree_roomed_flat", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Buy");
+        $category->setTitle("Однокомнатные");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("buy_for_flats", $category);
+        $this->setReference("4", $category);
         $manager->persist($category);
 
-
         $category =new Category();
-        $category->setTitle("Studio apartment");
+        $category->setTitle("Двокомнатные");
         $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_flats"));
-        $this->setReference("buy_for_flats_studio_apartment", $category);
+        $category->setParent($this->getReference("flats"));
+        $this->setReference("5", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("two-roomed flat");
+        $category->setTitle("Многокомнатные");
         $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_flats"));
-        $this->setReference("buy_for_flats_two_roomed_flat", $category);
+        $category->setParent($this->getReference("flats"));
+        $this->setReference("6", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("three-roomed and upper flat");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_flats"));
-        $this->setReference("buy_for_flats_tree_roomed_flat", $category);
-        $manager->persist($category);
-
-
-        $category =new Category();
-        $category->setTitle("Rent");
+        $category->setTitle("Дачные");
         $category->setUrl("#");
         $category->setParent($this->getReference("steads"));
-        $this->setReference("rent_for_steads", $category);
+        $this->setReference("7", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("Steads in town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_steads"));
-        $this->setReference("rent_for_steads_in_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Steads outside the town");
-        $category->setUrl("#");
-        $category->setParent($this->getReference("rent_for_steads"));
-        $this->setReference("rent_for_steads_outside_town", $category);
-        $manager->persist($category);
-
-        $category =new Category();
-        $category->setTitle("Buy");
+        $category->setTitle("В городе");
         $category->setUrl("#");
         $category->setParent($this->getReference("steads"));
-        $this->setReference("buy_for_steads", $category);
+        $this->setReference("8", $category);
         $manager->persist($category);
 
         $category =new Category();
-        $category->setTitle("Steads in town");
+        $category->setTitle("За городом");
         $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_steads"));
-        $this->setReference("buy_for_steads_in_town", $category);
+        $category->setParent($this->getReference("steads"));
+        $this->setReference("9", $category);
         $manager->persist($category);
 
-        $category =new Category();
-        $category->setTitle("Steads outside the town");
+         $category =new Category();
+        $category->setTitle("Аренда");
         $category->setUrl("#");
-        $category->setParent($this->getReference("buy_for_steads"));
-        $this->setReference("buy_for_steads_in_town", $category);
+        $category->setParent($this->getReference("commerce"));
+        $this->setReference("10", $category);
         $manager->persist($category);
 
-        //check a slug in District Entity
+         $category =new Category();
+        $category->setTitle("Продажа");
+        $category->setUrl("#");
+        $category->setParent($this->getReference("commerce"));
+        $this->setReference("11", $category);
+        $manager->persist($category);
 
-        $district = new District();
-        $district->setTitle('new district');
-        $manager->persist($district);
+         $category =new Category();
+        $category->setTitle("Дома");
+        $category->setUrl("#");
+        $category->setParent($this->getReference("rent"));
+        $this->setReference("12", $category);
+        $manager->persist($category);
+
+         $category =new Category();
+        $category->setTitle("Квартиры");
+        $category->setUrl("#");
+        $category->setParent($this->getReference("rent"));
+        $this->setReference("13", $category);
+        $manager->persist($category);
 
         $manager->flush();
     }
