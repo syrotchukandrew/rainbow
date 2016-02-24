@@ -20,7 +20,7 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         for ($i = 0; $i < count($districts); $i++) {
             $district = new District();
             $district->setTitle($districts[$i]);
-            $this->setReference('district '.($i+1), $district);
+            $this->setReference('district'.($i+1), $district);
             $manager->persist($district);
         }
 

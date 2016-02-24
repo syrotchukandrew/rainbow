@@ -52,91 +52,91 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $category->setTitle("В городе");
         $category->setUrl("#");
         $category->setParent($this->getReference("houses"));
-        $this->setReference("category 1", $category);
+        $this->setReference("category1", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("В области");
         $category->setUrl("#");
         $category->setParent($this->getReference("houses"));
-        $this->setReference("category 2", $category);
+        $this->setReference("category2", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Комната");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("category 3", $category);
+        $this->setReference("category3", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Однокомнатные");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("category 4", $category);
+        $this->setReference("category4", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Двокомнатные");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("category 5", $category);
+        $this->setReference("category5", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Многокомнатные");
         $category->setUrl("#");
         $category->setParent($this->getReference("flats"));
-        $this->setReference("category 6", $category);
+        $this->setReference("category6", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Дачные");
         $category->setUrl("#");
         $category->setParent($this->getReference("steads"));
-        $this->setReference("category 7", $category);
+        $this->setReference("category7", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("В городе");
         $category->setUrl("#");
         $category->setParent($this->getReference("steads"));
-        $this->setReference("category 8", $category);
+        $this->setReference("category8", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("За городом");
         $category->setUrl("#");
         $category->setParent($this->getReference("steads"));
-        $this->setReference("category 9", $category);
+        $this->setReference("category9", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Аренда житла");
         $category->setUrl("#");
         $category->setParent($this->getReference("commerce"));
-        $this->setReference("category 10", $category);
+        $this->setReference("category10", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Продажа");
         $category->setUrl("#");
         $category->setParent($this->getReference("commerce"));
-        $this->setReference("category 11", $category);
+        $this->setReference("category11", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Дома");
         $category->setUrl("#");
         $category->setParent($this->getReference("rent"));
-        $this->setReference("category 12", $category);
+        $this->setReference("category12", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("Квартиры");
         $category->setUrl("#");
         $category->setParent($this->getReference("rent"));
-        $this->setReference("category 13", $category);
+        $this->setReference("category13", $category);
         $manager->persist($category);
 
         $manager->flush();

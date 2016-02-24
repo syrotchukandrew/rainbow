@@ -25,7 +25,8 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $countFloors = rand(4,16);
             $estate->setFloor(array('floor'=>rand(1,$countFloors), 'count_floor'=>$countFloors));
             $estate->setDescription($faker->realText($maxNbChars = 5000, $indexSize = 2));
-            $estate->setCategory();
+            $estate->setCategory($this->getReference("category".rand(1,13)));
+            $estate->setDistrict($this->getReference("district".rand(1,10)));
 
             $rand = rand(3, 7);
             for ($j = 0; $j < $rand; $j++) {
