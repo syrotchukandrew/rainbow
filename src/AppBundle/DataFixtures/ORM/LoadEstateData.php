@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -46,4 +46,4 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
     {
         return 5;
     }
-}
+}*/
