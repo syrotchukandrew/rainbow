@@ -36,6 +36,13 @@ class Estate
     /**
      * @var string
      *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @var string
+     *
      * @Gedmo\Slug(fields={"title"})
      *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
@@ -483,5 +490,21 @@ class Estate
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }
