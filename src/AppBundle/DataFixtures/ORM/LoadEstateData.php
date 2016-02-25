@@ -29,8 +29,6 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $estate->setRent(true);
             }
             $quart = rand(0,3);
-//            $typeOfEstates = array('house', 'stead', 'commerce');
-//            $estate->setType($typeOfEstates[rand(0,2)]);
             if ($quart == 3) {
                 $estate->setType('flat');
                 //set floor
@@ -51,7 +49,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $file->setMimeType('image/jpeg');
                 $file->setName('md5(uniqid())'.'.jpg');
                 $file->setSize('100000');
-                $file->setPath("images/estates/foto.$k.jpg");
+                $file->setPath("images/estates/foto".rand(1,9).".jpg");
                 $manager->persist($file);
             }
             for ($j = 1; $j <= 5; $j++) {
