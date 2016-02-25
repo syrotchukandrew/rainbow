@@ -35,11 +35,10 @@ class EstateType extends AbstractType
                 'entry_type'   => new TypeFile(),
                 'allow_add'    => true,
             ))*/
-            ->add('images', 'file', array(
+            ->add('images', FileType::class, array(
                 'data_class' => 'AppBundle\Entity\File',
                 'required' => false,
                 'attr' => array(
-                    'accept' => 'image/*',
                     'multiple' => 'multiple',
                 ),
                 'mapped' => false,

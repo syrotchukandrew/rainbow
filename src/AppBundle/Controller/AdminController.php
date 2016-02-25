@@ -36,35 +36,44 @@ class AdminController extends Controller
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->find(1);
-        //$estate = new Estate();
+        //$estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->find(1);
+        $estate = new Estate();
         //$this->denyAccessUnlessGranted('create', $estate);
         $form = $this->createForm(EstateType::class, $estate)
             ->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //$estate->setDistrict('Казбет');
             $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-            $uploadableLisener = $this->container->get('stof_doctrine_extensions.listener.uploadable');
+            //$uploadableLisener = $this->container->get('stof_doctrine_extensions.listener.uploadable');
 
-            /*foreach ($estate->getFiles() as $file) {
+            $files = $request->files->get($form->getName());
+            foreach ($files['images'] as $imageData) {
                 $image = new File();
-                $image = $uploadableLisener->addEntityFileInfo($image, new FileInfoArray($file));
-               // $entityManager->persist($image);
-                $uploadableManager->markEntityToUpload($file, $image);
-            }*/
 
-            if (isset($_FILES['images']) && is_array($_FILES['images'])) {
+                $uploadableManager->markEntityToUpload(
+                    $image,
+                    $imageData
+                );
+                $estate->addFile($image);
+                $entityManager->persist($image);
+                $entityManager->flush();
+            }
+
+           /* if (isset($_FILES['images']) && is_array($_FILES['images'])) {
                 foreach ($_FILES['images'] as $fileInfo) {
                     $image = new File();
                     $uploadableManager->markEntityToUpload($image, new FileInfoArray($fileInfo));
+                    $estate->addFile($image);
                     $entityManager->persist($image);
                 }
-            }
-
-            /*foreach ($request->files as $file) {
-                $um->markEntityToUpload($estate, $file);
             }*/
+
+            $estate->setPrice(500000);
+            $estate->setCreatedBy('user_admin');
+            $district = $this->getDoctrine()->getRepository('AppBundle:District')->find(1);
+            $estate->setDistrict($district);
+            $estate->setType('flat');
+
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()
