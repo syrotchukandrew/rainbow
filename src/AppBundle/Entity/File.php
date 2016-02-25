@@ -20,7 +20,7 @@ class File
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="files", cascade={"persist"})
      */
     private $estate;
 

@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class LoadFileData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
-    {
+    {/*
         for ($i=0; $i < 5; $i++) {
             for ($j=0; $j < 9; $j++) {
                 $file = new File();
@@ -26,7 +26,7 @@ class LoadFileData extends AbstractFixture implements OrderedFixtureInterface
                 $manager->persist($file);
                 $manager->flush();
             }
-        }
+        }*/
     }
 
     public function getOrder()

@@ -25,7 +25,7 @@ class Comment
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="comments", cascade={"persist"})
      *
      */
     private $estate;
