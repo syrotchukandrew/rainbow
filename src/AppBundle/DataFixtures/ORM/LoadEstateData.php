@@ -21,6 +21,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setDescription($faker->sentence);
             $estate->setPrice($faker->numberBetween(10000, 500000));
             $estate->setCreatedBy('user_admin');
+            $estate->setDistrict($this->getReference('district'.rand(1,10)));
             $quart = rand(1,4);
             //25% $estate is for rent
             //25% $estate type is flat
@@ -36,7 +37,6 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             } else {
                 $typeOfEstates = array('house', 'stead', 'commerce');
                 $estate->setType($typeOfEstates[$quart]);
-                $estate->setType('house');
             }
             $exclusive = rand(1,10);
             if ($exclusive = 10) {

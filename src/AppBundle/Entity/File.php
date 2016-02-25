@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @Gedmo\Uploadable(path="images/estates/", callback="myCallbackMethod", filenameGenerator="SHA1",
- *      allowOverwrite=true, appendNumber=true)
+ * @Gedmo\Uploadable(path="images/estates/", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true)
  */
 class File
 {
@@ -47,14 +46,6 @@ class File
      * @Gedmo\UploadableFileSize
      */
     private $size;
-
-
-    public function myCallbackMethod(array $info)
-    {
-        // Do some stuff with the file..
-    }
-
-
 
     /**
      * Get id
