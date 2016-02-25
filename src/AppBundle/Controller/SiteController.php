@@ -24,7 +24,11 @@ class SiteController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render("AppBundle::site/index.html.twig");
+        $em = $this->getDoctrine()->getManager();
+        $estates = $em->getRepository('AppBundle:Estate')->findBy(array('exclusive'=>true));
+//        dump($estates);
+//        return new Response('ok');
+        return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
     /**

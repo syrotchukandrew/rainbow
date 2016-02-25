@@ -22,14 +22,14 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setPrice($faker->numberBetween(10000, 500000));
             $estate->setCreatedBy('user_admin');
             $estate->setDistrict($this->getReference('district'.rand(1,10)));
-            $quart = rand(1,4);
+            $quarty = rand(1,4);
             //25% $estate is for rent
             //25% $estate type is flat
-            if ($quart = 4) {
+            if ($quarty == 4) {
                 $estate->setRent(true);
             }
-            $quart = rand(1,4);
-            if ($quart = 4) {
+            $quart = rand(0,3);
+            if ($quart == 3) {
                 $estate->setType('flat');
                 //set floor
                 $countFloors = rand(4,16);
@@ -39,7 +39,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $estate->setType($typeOfEstates[$quart]);
             }
             $exclusive = rand(1,10);
-            if ($exclusive = 10) {
+            if ($exclusive == 10) {
                 $estate->setExclusive(true);
             }
             for ($k = 1; $k <= 5; $k++) {
@@ -49,7 +49,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $file->setMimeType('image/jpeg');
                 $file->setName('md5(uniqid())'.'.jpg');
                 $file->setSize('100000');
-                $file->setPath("images/estates/foto.$k.jpg");
+                $file->setPath("images/estates/foto".rand(1,9).".jpg");
                 $manager->persist($file);
             }
             for ($j = 1; $j <= 5; $j++) {
