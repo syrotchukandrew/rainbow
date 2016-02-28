@@ -1,0 +1,28 @@
+{#
+{% extends '@App/admin/base_admin.html.twig' %}
+#}
+
+{% block body %}
+    <h1>New estate</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.imageFile) }}
+        {{ form_row(form.district) }}
+{#
+        {{ form_row(form.category) }}
+#}
+
+
+
+    <input type="submit" value="Create estate" class="btn btn-primary" />
+
+        {{ form_widget(form.saveAndCreateNew, { label: 'Save and create new'|trans, attr: { class: 'btn btn-primary' } }) }}
+
+        <a href="{{ path('admin_index') }}" class="btn btn-primary">
+            Back to list
+        </a>
+    {{ form_end(form) }}
+{% endblock %}
+

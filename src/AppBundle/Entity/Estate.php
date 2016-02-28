@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * Estate
@@ -48,7 +50,7 @@ class Estate
 
     /**
      * @var string
-     *
+     * @Gedmo\Blameable(on="create")
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
     private $createdBy;
@@ -86,10 +88,10 @@ class Estate
     private $price;
 
     /**
-     * if $rent = false, estate is for sell
+     * if $rent = false it means estate is for sell
      * @var bool
      *
-     * @ORM\Column(name="Rent", type="boolean")
+     * @ORM\Column(name="rent", type="boolean")
      */
     private $rent;
 
@@ -120,6 +122,11 @@ class Estate
     private $files;
 
     /**
+     * @var File
+     */
+    private $imageFile;
+
+    /**
      * @var array
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="estate")
      * @ORM\OrderBy({"createdAt" = "DESC"})
@@ -140,6 +147,24 @@ class Estate
         $this->files = new ArrayCollection();
         $this->exclusive = false;
         $this->setRent(false);
+    }
+
+    /**
+     * @param $imageFile
+     * @return $this
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     /**
@@ -334,6 +359,18 @@ class Estate
     public function isForRent()
     {
         return $this->rent;
+    }
+
+    /**
+     * Get rent
+     *
+     * @param array $rent
+     * @return Estate
+     */
+    public function getRent()
+    {
+        return $this->rent;
+
     }
 
     /**

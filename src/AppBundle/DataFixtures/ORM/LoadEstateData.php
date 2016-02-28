@@ -47,7 +47,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $file->setEstate($estate);
                 $estate->addFile($file);
                 $file->setMimeType('image/jpeg');
-                $file->setName('md5(uniqid())'.'.jpg');
+                $file->setName(md5(uniqid()).'.jpg');
                 $file->setSize('100000');
                 $file->setPath("images/estates/foto".rand(1,9).".jpg");
                 $manager->persist($file);
@@ -81,6 +81,6 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 5;
+        return 4;
     }
 }
