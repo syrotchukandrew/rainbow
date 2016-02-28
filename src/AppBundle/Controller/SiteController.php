@@ -25,9 +25,7 @@ class SiteController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle:Estate')->findBy(array('exclusive'=>true));
-//        dump($estates);
-//        return new Response('ok');
+        $estates = $em->getRepository('AppBundle:Estate')->findBy(array('exclusive' => true));
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -43,23 +41,26 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/tree", name="tree")
+     * @Route("/show_category/{slug}", name="show_category")
      */
-    public function treeAction(Request $request)
+    public function showCategoryAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Category');
-        $query = $em
-            ->createQueryBuilder()
-            ->select('node')
-            ->from('AppBundle\Entity\Category', 'node')
-            ->orderBy('node.root, node.lft', 'ASC')
-            ->where('node.root = 1')
-            ->getQuery()
-        ;
-        $options = array('decorate' => true);
-        $tree = $repo->buildTree($query->getArrayResult(), $options);
-        return $this->render("AppBundle::tree.html.twig", ['tree' => $tree]);
+        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($slug);
+//        dump($estates);
+//        return new Response('ok');
+        return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
+    }
+
+    /**
+     * @Route("/show_rent/{slug}", name="show_rent")
+     */
+    public function showRentAction(Request $request, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateForRent($slug);
+        dump($estates);
+        return new Response('ok');
     }
 
 }

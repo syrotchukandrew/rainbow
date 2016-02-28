@@ -30,12 +30,12 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             }
             $quart = rand(0,3);
             if ($quart == 3) {
-                $estate->setType('flat');
+                $estate->setType('Квартиры');
                 //set floor
                 $countFloors = rand(4,16);
                 $estate->setFloor(array('floor'=>rand(1,$countFloors), 'count_floor'=>$countFloors));
             } else {
-                $typeOfEstates = array('house', 'stead', 'commerce');
+                $typeOfEstates = array('Дома', 'Участки', 'Коммерция');
                 $estate->setType($typeOfEstates[$quart]);
             }
             $exclusive = rand(1,10);
@@ -63,11 +63,15 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             }
             // set category
             $estate->setCategory($this->getReference('category1'));
-            if ($estate->getType() == 'flat') {
+            if ($estate->getType() == 'Квартиры') {
                 $cat = rand(1, 5);
                 $estate->setCategory($this->getReference('category'.$cat));
-            } else {
-                $cat = rand(6, 14);
+            } elseif ($estate->getType() == 'Коммерция') {
+                $cat = rand(11, 12);
+                $estate->setCategory($this->getReference('category'.$cat));
+            }
+            else {
+                $cat = rand(6, 10);
                 $estate->setCategory($this->getReference('category'.$cat));
             }
         $manager->persist($estate);
