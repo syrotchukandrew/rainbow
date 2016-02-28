@@ -1,9 +1,10 @@
-
-{% extends '@App/admin/base_admin.html.twig' %}
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
 
 {% block body %}
-    <h1>Добавление нового объекта недвижимости</h1>
-
+    <div class="wrapper">
+        <div id="page-wrapper">
+    <h1>New estate</h1>
+            {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
     {{ form_start(form) }}
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
@@ -17,10 +18,12 @@
     <input type="submit" value="Создать новый объект недвижимости" class="btn btn-default" />
 
         {{ form_widget(form.saveAndCreateNew, { label: 'Сохранить и создать новый объэкт'|trans, attr: { class: 'btn btn-default' } }) }}
-        <br>
+        <br><br>
         <a href="{{ path('admin_index') }}" class="btn btn-default">
             Назад на панель администрирования
         </a>
     {{ form_end(form) }}
+    </div>
+    </div>
 {% endblock %}
 

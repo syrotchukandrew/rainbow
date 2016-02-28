@@ -12,4 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class EstateRepository extends EntityRepository
 {
+    public function getEstateFromCategory($slug)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT e, c
+                FROM AppBundle:Estate e
+                LEFT JOIN e.category c
+                WHERE (c.title = :slug)
+            ');
+        $query->setParameter('slug', $slug);
+        return $query->getResult();
+    }
+
+    public function getEstateForRent($slug)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT e
+                FROM AppBundle:Estate e
+                WHERE (e.type = :slug)
+                AND (e.rent = true)
+            ');
+        $query->setParameter('slug', $slug);
+        return $query->getResult();
+    }
 }

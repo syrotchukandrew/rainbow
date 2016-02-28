@@ -134,9 +134,10 @@ class Estate
     private $comments;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="estates")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     *
      */
     private $category;
 

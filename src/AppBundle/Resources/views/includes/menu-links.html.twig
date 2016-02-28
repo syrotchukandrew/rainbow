@@ -1,6 +1,6 @@
 {% for link in links %}
     {% if not link.__children %}
-        <li class="ind"><a href="#">{{ link.title }}</a>
+        <li class="ind"><a href="{{ path(link.url, {'slug': link.title}) }}">{{ link.title }}</a>
     {% else %}
         <li class="ind"><a href="#">{{ link.title }} <span class="fa arrow"></span></a>
     {% endif %}
