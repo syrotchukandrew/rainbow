@@ -15,9 +15,13 @@ class FloorType extends AbstractType
         $builder
             ->add('floor', IntegerType::class, array(
                 'required' => false,
+                'label'    => 'На каком этаже находится квартира',
+
             ))
             ->add('floor_count', IntegerType::class, array(
                 'required' => false,
+                'label'    => 'Сколько этажей во многоэтажке',
+
             ));
     }
 

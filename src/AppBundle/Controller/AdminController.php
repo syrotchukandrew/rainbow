@@ -44,13 +44,14 @@ class AdminController extends Controller
             $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
             $files = $request->files->get('app_bundle_estate_type');
             if ($files['imageFile'][0] !== null) {
-            foreach ($files['imageFile'] as $imageData) {
-                $image = new File();
-                $uploadableManager->markEntityToUpload($image, $imageData);
-                $image->setEstate($estate);
-                $estate->addFile($image);
-                $entityManager->persist($image);
-            }}
+                foreach ($files['imageFile'] as $imageData) {
+                    $image = new File();
+                    $uploadableManager->markEntityToUpload($image, $imageData);
+                    $image->setEstate($estate);
+                    $estate->addFile($image);
+                    $entityManager->persist($image);
+                }
+            }
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()
