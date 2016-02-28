@@ -30,6 +30,23 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/estate/list", name="admin_estate_list")
+     * @Method("GET")
+     */
+    public function estatesListAction(Request $request)
+    {
+        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $estates,
+            $request->query->getInt('page', 1),
+            20
+        );
+
+        return $this->render('@App/admin/estate_list.html.twig', array('pagination' => $pagination));
+    }
+
+    /**
      * @Route("/newestate", name="admin_new_estate")
      * @Method({"GET", "POST"})
      */

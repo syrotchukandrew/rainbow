@@ -122,3 +122,28 @@ fos_user:
 services:
     fos_user.doctrine_registry:
         alias: doctrine
+
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        my_blog:
+            quality: 75
+            filters:
+                thumbnail: { size: [300, 200], mode: outbound }
+                auto_rotate: ~
+        my_post:
+            quality: 75
+            filters:
+                thumbnail: { size: [900, 600], mode: outbound }
+                auto_rotate: ~
+        my_admin:
+            quality: 75
+            filters:
+                thumbnail: { size: [60, 40], mode: outbound }
+                auto_rotate: ~
+
