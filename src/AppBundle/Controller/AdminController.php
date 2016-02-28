@@ -36,26 +36,22 @@ class AdminController extends Controller
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        //$estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->find(1);
         $estate = new Estate();
         //$this->denyAccessUnlessGranted('create', $estate);
-        $form = $this->createForm(EstateType::class, $estate
-            //,
-           //array("em" => $this->getDoctrine()->getRepository("AppBundle:Category")->get)
-            )
-            ->add('saveAndCreateNew', SubmitType::class);
+        $form = $this->createForm(EstateType::class, $estate)->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
             $files = $request->files->get('app_bundle_estate_type');
             if ($files['imageFile'][0] !== null) {
-            foreach ($files['imageFile'] as $imageData) {
-                $image = new File();
-                $uploadableManager->markEntityToUpload($image, $imageData);
-                $image->setEstate($estate);
-                $estate->addFile($image);
-                $entityManager->persist($image);
-            }}
+                foreach ($files['imageFile'] as $imageData) {
+                    $image = new File();
+                    $uploadableManager->markEntityToUpload($image, $imageData);
+                    $image->setEstate($estate);
+                    $estate->addFile($image);
+                    $entityManager->persist($image);
+                }
+            }
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()

@@ -26,11 +26,12 @@ class EstateType extends AbstractType
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Title',
+                'label' => 'Заголовок объекта недвижимости',
             ))
             ->add('description', TextareaType::class, array(
+                'label' => 'Описание объекта недвижимости',
                 'attr' => [
-                    'placeholder' => 'Add description',
+                    'placeholder' => 'Добавте описание здесь',
                     'class' => 'form-control',
                     'rows' => 5,
                     'cols' => 120,
@@ -39,9 +40,11 @@ class EstateType extends AbstractType
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle:District',
                 'choice_label' => 'title',
+                'label'    => 'Выберите район из выпадающего списка',
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
+                'label'    => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',
                 'query_builder' => function(\Gedmo\Tree\Entity\Repository\NestedTreeRepository $er) {
                     return $er->createQueryBuilder('c')
@@ -61,23 +64,25 @@ class EstateType extends AbstractType
             ))
             ->add('imageFile', FileType::class, array(
                'multiple' => true,
-               'required' => false
+                'label'    => 'Добавте фото недвижимости',
+                'required' => false
             ))
             ->add('rent', CheckboxType::class, array(
-                'label'    => 'Этот объект для оренды?',
+                'label'    => 'Этот эбъект для оренды?',
                 'required' => false,
             ))
             ->add('exclusive', CheckboxType::class, array(
-                'label'    => 'Добавить в екслюзив?',
+                'label' => 'Добавить в екслюзив?',
                 'required' => false,
             ))
             ->add('floor', FloorType::class, array(
                 'property_path' => 'floor',
+                'label'    => 'Этажность для квартир во многоэтажках',
             ))
             ->add('price', MoneyType::class, array(
+                'label'    => 'Цена в гривнах',
                 'grouping' => true,
                 'currency' => 'UAH',
-                'label'    => 'Цена объекта',
             ));
         ;
     }
