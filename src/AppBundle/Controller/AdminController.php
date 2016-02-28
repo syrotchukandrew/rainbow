@@ -36,14 +36,9 @@ class AdminController extends Controller
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        //$estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->find(1);
         $estate = new Estate();
         //$this->denyAccessUnlessGranted('create', $estate);
-        $form = $this->createForm(EstateType::class, $estate
-            //,
-           //array("em" => $this->getDoctrine()->getRepository("AppBundle:Category")->get)
-            )
-            ->add('saveAndCreateNew', SubmitType::class);
+        $form = $this->createForm(EstateType::class, $estate)->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
