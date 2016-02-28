@@ -14,11 +14,11 @@
         {{ form_row(form.exclusive) }}
         {{ form_row(form.floor) }}
         {{ form_row(form.price) }}
-    <input type="submit" value="Создать новый объект недвижимости" class="btn btn-primary" />
+    <input type="submit" value="Создать новый объект недвижимости" class="btn btn-default" />
 
-        {{ form_widget(form.saveAndCreateNew, { label: 'Сохранить и создать новый объэкт'|trans, attr: { class: 'btn btn-primary' } }) }}
+        {{ form_widget(form.saveAndCreateNew, { label: 'Сохранить и создать новый объэкт'|trans, attr: { class: 'btn btn-default' } }) }}
         <br>
-        <a href="{{ path('admin_index') }}" class="btn btn-primary">
+        <a href="{{ path('admin_index') }}" class="btn btn-default">
             Назад на панель администрирования
         </a>
     {{ form_end(form) }}
