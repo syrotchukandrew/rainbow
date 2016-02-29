@@ -63,4 +63,15 @@ class SiteController extends Controller
         return new Response('ok');
     }
 
+    /**
+     * @Route("/slideshow", name="slideshow")
+     */
+    public function gallerySlideAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $estate = $em->getRepository('AppBundle:Estate')->findOneBy(array('id' => 1));
+        return $this->render("AppBundle::slideshow.html.twig", array('estate' => $estate));
+
+    }
+
 }
