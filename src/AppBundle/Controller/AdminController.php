@@ -51,7 +51,7 @@ class AdminController extends Controller
      * @Route("/estate/show/{slug}", name="admin_estate_show")
      * @Method("GET")
      */
-    public function showAction(Estate $estate, $slug)
+    public function estateShowAction(Estate $estate, $slug)
     {
         $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->findOneBy(array('slug' => $slug));
         $deleteForm = $this->createDeleteForm($estate);
@@ -62,10 +62,33 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/estate/edit/{slug}", name="admin_estate_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function estateEditAction(Estate $estate, Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $editForm = $this->createForm(EstateType::class, $estate);
+        $deleteForm = $this->createDeleteForm($estate);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $estate = $this->get('app.file_manager')->fileManager($estate);
+            $entityManager->persist($estate);
+            $entityManager->flush();
+            return $this->redirectToRoute('admin_estate_show', array('slug' => $estate->getSlug()));
+        }
+        return $this->render('@App/admin/edit_estate.html.twig', array(
+            'estate'        => $estate,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
      * @Route("/estate/delete/{slug}", name="admin_estate_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Estate $estate)
+    public function estateDeleteAction(Request $request, Estate $estate)
     {
         $form = $this->createDeleteForm($estate);
         $form->handleRequest($request);
@@ -101,17 +124,7 @@ class AdminController extends Controller
         $form = $this->createForm(EstateType::class, $estate)->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-            $files = $request->files->get('app_bundle_estate_type');
-            if ($files['imageFile'][0] !== null) {
-                foreach ($files['imageFile'] as $imageData) {
-                    $image = new File();
-                    $uploadableManager->markEntityToUpload($image, $imageData);
-                    $image->setEstate($estate);
-                    $estate->addFile($image);
-                    $entityManager->persist($image);
-                }
-            }
+            $estate = $this->get('app.file_manager')->fileManager($estate);
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()
