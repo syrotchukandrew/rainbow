@@ -9,13 +9,13 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\MenuItem\RecursiveMenuItemIterator;
-use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Estate;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\Cat as CategoryEntity;
+
 
 class SiteController extends Controller
 {
@@ -47,8 +47,7 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($slug);
-//        dump($estates);
-//        return new Response('ok');
+
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -64,6 +63,15 @@ class SiteController extends Controller
     }
 
     /**
+     * @Route("/show_estate/{slug}", name="show_estate")
+     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
+     */
+    public function showEstateAction(Request $request, Estate $estate)
+    {
+        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate));
+    }
+
+    /**
      * @Route("/slideshow", name="slideshow")
      */
     public function gallerySlideAction(Request $request)
@@ -71,7 +79,5 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle:Estate')->findOneBy(array('id' => 1));
         return $this->render("AppBundle::slideshow.html.twig", array('estate' => $estate));
-
     }
-
 }

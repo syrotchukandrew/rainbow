@@ -50,7 +50,7 @@
     {% block panel %}
         <div class="panel">
             {% for estate in estates %}
-            <h1>{{ estate.title }}</h1>
+            <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a></h2>
 
             <div class="row">
                 <div class="col col-sm-8">
@@ -75,7 +75,11 @@
             <h2>Краткое описание</h2>
             {{ estate.description }}
             <br><br>
-            <button class="btn btn-default">More</button>
+                <a href="{{ path('show_estate', { 'slug': estate.slug }) }}"
+                   class="btn btn-default">
+                    More
+                </a>
+            {#<button class="btn btn-default">More</button>#}
 
 
             <hr>
