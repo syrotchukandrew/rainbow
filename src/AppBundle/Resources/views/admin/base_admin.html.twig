@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('admin_index') }}">SB Admin v2.0</a>
+        <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -37,7 +37,7 @@
                                     <span class="pull-right text-muted">
                                         <em>Yesterday</em>
                                     </span>
-                        </div>
+                        </div>{##}
                         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
                     </a>
                 </li>
@@ -234,6 +234,7 @@
 {% endblock nav %}
 
 {% block body %}
+
     {% block sidebar %}
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
@@ -343,5 +344,8 @@
     </div>
     <!-- /.navbar-static-side -->
 {% endblock sidebar %}
+
+
     {% block panel %}{% endblock %}
+
 {% endblock body %}
