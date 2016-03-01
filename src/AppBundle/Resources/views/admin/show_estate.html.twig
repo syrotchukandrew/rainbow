@@ -1,52 +1,94 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block body %}
     <div class="col-lg-3">
-    {% block sidebar %}
-        {{ parent() }}
-    {% endblock sidebar %}
+        {% block sidebar %}
+            {{ parent() }}
+        {% endblock sidebar %}
     </div>
     <div class="col-lg-9">
-{% block panel %}
-    <h1>{{ estate.title }}</h1>
-    <br>
-    <div class="section">
-        {{ include('@App/admin/_form.html.twig', {
-            form: delete_form,
-            button_label: 'Delete',
-            button_css: 'btn btn-primary btn-danger',
-            show_confirmation: true,
-        }, with_context = false) }}
+        {% block panel %}
+            <h1>{{ estate.title }}</h1>
+            <br>
+            <div class="col-lg-9">
+                <div class="panel panel-default">
+                    {% if estate.files[0] %}
+                        {% for foto in estate.files %}
+                            <img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
+                        {% endfor %}
+                    {% endif %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr><th>Field name</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr><td>Id</td><td>{{ estate.id }}</td></tr>
+                        <tr><td>Title</td><td>{{ estate.title }}</td></tr>
+                        <tr><td>Slug</td><td>{{ estate.slug }}</td></tr>
+                        <tr><td>CreatedBy</td><td>{{ estate.createdBy }}</td></tr>
+                        <tr><td>CreatedAt</td><td>{{ estate.createdAt.date|date("d F Y H:i:s") }}</td></tr>
+                        <tr><td>UpdatedAt</td><td>{{ estate.updatedAt.date|date("d F Y H:i:s") }}</td></tr>
+                        <tr><td>Description</td><td>{{ estate.description }}</td></tr>
+                        <tr><td>Price</td><td>{{ estate.price }}</td></tr>
+                        <tr><td>Rent</td><td>{{ estate.rent }}</td></tr>
+                        <tr><td>Exclusive</td><td>{{ estate.exclusive }}</td></tr>
+                        <tr><td>District</td><td>{{ estate.district.title }}</td></tr>
+                        <tr>
+                            <td>Foto</td>
+                            <td>
+                                {% if estate.files[0] %}
+                                    {% for foto in estate.files %}
+                                        <img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td>Comments</td><td>{{ estate.comments|length }}</td></tr>
+                        <tr><td>Category</td><td>{{ estate.category.title }}</td></tr>
+                        <tr>
+                            <td>Floor</td>
+                            <td>
+                                {% if  estate.floor%}
+                                Floor {{ estate.floor['floor'] }} from {{ estate.floor['floor_count'] }}
+                                {% endif %}
+                            </td>
+                        </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section">
+                    <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="btn btn-sm btn-default">
+                        <i class="fa fa-edit"></i> Изменить </a>
+                    {{ include('@App/admin/_form.html.twig', {
+                        form: delete_form,
+                        button_label: 'Delete',
+                        button_css: 'btn btn-primary btn-danger',
+                        show_confirmation: true,
+                    }, with_context = false) }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="glyphicon glyphicon-stats"></i> Цена
+                    </div>
+                    <div class="panel-body">
+                        {{ estate.price }}&#032грн.
+                    </div>
+                </div>
+                {% if estate.floor %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
+                        </div>
+                        <div class="panel-body">
+                            {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endblock panel %}
     </div>
-    <div class="col-lg-9">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Описание
-            </div>
-            <div class="panel-body">
-                {{ estate.description }}
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Цена
-            </div>
-            <div class="panel-body">
-                {{ estate.price }}&#032грн.
-            </div>
-        </div>
-        {% if estate.floor %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
-            </div>
-            <div class="panel-body">
-                {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
-            </div>
-        </div>
-        {% endif %}
-    </div>
-{% endblock panel %}
-        </div>
 {% endblock body %}
