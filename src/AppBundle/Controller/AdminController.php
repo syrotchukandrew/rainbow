@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\EstateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Gedmo\Uploadable\FileInfo\FileInfoArray;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -30,10 +31,10 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/estate/list", name="admin_estate_list")
+     * @Route("/estates", name="admin_estates")
      * @Method("GET")
      */
-    public function estatesListAction(Request $request)
+    public function estatesAction(Request $request)
     {
         $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
         $paginator = $this->get('knp_paginator');
@@ -43,11 +44,53 @@ class AdminController extends Controller
             20
         );
 
-        return $this->render('@App/admin/estate_list.html.twig', array('pagination' => $pagination));
+        return $this->render('@App/admin/estates.html.twig', array('pagination' => $pagination));
     }
 
     /**
-     * @Route("/newestate", name="admin_new_estate")
+     * @Route("/estate/show/{slug}", name="admin_estate_show")
+     * @Method("GET")
+     */
+    public function showAction(Estate $estate, $slug)
+    {
+        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->findOneBy(array('slug' => $slug));
+        $deleteForm = $this->createDeleteForm($estate);
+        return $this->render('@App/admin/show_estate.html.twig', array(
+            'estate'        => $estate,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/estate/delete/{slug}", name="admin_estate_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Estate $estate)
+    {
+        $form = $this->createDeleteForm($estate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->remove($estate);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('admin_index');
+    }
+
+    private function createDeleteForm(Estate $estate)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_estate_delete', array('slug' => $estate->getSlug())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
+    }
+
+
+    /**
+     * @Route("/estate/new", name="admin_estate_new")
      * @Method({"GET", "POST"})
      */
     public function newEstateAction(Request $request)
@@ -72,11 +115,11 @@ class AdminController extends Controller
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()
-                ? 'admin_new_estate'
+                ? 'admin_estate_new'
                 : 'admin_index';
             return $this->redirectToRoute($nextAction);
         }
-        return $this->render('@App/admin/newestate.html.twig', array(
+        return $this->render('@App/admin/new_estate.html.twig', array(
             'estate' => $estate,
             'form' => $form->createView(),
         ));

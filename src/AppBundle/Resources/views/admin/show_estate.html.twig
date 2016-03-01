@@ -1,0 +1,43 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+    <h1>{{ estate.title }}</h1>
+    <br>
+    <div class="section">
+        {{ include('@App/admin/_delete_form.html.twig', {
+            form: delete_form,
+            button_label: 'Delete',
+            button_css: 'btn btn-primary btn-danger',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> Описание
+            </div>
+            <div class="panel-body">
+                {{ estate.description }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> Цена
+            </div>
+            <div class="panel-body">
+                {{ estate.price }}&#032грн.
+            </div>
+        </div>
+        {% if estate.floor %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
+            </div>
+            <div class="panel-body">
+                {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock panel %}

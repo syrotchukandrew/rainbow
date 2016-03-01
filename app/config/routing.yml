@@ -35,3 +35,6 @@ homepage:
     defaults:  { _controller: AppBundle:Site:index, _locale: ru }
     requirements:
         _locale:  ru|en
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

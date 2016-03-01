@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+{{ form_widget(form) }}
+
+<input type="submit" value="{{ button_label|default('Delete') }}"
+       class="{{ button_css|default("btn btn-primary") }}"/>
+
+<a href="{{ path('admin_estates') }}" class="btn btn-primary">
+    Back to list
+</a>
+{{ form_end(form) }}
