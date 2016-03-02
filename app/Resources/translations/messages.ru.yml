@@ -1,0 +1,79 @@
+site:
+    menu:
+        homepage: Главная
+        about: Про нас
+        contacts: Контакты
+    offers: Наши предложения
+    category:
+        houses: Дома
+        house:
+            in_town: Дома в городе
+            outside: Дома за городом
+        flats: Квартиры
+        flat:
+            room: Комната
+            studio: Однокомнатные квартиры
+            two_rooms: Двокомнатные квартиры
+            three_rooms: Трьохкомнатные квартиры
+            multiroom: Многокомнатные
+        steads: Участки
+        stead:
+            cottage: Дачные участки
+            in_town: Участки в городе
+            outside: Участки за городом
+        rent_of_dwelling: Аренда жилья
+        rent:
+            houses: Дома в аренду
+            flats: Квартиры в аренду
+        commerces: Коммерция
+        commerce:
+            rent: Аренда коммерции
+            buy: Продажа коммерции
+    num_comments: %count% коментар|%count% коментаря|%count% коментарів
+    home: Додому
+    sing_up: Реєстрація
+    sing_in: Вхід
+    admin: Адміністрування
+    blog_search: Пошук
+    print_search: Почніть друкувати, будь ласка:
+    new: Ви можете створити нову статтю
+    add: Додати статтю
+    cloud_of_tags: Хмара тегів
+    average_rating: Середня оцінка:
+    count_of_voices: Кількість голосів:
+    tags: Теги
+    popular_articles: Популярні статті
+    last_comments: Останні коментарі
+security:
+    username: Имя
+    password: Пароль
+    login: Войти
+    submit: Отправить
+    logout: Выйти
+    registration: Регистрация
+    admin: Панель администрирования
+admin:
+    article: Стаття
+    tag: Тег
+    user: Користувач
+    tag_add: Додати тег
+    back_to_list: Повернутись до списку
+    title: Назва
+    action: Дія
+    user_locked: Заблокувати
+    user_unlocked: Розблокувати
+    make_moderator: Зробити модератором
+    remove_moderator: Видалити модератора
+    username: Імя користувача
+    user_email: Електронна скринька користувача
+    id: Ідентифікатор
+    post:
+        foto: Фото
+        published_at: Опубліковано
+        update_at: Оновлено
+        show: Показати
+        edit: Редагувати
+        summary: Опис:
+        content: Зміст:
+
+

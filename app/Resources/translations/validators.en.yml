@@ -1,0 +1,20 @@
+comment:
+    not_blank: Comment don't must be empty
+    too_short: Comment is too short
+    too_long: Comment is too long
+user:
+    password:
+        blank: Enter your password, please
+        min: Password must contain minimum {{ limit }} chars
+        max: Password must contain maximum {{ limit }} chars
+article:
+    title_blank: Title of article don't must be empty
+    content:
+        blank: Content of article don't must be empty
+        too_short: Content of article must contain minimum {{ limit }} chars
+        too_long: Content of article must contain maximum {{ limit }} chars
+    summary:
+            blank: Summary of article don't must be empty
+            too_short: Summary of article must contain minimum {{ limit }} chars
+            too_long: Summary of article must contain maximum {{ limit }} chars
+    email: Not valid email

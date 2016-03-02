@@ -9,9 +9,9 @@
             <div class="nav-collapse collase">
                 <div class="container-fluid">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ path('homepage') }}">{{ 'menu.homepage'|trans }}</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
+                        <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
+                        <li><a href="#">{{ 'site.menu.about'|trans }}</a></li>
+                        <li><a href="#">{{ 'site.menu.contacts'|trans }}</a></li>
                     </ul>
                     <ul class="nav navbar-right navbar-nav">
                         <li class="dropdown">
@@ -50,16 +50,16 @@
                             <ul class="dropdown-menu">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <li><a href="#">Profile</a></li>
-                                    <li><a href="{{ path('logout') }}">{{ 'menu.logout'|trans }}</a></li>
+                                    <li><a href="{{ path('logout') }}">{{ 'security.logout'|trans }}</a></li>
                                 {% else %}
-                                    <li><a href="{{ path('security_login_form') }}">{{ 'action.sign_in'|trans }}</a>
+                                    <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
                                     </li>
                                     <li class="divider"></li>
-                                    <li><a href="{{ path('user_registration') }}">Registration</a></li>
+                                    <li><a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a></li>
                                     <li class="divider"></li>
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a href="{{ path('admin_index') }}">{{ 'menu.admin'|trans }}</a></li>
+                                    <li><a href="{{ path('admin_index') }}">{{ 'security.admin'|trans }}</a></li>
                                 {% endif %}
                             </ul>
                         </li>
@@ -77,7 +77,7 @@
                 {% block sidebar %}
                     <div id="sidebar">
                         <ul class="nav nav-stacked">
-                            <li><h3 class="highlight">Наши предложения <i class="glyphicon glyphicon-dashboard pull-right"></i>
+                            <li><h3 class="highlight">{{ 'site.offers'|trans }}<i class="glyphicon glyphicon-dashboard pull-right"></i>
                                 </h3></li>
                             {{ render(controller('AppBundle:Site:menu')) }}
                         </ul>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="col col-sm-9">
-                {% block panel %}bnbv{% endblock %}
+                {% block panel %}{% endblock %}
             </div>
         </div>
     </div>

@@ -1,0 +1,75 @@
+site:
+    menu:
+        homepage: Home
+        about: About us
+        contacts: Contacts
+    offers: Our offers
+    category:
+        houses: Houses
+        house:
+            in_town: Houses in the town
+            outside: Suburb houses
+        flats: Flats
+        flat:
+            room: Room
+            studio: Studio apartment
+            two_rooms: Tworoom apartment
+            three_rooms: Threeroom apartment
+            multiroom: Multiroom apartment
+        steads: Steads
+        stead:
+            cottage: Steads for cottage
+            in_town: Steads in the town
+            outside: Steads outside the town
+        rent_of_dwelling: Rent of dwelling
+        rent:
+            houses: Houses for rent
+            flats: Flats for rent
+        commerces: Commerce
+        commerce:
+            rent: Commerce for rent
+            buy: Commerce for buy
+    num_comments: %count% comment|%count% comments
+    home: Home
+    sing_up: Sing_up
+    sing_in: Sing_in
+    admin: Admin
+    blog_search: Search
+    print_search: Please, begin printing:
+    new: You can create a new article
+    add: Add article
+    cloud_of_tags: Cloud of tags
+    average_rating: Average Rating:
+    count_of_voices: Count of voices:
+    tags: Tags
+    popular_articles: Popular articles
+    last_comments: Last comments
+security:
+    username: Username
+    password: Password
+    login: login
+    submit: Submit
+    logout: Logout
+    registration: Registration
+    admin: Admin dashboart
+admin:
+    article: Article
+    tag: Tag
+    user: User
+    tag_add: Add tag
+    back_to_list: back to list
+    title: Title
+    action: Action
+    username: username
+    user_email: email
+    id: id
+    post:
+        foto: Foto
+        published_at: Published at
+        update_at: Updated at
+        show: Show
+        edit: Edit
+        summary: Summary:
+        content: Content:
+
+
