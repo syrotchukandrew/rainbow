@@ -1,0 +1,21 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+
+{% block body %}
+
+    <h1>Edit estate</h1>
+    {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+
+    {% if estate.files[0] %}
+        <img class="img-responsive"
+             src={{ asset("#{estate.files[0].path}") | imagine_filter('medium') }} alt="foto">
+    {% endif %}
+
+    {{ include('@App/admin/_form.html.twig', {
+        form: edit_form,
+        button_label: 'Save',
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+
+{% endblock %}
+
