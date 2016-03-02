@@ -49,6 +49,7 @@
     {% endblock header %}
     {% block panel %}
         <div class="panel">
+            {{ 'article.tags'|trans }}
             {% for estate in estates %}
             <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a></h2>
 
