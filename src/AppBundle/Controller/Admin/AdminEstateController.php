@@ -1,9 +1,8 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Estate;
-use AppBundle\Entity\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class AdminController extends Controller
+class AdminEstateController extends Controller
 {
     /**
      * @Route("/", name="admin_index")
@@ -42,7 +41,17 @@ class AdminController extends Controller
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/estates.html.twig', array('pagination' => $pagination));
+        return $this->render('@App/admin/estate/estates.html.twig', array('pagination' => $pagination));
+    }
+
+    /**
+     * @Route("/districts", name="admin_districts")
+     * @Method("GET")
+     */
+    public function districtsAction(Request $request)
+    {
+        $districts = $this->getDoctrine()->getRepository('AppBundle:District')->findAll();
+        return $this->render('@App/admin/district/districts.html.twig', array('districts' => $districts));
     }
 
     /**
@@ -53,7 +62,7 @@ class AdminController extends Controller
     public function estateShowAction(Estate $estate, Request $request)
     {
         $deleteForm = $this->createDeleteForm($estate);
-        return $this->render('@App/admin/show_estate.html.twig', array(
+        return $this->render('@App/admin/estate/show_estate.html.twig', array(
             'estate'        => $estate,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -76,10 +85,10 @@ class AdminController extends Controller
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()
                 ? 'admin_estate_new'
-                : 'admin_index';
+                : 'admin_estates';
             return $this->redirectToRoute($nextAction);
         }
-        return $this->render('@App/admin/new_estate.html.twig', array(
+        return $this->render('@App/admin/estate/new_estate.html.twig', array(
             'estate' => $estate,
             'form' => $form->createView(),
         ));
@@ -102,7 +111,7 @@ class AdminController extends Controller
             $entityManager->flush();
             return $this->redirectToRoute('admin_estate_show', array('slug' => $estate->getSlug()));
         }
-        return $this->render('@App/admin/edit_estate.html.twig', array(
+        return $this->render('@App/admin/estate/edit_estate.html.twig', array(
             'estate'        => $estate,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -125,7 +134,7 @@ class AdminController extends Controller
             $entityManager->remove($estate);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('admin_index');
+        return $this->redirectToRoute('admin_estates');
     }
 
     private function createDeleteForm(Estate $estate)
