@@ -245,7 +245,7 @@
                         <a href="{{ path('admin_districts') }}"><i class="fa fa-edit fa-fw"></i> Work with districts</a>
                     </li>
                     <li>
-                        <a href="../../../../../pages/tables.html"><i class="fa fa-edit fa-fw"></i> Tables</a>
+                        <a href="{{ path('admin_users') }}"><i class="fa fa-edit fa-fw"></i> Work with users</a>
                     </li>
                     <li>
                         <a href="../../../../../pages/forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
@@ -264,7 +264,10 @@
         </div>
     {% endblock sidebar %}
 
-
-    {% block panel %}{% endblock %}
-
+<div class="wrapper">
+    <div id="page-wrapper">
+    {% block panel %}
+    {% endblock %}
+    </div>
+</div>
 {% endblock body %}

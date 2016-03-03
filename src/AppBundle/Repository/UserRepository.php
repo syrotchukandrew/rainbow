@@ -8,6 +8,20 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    /**
+     * @param string $role
+     *
+     * @return array
+     */
+    public function findByRole($role)
+    {
+        return $this->createQueryBuilder('user')
+            ->where('user.roles LIKE :roles')
+            ->setParameter('roles', '%"'.$role.'"%')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function loadUserByUsername($username)
     {
        /* $user = $this->createQueryBuilder('u')

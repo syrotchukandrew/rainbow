@@ -20,7 +20,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setTitle($faker->sentence);
             $estate->setDescription($faker->sentence);
             $estate->setPrice($faker->numberBetween(10000, 500000));
-            $estate->setCreatedBy('user_admin');
+            $estate->setCreatedBy('user_manager');
             $estate->setDistrict($this->getReference('district'.rand(1,10)));
             $quarty = rand(1,4);
             //25% $estate is for rent
