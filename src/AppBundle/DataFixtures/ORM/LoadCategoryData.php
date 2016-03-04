@@ -135,14 +135,14 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $category = new Category();
         $category->setTitle("site.category.rent.houses");
-        $category->setUrl("show_rent");
+        $category->setUrl("show_category");
         $category->setParent($this->getReference("rent"));
         $this->setReference("category13", $category);
         $manager->persist($category);
 
         $category = new Category();
         $category->setTitle("site.category.rent.flats");
-        $category->setUrl("show_rent");
+        $category->setUrl("show_category");
         $category->setParent($this->getReference("rent"));
         $this->setReference("category14", $category);
         $manager->persist($category);

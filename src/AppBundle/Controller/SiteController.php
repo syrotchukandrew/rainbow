@@ -52,17 +52,6 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/show_rent/{slug}", name="show_rent")
-     */
-    public function showRentAction(Request $request, $slug)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateForRent($slug);
-        dump($estates);
-        return new Response('ok');
-    }
-
-    /**
      * @Route("/show_estate/{slug}", name="show_estate")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */

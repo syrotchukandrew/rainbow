@@ -25,16 +25,4 @@ class EstateRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function getEstateForRent($slug)
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT e
-                FROM AppBundle:Estate e
-                WHERE (e.type = :slug)
-                AND (e.rent = true)
-            ');
-        $query->setParameter('slug', $slug);
-        return $query->getResult();
-    }
 }
