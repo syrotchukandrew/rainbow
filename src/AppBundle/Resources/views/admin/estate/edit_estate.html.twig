@@ -11,7 +11,7 @@
              src={{ asset("#{estate.files[0].path}") | imagine_filter('medium') }} alt="foto">
     {% endif %}
 
-    {{ include('@App/admin/_form.html.twig', {
+    {{ include('@App/admin/estate/_form.html.twig', {
         form: edit_form,
         button_label: 'Save',
         include_back_to_home_link: true,

@@ -18,6 +18,7 @@ class EstateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->categoryChoices = $options['categories_choices'];
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
@@ -39,23 +40,14 @@ class EstateType extends AbstractType
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
+                'choices' => $this->categoryChoices,
                 'label'    => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',
-                'query_builder' => function(\Gedmo\Tree\Entity\Repository\NestedTreeRepository $er) {
+                /*'query_builder' => function(\Gedmo\Tree\Entity\Repository\NestedTreeRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.lvl = :user')
                         ->setParameter('user', 1);
-                }
-            ))
-            ->add('type', ChoiceType::class, array(
-                'choices' => array(
-                    'Дома' => 'Дома',
-                    'Квартиры' => 'Квартиры',
-                    'Участки' => 'Участки',
-                    'Оренда жилья' => 'Оренда жилья',
-                    'Коммерция' => 'Коммерция',
-                ),
-                'choices_as_values' => true,
+                }*/
             ))
             ->add('imageFile', FileType::class, array(
                'multiple' => true,
@@ -86,6 +78,7 @@ class EstateType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Estate',
+            'categories_choices' => null,
         ));
     }
 

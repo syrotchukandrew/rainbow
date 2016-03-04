@@ -39,6 +39,10 @@
            <argument type="service" id="stof_doctrine_extensions.uploadable.manager"/>
        </service>
 
+       <service id="app.final_category_finder" class="AppBundle\Utils\FinalCategoryFinder">
+           <argument type="service" id="doctrine"/>
+       </service>
+
    </services>
 
 </container>

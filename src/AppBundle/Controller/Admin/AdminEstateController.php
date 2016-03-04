@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\EstateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Utils;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -76,8 +77,10 @@ class AdminEstateController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $estate = new Estate();
+        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
         //$this->denyAccessUnlessGranted('create', $estate);
-        $form = $this->createForm(EstateType::class, $estate)->add('saveAndCreateNew', SubmitType::class);
+        $form = $this->createForm(EstateType::class, $estate, array('categories_choices' => $finalCategories))
+        ->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $estate = $this->get('app.file_manager')->fileManager($estate);
