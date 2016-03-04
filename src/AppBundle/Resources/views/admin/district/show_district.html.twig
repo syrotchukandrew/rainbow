@@ -1,7 +1,5 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-    <div class="wrapper">
-        <div id="page-wrapper">
             <h1>District {{ district.title }}</h1>
             <table class="table table-striped">
                 <thead>
@@ -20,8 +18,8 @@
                 </tbody>
             </table>
             <div class="section">
-                <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="btn btn-sm btn-default">
-                    <i class="fa fa-edit"></i> Edit </a>
+                <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="btn btn-primary btn-success">
+                    <i class="fa fa-edit"></i> Edit </a> <br> <br>
                 {{ include('@App/admin/district/_form.html.twig', {
                     form: delete_form,
                     button_label: 'Delete',
@@ -29,6 +27,4 @@
                     show_confirmation: true,
                 }, with_context = false) }}
             </div>
-        </div>
-    </div>
 {% endblock panel %}
