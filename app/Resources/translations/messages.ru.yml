@@ -29,6 +29,10 @@ site:
         commerce:
             rent: Аренда коммерции
             buy: Продажа коммерции
+    recommend: Посоветуй друзьям
+    summary: Краткое описание
+    description:
+    more: Подробнее
     num_comments: %count% коментар|%count% коментаря|%count% коментарів
     home: Додому
     sing_up: Реєстрація

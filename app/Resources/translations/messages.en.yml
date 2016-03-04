@@ -29,6 +29,10 @@ site:
         commerce:
             rent: Commerce for rent
             buy: Commerce for buy
+    recommend: Recommend to friends
+    summary: Summary
+    description: Description
+    more: More
     num_comments: %count% comment|%count% comments
     home: Home
     sing_up: Sing_up
