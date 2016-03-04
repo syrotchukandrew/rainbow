@@ -1,8 +1,6 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-    <div class="wrapper">
-        <div id="page-wrapper">
-            <h1>Район {{ district.title }}</h1>
+            <h1>District {{ district.title }}</h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -29,6 +27,4 @@
                     show_confirmation: true,
                 }, with_context = false) }}
             </div>
-        </div>
-    </div>
 {% endblock panel %}

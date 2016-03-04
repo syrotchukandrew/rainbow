@@ -25,7 +25,7 @@ class SiteController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle:Estate')->findBy(array('exclusive' => true));
+        $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -53,11 +53,14 @@ class SiteController extends Controller
 
     /**
      * @Route("/show_estate/{slug}", name="show_estate")
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
-    public function showEstateAction(Request $request, Estate $estate)
+    public function showEstateAction(Request $request, $slug)
     {
-        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate));
+        $em = $this->getDoctrine()->getManager();
+        $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
+//       dump($estate);
+//        return new Response('ok');
+        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate[0]));
     }
 
     /**

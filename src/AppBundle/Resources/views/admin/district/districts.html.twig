@@ -1,8 +1,6 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-    <div class="wrapper">
-        <div id="page-wrapper">
-            <h1>Районы</h1>
+               <h1>Districts</h1>
             <a href="{{ path('admin_district_new') }}" class="btn btn-lg btn-block btn-success">
                 <i class="fa fa-plus"></i> Добавить </a>
             <table class="table table-striped">
@@ -32,6 +30,4 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
 {% endblock panel %}

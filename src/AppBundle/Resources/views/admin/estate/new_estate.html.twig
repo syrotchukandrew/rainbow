@@ -1,9 +1,7 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 
-{% block body %}
-    <div class="wrapper">
-        <div id="page-wrapper">
-            <h1>Добавление нового объекта</h1>
+{% block panel %}
+            <h1>New estate</h1>
             {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
             {{ form_start(form) }}
             {{ form_row(form.title) }}
@@ -23,7 +21,5 @@
                 Назад к списку
             </a>
             {{ form_end(form) }}
-        </div>
-    </div>
 {% endblock %}
 

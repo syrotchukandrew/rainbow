@@ -12,17 +12,46 @@ use Doctrine\ORM\EntityRepository;
  */
 class EstateRepository extends EntityRepository
 {
+    public function getEstateExclusiveWithFiles()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT e, f
+                FROM AppBundle:Estate e
+                LEFT JOIN e.files f
+                WHERE (e.exclusive = true)
+            ');
+        return $query->getResult();
+
+    }
     public function getEstateFromCategory($slug)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-                SELECT e, c
+                SELECT e, c, f
                 FROM AppBundle:Estate e
                 LEFT JOIN e.category c
+                LEFT JOIN e.files f
                 WHERE (c.title = :slug)
             ');
         $query->setParameter('slug', $slug);
         return $query->getResult();
+    }
+
+    public function getEstateWithDistrictComment($slug)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT e, d, com, f
+                FROM AppBundle:Estate e
+                LEFT JOIN e.district d
+                LEFT JOIN e.comments com
+                LEFT JOIN e.files f
+                WHERE (e.slug = :slug)
+            ');
+        $query->setParameter('slug', $slug);
+        return $query->getResult();
+
     }
 
 }
