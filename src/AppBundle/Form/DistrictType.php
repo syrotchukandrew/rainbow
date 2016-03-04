@@ -15,7 +15,7 @@ class DistrictType extends AbstractType
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'District title',
+                'label' => 'Название района',
             ))
         ;
     }

@@ -1,21 +1,21 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-            <h1>Users</h1>
+            <h1>Пользователи</h1>
             <div class="item-actions">
-                <a href="{{ path('admin_users') }}" class="btn btn-sm btn-default">Show all users </a>
-                <a href="{{ path('admin_users_managers') }}" class="btn btn-sm btn-default">Show managers </a>
+                <a href="{{ path('admin_users') }}" class="btn btn-sm btn-default">Показать всех пользователей </a>
+                <a href="{{ path('admin_users_managers') }}" class="btn btn-sm btn-default">Показать менеджеров </a>
             </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Last login</th>
-                    <th>Status</th>
-                    <th>Locked/Unlocked</th>
-                    <th>Manager/User</th>
-                    <th>Estates</th>
+                    <th>Имя пользователя</th>
+                    <th>Роль</th>
+                    <th>Електронная почта</th>
+                    <th>Последнее посещение</th>
+                    <th>Состояние</th>
+                    <th>Заблокировать\Разблокировать</th>
+                    <th>Менеджер\Пользователь</th>
+                    <th>Объэкты менеджера</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,9 +25,9 @@
                             <td>{{ user.username }}</td>
                             <td>
                                 {% if "ROLE_MANAGER" in user.roles %}
-                                    <p>ROLE_MANAGER</p>
+                                    <p>Менеджер</p>
                                 {% else %}
-                                    <p>ROLE_USER</p>
+                                    <p>Пользователь</p>
                                 {% endif %}
                             </td>
                             <td>
@@ -37,36 +37,36 @@
                                 {% if user.lastLogin %}
                                     {{ user.lastLogin.date|date("d F Y H:i:s") }}
                                 {% else %}
-                                    <p>No visit</p>
+                                    <p>Нет посещений</p>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if user.isAccountNonLocked() %}
-                                    <p>Enable</p>
+                                    <p>Незаблокирован</p>
                                 {% else %}
-                                    <p>Locked</p>
+                                    <p>Заблокирован</p>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if user.isAccountNonLocked() %}
                                     <a href="{{ path('lock_user', { username: user.username }) }}"
                                        class="btn btn-primary btn-danger">
-                                        <i class="fa fa-edit"></i> Lock</a>
+                                        <i class="fa fa-edit"></i> Заблокировать</a>
                                 {% else %}
                                     <a href="{{ path('unlock_user', { username: user.username }) }}"
                                        class="btn btn-primary btn-success">
-                                        <i class="fa fa-edit"></i> Unlock </a>
+                                        <i class="fa fa-edit"></i> Разблоктровать </a>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if "ROLE_MANAGER" not in user.roles %}
                                     <a href="{{ path('do_manager', { username: user.username }) }}"
                                        class="btn btn-primary btn-success">
-                                        <i class="fa fa-edit"></i> Do manager </a>
+                                        <i class="fa fa-edit"></i> Назанчить менеджером </a>
                                 {% elseif "ROLE_MANAGER" in user.roles %}
                                     <a href="{{ path('do_user', { username: user.username }) }}"
                                        class="btn btn-primary btn-danger">
-                                        <i class="fa fa-edit"></i> Do user</a>
+                                        <i class="fa fa-edit"></i> Сделать пользователем</a>
                                 {% endif %}
                             </td>
                             <td>
@@ -75,7 +75,7 @@
                                 {% elseif "ROLE_MANAGER" in user.roles %}
                                     <a href="{{ path('admin_estates_manager', { slug: user.username }) }}"
                                        class="btn btn-primary btn-danger">
-                                        <i class="fa fa-edit"></i> Show</a>
+                                        <i class="fa fa-edit"></i> Показать</a>
                                 {% endif %}
                             </td>
                         </tr>

@@ -2,13 +2,13 @@
 {% block panel %}
     <div class="wrapper">
         <div id="page-wrapper">
-            <h1>District {{ district.title }}</h1>
+            <h1>Район {{ district.title }}</h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Slug</th>
+                    <th>Идентификатор</th>
+                    <th>Название</th>
+                    <th>Псевдоним</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,10 +21,10 @@
             </table>
             <div class="section">
                 <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="btn btn-sm btn-default">
-                    <i class="fa fa-edit"></i> Edit </a>
+                    <i class="fa fa-edit"></i> Редактировать </a>
                 {{ include('@App/admin/district/_form.html.twig', {
                     form: delete_form,
-                    button_label: 'Delete',
+                    button_label: 'Удалить',
                     button_css: 'btn btn-primary btn-danger',
                     show_confirmation: true,
                 }, with_context = false) }}
