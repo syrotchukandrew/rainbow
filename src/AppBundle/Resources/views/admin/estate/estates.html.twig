@@ -1,7 +1,5 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-    <div class="wrapper">
-        <div id="page-wrapper">
             <h1>Объекты недвижимocти</h1>
             <a href="{{ path('admin_estate_new') }}" class="btn btn-lg btn-block btn-success">
                 <i class="fa fa-plus"></i> Добавить новый </a>
@@ -55,6 +53,4 @@
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
-        </div>
-    </div>
 {% endblock panel %}

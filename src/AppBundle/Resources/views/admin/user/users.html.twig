@@ -1,0 +1,89 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+            <h1>Users</h1>
+            <div class="item-actions">
+                <a href="{{ path('admin_users') }}" class="btn btn-sm btn-default">Show all users </a>
+                <a href="{{ path('admin_users_managers') }}" class="btn btn-sm btn-default">Show managers </a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Last login</th>
+                    <th>Status</th>
+                    <th>Locked/Unlocked</th>
+                    <th>Manager/User</th>
+                    <th>Estates</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pagination %}
+                    {% if "ROLE_ADMIN" not in user.roles %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                {% if "ROLE_MANAGER" in user.roles %}
+                                    <p>ROLE_MANAGER</p>
+                                {% else %}
+                                    <p>ROLE_USER</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ user.email }}
+                            </td>
+                            <td>
+                                {% if user.lastLogin %}
+                                    {{ user.lastLogin.date|date("d F Y H:i:s") }}
+                                {% else %}
+                                    <p>No visit</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.isAccountNonLocked() %}
+                                    <p>Enable</p>
+                                {% else %}
+                                    <p>Locked</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.isAccountNonLocked() %}
+                                    <a href="{{ path('lock_user', { username: user.username }) }}"
+                                       class="btn btn-primary btn-danger">
+                                        <i class="fa fa-edit"></i> Lock</a>
+                                {% else %}
+                                    <a href="{{ path('unlock_user', { username: user.username }) }}"
+                                       class="btn btn-primary btn-success">
+                                        <i class="fa fa-edit"></i> Unlock </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if "ROLE_MANAGER" not in user.roles %}
+                                    <a href="{{ path('do_manager', { username: user.username }) }}"
+                                       class="btn btn-primary btn-success">
+                                        <i class="fa fa-edit"></i> Do manager </a>
+                                {% elseif "ROLE_MANAGER" in user.roles %}
+                                    <a href="{{ path('do_user', { username: user.username }) }}"
+                                       class="btn btn-primary btn-danger">
+                                        <i class="fa fa-edit"></i> Do user</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if "ROLE_MANAGER" not in user.roles %}
+                                    <p>-</p>
+                                {% elseif "ROLE_MANAGER" in user.roles %}
+                                    <a href="{{ path('admin_estates_manager', { slug: user.username }) }}"
+                                       class="btn btn-primary btn-danger">
+                                        <i class="fa fa-edit"></i> Show</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+{% endblock panel %}
