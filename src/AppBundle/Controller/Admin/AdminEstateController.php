@@ -11,10 +11,11 @@ use AppBundle\Form\EstateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Utils;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
+ * @Security("has_role('ROLE_MANAGER')")
  * @Route("/admin")
  */
 class AdminEstateController extends Controller

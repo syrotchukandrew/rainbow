@@ -10,10 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\DistrictType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
+ * @Security("has_role('ROLE_ADMIN')")
  * @Route("/admin")
  */
 class AdminDistrictController extends Controller
@@ -33,7 +34,7 @@ class AdminDistrictController extends Controller
      * @Method("GET")
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
-    public function estateShowAction(District $district, Request $request)
+    public function districtShowAction(District $district, Request $request)
     {
         $deleteForm = $this->createDeleteForm($district);
         return $this->render('@App/admin/district/show_district.html.twig', array(
@@ -72,7 +73,7 @@ class AdminDistrictController extends Controller
      * @Method({"GET", "POST"})
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
-    public function estateEditAction(District $district, Request $request)
+    public function districtEditAction(District $district, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $editForm = $this->createForm(DistrictType::class, $district);
