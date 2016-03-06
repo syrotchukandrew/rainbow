@@ -24,7 +24,14 @@ class AdminEstateController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AppBundle::admin/index.html.twig', array(
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $districts = $this->getDoctrine()->getRepository('AppBundle:District')->findAll();
+        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
+        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
+        return $this->render('AppBundle::admin/index.html.twig', array('count_disabled_comments' => count($comments),
+            'count_estates' => count($estates),
+            'count_users' => count($users),
+            'count_districts' => count($districts),
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
         ));
     }
@@ -43,16 +50,6 @@ class AdminEstateController extends Controller
             10
         );
         return $this->render('@App/admin/estate/estates.html.twig', array('pagination' => $pagination));
-    }
-
-    /**
-     * @Route("/districts", name="admin_districts")
-     * @Method("GET")
-     */
-    public function districtsAction(Request $request)
-    {
-        $districts = $this->getDoctrine()->getRepository('AppBundle:District')->findAll();
-        return $this->render('@App/admin/district/districts.html.twig', array('districts' => $districts));
     }
 
     /**

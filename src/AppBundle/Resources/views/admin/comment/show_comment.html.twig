@@ -1,0 +1,25 @@
+{% extends "AppBundle:admin:base_admin.html.twig" %}
+{% block panel %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.content }}</td>
+            <td>{{ include('@App/admin/comment/_form.html.twig', {
+                    form: delete_form,
+                    button_label: 'Удалить',
+                    button_css: 'btn btn-default',
+                    show_confirmation: true,
+                }, with_context = false) }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock panel %}

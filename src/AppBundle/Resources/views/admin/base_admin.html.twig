@@ -239,16 +239,16 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="{{ path('admin_estates') }}"><i class="fa fa-edit fa-fw"></i> Work with estates</a>
+                        <a href="{{ path('admin_estates') }}"><i class="fa fa-edit fa-fw"></i> Объекты</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_districts') }}"><i class="fa fa-edit fa-fw"></i> Work with districts</a>
+                        <a href="{{ path('admin_districts') }}"><i class="fa fa-edit fa-fw"></i>Районы</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_users') }}"><i class="fa fa-edit fa-fw"></i> Work with users</a>
+                        <a href="{{ path('admin_users') }}"><i class="fa fa-edit fa-fw"></i>Пользователи</a>
                     </li>
                     <li>
-                        <a href="../../../../../pages/forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                        <a href="{{ path('admin_comments') }}"><i class="fa fa-edit fa-fw"></i>Комментарии <span class="badge">{{ render(controller('AppBundle:Admin/AdminComment:countDisablesComments')) }}</span> </a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-edit fa-fw"></i> UI Elements</a>
