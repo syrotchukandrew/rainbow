@@ -1,0 +1,34 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+    <h1>Comments</h1>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Content</th>
+        <th>Created At</th>
+        <th><i class="fa fa-cogs"></i>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for comment in pagination %}
+    <tr>
+        <td>{{ comment.id }}</td>
+        <td>{{ comment.content }}</td>
+        <td>{{ comment.createdAt|date('d.m.Y h:m:s') }}</td>
+        <td>
+            <div class="item-actions">
+                <a href="{{ path('admin_enable_comment', {'id': comment.id }) }}" class="btn btn-sm btn-default">
+                    Опубликовать </a>
+                <a href="{{ path('admin_comment_show', {'id': comment.id }) }}" class="btn btn-sm btn-default">
+                    Показать </a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock panel %}

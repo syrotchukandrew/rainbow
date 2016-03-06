@@ -59,6 +59,7 @@ class Comment
 
     /**
      * @var boolean
+     * @ORM\Column(name="enabled", type="boolean")
      */
     protected $enabled;
 

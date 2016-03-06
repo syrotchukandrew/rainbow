@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
+
+    public function getDisabledComments()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT c
+                FROM AppBundle:Comment c
+                WHERE (c.enabled = false)
+            ');
+        return $query->getResult();
+    }
+
 }
