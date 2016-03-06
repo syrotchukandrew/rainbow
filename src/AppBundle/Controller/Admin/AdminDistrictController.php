@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 /**
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("has_role('ROLE_MANAGER')")
  * @Route("/admin")
  */
 class AdminDistrictController extends Controller
@@ -46,6 +46,7 @@ class AdminDistrictController extends Controller
     /**
      * @Route("/district/new", name="admin_district_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newDistrictAction(Request $request)
     {
@@ -71,6 +72,7 @@ class AdminDistrictController extends Controller
     /**
      * @Route("/district/edit/{slug}", name="admin_district_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
     public function districtEditAction(District $district, Request $request)
@@ -94,6 +96,7 @@ class AdminDistrictController extends Controller
     /**
      * @Route("/district/delete/{slug}", name="admin_district_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
     public function DistrictDeleteAction(Request $request, District $district)

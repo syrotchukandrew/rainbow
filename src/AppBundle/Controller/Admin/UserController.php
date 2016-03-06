@@ -6,13 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("has_role('ROLE_MANAGER')")
  * @Route("/admin")
  */
 class UserController extends Controller
@@ -67,6 +66,7 @@ class UserController extends Controller
     /**
      * @Route("/users/lock_user/{username}", name="lock_user")
      * @Method("GET")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function lockUserAction(Request $request, $username)
     {
@@ -80,6 +80,7 @@ class UserController extends Controller
     /**
      * @Route("/users/unlock_user/{username}", name="unlock_user")
      * @Method("GET")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function unlockUserAction(Request $request, $username)
     {
@@ -93,6 +94,7 @@ class UserController extends Controller
     /**
      * @Route("/users/do_manager/{username}", name="do_manager")
      * @Method("GET")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function doManagerAction(Request $request, $username)
     {
@@ -106,6 +108,7 @@ class UserController extends Controller
     /**
      * @Route("/users/do_user/{username}", name="do_user")
      * @Method("GET")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function doUserAction(Request $request, $username)
     {

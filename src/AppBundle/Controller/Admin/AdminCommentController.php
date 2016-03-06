@@ -15,10 +15,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
 
 /**
+ * @Security("has_role('ROLE_MANAGER')")
  * @Route("/admin")
  */
 class AdminCommentController extends Controller
@@ -53,25 +55,26 @@ class AdminCommentController extends Controller
     /**
      * @Route("/comment_enable/{id}", name="admin_enable_comment")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
+       // $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
         $em = $this->getDoctrine()->getEntityManager();
         $em->flush();
-        return $this->redirectToRoute('admin_comments', array('comments' => $comments,
-            ));
+        return $this->redirectToRoute('admin_comments');
     }
 
     /**
      * @Route("/comment/delete/{id}", name="admin_comment_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
      */
     public function deleteCommentAction(Request $request, Comment $comment)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
+        //$comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
 
         $form = $this->deleteForm($comment);
         $form->handleRequest($request);
@@ -80,8 +83,7 @@ class AdminCommentController extends Controller
             $entityManager->remove($comment);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('admin_comments', array('comments' => $comments,
-            ));
+        return $this->redirectToRoute('admin_comments');
     }
 
     private function deleteForm(Comment $comment)
@@ -99,6 +101,7 @@ class AdminCommentController extends Controller
     public function countDisablesCommentsAction(Request $request)
     {
         $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
-        return $this->render("AppBundle:admin/comment:count_disables_comment.html.twig", array("count_disables_comments" => count($comments)));
+        return $this->render("AppBundle:admin/comment:count_disables_comment.html.twig",
+            array("count_disables_comments" => count($comments)));
     }
 }

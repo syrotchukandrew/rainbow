@@ -98,6 +98,7 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/edit/{slug}", name="admin_estate_edit")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('edit', estate)")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function estateEditAction(Estate $estate, Request $request)
@@ -122,6 +123,7 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/delete/{slug}", name="admin_estate_delete")
      * @Method("DELETE")
+     * @Security("is_granted('remove', estate)")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
 
      */
@@ -131,7 +133,6 @@ class AdminEstateController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-
             $entityManager->remove($estate);
             $entityManager->flush();
         }
