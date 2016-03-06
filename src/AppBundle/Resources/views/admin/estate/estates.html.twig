@@ -26,7 +26,7 @@
                                      src={{ asset("#{estate.files[0].path}") | imagine_filter('small') }} alt="foto">
                             {% endif %}
                         </td>
-                        <td>{{ estate.category.title }}</td>
+                        <td>{{ estate.category.title|trans }}</td>
                         <td>{{ estate.price }}</td>
                         <td>{{ estate.createdAt.date|date("d F Y H:i:s") }}</td>
                         <td>{{ estate.district.title }}</td>

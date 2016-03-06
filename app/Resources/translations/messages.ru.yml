@@ -31,53 +31,44 @@ site:
             buy: Продажа коммерции
     recommend: Посоветуй друзьям
     summary: Краткое описание
-    description:
     more: Подробнее
     num_comments: %count% коментар|%count% коментаря|%count% коментарів
-    home: Додому
-    sing_up: Реєстрація
-    sing_in: Вхід
-    admin: Адміністрування
-    blog_search: Пошук
-    print_search: Почніть друкувати, будь ласка:
-    new: Ви можете створити нову статтю
-    add: Додати статтю
-    cloud_of_tags: Хмара тегів
-    average_rating: Середня оцінка:
-    count_of_voices: Кількість голосів:
-    tags: Теги
-    popular_articles: Популярні статті
-    last_comments: Останні коментарі
+    exclusive_estates: Ексклюзивные объекты
+
 security:
-    username: Имя
+    username: Имя пользователя
     password: Пароль
+    repeat_password: Повторите пароль
+    register: Зарегистрировать
+    login_form: Авторизация
     login: Войти
-    submit: Отправить
+    login_social: Войти через социальные сети:
     logout: Выйти
     registration: Регистрация
     admin: Панель администрирования
+    user: Пользователь
+    user_email: Електронная почта
+
 admin:
-    article: Стаття
-    tag: Тег
-    user: Користувач
-    tag_add: Додати тег
-    back_to_list: Повернутись до списку
-    title: Назва
-    action: Дія
-    user_locked: Заблокувати
-    user_unlocked: Розблокувати
-    make_moderator: Зробити модератором
-    remove_moderator: Видалити модератора
-    username: Імя користувача
-    user_email: Електронна скринька користувача
-    id: Ідентифікатор
-    post:
-        foto: Фото
-        published_at: Опубліковано
-        update_at: Оновлено
-        show: Показати
-        edit: Редагувати
-        summary: Опис:
-        content: Зміст:
+    back_to_list: Назад к списку
+    title: Название
+    action: Действие
+    user_locked: Заблоктровать
+    user_unlocked: Разблоктровать
+    make_manager: Назначить менеджером
+    make_user: Сделать пользователем
+    id: Идентификатор
+
+common:
+    submit: Отправить
+    foto: Фото
+    published_at: Опубликовано
+    update_at: Редактировано
+    show: Показать
+    edit: Редактировать
+    content: Содержание
+    add: Добавить
+    description: Описание
+
 
 

@@ -2,7 +2,7 @@
 
 {% block panel %}
 
-    <h1>Edit estate</h1>
+    <h1>Редактировать объекты</h1>
     {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
 
 
@@ -13,7 +13,7 @@
 
     {{ include('@App/admin/estate/_form.html.twig', {
         form: edit_form,
-        button_label: 'Save',
+        button_label: 'Сохранить',
         include_back_to_home_link: true,
     }, with_context = false) }}
 

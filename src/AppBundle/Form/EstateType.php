@@ -40,14 +40,10 @@ class EstateType extends AbstractType
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
+                'choice_translation_domain' => true,
                 'choices' => $this->categoryChoices,
                 'label'    => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',
-                /*'query_builder' => function(\Gedmo\Tree\Entity\Repository\NestedTreeRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->where('c.lvl = :user')
-                        ->setParameter('user', 1);
-                }*/
             ))
             ->add('imageFile', FileType::class, array(
                'multiple' => true,
