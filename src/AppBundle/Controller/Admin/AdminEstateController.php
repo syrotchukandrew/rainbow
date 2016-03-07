@@ -70,13 +70,14 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/new", name="admin_estate_new")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('create', estate)")
      */
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $estate = new Estate();
         $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
-        //$this->denyAccessUnlessGranted('create', $estate);
+        $this->denyAccessUnlessGranted('create', $estate);
         $form = $this->createForm(EstateType::class, $estate, array('categories_choices' => $finalCategories))
         ->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
@@ -104,6 +105,7 @@ class AdminEstateController extends Controller
     public function estateEditAction(Estate $estate, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $this->denyAccessUnlessGranted('edit', $estate);
         $editForm = $this->createForm(EstateType::class, $estate);
         $deleteForm = $this->createDeleteForm($estate);
         $editForm->handleRequest($request);
@@ -129,6 +131,7 @@ class AdminEstateController extends Controller
      */
     public function estateDeleteAction(Request $request, Estate $estate)
     {
+        $this->denyAccessUnlessGranted('delete', $estate);
         $form = $this->createDeleteForm($estate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
