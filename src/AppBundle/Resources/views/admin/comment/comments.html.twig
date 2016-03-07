@@ -1,12 +1,18 @@
 {% extends 'AppBundle:admin:base_admin.html.twig' %}
 {% block panel %}
-    <h1>Comments</h1>
+    <h1>Комментарии</h1>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Неопубликованные</a></li>
+        <li><a href="{{ path('admin_published_comments') }}">Опубликованные</a></li>
+        <li><a href="{{ path('admin_all_comments') }}">Все</a></li>
+
+    </ul>
     <table class="table table-striped">
     <thead>
     <tr>
         <th>Id</th>
-        <th>Content</th>
-        <th>Created At</th>
+        <th>Контент</th>
+        <th>Создан</th>
         <th><i class="fa fa-cogs"></i>Действия</th>
     </tr>
     </thead>

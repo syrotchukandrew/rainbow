@@ -34,6 +34,8 @@ site:
     more: More
     num_comments: %count% comment|%count% comments
     exclusive_estates: Exlusive estates
+    sing_in_please: Sing in, please, to leave a comment and a rate
+    flush_comment: The comment is successfully written. After rewise by moderator, will be published.
 
 security:
     username: Username

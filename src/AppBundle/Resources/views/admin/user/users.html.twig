@@ -13,8 +13,8 @@
                     <th>Електронная почта</th>
                     <th>Последнее посещение</th>
                     <th>Состояние</th>
-                    <th>Заблокировать\Разблокировать</th>
-                    <th>Менеджер\Пользователь</th>
+                    <th>Заблокировать\ Разблокировать</th>
+                    <th>Менеджер\ Пользователь</th>
                     <th>Объэкты менеджера</th>
                 </tr>
                 </thead>
@@ -50,22 +50,22 @@
                             <td>
                                 {% if user.isAccountNonLocked() %}
                                     <a href="{{ path('lock_user', { username: user.username }) }}"
-                                       class="btn btn-primary btn-danger">
+                                       class="btn btn-sm btn-danger">
                                         <i class="fa fa-edit"></i> Заблокировать</a>
                                 {% else %}
                                     <a href="{{ path('unlock_user', { username: user.username }) }}"
-                                       class="btn btn-primary btn-success">
+                                       class="btn btn-sm btn-success">
                                         <i class="fa fa-edit"></i> Разблоктровать </a>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if "ROLE_MANAGER" not in user.roles %}
                                     <a href="{{ path('do_manager', { username: user.username }) }}"
-                                       class="btn btn-primary btn-success">
+                                       class="btn btn-sm btn-success">
                                         <i class="fa fa-edit"></i> Назанчить менеджером </a>
                                 {% elseif "ROLE_MANAGER" in user.roles %}
                                     <a href="{{ path('do_user', { username: user.username }) }}"
-                                       class="btn btn-primary btn-danger">
+                                       class="btn btn-sm btn-danger">
                                         <i class="fa fa-edit"></i> Сделать пользователем</a>
                                 {% endif %}
                             </td>
@@ -74,7 +74,7 @@
                                     <p>-</p>
                                 {% elseif "ROLE_MANAGER" in user.roles %}
                                     <a href="{{ path('admin_estates_manager', { slug: user.username }) }}"
-                                       class="btn btn-primary btn-danger">
+                                       class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i> Показать</a>
                                 {% endif %}
                             </td>
