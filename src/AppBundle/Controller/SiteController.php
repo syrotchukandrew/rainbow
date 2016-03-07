@@ -9,10 +9,13 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Estate;
+use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -58,18 +61,33 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
-//       dump($estate);
-//        return new Response('ok');
-        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate[0]));
-    }
-
-    /**
-     * @Route("/slideshow", name="slideshow")
-     */
-    public function gallerySlideAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $estate = $em->getRepository('AppBundle:Estate')->findOneBy(array('id' => 1));
-        return $this->render("AppBundle::slideshow.html.twig", array('estate' => $estate));
+        // comment form
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'method' => 'POST',
+        ])
+            ->add('addComment', SubmitType::class, ['label' => 'Save',
+                'attr' => ['class' => 'btn btn-primary']
+            ]);
+        if ('POST' === $request->getMethod()) {
+            $commentForm->handleRequest($request);
+            if ($commentForm->get('addComment')->isClicked()) {
+                if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+                    $comment->setEstate($estate[0]);
+                    if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+                       $comment->setEnabled(true);
+                        } else {
+                            $comment->setEnabled(false);
+                        }
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($comment);
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
+                    return $this->redirectToRoute('show_estate', array('slug' => $estate[0]->getSlug()));
+                }
+            }
+        }
+        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate[0],
+            'commentForm' => $commentForm->createView()));
     }
 }

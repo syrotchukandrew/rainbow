@@ -6,7 +6,7 @@
     <div class="col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'site.description'|trans }}
+                <i class="glyphicon glyphicon-stats"></i> {{ 'common.description'|trans }}
             </div>
             <div class="panel-body">
                 {{ estate.description }}
@@ -16,10 +16,39 @@
             <div class="panel-heading">
                 <i class="glyphicon glyphicon-stats"></i> Комментарии
             </div>
+            <br>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+
+                    <form role="form" , method="post">
+                        <div class="form">
+                            <div class="form-group">
+                                {% form_theme commentForm 'bootstrap_3_layout.html.twig' %}
+                                {{ form(commentForm) }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
+                <hr>
+            {% endif %}
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% for comment in estate.comments %}
                 {% if comment.enabled %}
-                    <div class="panel-body">
-                        {{ comment.content }}
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ comment.createdBy }}
+                                <small>{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+                            </h4>
+                            {{ comment.content }}
+                        </div>
                     </div>
                     <hr>
                 {% endif %}

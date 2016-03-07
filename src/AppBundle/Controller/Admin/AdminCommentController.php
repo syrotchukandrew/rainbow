@@ -38,7 +38,36 @@ class AdminCommentController extends Controller
             20
         );
         return $this->render('AppBundle::admin/comment/comments.html.twig', array('pagination' => $pagination));
+    }
 
+    /**
+     * @Route("/comments/all", name="admin_all_comments")
+     */
+    public function allCommentsAction(Request $request)
+    {
+        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->findAll();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $comments,
+            $request->query->getInt('page', 1),
+            20
+        );
+        return $this->render('AppBundle::admin/comment/all_comments.html.twig', array('pagination' => $pagination));
+    }
+
+    /**
+     * @Route("/comments/published", name="admin_published_comments")
+     */
+    public function publishedCommentsAction(Request $request)
+    {
+        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getEnabledComments();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $comments,
+            $request->query->getInt('page', 1),
+            20
+        );
+        return $this->render('AppBundle:admin/comment:published_comments.html.twig', array('pagination' => $pagination));
     }
 
     /**
@@ -60,7 +89,6 @@ class AdminCommentController extends Controller
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
-       // $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
         $em = $this->getDoctrine()->getEntityManager();
         $em->flush();
         return $this->redirectToRoute('admin_comments');
@@ -74,8 +102,6 @@ class AdminCommentController extends Controller
      */
     public function deleteCommentAction(Request $request, Comment $comment)
     {
-        //$comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
-
         $form = $this->deleteForm($comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
