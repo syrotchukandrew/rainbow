@@ -1,0 +1,14 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+
+{% block panel %}
+    <h1>Удалить категорию</h1>
+    <p>Эта форма позволяет удалять категории. </p>
+    <p>Удаление категории приведет к удалению всех объектом, которые относятся к этой категории!!!</p>
+    {% form_theme delete_form 'bootstrap_3_horizontal_layout.html.twig' %}
+    {{ form_start(delete_form) }}
+    {{ form_row(delete_form.title) }}
+        <input type="submit" value="Удалить" class="btn btn-default"/>
+        <a href="{{ path('admin_categories') }}" class="btn btn-default">Назад к списку</a>
+    {{ form_end(delete_form) }}
+{% endblock %}
+

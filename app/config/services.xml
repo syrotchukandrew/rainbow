@@ -43,6 +43,11 @@
            <argument type="service" id="doctrine"/>
        </service>
 
+       <service id="app.estate_voter" class="AppBundle\Security\EstateVoter" public="false">
+           <argument type="service" id="security.access.decision_manager"/>
+           <tag name="security.voter"/>
+       </service>
+
    </services>
 
 </container>
