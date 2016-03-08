@@ -22,6 +22,7 @@ security:
                 provider: fos_userbundle
                 check_path: security_login_check
                 login_path: security_login_form
+                failure_path: security_login_form
                 csrf_token_generator: security.csrf.token_manager
 
             oauth:
@@ -29,9 +30,9 @@ security:
                     facebook:           "/login/check-facebook"
                     google:             "/login/check-google"
                     vkontakte:          "/login/check-vkontakte"
-                login_path:        /login
+                login_path:        security_login_form
                 use_forward:       false
-                failure_path:      /login
+                failure_path:      security_login_form
 
                 oauth_user_provider:
                     service: my.custom.user_provider

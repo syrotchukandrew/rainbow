@@ -34,11 +34,6 @@ class Category
     private $title;
 
     /**
-     * @ORM\Column(name="url", type="string")
-     */
-    private $url;
-
-    /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -272,29 +267,6 @@ class Category
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     * @return Category
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string 
-     */
-    public function getUrl()
-    {
-        return $this->url;
     }
 
     /**
