@@ -18,7 +18,7 @@ class EstateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->categoryChoices = $options['categories_choices'];
+        $estate = $builder->getData();
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
@@ -36,22 +36,22 @@ class EstateType extends AbstractType
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle:District',
                 'choice_label' => 'title',
-                'label'    => 'Выберите район из выпадающего списка',
+                'label' => 'Выберите район из выпадающего списка',
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
                 'choice_translation_domain' => true,
-                'choices' => $this->categoryChoices,
-                'label'    => 'Выберите категорию из выпадающего списка',
+                'choices' => $options['categories_choices'],
+                'label' => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',
             ))
             ->add('imageFile', FileType::class, array(
-               'multiple' => true,
-                'label'    => 'Добавте фото недвижимости',
-                'required' => false
+                'multiple' => true,
+                'label' => 'Добавте фото недвижимости',
+                'required' => false,
             ))
             ->add('rent', CheckboxType::class, array(
-                'label'    => 'Этот эбъект для оренды?',
+                'label' => 'Этот эбъект для оренды?',
                 'required' => false,
             ))
             ->add('exclusive', CheckboxType::class, array(
@@ -60,14 +60,29 @@ class EstateType extends AbstractType
             ))
             ->add('floor', FloorType::class, array(
                 'property_path' => 'floor',
-                'label'    => 'Этажность для квартир во многоэтажках',
+                'label' => 'Этажность для квартир во многоэтажках',
             ))
             ->add('price', MoneyType::class, array(
-                'label'    => 'Цена в гривнах',
+                'label' => 'Цена в гривнах',
                 'grouping' => true,
                 'currency' => 'UAH',
             ));
-        ;
+
+        if ($options['isDeleteImages']) {
+            $builder
+                ->add('files', EntityType::class, array(
+                    'class' => 'AppBundle:File',
+                    'query_builder' => function (\Doctrine\ORM\EntityRepository $repository) use ($estate) {
+                        return $repository->createQueryBuilder('file')
+                            ->where('file.estate = ?1')->setParameter(1, $estate);
+                    },
+                    'multiple' => true,
+                    'choice_label' => 'id',
+                    'label' => 'Фото на сайте',
+                    'required' => false,
+                    'expanded' => true,
+                ));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -75,6 +90,7 @@ class EstateType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Estate',
             'categories_choices' => null,
+            'isDeleteImages' => null,
         ));
     }
 

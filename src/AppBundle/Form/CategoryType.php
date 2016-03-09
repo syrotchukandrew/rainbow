@@ -11,17 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryType extends AbstractType
 {
-   /* public function __construct($isForm_cat)
-    {
-        $this->isForm_cat = $isForm_cat;
-    }*/
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Название новой категории',
+                'label' => 'Название категории',
             ));
 
         if ($options['isForm_cat']) {
@@ -33,7 +28,6 @@ class CategoryType extends AbstractType
                     'label' => 'Выберите родительскую категорию из выпадающего списка',
                 ));
         }
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

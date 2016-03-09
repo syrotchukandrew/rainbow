@@ -8,20 +8,26 @@
                 {% endfor %}
                 {{ category.title|trans }}</td>
             <td>
+                {% if category.lvl != 0 %}
                     <a href="{{ path('admin_category_up', {'slug': category.slug}) }}">
-                        <img src="{{ asset('images/admin/arrow-up.png') }}" alt="Вверх" />
+                        <img src="{{ asset('images/admin/arrow-up.png') }}" alt="Вверх"/>
                     </a>
+                {% endif %}
             </td>
             <td>
-                <a href="{{ path('admin_category_down', {'slug': category.slug}) }}">
-                    <img src="{{ asset('images/admin/arrow-down.png') }}" alt="Вниз" />
-                </a>
+                {% if category.lvl != 0 %}
+                    <a href="{{ path('admin_category_down', {'slug': category.slug}) }}">
+                        <img src="{{ asset('images/admin/arrow-down.png') }}" alt="Вниз"/>
+                    </a>
+                {% endif %}
             </td>
             <td>
                 <div class="item-actions">
-                    <a href="{{ path('admin_category_delete', { 'slug': category.slug }) }}" class="btn btn-sm btn-default">
+                    <a href="{{ path('admin_category_delete', { 'slug': category.slug }) }}"
+                       class="btn btn-sm btn-default">
                         Удалить </a>
-                    <a href="{{ path('admin_category_edit', { 'slug': category.slug }) }}" class="btn btn-sm btn-default">
+                    <a href="{{ path('admin_category_edit', { 'slug': category.slug }) }}"
+                       class="btn btn-sm btn-default">
                         <i class="fa fa-edit"></i> Изменить </a>
                 </div>
             </td>

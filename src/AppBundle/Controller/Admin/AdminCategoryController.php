@@ -42,7 +42,7 @@ class AdminCategoryController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $repo = $entityManager->getRepository('AppBundle\Entity\Category');
         $category = new Category();
-        $form = $this->createForm(CategoryType::class);
+        $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $category->setParent(null);
@@ -96,9 +96,11 @@ class AdminCategoryController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $repo = $entityManager->getRepository('AppBundle\Entity\Category');
-        $editForm = $this->createForm(CategoryType::class, $category);
+        $editForm = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $parent = $editForm['parent']->getData();
+            $category->setParent($parent);
             $entityManager->persist($category);
             $repo->verify();
             $repo->recover();

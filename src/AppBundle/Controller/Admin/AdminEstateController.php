@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -70,7 +71,6 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/new", name="admin_estate_new")
      * @Method({"GET", "POST"})
-     * @Security("is_granted('create', estate)")
      */
     public function newEstateAction(Request $request)
     {
@@ -91,8 +91,8 @@ class AdminEstateController extends Controller
             return $this->redirectToRoute($nextAction);
         }
         return $this->render('@App/admin/estate/new_estate.html.twig', array(
-            'estate' => $estate,
             'form' => $form->createView(),
+            'estate' => $estate
         ));
     }
 
@@ -106,7 +106,9 @@ class AdminEstateController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('edit', $estate);
-        $editForm = $this->createForm(EstateType::class, $estate);
+        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $editForm = $this->createForm(EstateType::class, $estate, array(
+            'categories_choices' => $finalCategories, 'isDeleteImages' => true));
         $deleteForm = $this->createDeleteForm($estate);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
