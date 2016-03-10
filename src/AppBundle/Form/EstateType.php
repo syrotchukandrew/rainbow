@@ -16,6 +16,8 @@ use AppBundle\Form\FloorType;
 
 class EstateType extends AbstractType
 {
+    private  $categoryChoices;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->categoryChoices = $options['categories_choices'];
@@ -51,7 +53,7 @@ class EstateType extends AbstractType
                 'required' => false
             ))
             ->add('rent', CheckboxType::class, array(
-                'label'    => 'Этот эбъект для оренды?',
+                'label'    => 'Этот эбъект для аренды?',
                 'required' => false,
             ))
             ->add('exclusive', CheckboxType::class, array(
