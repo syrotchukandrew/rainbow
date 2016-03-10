@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,14 +17,24 @@ class CategoryType extends AbstractType
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
                 'label' => 'Название категории',
-            ))
-        ;
+            ));
+
+        if ($options['isForm_cat']) {
+            $builder
+                ->add('parent', EntityType::class, array(
+                    'class' => 'AppBundle:Category',
+                    'choice_translation_domain' => true,
+                    'choice_label' => 'title',
+                    'label' => 'Выберите родительскую категорию из выпадающего списка',
+                ));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Category',
+            'isForm_cat' => null,
         ));
     }
 

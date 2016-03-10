@@ -4,18 +4,25 @@
 
     <h1>Редактировать объекты</h1>
     {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
-
-
+    {{ form_start(edit_form) }}
+    <p>Фото наявные на сайте</p>
+<div class="container-fluid">
     {% if estate.files[0] %}
-        <img class="img-responsive"
-             src={{ asset("#{estate.files[0].path}") | imagine_filter('medium') }} alt="foto">
+        {% for foto in estate.files %}
+            <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
+                <h6>{{ foto.id }}</h6>
+            </div>
+        {% endfor %}
     {% endif %}
-
+</div>
+    <p>Для не отображения фото на сайте необходимо убрать галочку напротив соответствующего фото</p>
+    {{ form_row(edit_form.files) }}
+    {{ form_row(edit_form.imageFile) }}
     {{ include('@App/admin/estate/_form.html.twig', {
         form: edit_form,
         button_label: 'Сохранить',
         include_back_to_home_link: true,
     }, with_context = false) }}
-
+    {{ form_end(edit_form) }}
 {% endblock %}
 

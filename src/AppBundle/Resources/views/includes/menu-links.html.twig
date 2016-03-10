@@ -3,7 +3,7 @@
     {% if not link.__children %}
         <li class="ind"><a href="{{ path('show_category', {'slug': link.title}) }}">{{ title|trans }}</a>
     {% else %}
-        <li class="ind"><a href="#">{{ title|trans }} <span class="fa arrow"></span></a>
+        <li class="ind"><a href="#">{{ title|trans }}<span class="fa arrow"></span></a>
     {% endif %}
     {% if link.__children %}
         <ul class="nav">
