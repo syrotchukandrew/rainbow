@@ -99,19 +99,18 @@ class SiteController extends Controller
     {
         $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null,  array(
-           // 'method' => 'GET',
+            'action' => $this->generateUrl('site_search'),
             'categories_choices' => $finalCategories
         ))
             ->add('search', SubmitType::class, ['label' => 'Искать',
                 'attr' => ['class' => 'btn btn-default']
             ]);
 
-        if ($request->getMethod() == 'POST') {
             $searchForm->handleRequest($request);
             if ($searchForm->isValid() && $searchForm->isSubmitted()) {
                 return $this->redirectToRoute('success_search');
             }
-        }
+
         return $this->render('@App/site/search.html.twig', array(
             'form' => $searchForm->createView(),
         ));
