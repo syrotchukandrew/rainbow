@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Estate;
 use AppBundle\Form\CommentType;
+use AppBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -89,5 +90,31 @@ class SiteController extends Controller
         }
         return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate[0],
             'commentForm' => $commentForm->createView()));
+    }
+
+    /**
+     * @Route("/search", name="site_search")
+     * */
+    public function searchAction(Request $request)
+    {
+        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $searchForm = $this->createForm(SearchType::class, null,  array(
+            'method' => 'GET',
+            'categories_choices' => $finalCategories
+        ))
+            ->add('search', SubmitType::class, ['label' => 'Искать',
+                'attr' => ['class' => 'btn btn-default']
+            ]);
+
+        if ($request->getMethod() == 'GET') {
+            $searchForm->handleRequest($request);
+            if ($searchForm->isValid() && $searchForm->isSubmitted()) {
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+        return $this->render('@App/site/search.html.twig', array(
+            'form' => $searchForm->createView(),
+        ));
     }
 }

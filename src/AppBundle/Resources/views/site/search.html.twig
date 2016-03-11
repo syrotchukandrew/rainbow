@@ -1,0 +1,16 @@
+{#
+
+{{ form_start(form) }}
+
+
+{{ form_widget(form)}}
+{{ form_end(form)}}
+#}
+
+
+<form onsubmit="return false" oninput="level.value = flevel.valueAsNumber">
+    <label for="flying">Flying Skill Level</label>
+    <input name="flevel" id="flying" type="range" min="0" max="100" value="0">
+    <input name="level">0</input>/100
+</form>
+
