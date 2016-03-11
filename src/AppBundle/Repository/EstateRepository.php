@@ -54,4 +54,37 @@ class EstateRepository extends EntityRepository
 
     }
 
+    public function getEstatesWithAll() {
+        return $this->createQueryBuilder('estate')
+            ->select('estate, district, file, category')
+            ->orderBy('estate.createdAt', 'DESC')
+            ->leftJoin('estate.district', 'district')
+            ->leftJoin('estate.category', 'category')
+            ->leftJoin('estate.files', 'file')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getOneEstateWithAll($slug) {
+        return $this->createQueryBuilder('estate')
+            ->select('estate, district, file, category, comment')
+            ->where('estate.slug = :slug')
+            ->leftJoin('estate.district', 'district')
+            ->leftJoin('estate.category', 'category')
+            ->leftJoin('estate.comments', 'comment')
+            ->leftJoin('estate.files', 'file')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getEstatesOfManager($manager) {
+        return $this->createQueryBuilder('estate')
+            ->select('estate, file')
+            ->where('estate.createdBy = :manager')
+            ->leftJoin('estate.files', 'file')
+            ->setParameter('manager', $manager)
+            ->getQuery()
+            ->getResult();
+    }
 }

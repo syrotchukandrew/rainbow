@@ -121,7 +121,7 @@ class Estate
 
     /**
      * @var array
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="estate")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="estate", orphanRemoval=true)
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
