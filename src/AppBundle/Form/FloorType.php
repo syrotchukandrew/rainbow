@@ -18,7 +18,7 @@ class FloorType extends AbstractType
                 'label'    => 'На каком этаже находится квартира',
 
             ))
-            ->add('floor_count', IntegerType::class, array(
+            ->add('count_floor', IntegerType::class, array(
                 'required' => false,
                 'label'    => 'Сколько этажей во многоэтажке',
 

@@ -24,7 +24,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
     public function loadUserByUsername($username)
     {
-       /* $user = $this->createQueryBuilder('u')
+        $user = $this->createQueryBuilder('u')
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
@@ -39,6 +39,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             throw new UsernameNotFoundException($message);
         }
 
-        return $user;*/
+        return $user;
     }
 }

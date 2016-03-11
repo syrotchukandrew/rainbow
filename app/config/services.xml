@@ -48,6 +48,11 @@
            <tag name="security.voter"/>
        </service>
 
+       <service id="app.image_subscriber" class="AppBundle\EventListener\FileCacheRemoveEventSubscriber">
+           <tag name="doctrine.event_subscriber" connection="default"/>
+           <argument type="service" id="liip_imagine.cache.manager"/>
+       </service>
+
    </services>
 
 </container>

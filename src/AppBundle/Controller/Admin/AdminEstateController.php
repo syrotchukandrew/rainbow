@@ -30,11 +30,11 @@ class AdminEstateController extends Controller
         $districts = $this->getDoctrine()->getRepository('AppBundle:District')->findAll();
         $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
         $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
-        return $this->render('AppBundle::admin/index.html.twig', array('count_disabled_comments' => count($comments),
+        return $this->render('AppBundle::admin/index.html.twig', array(
+            'count_disabled_comments' => count($comments),
             'count_estates' => count($estates),
             'count_users' => count($users),
             'count_districts' => count($districts),
-            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..'),
         ));
     }
 
@@ -44,7 +44,7 @@ class AdminEstateController extends Controller
      */
     public function estatesAction(Request $request)
     {
-        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
+        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->getEstatesWithAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $estates,
@@ -57,13 +57,13 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/show/{slug}", name="admin_estate_show")
      * @Method("GET")
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
-    public function estateShowAction(Estate $estate, Request $request)
+    public function estateShowAction($slug, Request $request)
     {
+        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->getOneEstateWithAll($slug);
         $deleteForm = $this->createDeleteForm($estate);
         return $this->render('@App/admin/estate/show_estate.html.twig', array(
-            'estate'        => $estate,
+            'estate' => $estate,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -79,7 +79,7 @@ class AdminEstateController extends Controller
         $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
         $this->denyAccessUnlessGranted('create', $estate);
         $form = $this->createForm(EstateType::class, $estate, array('categories_choices' => $finalCategories))
-        ->add('saveAndCreateNew', SubmitType::class);
+            ->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $estate = $this->get('app.file_manager')->fileManager($estate);
@@ -99,11 +99,10 @@ class AdminEstateController extends Controller
     /**
      * @Route("/estate/edit/{slug}", name="admin_estate_edit")
      * @Method({"GET", "POST"})
-     * @Security("is_granted('edit', estate)")
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
-    public function estateEditAction(Estate $estate, Request $request)
+    public function estateEditAction($slug, Request $request)
     {
+        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->getOneEstateWithAll($slug);
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('edit', $estate);
         $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
@@ -118,8 +117,8 @@ class AdminEstateController extends Controller
             return $this->redirectToRoute('admin_estate_show', array('slug' => $estate->getSlug()));
         }
         return $this->render('@App/admin/estate/edit_estate.html.twig', array(
-            'estate'        => $estate,
-            'edit_form'   => $editForm->createView(),
+            'estate' => $estate,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -129,16 +128,17 @@ class AdminEstateController extends Controller
      * @Method("DELETE")
      * @Security("is_granted('remove', estate)")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
-
      */
     public function estateDeleteAction(Request $request, Estate $estate)
     {
-        $this->denyAccessUnlessGranted('delete', $estate);
+        $this->denyAccessUnlessGranted('remove', $estate);
+        //$cacheManager = $this->container->get('liip_imagine.cache.manager');
         $form = $this->createDeleteForm($estate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($estate);
+            //$cacheManager->remove();
             $entityManager->flush();
         }
         return $this->redirectToRoute('admin_estates');
@@ -149,7 +149,6 @@ class AdminEstateController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_estate_delete', array('slug' => $estate->getSlug())))
             ->setMethod('DELETE')
-            ->getForm()
-            ;
+            ->getForm();
     }
 }

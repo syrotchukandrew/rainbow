@@ -53,8 +53,8 @@ class UserController extends Controller
      */
     public function showEstatesManagerAction(Request $request, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle:Estate')->findBy(array('createdBy' => $slug));
+        $estates = $this->getDoctrine()->getManager()->getRepository('AppBundle:Estate')
+            ->getEstatesOfManager($slug);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $estates,
