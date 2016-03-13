@@ -14,4 +14,13 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
+    public function getCategoriesWithChildren()
+    {
+        return $this->createQueryBuilder('category')
+            ->select('category, children')
+            ->leftJoin('category.children', 'children')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
