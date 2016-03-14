@@ -108,7 +108,9 @@ class SiteController extends Controller
 
             $searchForm->handleRequest($request);
             if ($searchForm->isValid() && $searchForm->isSubmitted()) {
-                return $this->redirectToRoute('success_search');
+                $estates = $this->get('app.search')->searchEstate($searchForm->getData());
+                //return new Response($estates);
+                return $this->render('AppBundle:site:index.html.twig', array('estates' => $estates));
             }
 
         return $this->render('@App/site/search.html.twig', array(
@@ -121,6 +123,7 @@ class SiteController extends Controller
      */
     public function successSearchAction(Request $request)
     {
+
         return new Response('ok');
     }
 }

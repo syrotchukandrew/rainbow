@@ -53,6 +53,10 @@
            <argument type="service" id="liip_imagine.cache.manager"/>
        </service>
 
+       <service id="app.search" class="AppBundle\Utils\SearchManager">
+           <argument type="service" id="doctrine" />
+       </service>
+
    </services>
 
 </container>

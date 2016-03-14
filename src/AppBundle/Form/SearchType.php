@@ -21,7 +21,6 @@ class SearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // $estate = $builder->getData();
         $builder
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
@@ -35,6 +34,7 @@ class SearchType extends AbstractType
                 'placeholder' => 'Выберите район',
                 'choice_label' => 'title',
                 'label' => 'Выберите район из выпадающего списка',
+                'required' => false,
             ))
             ->add('price', ChoiceType::class, array(
                     'placeholder' => 'Выберите цену',
@@ -45,6 +45,7 @@ class SearchType extends AbstractType
                         'больше 50000' => 'more_then_50000',
                     ),
                     'choices_as_values' => true,
+                    'required' => false,
                 )
             );
     }
