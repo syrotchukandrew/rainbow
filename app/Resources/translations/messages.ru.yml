@@ -45,6 +45,10 @@ security:
     login_form: Авторизация
     login: Войти
     login_social: Войти через социальные сети:
+    log:
+        facebook: Войти через Facebook
+        google: Войти через Google
+        vk: Войти через VK
     logout: Выйти
     registration: Регистрация
     admin: Панель администрирования

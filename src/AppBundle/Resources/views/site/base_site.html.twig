@@ -49,7 +49,7 @@
                                         class="glyphicon glyphicon-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                                     <li><a href="{{ path('logout') }}">{{ 'security.logout'|trans }}</a></li>
                                 {% else %}
                                     <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>

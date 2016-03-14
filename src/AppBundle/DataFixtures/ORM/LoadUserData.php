@@ -38,7 +38,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $user_admin = new User();
         $user_admin->setUsername('user_admin');
-        $user_admin->setEmail('user_admin@rainbow.com');
+        $user_admin->setEmail('qweasz@ukr.net');
         $user_admin->setRoles(array('ROLE_ADMIN'));
         $user_admin->setEnabled(true);
         $encodedPassword = $passwordEncoder->encodePassword($user_admin, 'qweasz');
