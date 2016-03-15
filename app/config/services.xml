@@ -57,6 +57,9 @@
            <argument type="service" id="doctrine" />
        </service>
 
+       <service id="app.check_floor" class="AppBundle\Utils\EstateManager">
+       </service>
+
    </services>
 
 </container>

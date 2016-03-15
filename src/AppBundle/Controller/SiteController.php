@@ -109,7 +109,7 @@ class SiteController extends Controller
             $searchForm->handleRequest($request);
             if ($searchForm->isValid() && $searchForm->isSubmitted()) {
                 $estates = $this->get('app.search')->searchEstate($searchForm->getData());
-                //return new Response($estates);
+               // return new Response();
                 return $this->render('AppBundle:site:index.html.twig', array('estates' => $estates));
             }
 

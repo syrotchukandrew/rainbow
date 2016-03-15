@@ -26,14 +26,19 @@ class SearchType extends AbstractType
                 'class' => 'AppBundle:Category',
                 'choice_translation_domain' => true,
                 'choices' => $options['categories_choices'],
-                'label' => 'Выберите категорию из выпадающего списка',
+                'label' => 'Категория',
                 'choice_label' => 'title',
             ))
+            /*->add('except_floor', CheckboxType::class, array(
+                'label' => 'Исключить первый/последний этажи',
+                'required' => false,
+
+            ))*/
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle:District',
                 'placeholder' => 'Выберите район',
                 'choice_label' => 'title',
-                'label' => 'Выберите район из выпадающего списка',
+                'label' => 'Район',
                 'required' => false,
             ))
             ->add('price', ChoiceType::class, array(

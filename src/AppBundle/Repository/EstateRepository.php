@@ -101,13 +101,15 @@ class EstateRepository extends EntityRepository
                 LEFT JOIN e.district d
                 LEFT JOIN e.files f
                 LEFT JOIN e.category c
-                WHERE (:id_district is null or d.id = :id_district)
-                AND (c.id = :id_category)
+                WHERE (c.id = :id_category)
+                AND (e.exclusive = :except_floor)
+                AND (:id_district is null or d.id = :id_district)
                 AND (e.price >= :price_min)
                 AND (:price_max is null or e.price <= :price_max)
             ');
         $query->setParameter('id_district', $id_district);
         $query->setParameter('id_category', $id_category);
+        $query->setParameter('except_floor', false);
         $query->setParameter('price_min', $price_min);
         $query->setParameter('price_max', $price_max);
         return $query->getResult();

@@ -41,7 +41,9 @@ class SearchManager
             $id_district = null;
         }
         $id_category = $data['category']->getId();
-        $estates = $this->doctrine->getRepository('AppBundle:Estate')->findEstatesFromForm($id_category, $id_district, $price_min, $price_max);
+        //$except_floor = $data['except_floor'];
+        $estates = $this->doctrine->getRepository('AppBundle:Estate')
+            ->findEstatesFromForm($id_category, $id_district, $price_min, $price_max);
         return $estates;
 
     }

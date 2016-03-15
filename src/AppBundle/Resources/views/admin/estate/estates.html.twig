@@ -21,7 +21,7 @@
                     <tr>
                         <td>{{ estate.title }}</td>
                         <td>
-                            {% if estate.files[0] %}
+                            {% if estate.files[0] is defined %}
                                 <img class="img-responsive"
                                      src={{ asset("#{estate.files[0].path}") | imagine_filter('small') }} alt="foto">
                             {% endif %}
