@@ -29,11 +29,11 @@ class SearchType extends AbstractType
                 'label' => 'Категория',
                 'choice_label' => 'title',
             ))
-            /*->add('except_floor', CheckboxType::class, array(
+            ->add('except_floor', CheckboxType::class, array(
                 'label' => 'Исключить первый/последний этажи',
                 'required' => false,
 
-            ))*/
+            ))
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle:District',
                 'placeholder' => 'Выберите район',
