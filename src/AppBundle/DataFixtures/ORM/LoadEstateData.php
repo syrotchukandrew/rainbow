@@ -61,6 +61,12 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                     $estate->setCategory($this->getReference('category' . $cat));
                     $countFloors = rand(4, 16);
                     $estate->setFloor(array('floor' => rand(1, $countFloors), 'count_floor' => $countFloors));
+                    $floor = $estate->getFloor();
+                    if (($floor['floor'] == 1) || ($floor['floor'] == $floor['count_floor'])) {
+                        $estate->setFirstLastFloor(true);
+                    } else {
+                        $estate->setFirstLastFloor(false);
+                    }
                 } else {
                     $cat = rand(6, 12);
                     $estate->setCategory($this->getReference('category' . $cat));

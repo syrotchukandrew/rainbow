@@ -24,6 +24,7 @@ class EstateRepository extends EntityRepository
         return $query->getResult();
 
     }
+
     public function getEstateFromCategory($slug)
     {
         $em = $this->getEntityManager();
@@ -54,7 +55,8 @@ class EstateRepository extends EntityRepository
 
     }
 
-    public function getEstatesWithAll() {
+    public function getEstatesWithAll()
+    {
         return $this->createQueryBuilder('estate')
             ->select('estate, district, file, category')
             ->orderBy('estate.createdAt', 'DESC')
@@ -65,7 +67,8 @@ class EstateRepository extends EntityRepository
             ->getResult();
     }
 
-    public function getOneEstateWithAll($slug) {
+    public function getOneEstateWithAll($slug)
+    {
         return $this->createQueryBuilder('estate')
             ->select('estate, district, file, category, comment')
             ->where('estate.slug = :slug')
@@ -78,7 +81,8 @@ class EstateRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getEstatesOfManager($manager) {
+    public function getEstatesOfManager($manager)
+    {
         return $this->createQueryBuilder('estate')
             ->select('estate, file')
             ->where('estate.createdBy = :manager')
@@ -86,5 +90,28 @@ class EstateRepository extends EntityRepository
             ->setParameter('manager', $manager)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findEstatesFromForm($id_category, $id_district, $price_min, $price_max)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT e, d, c, f
+                FROM AppBundle:Estate e
+                LEFT JOIN e.district d
+                LEFT JOIN e.files f
+                LEFT JOIN e.category c
+                WHERE (c.id = :id_category)
+                AND (e.exclusive = :except_floor)
+                AND (:id_district is null or d.id = :id_district)
+                AND (e.price >= :price_min)
+                AND (:price_max is null or e.price <= :price_max)
+            ');
+        $query->setParameter('id_district', $id_district);
+        $query->setParameter('id_category', $id_category);
+        $query->setParameter('except_floor', false);
+        $query->setParameter('price_min', $price_min);
+        $query->setParameter('price_max', $price_max);
+        return $query->getResult();
     }
 }

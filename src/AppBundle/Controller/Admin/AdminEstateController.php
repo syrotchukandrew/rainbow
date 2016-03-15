@@ -83,6 +83,7 @@ class AdminEstateController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $estate = $this->get('app.file_manager')->fileManager($estate);
+            $this->get('app.check_floor')->setFirstLastFloor($estate);
             $entityManager->persist($estate);
             $entityManager->flush();
             $nextAction = $form->get('saveAndCreateNew')->isClicked()

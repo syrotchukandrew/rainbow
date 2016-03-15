@@ -97,6 +97,12 @@ class Estate
 
     /**
      * @var bool
+     * @ORM\Column(name="first_last_floor", type="boolean", nullable=true)
+     */
+    private $firstLastFloor;
+
+    /**
+     * @var bool
      *
      * @ORM\Column(name="exclusive", type="boolean")
      */
@@ -387,6 +393,22 @@ class Estate
     public function getFloor()
     {
         return $this->floor;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isFirstLastFloor()
+    {
+        return $this->firstLastFloor;
+    }
+
+    /**
+     * @param boolean $firstLastFloor
+     */
+    public function setFirstLastFloor($firstLastFloor)
+    {
+        $this->firstLastFloor = $firstLastFloor;
     }
 
     /**
