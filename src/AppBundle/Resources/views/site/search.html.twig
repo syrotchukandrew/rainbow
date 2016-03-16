@@ -1,14 +1,10 @@
 {% form_theme form 'foundation_5_layout.html.twig' %}
 {{ form_start(form) }}
-{{ form_widget(form)}}
+<table>
+    <tr><td>{{ form(form.category) }}</td><td>{{ form(form.except_floor) }}</td>
+        <td>{{ form(form.district) }}</td><td>{{ form(form.price) }}</td></tr>
+
+
+</table>
+{#{{ form_widget(form)}}#}
 {{ form_end(form)}}
-
-{#
-
-<form onsubmit="return false" oninput="level.value = flevel.valueAsNumber">
-    <label for="flying">Flying Skill Level</label>
-    <input name="flevel" id="flying" type="range" min="0" max="100" value="0">
-    <input name="level">0</input>/100
-</form>
-
-#}

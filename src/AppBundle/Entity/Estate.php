@@ -81,14 +81,6 @@ class Estate
     private $price;
 
     /**
-     * if $rent = false it means estate is for sell
-     * @var bool
-     *
-     * @ORM\Column(name="rent", type="boolean")
-     */
-    private $rent;
-
-    /**
      * @var array
      *
      * @ORM\Column(name="floor", type="array", nullable=true)
@@ -145,7 +137,6 @@ class Estate
         $this->comments = new ArrayCollection();
         $this->files = new ArrayCollection();
         $this->exclusive = false;
-        $this->setRent(false);
     }
 
     /**
@@ -335,41 +326,6 @@ class Estate
     public function getPrice()
     {
         return $this->price;
-    }
-
-    /**
-     * Set rent
-     *
-     * @param boolean $rent
-     * @return Estate
-     */
-    public function setRent($rent)
-    {
-        $this->rent = $rent;
-
-        return $this;
-    }
-
-    /**
-     * Get rent
-     *
-     * @return boolean
-     */
-    public function isForRent()
-    {
-        return $this->rent;
-    }
-
-    /**
-     * Get rent
-     *
-     * @param array $rent
-     * @return Estate
-     */
-    public function getRent()
-    {
-        return $this->rent;
-
     }
 
     /**

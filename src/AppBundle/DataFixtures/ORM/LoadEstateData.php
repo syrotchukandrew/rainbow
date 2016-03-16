@@ -25,7 +25,6 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $quarty = rand(1,4);
             //25% $estate is for rent
             if ($quarty == 4) {
-                $estate->setRent(true);
                 $cat = rand(13, 14);
                 $estate->setCategory($this->getReference('category' . $cat));
             }
@@ -55,7 +54,6 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             // flats - 40%
             // set category
             $quart = rand(0, 9);
-            if ($estate->getRent() == false) {
                 if ($quart <= 3) {
                     $cat = rand(1, 5);
                     $estate->setCategory($this->getReference('category' . $cat));
@@ -71,7 +69,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                     $cat = rand(6, 12);
                     $estate->setCategory($this->getReference('category' . $cat));
                 }
-            }
+
             $manager->persist($estate);
         }
         $manager->flush();
