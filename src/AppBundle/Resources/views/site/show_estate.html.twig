@@ -1,6 +1,20 @@
 {% extends 'AppBundle:site:base_site.html.twig' %}
 {% block panel %}
-    <h1>{{ estate.title }}</h1>
+    <h1>
+        {{ estate.title }}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.hasEstate(estate) %}
+                <a href="{{ path('delete_estate_from_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}" class="btn btn-info btn-sm">
+                    <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.delete_favorites'|trans }}
+                </a>
+                {% else %}
+            <a href="{{ path('add_estate_to_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.add_favorites'|trans }}
+            </a>
+                {% endif %}
+        {% endif %}
+    </h1>
+
     {% include 'AppBundle:includes:deep-minified.html.twig' %}
     <br>
     <div class="col-lg-9">

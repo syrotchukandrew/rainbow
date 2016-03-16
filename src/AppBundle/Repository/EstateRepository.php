@@ -51,7 +51,7 @@ class EstateRepository extends EntityRepository
                 WHERE (e.slug = :slug)
             ');
         $query->setParameter('slug', $slug);
-        return $query->getResult();
+        return $query->getOneOrNullResult();
 
     }
 
@@ -109,7 +109,7 @@ class EstateRepository extends EntityRepository
             ');
         $query->setParameter('id_district', $id_district);
         $query->setParameter('id_category', $id_category);
-        $query->setParameter('except_floor', true);
+        $query->setParameter('except_floor', $except_floor);
         $query->setParameter('price_min', $price_min);
         $query->setParameter('price_max', $price_max);
         return $query->getResult();

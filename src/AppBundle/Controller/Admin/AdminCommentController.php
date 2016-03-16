@@ -122,7 +122,7 @@ class AdminCommentController extends Controller
     }
 
     /**
-     * @Route ("/comment/disables", name="count_disables_comments")
+     * @Route (name="count_disables_comments")
      */
     public function countDisablesCommentsAction(Request $request)
     {

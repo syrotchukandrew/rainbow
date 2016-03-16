@@ -75,6 +75,10 @@ common:
     content: Содержание
     add: Добавить
     description: Описание
+    add_favorites: Добавить в избранное
+    delete_favorites: Удалить из избраного
+    favorite_estates: Ваши избранные объекты
+    save: Сохранить
 
 
 
