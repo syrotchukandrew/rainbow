@@ -79,6 +79,8 @@ common:
     delete_favorites: Удалить из избраного
     favorite_estates: Ваши избранные объекты
     save: Сохранить
+    downloadPDF: Загрузить PDF
+
 
 
 

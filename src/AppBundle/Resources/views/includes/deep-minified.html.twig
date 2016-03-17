@@ -2576,7 +2576,6 @@
         {% for file in estate.files %}
             <div data-p="144.50" style="display: none;">
                 <img data-u="image" src={{ asset(file.path) }}/>
-                {#<img data-u="thumb" src={{ asset(file.path)|imagine_filter('my_blog') }}/>#}
                 <img data-u="thumb" src={{ asset(file.path) }}/>
 
             </div>

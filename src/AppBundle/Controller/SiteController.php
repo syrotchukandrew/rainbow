@@ -148,4 +148,34 @@ class SiteController extends Controller
 
         return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
     }
+
+    /**
+     * @Route("/pdf/{estate}", name = "pdf_estate")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
+     */
+    public function pdfEstateAction(Estate $estate, Request $request)
+    {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'method' => 'POST',
+        ])
+            ->add('addComment', SubmitType::class, ['label' => 'common.save',
+                'attr' => ['class' => 'btn btn-primary']
+            ]);
+        $html = $this->renderView('@App/site/pdf.html.twig', array(
+            'estate'  => $estate,
+            'commentForm' => $commentForm->createView()
+        ));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array(
+                'images' => true,
+            )),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
+    }
 }

@@ -79,5 +79,6 @@ common:
     delete_favorites: Delete from favorites
     favorite_estates: Your favorite estates
     save: Save
+    downloadPDF: Download PDF
 
 

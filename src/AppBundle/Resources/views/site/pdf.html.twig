@@ -1,24 +1,10 @@
-{% extends 'AppBundle:site:base_site.html.twig' %}
-{% block panel %}
+<div class="container">
     <h1>
         {{ estate.title }}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if app.user.hasEstate(estate) %}
-                <a href="{{ path('delete_estate_from_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}" class="btn btn-info btn-sm">
-                    <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.delete_favorites'|trans }}
-                </a>
-                {% else %}
-            <a href="{{ path('add_estate_to_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.add_favorites'|trans }}
-            </a>
-                {% endif %}
-        {% endif %}
-        <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}" class="btn btn-info btn-sm">
-            <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
-        </a>
     </h1>
-
-    {% include 'AppBundle:includes:deep-minified.html.twig' %}
+   {# {% if estate.files[0] %}
+            <img class="img-thumbnail" src={{ absolute_url(asset("#{estate.files[0].path}") | imagine_filter('medium')) }}>
+    {% endif %} #}
     <br>
     <div class="col-lg-9">
         <div class="panel panel-default">
@@ -34,29 +20,6 @@
                 <i class="glyphicon glyphicon-stats"></i> Комментарии
             </div>
             <br>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-
-                    <form role="form" , method="post">
-                        <div class="form">
-                            <div class="form-group">
-                                {% form_theme commentForm 'bootstrap_3_layout.html.twig' %}
-                                {{ form(commentForm) }}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
-                <hr>
-            {% endif %}
-            {% if app.session.flashBag.has('success') %}
-                <div class="alert alert-success">
-                    {% for msg in app.session.flashBag.get('success') %}
-                        {{ msg|trans }}
-                    {% endfor %}
-                </div>
-            {% endif %}
             {% for comment in estate.comments %}
                 {% if comment.enabled %}
                     <div class="media">
@@ -100,4 +63,4 @@
             </div>
         {% endif %}
     </div>
-{% endblock panel %}
+</div>
