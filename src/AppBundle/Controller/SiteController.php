@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Estate;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Category;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -31,6 +32,8 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Homepage");
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -47,11 +50,19 @@ class SiteController extends Controller
 
     /**
      * @Route("/show_category/{slug}", name="show_category")
+     * @ParamConverter("category", class="AppBundle\Entity\Category", options={"mapping": {"slug": "title"}})
      */
-    public function showCategoryAction(Request $request, $slug)
+    public function showCategoryAction(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($slug);
+        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($category->getTitle());
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $node = $category;
+        while ($node) {
+            $breadcrumbs->prependItem($node->getTitle());
+            $node = $node->getParent();
+        }
+        $breadcrumbs->prependItem("Homepage");
 
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
@@ -63,7 +74,14 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
-        // comment form
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $node = $estate->getCategory();
+        $breadcrumbs->prependItem($estate->getTitle());
+        while ($node) {
+            $breadcrumbs->prependItem($node->getTitle());
+            $node = $node->getParent();
+        }
+        $breadcrumbs->prependItem("Homepage");
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment, [
             'method' => 'POST',
