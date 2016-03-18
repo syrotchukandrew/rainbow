@@ -11,3 +11,6 @@ footer {
 .grey {
     color: @gray;
 }
+.clear-both {
+    clear: both;
+}

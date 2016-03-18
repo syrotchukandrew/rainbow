@@ -91,7 +91,7 @@ class SiteController extends Controller
     /**
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Route("/comment/{slug}/new", name = "comment_new")
-     * @Method("POST")
+     * @Method("POST")estates
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function commentNewAction(Estate $estate, Request $request)
@@ -136,8 +136,13 @@ class SiteController extends Controller
         $searchForm->handleRequest($request);
         if ($searchForm->isValid() && $searchForm->isSubmitted()) {
             $estates = $this->get('app.search')->searchEstate($searchForm->getData());
-            // return new Response();
-            return $this->render('AppBundle:site:index.html.twig', array('estates' => $estates));
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $estates,
+                $request->query->getInt('page', 1),
+                5
+            );
+            return $this->render('AppBundle:site:index.html.twig', array('pagination' => $pagination));
         }
 
         return $this->render('@App/site/search.html.twig', array(
