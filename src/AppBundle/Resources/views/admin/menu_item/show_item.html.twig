@@ -1,0 +1,6 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.description }}</p>
+    <a href="{{ path('admin_items') }}"  class="btn btn-default">Назад</a>
+{% endblock panel %}
