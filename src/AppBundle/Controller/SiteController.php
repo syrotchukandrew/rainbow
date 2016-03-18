@@ -10,6 +10,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\MenuItem;
+use AppBundle\Entity\Estate;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Category;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -17,6 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class SiteController extends Controller
 {
@@ -27,6 +32,8 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Homepage");
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -43,11 +50,19 @@ class SiteController extends Controller
 
     /**
      * @Route("/show_category/{slug}", name="show_category")
+     * @ParamConverter("category", class="AppBundle\Entity\Category", options={"mapping": {"slug": "title"}})
      */
-    public function showCategoryAction(Request $request, $slug)
+    public function showCategoryAction(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($slug);
+        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($category->getTitle());
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $node = $category;
+        while ($node) {
+            $breadcrumbs->prependItem($node->getTitle());
+            $node = $node->getParent();
+        }
+        $breadcrumbs->prependItem("Homepage");
 
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
@@ -59,33 +74,36 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
-        // comment form
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $node = $estate->getCategory();
+        $breadcrumbs->prependItem($estate->getTitle());
+        while ($node) {
+            $breadcrumbs->prependItem($node->getTitle());
+            $node = $node->getParent();
+        }
+        $breadcrumbs->prependItem("Homepage");
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment, [
             'method' => 'POST',
         ])
-            ->add('addComment', SubmitType::class, ['label' => 'Save',
+            ->add('addComment', SubmitType::class, ['label' => 'common.save',
                 'attr' => ['class' => 'btn btn-primary']
             ]);
-        if ('POST' === $request->getMethod()) {
             $commentForm->handleRequest($request);
-            if ($commentForm->get('addComment')->isClicked()) {
-                if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-                    $comment->setEstate($estate[0]);
-                    if ($this->getUser()->hasRole('ROLE_ADMIN')) {
-                        $comment->setEnabled(true);
-                    } else {
-                        $comment->setEnabled(false);
-                    }
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($comment);
-                    $em->flush();
-                    $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
-                    return $this->redirectToRoute('show_estate', array('slug' => $estate[0]->getSlug()));
+            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+                $comment->setEstate($estate);
+                if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+                    $comment->setEnabled(true);
+                } else {
+                    $comment->setEnabled(false);
                 }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($comment);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
+                return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
             }
-        }
-        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate[0],
+        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate,
             'commentForm' => $commentForm->createView()));
     }
 
@@ -117,6 +135,9 @@ class SiteController extends Controller
 
     /**
      * @Route(name="show_menu_item")
+     * @Route("/add_favorites/{estate}/{user}", name = "add_estate_to_favorites")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
+     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
      */
     public function showMenuItemAction(Request $request)
     {

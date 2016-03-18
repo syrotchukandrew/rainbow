@@ -45,6 +45,10 @@ security:
     login_form: Авторизация
     login: Войти
     login_social: Войти через социальные сети:
+    log:
+        facebook: Войти через Facebook
+        google: Войти через Google
+        vk: Войти через VK
     logout: Выйти
     registration: Регистрация
     admin: Панель администрирования
@@ -71,6 +75,12 @@ common:
     content: Содержание
     add: Добавить
     description: Описание
+    add_favorites: Добавить в избранное
+    delete_favorites: Удалить из избраного
+    favorite_estates: Ваши избранные объекты
+    save: Сохранить
+    downloadPDF: Загрузить PDF
+
 
 
 

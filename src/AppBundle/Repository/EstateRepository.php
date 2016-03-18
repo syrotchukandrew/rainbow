@@ -43,15 +43,16 @@ class EstateRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
-                SELECT e, d, com, f
+                SELECT e, d, com, f, cat
                 FROM AppBundle:Estate e
                 LEFT JOIN e.district d
+                LEFT JOIN e.category cat
                 LEFT JOIN e.comments com
                 LEFT JOIN e.files f
                 WHERE (e.slug = :slug)
             ');
         $query->setParameter('slug', $slug);
-        return $query->getResult();
+        return $query->getOneOrNullResult();
 
     }
 

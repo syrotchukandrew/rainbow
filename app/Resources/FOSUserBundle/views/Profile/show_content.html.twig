@@ -1,0 +1,40 @@
+{% extends 'AppBundle:site:base_site.html.twig' %}
+{% block panel %}
+    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
+    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
+    <a class="btn btn-default" href="{{ path('fos_user_profile_edit') }}"
+       role="button">{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</a>
+    <a class="btn btn-default" href="{{ path('fos_user_resetting_request') }}"
+       role="button">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
+    <h2>{{ 'common.favorite_estates'|trans }}</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Фото</th>
+            <th>Категория</th>
+            <th>Цена</th>
+            <th>Район</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for estate in user.getEstates %}
+            <tr>
+                <td>
+                    <a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a>
+                </td>
+                <td>
+                    {% if estate.files[0] is defined %}
+                        <img class="img-responsive"
+                             src={{ asset("#{estate.files[0].path}") | imagine_filter('small') }} alt="foto">
+                    {% endif %}
+                </td>
+                <td>{{ estate.category.title|trans }}</td>
+                <td>{{ estate.price }}</td>
+                <td>{{ estate.district.title }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock panel %}

@@ -17,6 +17,9 @@ vkontakte_login:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
 
 logout:
     path: /logout

@@ -66,6 +66,7 @@ swiftmailer:
     host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
+    auth_mode:  login
     spool:     { type: memory }
 
 stof_doctrine_extensions:
@@ -155,4 +156,20 @@ liip_imagine:
             filters:
                 thumbnail: { size: [60, 40], mode: outbound }
                 auto_rotate: ~
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
+        options:
+            lowquality: false
+            encoding: UTF-8
+    image:
+        enabled:    true
+        binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
+        options:    []
+    temporary_folder: %kernel.cache_dir%/snappy
+
+white_october_breadcrumbs:
+    separator:          false
 

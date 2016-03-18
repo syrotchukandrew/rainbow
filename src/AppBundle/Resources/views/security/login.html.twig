@@ -75,7 +75,15 @@
                 </script>
                 <div class="well">
                     <h3>{{ 'security.login_social'|trans }}</h3>
-                    {% render(controller('HWIOAuthBundle:Connect:connect')) %}
+                    <a class="btn btn-block btn-social btn-facebook" href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook'}) }}">
+                        <span class="fa fa-facebook"></span> {{ 'security.log.facebook'|trans }}
+                    </a>
+                    <a class="btn btn-block btn-social btn-google" href="{{ path('hwi_oauth_service_redirect', {'service': 'google'}) }}">
+                        <span class="fa fa-google"></span> {{ 'security.log.google'|trans }}
+                    </a>
+                    <a class="btn btn-block btn-social btn-vk" href="{{ path('hwi_oauth_service_redirect', {'service': 'vkontakte'}) }}">
+                        <span class="fa fa-vk"></span> {{ 'security.log.vk'|trans }}
+                    </a>
                 </div>
             {% endblock %}
 

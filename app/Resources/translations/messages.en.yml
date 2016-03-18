@@ -44,6 +44,10 @@ security:
     register: Register
     login_form: Secure Sign in
     login_social: Login via social network:
+    log:
+        facebook: Login via Facebook
+        google: Login via Google
+        vk: Login via VK
     login: login
     logout: Logout
     registration: Registration
@@ -71,5 +75,10 @@ common:
     content: Content:
     add: Add
     description: Description
+    add_favorites: Add to favorites
+    delete_favorites: Delete from favorites
+    favorite_estates: Your favorite estates
+    save: Save
+    downloadPDF: Download PDF
 
 
