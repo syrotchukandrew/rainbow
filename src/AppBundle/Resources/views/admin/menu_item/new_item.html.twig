@@ -1,0 +1,15 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+<h1>Пункты второстепенного меню</h1>
+<ul class="nav nav-tabs">
+    <li><a href="{{ path('admin_items') }}">Показать все</a></li>
+    <li  class="active"><a href="{{ path('admin_add_menu_item') }}">Добавить новый</a></li>
+</ul>
+    <br>
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    <input type="submit" value="Добавить" class="btn btn-default"/>
+    {{ form_end(form) }}
+{% endblock panel %}
