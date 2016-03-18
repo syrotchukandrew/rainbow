@@ -74,7 +74,8 @@ class EstateType extends AbstractType
                     'class' => 'AppBundle:File',
                     'query_builder' => function (\Doctrine\ORM\EntityRepository $repository) use ($estate) {
                         return $repository->createQueryBuilder('file')
-                            ->where('file.estate = ?1')->setParameter(1, $estate);
+                            ->where('file.estate = ?1')
+                            ->setParameter(1, $estate);
                     },
                     'multiple' => true,
                     'choice_label' => 'id',

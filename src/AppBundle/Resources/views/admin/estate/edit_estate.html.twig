@@ -8,14 +8,25 @@
     <p>Фото наявные на сайте</p>
 <div class="container-fluid">
     {% if estate.files[0] %}
-        {% for foto in estate.files %}
+        {% for key, foto in estate.files %}
             <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
-                <h6>{{ foto.id }}</h6>
+                <h6>
+                    {{ foto.id }}
+                    </h6>
+                <h6>
+                    {% if (key + 1) == loop.length %}
+                    Основное фото
+                    {% else %}
+                        <a href="#" class="btn btn-default btn-sm">
+                             Сделать основным
+                        </a>
+                    {% endif %}
+                </h6>
             </div>
         {% endfor %}
     {% endif %}
 </div>
-    <p>Для не отображения фото на сайте необходимо убрать галочку напротив соответствующего фото</p>
+    <p>Для удаления фото необходимо убрать галочку напротив соответствующего фото</p>
     {{ form_row(edit_form.files) }}
     {{ form_row(edit_form.imageFile) }}
     {{ include('@App/admin/estate/_form.html.twig', {
