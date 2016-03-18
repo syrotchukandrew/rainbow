@@ -6,26 +6,35 @@
     {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
     {{ form_start(edit_form) }}
     <p>Фото наявные на сайте</p>
-<div class="container-fluid">
-    {% if estate.files[0] %}
-        {% for key, foto in estate.files %}
-            <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
-                <h6>
-                    {{ foto.id }}
+    <div class="container-fluid">
+        {% if estate.files[0] %}
+            {% for foto in estate.files %}
+                <div style="float: left"><img class="img-thumbnail"
+                                              src={{ asset("#{foto.path}") | imagine_filter('little') }}>
+                    <h6>
+                        {{ foto.id }}
                     </h6>
-                <h6>
-                    {% if (key + 1) == loop.length %}
-                    Основное фото
-                    {% else %}
-                        <a href="#" class="btn btn-default btn-sm">
-                             Сделать основным
-                        </a>
-                    {% endif %}
-                </h6>
-            </div>
-        {% endfor %}
-    {% endif %}
-</div>
+                    <h6>
+                        {% if estate.mainFoto %}
+                            {% if foto.id == estate.mainFoto.id %}
+                                Основное фото
+                            {% else %}
+                                <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}"
+                                   class="btn btn-default btn-sm">
+                                    Сделать основным
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}"
+                               class="btn btn-default btn-sm">
+                                Сделать основным
+                            </a>
+                        {% endif %}
+                    </h6>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     <p>Для удаления фото необходимо убрать галочку напротив соответствующего фото</p>
     {{ form_row(edit_form.files) }}
     {{ form_row(edit_form.imageFile) }}

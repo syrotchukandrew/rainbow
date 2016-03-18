@@ -24,17 +24,25 @@
                         <tr><td>Дата редактирования</td><td>{{ estate.updatedAt.date|date("d F Y H:i:s") }}</td></tr>
                         <tr><td>Описание</td><td>{{ estate.description }}</td></tr>
                         <tr><td>Цена</td><td>{{ estate.price }}</td></tr>
-                        <tr><td>Оренда</td><td>{{ estate.rent }}</td></tr>
                         <tr><td>Ексклюзив</td><td>{{ estate.exclusive }}</td></tr>
                         <tr><td>Район</td><td>{{ estate.district.title }}</td></tr>
                         <tr>
                             <td>Фото:</td>
                             <td>
-                                {% if estate.files[0] %}
-                                    {% for foto in estate.files %}
-                                        <img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
-                                    {% endfor %}
-                                {% endif %}
+                                <div class="container-fluid">
+                                    {% if estate.files[0] %}
+                                        {% for foto in estate.files %}
+                                            <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
+                                                <h6>{% if estate.mainFoto %}
+                                                    {% if foto.id == estate.mainFoto.id %}
+                                                        Основное фото
+                                                    {% endif %}
+                                                    {% endif %}
+                                                </h6>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         <tr><td>Количество комментариев</td><td>{{ estate.comments|length }}</td></tr>

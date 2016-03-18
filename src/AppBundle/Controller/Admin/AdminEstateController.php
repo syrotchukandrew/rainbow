@@ -134,7 +134,6 @@ class AdminEstateController extends Controller
     public function estateDeleteAction(Request $request, Estate $estate)
     {
         $this->denyAccessUnlessGranted('remove', $estate);
-        //$cacheManager = $this->container->get('liip_imagine.cache.manager');
         $form = $this->createDeleteForm($estate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -152,4 +151,20 @@ class AdminEstateController extends Controller
             ->setMethod('DELETE')
             ->getForm();
     }
+
+    /**
+     * @Route("/do_main_foto/{slug}/{id}", name="do_main_foto")
+     * @Method("GET")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"slug": "slug"}})
+     * @ParamConverter("file", class="AppBundle\Entity\File", options={"mapping": {"id": "id"}})
+     */
+    public function doMainFotoAction(Estate $estate, File $file, Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $estate->setMainFoto($file);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_estate_edit', array('slug' => $estate->getSlug()));
+    }
+
 }
