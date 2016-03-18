@@ -1,7 +1,7 @@
 {% extends 'AppBundle:site:base_site.html.twig' %}
     {% block panel %}
         <div class="panel">
-            {% for estate in estates %}
+            {% for estate in pagination %}
             <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a></h2>
 
             <div class="row">
@@ -31,6 +31,9 @@
                 </a>
             <hr>
             {% endfor %}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
     {% endblock panel %}
 

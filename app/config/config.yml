@@ -144,7 +144,7 @@ liip_imagine:
         logo:
                 quality: 75
                 filters:
-                    thumbnail: { size: [500, 200], mode: outbound }
+                    thumbnail: { size: [485, 235], mode: outbound }
                     auto_rotate: ~
         little:
             quality: 75
