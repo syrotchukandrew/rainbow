@@ -89,20 +89,20 @@ class SiteController extends Controller
             ->add('addComment', SubmitType::class, ['label' => 'common.save',
                 'attr' => ['class' => 'btn btn-primary']
             ]);
-            $commentForm->handleRequest($request);
-            if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-                $comment->setEstate($estate);
-                if ($this->getUser()->hasRole('ROLE_ADMIN')) {
-                    $comment->setEnabled(true);
-                } else {
-                    $comment->setEnabled(false);
-                }
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($comment);
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
-                return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setEstate($estate);
+            if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+                $comment->setEnabled(true);
+            } else {
+                $comment->setEnabled(false);
             }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
+            return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
+        }
         return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate,
             'commentForm' => $commentForm->createView()));
     }
@@ -149,6 +149,72 @@ class SiteController extends Controller
      */
     public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
     {
-       return $this->render('AppBundle:site:show_description_menu_item.html.twig', array('item' => $menuItem));
+        return $this->render('AppBundle:site:show_description_menu_item.html.twig', array('item' => $menuItem));
     }
+
+    /**
+     * @Route("/add_favorites/{estate}/{user}", name = "add_estate_to_favorites")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
+     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
+     */
+    public function addEstateToFavoritesAction(Estate $estate, User $user, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if (!$user->hasEstate($estate)) {
+            $user->addEstate($estate);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
+    }
+
+    /**
+     * @Route("/delete_favorites/{estate}/{user}", name = "delete_estate_from_favorites")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
+     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
+     */
+    public function deleteEstateFromFavoritesAction(Estate $estate, User $user, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($user->hasEstate($estate)) {
+            $user->removeEstate($estate);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
+    }
+
+    /**
+     * @Route("/pdf/{estate}", name = "pdf_estate")
+     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
+     */
+    public function pdfEstateAction(Estate $estate, Request $request)
+    {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'method' => 'POST',
+        ])
+            ->add('addComment', SubmitType::class, ['label' => 'common.save',
+                'attr' => ['class' => 'btn btn-primary']
+            ]);
+        $html = $this->renderView('@App/site/pdf.html.twig', array(
+            'estate' => $estate,
+            'commentForm' => $commentForm->createView()
+        ));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array(
+                'images' => true,
+            )),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="file.pdf"'
+            )
+        );
+    }
+
+
 }
