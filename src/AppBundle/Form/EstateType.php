@@ -50,10 +50,6 @@ class EstateType extends AbstractType
                 'label' => 'Добавте фото недвижимости',
                 'required' => false,
             ))
-            ->add('rent', CheckboxType::class, array(
-                'label' => 'Этот эбъект для оренды?',
-                'required' => false,
-            ))
             ->add('exclusive', CheckboxType::class, array(
                 'label' => 'Добавить в екслюзив?',
                 'required' => false,

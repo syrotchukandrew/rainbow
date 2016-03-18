@@ -10,8 +10,9 @@
                 <div class="container-fluid">
                     <ul class="nav navbar-nav">
                         <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
-                        <li><a href="#">{{ 'site.menu.about'|trans }}</a></li>
-                        <li><a href="#">{{ 'site.menu.contacts'|trans }}</a></li>
+                        {{ render(controller('AppBundle:Site:showMenuItem')) }}
+                        {#<li><a href="#">{{ 'site.menu.about'|trans }}</a></li>
+                        <li><a href="#">{{ 'site.menu.contacts'|trans }}</a></li>#}
                     </ul>
                     <ul class="nav navbar-right navbar-nav">
                         <li class="dropdown">

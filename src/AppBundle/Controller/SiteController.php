@@ -8,8 +8,8 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\MenuItem;
 use AppBundle\Entity\Estate;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Category;
@@ -134,66 +134,24 @@ class SiteController extends Controller
     }
 
     /**
+     * @Route(name="show_menu_item")
      * @Route("/add_favorites/{estate}/{user}", name = "add_estate_to_favorites")
      * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
      * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
      */
-    public function addEstateToFavoritesAction(Estate $estate, User $user, Request $request)
+    public function showMenuItemAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        if (!$user->hasEstate($estate)) {
-            $user->addEstate($estate);
-            $em->persist($user);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
+        $menuitems = $em->getRepository('AppBundle:MenuItem')->findAll();
+        return $this->render('AppBundle:includes:menu_items.html.twig', array('items' => $menuitems));
     }
 
     /**
-     * @Route("/delete_favorites/{estate}/{user}", name = "delete_estate_from_favorites")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
+     * @Route("/description_menu/{id}", name="show_description_menu_item")
+     * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
      */
-    public function deleteEstateFromFavoritesAction(Estate $estate, User $user, Request $request)
+    public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
     {
-        $em = $this->getDoctrine()->getManager();
-        if ($user->hasEstate($estate)) {
-            $user->removeEstate($estate);
-            $em->persist($user);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
-    }
-
-    /**
-     * @Route("/pdf/{estate}", name = "pdf_estate")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     */
-    public function pdfEstateAction(Estate $estate, Request $request)
-    {
-        $comment = new Comment();
-        $commentForm = $this->createForm(CommentType::class, $comment, [
-            'method' => 'POST',
-        ])
-            ->add('addComment', SubmitType::class, ['label' => 'common.save',
-                'attr' => ['class' => 'btn btn-primary']
-            ]);
-        $html = $this->renderView('@App/site/pdf.html.twig', array(
-            'estate'  => $estate,
-            'commentForm' => $commentForm->createView()
-        ));
-
-        return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array(
-                'images' => true,
-            )),
-            200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="file.pdf"'
-            )
-        );
+       return $this->render('AppBundle:site:show_description_menu_item.html.twig', array('item' => $menuItem));
     }
 }

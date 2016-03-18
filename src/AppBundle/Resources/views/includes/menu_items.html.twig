@@ -1,0 +1,3 @@
+{% for item in items %}
+    <li><a href="{{ path('show_description_menu_item', {'id': item.id}) }}">{{ item.title }}</a></li>
+{% endfor %}

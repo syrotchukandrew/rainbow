@@ -103,7 +103,7 @@ class EstateRepository extends EntityRepository
                 LEFT JOIN e.files f
                 LEFT JOIN e.category c
                 WHERE (c.id = :id_category)
-                AND (e.firstLastFloor = :except_floor)
+                AND (:except_floor != true or e.firstLastFloor = false)
                 AND (:id_district is null or d.id = :id_district)
                 AND (e.price >= :price_min)
                 AND (:price_max is null or e.price <= :price_max)
