@@ -135,9 +135,7 @@ class SiteController extends Controller
 
     /**
      * @Route(name="show_menu_item")
-     * @Route("/add_favorites/{estate}/{user}", name = "add_estate_to_favorites")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
+     *
      */
     public function showMenuItemAction(Request $request)
     {
