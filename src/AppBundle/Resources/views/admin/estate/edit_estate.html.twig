@@ -8,16 +8,16 @@
     <p>Фото наявные на сайте</p>
 <div class="container-fluid">
     {% if estate.files[0] %}
-        {% for key, foto in estate.files %}
+        {% for foto in estate.files %}
             <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
                 <h6>
                     {{ foto.id }}
                     </h6>
                 <h6>
-                    {% if (key + 1) == loop.length %}
+                    {% if foto.isMain %}
                     Основное фото
                     {% else %}
-                        <a href="#" class="btn btn-default btn-sm">
+                        <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}" class="btn btn-default btn-sm">
                              Сделать основным
                         </a>
                     {% endif %}

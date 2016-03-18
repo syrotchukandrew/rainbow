@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
+use AppBundle\Entity\File as Foto;
 
 
 /**
@@ -111,6 +112,11 @@ class Estate
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\File", mappedBy="estate", orphanRemoval=true)
      */
     private $files;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File")
+     */
+    private $mainFoto;
 
     /**
      * @var File
@@ -500,6 +506,29 @@ class Estate
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set mainFoto
+     *
+     * @param \AppBundle\Entity\File $mainFoto
+     * @return Estate
+     */
+    public function setMainFoto($mainFoto)
+    {
+        $this->mainFoto = $mainFoto;
+
+        return $this;
+    }
+
+    /**
+     * Get mainFoto
+     *
+     * @return \AppBundle\Entity\File
+     */
+    public function getMainFoto()
+    {
+        return $this->mainFoto;
     }
 
 }

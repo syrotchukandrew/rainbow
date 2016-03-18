@@ -51,6 +51,12 @@ class File
     private $size;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="is_main", type="boolean", nullable=true)
+     */
+    private $isMain;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -81,6 +87,29 @@ class File
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set isMain
+     *
+     * @param string $isMain
+     * @return File
+     */
+    public function setIsMain($isMain)
+    {
+        $this->isMain = $isMain;
+
+        return $this;
+    }
+
+    /**
+     * Get isMain
+     *
+     * @return string
+     */
+    public function IsMain()
+    {
+        return $this->isMain;
     }
 
     /**
