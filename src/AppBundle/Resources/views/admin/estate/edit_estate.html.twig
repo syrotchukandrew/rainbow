@@ -14,7 +14,7 @@
                     {{ foto.id }}
                     </h6>
                 <h6>
-                    {% if foto.isMain %}
+                    {% if foto.id == estate.mainfoto.id %}
                     Основное фото
                     {% else %}
                         <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}" class="btn btn-default btn-sm">

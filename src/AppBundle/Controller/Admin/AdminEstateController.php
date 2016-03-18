@@ -161,13 +161,6 @@ class AdminEstateController extends Controller
     public function doMainFotoAction(Estate $estate, File $file, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        foreach ($estate->getFiles() as $foto) {
-            if ($foto->getId() === $file->getId()) {
-                $foto->setIsMain(true);
-            } else {
-                $foto->setIsMain(false);
-            }
-        }
         $estate->setMainFoto($file);
         $entityManager->flush();
 
