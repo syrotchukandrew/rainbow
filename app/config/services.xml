@@ -60,6 +60,10 @@
        <service id="app.check_floor" class="AppBundle\Utils\EstateManager">
        </service>
 
+       <service id="app.breadcrumps_maker" class="AppBundle\Utils\BreadcrumpsMaker">
+           <argument type="service" id="white_october_breadcrumbs" />
+       </service>
+
    </services>
 
 </container>

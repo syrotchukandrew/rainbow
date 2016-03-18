@@ -33,7 +33,7 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addItem("Homepage");
+        $breadcrumbs->addItem("Главная");
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
 
@@ -56,13 +56,7 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($category->getTitle());
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $node = $category;
-        while ($node) {
-            $breadcrumbs->prependItem($node->getTitle());
-            $node = $node->getParent();
-        }
-        $breadcrumbs->prependItem("Homepage");
+        $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($category);
 
         return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
     }
@@ -74,14 +68,7 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $node = $estate->getCategory();
-        $breadcrumbs->prependItem($estate->getTitle());
-        while ($node) {
-            $breadcrumbs->prependItem($node->getTitle());
-            $node = $node->getParent();
-        }
-        $breadcrumbs->prependItem("Homepage");
+        $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($estate->getCategory(), $estate);
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment, [
             'method' => 'POST',
@@ -193,23 +180,10 @@ class SiteController extends Controller
      */
     public function pdfEstateAction(Estate $estate, Request $request)
     {
-        $comment = new Comment();
-        $commentForm = $this->createForm(CommentType::class, $comment, [
-            'method' => 'POST',
-        ])
-            ->add('addComment', SubmitType::class, ['label' => 'common.save',
-                'attr' => ['class' => 'btn btn-primary']
-            ]);
-        $html = $this->renderView('@App/site/pdf.html.twig', array(
-            'estate' => $estate,
-            'commentForm' => $commentForm->createView()
-        ));
+        $html = $this->renderView('@App/site/pdf.html.twig', array('estate' => $estate));
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array(
-                'images' => true,
-            )),
-            200,
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('images' => true)), 200,
             array(
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="file.pdf"'

@@ -48,7 +48,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $estate->addComment($comment);
                 $comment->setContent($faker->sentence);
                 $comment->setCreatedBy('user_admin');
-                $comment->setEnabled(false);
+                $comment->setEnabled(true);
                 $manager->persist($comment);
             }
             // flats - 40%

@@ -1,66 +1,60 @@
-<div class="container">
-    <h1>
-        {{ estate.title }}
-    </h1>
-   {# {% if estate.files[0] %}
-            <img class="img-thumbnail" src={{ absolute_url(asset("#{estate.files[0].path}") | imagine_filter('medium')) }}>
-    {% endif %} #}
-    <br>
-    <div class="col-lg-9">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'common.description'|trans }}
-            </div>
-            <div class="panel-body">
-                {{ estate.description }}
-            </div>
+<h1>
+    {{ estate.title }}
+</h1>
+{# {% if estate.files[0] %}
+         <img class="img-thumbnail" src={{ absolute_url(asset("#{estate.files[0].path}") | imagine_filter('medium')) }}>
+ {% endif %} #}
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="glyphicon glyphicon-stats"></i> Цена
+    </div>
+    <div class="panel-body">
+        {{ estate.price }}&#032грн.
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="glyphicon glyphicon-stats"></i> Район
+    </div>
+    <div class="panel-body">
+        {{ estate.district.title }}
+    </div>
+</div>
+{% if estate.floor %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Комментарии
-            </div>
-            <br>
-            {% for comment in estate.comments %}
-                {% if comment.enabled %}
-                    <div class="media">
-                        <div class="media-body">
-                            <h4 class="media-heading">{{ comment.createdBy }}
-                                <small>{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
-                            </h4>
-                            {{ comment.content }}
-                        </div>
-                    </div>
-                    <hr>
-                {% endif %}
-            {% endfor %}
+        <div class="panel-body">
+            {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Цена
-            </div>
-            <div class="panel-body">
-                {{ estate.price }}&#032грн.
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> Район
-            </div>
-            <div class="panel-body">
-                {{ estate.district.title }}
-            </div>
-        </div>
-        {% if estate.floor %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
-                </div>
-                <div class="panel-body">
-                    {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
+{% endif %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="glyphicon glyphicon-stats"></i> {{ 'common.description'|trans }}
+    </div>
+    <div class="panel-body">
+        {{ estate.description }}
+    </div>
+</div>
+<br><br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="glyphicon glyphicon-stats"></i> Комментарии
+    </div>
+    {% for comment in estate.comments %}
+        {% if comment.enabled %}
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading">{{ comment.createdBy }}
+                        <small>{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+                    </h4>
+                    {{ comment.content }}
                 </div>
             </div>
+            <hr>
         {% endif %}
-    </div>
+    {% endfor %}
 </div>

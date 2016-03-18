@@ -1,7 +1,10 @@
 {% extends 'AppBundle:site:base_site.html.twig' %}
-{% block panel %}
-    {{ wo_render_breadcrumbs() }}
 
+{% block header %}
+    {{ wo_render_breadcrumbs() }}
+{% endblock header %}
+
+{% block panel %}
     <h1>
         {{ estate.title }}
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
