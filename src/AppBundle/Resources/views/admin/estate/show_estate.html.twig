@@ -33,9 +33,10 @@
                                     {% if estate.files[0] %}
                                         {% for foto in estate.files %}
                                             <div style="float: left"><img class="img-thumbnail" src={{ asset("#{foto.path}") | imagine_filter('little') }}>
-                                                <h6>
-                                                    {% if foto.id == estate.mainfoto.id %}
+                                                <h6>{% if estate.mainFoto %}
+                                                    {% if foto.id == estate.mainFoto.id %}
                                                         Основное фото
+                                                    {% endif %}
                                                     {% endif %}
                                                 </h6>
                                             </div>
