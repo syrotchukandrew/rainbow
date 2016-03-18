@@ -34,9 +34,15 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $estates,
+            $request->query->getInt('page', 1),
+            5
+        );
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Главная");
-        return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
+        return $this->render("AppBundle::site/index.html.twig", array('pagination' => $pagination));
     }
 
     /**
@@ -59,9 +65,15 @@ class SiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($category->getTitle());
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $estates,
+            $request->query->getInt('page', 1),
+            5
+        );
         $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($category);
 
-        return $this->render("AppBundle::site/index.html.twig", array('estates' => $estates));
+        return $this->render("AppBundle::site/index.html.twig", array('pagination' => $pagination));
     }
 
     /**
