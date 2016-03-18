@@ -11,8 +11,6 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
                         {{ render(controller('AppBundle:Site:showMenuItem')) }}
-                        {#<li><a href="#">{{ 'site.menu.about'|trans }}</a></li>
-                        <li><a href="#">{{ 'site.menu.contacts'|trans }}</a></li>#}
                     </ul>
                     <ul class="nav navbar-right navbar-nav">
                         <li class="dropdown">
@@ -56,7 +54,9 @@
                                     <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
                                     </li>
                                     <li class="divider"></li>
-                                    <li><a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a></li>
+                                    <li>
+                                        <a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a>
+                                    </li>
                                     <li class="divider"></li>
                                 {% endif %}
                                 {% if is_granted('ROLE_MANAGER') %}
@@ -70,7 +70,24 @@
         </div>
     </nav>
 {% endblock nav %}
-{% block header %}{% endblock %}
+{% block header %}
+    <header class="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-3">
+                    <img src="{{ asset("images/logo/радуга 1 - копия.png") |imagine_filter('logo') }}">
+                </div>
+                <div class="col col-sm-9">
+                    <div class="well pull-right">
+                        Поиск
+                        {{ render(controller("AppBundle:Site:search")) }}
+                    </div>
+                </div>
+            </div>
+            {{ wo_render_breadcrumbs() }}
+        </div>
+    </header>
+{% endblock header %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -78,14 +95,14 @@
                 {% block sidebar %}
                     <div id="sidebar">
                         <ul class="nav nav-stacked">
-                            <li><h3 class="highlight">{{ 'site.offers'|trans }}<i class="glyphicon glyphicon-dashboard pull-right"></i>
+                            <li><h3 class="highlight">{{ 'site.offers'|trans }}<i
+                                            class="glyphicon glyphicon-dashboard pull-right"></i>
                                 </h3></li>
                             {{ render(controller('AppBundle:Site:menu')) }}
                         </ul>
                     </div>
                 {% endblock sidebar %}
             </div>
-
             <div class="col col-sm-9">
                 {% block panel %}{% endblock %}
             </div>

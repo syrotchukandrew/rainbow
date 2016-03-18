@@ -1,35 +1,4 @@
 {% extends 'AppBundle:site:base_site.html.twig' %}
-    {% block header %}
-        <header class="masthead">
-            <div class="container">
-                <div class="row">
-                    <div class="col col-sm-6">
-                        <h1><a href="#" title="scroll down for your viewing pleasure">BNW Template</a>
-
-                            <p class="lead">2-column Layout + Theme for Bootstrap 3</p></h1>
-                    </div>
-                    <div class="col col-sm-6">
-                        <div class="well pull-right">
-                            <img src="{{ asset("images/logo/радуга 1 - копия.png") |imagine_filter('logo') }}">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col col-sm-12">
-                        <div class="panel">
-                            <div class="panel-body">
-                                {{ render(controller("AppBundle:Site:search")) }}
-                            </div>
-                        </div>
-                        {{ wo_render_breadcrumbs() }}
-                    </div>
-                </div>
-            </div>
-        </header>
-    {% endblock header %}
     {% block panel %}
         <div class="panel">
             {% for estate in estates %}
@@ -46,7 +15,9 @@
                         <img src="{{ asset("#{estate.files[1].path}") }}" class="img-responsive">
                     {% endif %}
                     <hr>
-                    <h4>{{ 'site.recommend'|trans }}</h4>
+                    {% if estate.files[2] is defined %}
+                        <img src="{{ asset("#{estate.files[2].path}") }}" class="img-responsive">
+                    {% endif %}
                     <hr>
                 </div>
             </div>
