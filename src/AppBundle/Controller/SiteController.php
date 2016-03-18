@@ -20,6 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -45,6 +47,7 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $categoryEntity = $em->getRepository('AppBundle\Entity\Category');
         $categories = $categoryEntity->childrenHierarchy();
+
         return $this->render("AppBundle::includes/menu.html.twig", ['links' => $categories]);
     }
 
@@ -69,29 +72,39 @@ class SiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
         $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($estate->getCategory(), $estate);
+
+        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate));
+    }
+
+    /**
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Route("/comment/{slug}/new", name = "comment_new")
+     * @Method("POST")
+     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
+     */
+    public function commentNewAction(Estate $estate, Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
         $comment = new Comment();
-        $commentForm = $this->createForm(CommentType::class, $comment, [
-            'method' => 'POST',
-        ])
-            ->add('addComment', SubmitType::class, ['label' => 'common.save',
-                'attr' => ['class' => 'btn btn-primary']
-            ]);
-        $commentForm->handleRequest($request);
-        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-            $comment->setEstate($estate);
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()->hasRole('ROLE_ADMIN')) {
                 $comment->setEnabled(true);
             } else {
                 $comment->setEnabled(false);
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
+            $comment->setEstate($estate);
+            $entityManager->persist($comment);
+            $entityManager->flush();
             $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
             return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
         }
-        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate,
-            'commentForm' => $commentForm->createView()));
+
+        return $this->render('@App/site/_comment_form.html.twig', array(
+            'estate' => $estate,
+            'form' => $form->createView(),
+        ));
     }
 
     /**

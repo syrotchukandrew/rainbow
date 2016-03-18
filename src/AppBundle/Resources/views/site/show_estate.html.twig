@@ -41,16 +41,7 @@
             <br>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div class="well">
-                    <h4>Leave a Comment:</h4>
-
-                    <form role="form" , method="post">
-                        <div class="form">
-                            <div class="form-group">
-                                {% form_theme commentForm 'bootstrap_3_layout.html.twig' %}
-                                {{ form(commentForm) }}
-                            </div>
-                        </div>
-                    </form>
+                    {{ render(controller('AppBundle:Site:commentNew', { 'slug': estate.slug })) }}
                 </div>
             {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
                 <hr>
