@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Estate;
+use AppBundle\Entity\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -139,7 +140,6 @@ class AdminEstateController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($estate);
-            //$cacheManager->remove();
             $entityManager->flush();
         }
         return $this->redirectToRoute('admin_estates');
