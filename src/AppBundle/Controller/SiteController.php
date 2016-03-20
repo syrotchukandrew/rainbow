@@ -91,7 +91,7 @@ class SiteController extends Controller
     /**
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Route("/comment/{slug}/new", name = "comment_new")
-     * @Method("POST")
+     * @Method("POST")estates
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function commentNewAction(Estate $estate, Request $request)

@@ -31,7 +31,7 @@ class AdminMenuItemController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $items = $em->getRepository('AppBundle:MenuItem')->findAll();
-       return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
+        return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
     }
 
     /**
@@ -61,8 +61,11 @@ class AdminMenuItemController extends Controller
      */
     public function showItemAction(Request $request, MenuItem $menuItem)
     {
-        return $this->render('@App/admin/menu_item/show_item.html.twig', array('item' => $menuItem));
+        //for delete
+        $form = $this->deleteForm($menuItem);
 
+        return $this->render('@App/admin/menu_item/show_item.html.twig',
+            array('item' => $menuItem, 'delete_form' => $form->createView()));
     }
 
     /**
@@ -73,14 +76,13 @@ class AdminMenuItemController extends Controller
      */
     public function editItemAction(Request $request, MenuItem $menuItem)
     {
-
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(MenuItemType::class, $menuItem, [
             'method' => 'PUT',
-            'attr' => [ 'class' => 'horizontal']
+            'attr' => ['class' => 'horizontal']
         ])
             ->add('submit', SubmitType::class, ['label' => 'Edit',
-                'attr' => [ 'class' => 'btn btn-raised btn-default' ]
+                'attr' => ['class' => 'btn btn-raised btn-default']
             ]);
         if ($request->getMethod() == 'PUT') {
             $form->handleRequest($request);
@@ -90,10 +92,36 @@ class AdminMenuItemController extends Controller
                 return $this->redirectToRoute('admin_items');
             }
         }
-        return $this->render('@App/admin/menu_item/edit_menu_item.html.twig', array(
-            'form' => $form->createView(),
-        ));
 
+        return $this->render('@App/admin/menu_item/edit_menu_item.html.twig',
+            array('form' => $form->createView(),
+            ));
+    }
 
+    /**
+     * @Route("/menu_item/delete/{id}", name="admin_menu_item_delete")
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @ParamConverter("comment", options={"mapping": {"id": "id"}})
+     */
+    public function deleteCommentAction(Request $request, MenuItem $menuItem)
+    {
+        $form = $this->deleteForm($menuItem);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($menuItem);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('admin_items');
+    }
+
+    private function deleteForm(MenuItem $menuItem)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_menu_item_delete',
+                array('id' => $menuItem->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
     }
 }
