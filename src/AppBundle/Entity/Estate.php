@@ -114,7 +114,7 @@ class Estate
     private $files;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", orphanRemoval=true)
      */
     private $mainFoto;
 

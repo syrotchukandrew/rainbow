@@ -146,7 +146,7 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route(name="show_menu_item")
+     * @Route("/menu_item", name="show_menu_item")
      */
     public function showMenuItemAction(Request $request)
     {
