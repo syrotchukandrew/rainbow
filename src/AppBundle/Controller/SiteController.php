@@ -18,7 +18,6 @@ use AppBundle\Form\SearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -126,12 +125,23 @@ class SiteController extends Controller
     {
         $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
-            'action' => $this->generateUrl('site_search'),
-            'categories_choices' => $finalCategories
-        ))
-            ->add('search', SubmitType::class, ['label' => 'Искать',
-                'attr' => ['class' => 'btn btn-default']
-            ]);
+            'action' => $this->generateUrl('site_search_result'),
+            'categories_choices' => $finalCategories));
+
+        return $this->render('@App/site/search.html.twig', array(
+            'form' => $searchForm->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/search/result", name="site_search_result")
+     * */
+    public function searchResultAction(Request $request)
+    {
+        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $searchForm = $this->createForm(SearchType::class, null, array(
+            'action' => $this->generateUrl('site_search_result'),
+            'categories_choices' => $finalCategories));
 
         $searchForm->handleRequest($request);
         if ($searchForm->isValid() && $searchForm->isSubmitted()) {
@@ -145,9 +155,7 @@ class SiteController extends Controller
             return $this->render('AppBundle:site:index.html.twig', array('pagination' => $pagination));
         }
 
-        return $this->render('@App/site/search.html.twig', array(
-            'form' => $searchForm->createView(),
-        ));
+        return $this->redirectToRoute('homepage');
     }
 
     /**

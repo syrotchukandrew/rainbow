@@ -20,7 +20,7 @@
                             <ul class="dropdown-menu locales" role="menu">
                                 {% for locale in locales() %}
                                     <li {% if app.request.locale == locale.code %}class="active"{% endif %}>
-                                        <a href="{{ path(app.request.get('_route', 'blog_index'),
+                                        <a href="{{ path(app.request.get('_route', 'homepage'),
                                         app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}">
                                             {{ locale.name|capitalize }}</a></li>
                                 {% endfor %}
