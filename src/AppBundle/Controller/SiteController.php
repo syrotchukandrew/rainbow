@@ -136,8 +136,13 @@ class SiteController extends Controller
         $searchForm->handleRequest($request);
         if ($searchForm->isValid() && $searchForm->isSubmitted()) {
             $estates = $this->get('app.search')->searchEstate($searchForm->getData());
-            // return new Response();
-            return $this->render('AppBundle:site:index.html.twig', array('estates' => $estates));
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $estates,
+                $request->query->getInt('page', 1),
+                5
+            );
+            return $this->render('AppBundle:site:index.html.twig', array('pagination' => $pagination));
         }
 
         return $this->render('@App/site/search.html.twig', array(

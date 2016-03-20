@@ -1,10 +1,16 @@
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 {{ form_start(form) }}
 <table class="table">
-    <tr><td>{{ form(form.category) }}</td><td>{{ form(form.except_floor) }}</td></tr>
-        <tr><td>{{ form(form.district) }}</td><td>{{ form(form.price) }}</td></tr>
+    <tr>
+        <td>{{ form(form.category) }}</td>
+        <td>{{ form(form.except_floor) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form(form.district) }}</td>
+        <td>{{ form(form.price) }}</td>
+    </tr>
 
 
 </table>
 {#{{ form_widget(form)}}#}
-{{ form_end(form)}}
+{{ form_end(form) }}
