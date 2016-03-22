@@ -109,12 +109,11 @@ class SiteControllerTest extends WebTestCase
         $user = $users[0];
         $countBefore = count($user->getEstates());
         $client->request('GET', "/en/add_favorites/{$slug}/{$user->getId()}");
-        /*$usersAfter = $em
-            ->getRepository('AppBundle:User')
-            ->findByRole('ROLE_MANAGER');
-        $userAfter = $users[0];*/
-        $countAfter = count($user->getEstates());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals(($countBefore + 1), $countAfter);
+        $countAfter = count($user->getEstates());
+        $client->request('GET', "/en/delete_favorites/{$slug}/{$user->getId()}");
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $countComeBack = count($user->getEstates());
+        $this->assertEquals($countBefore , ($countAfter - 1), $countComeBack);
     }
 }
