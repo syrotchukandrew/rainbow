@@ -108,11 +108,13 @@ class SiteControllerTest extends WebTestCase
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $countBefore = count($user->getEstates());
-        $crawler = $client->request('GET', "/en/add_favorites/{$slug}/{$user->getId()}");
+        $client->request('GET', "/en/add_favorites/{$slug}/{$user->getId()}");
+        /*$usersAfter = $em
+            ->getRepository('AppBundle:User')
+            ->findByRole('ROLE_MANAGER');
+        $userAfter = $users[0];*/
         $countAfter = count($user->getEstates());
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertCount(
-
-        );
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(($countBefore + 1), $countAfter);
     }
 }
