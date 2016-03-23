@@ -23,7 +23,7 @@ class BaseTestController extends WebTestCase
             ->getRepository('AppBundle:User')
             ->findByRole($role);
         $firewall = 'main';
-        $token = new UsernamePasswordToken($admin[0], null, $firewall, array($role));
+        $token = new UsernamePasswordToken($admin[0]->getUsername(), null, $firewall, array($role));
         $session->set('_security_' . $firewall, serialize($token));
         $session->save();
         $cookie = new Cookie($session->getName(), $session->getId());
