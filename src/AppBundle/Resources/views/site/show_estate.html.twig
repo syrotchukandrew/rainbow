@@ -21,7 +21,11 @@
                 <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
             </a>
         </h1>
-        {% include 'AppBundle:includes:slider.html.twig' %}
+        <ul class="pgwSlideshow">
+            {% for file in estate.files %}
+                <li><img src="{{ asset(file.path) }}"></li>
+            {% endfor %}
+        </ul>
 
     </div>
     <div class="col-lg-9">
@@ -101,3 +105,12 @@
         </ul>
     </div>
 {% endblock panel %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pgwslideshow.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.pgwSlideshow').pgwSlideshow();
+        });
+    </script>
+{% endblock javascripts %}

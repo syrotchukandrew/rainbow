@@ -20,7 +20,7 @@ estate:
         blank:  Descriptin of estate don't must be empty
         too_short: Description of estate must contain minimum {{ limit }} chars
         too_long: Description of estate must contain maximum {{ limit }} chars
-    price: The value {{ value }} is not a valid {{ type }}.
+
 file:
     size: The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.
 menu_item:
