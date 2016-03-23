@@ -4,15 +4,15 @@ namespace AppBundle\Tests\Controller\Admin;
 
 use AppBundle\Tests\Controller\BaseTestController;
 
-class AdminDistrictControllerTest extends BaseTestController
+class AdminMenuItemControllerTest extends BaseTestController
 {
-    public function testDistricts()
+    public function testShowItems()
     {
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/ru/admin/districts');
+        $crawler = $client->request('GET', '/ru/admin/menu_items');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -21,32 +21,32 @@ class AdminDistrictControllerTest extends BaseTestController
         );
     }
 
-    public function testDistrictShow()
+    public function testShowItem()
     {
         $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/ru/admin/district/show/{$slug}");
+        $crawler = $client->request('GET', "/ru/admin/menu_item/show/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
             1,
-            $crawler->filter('h1')
+            $crawler->filter('h3')
         );
     }
 
-    public function testNewDistrict()
+    public function testAddItem()
     {
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/ru/admin/district/new");
+        $crawler = $client->request('GET', "/ru/admin/menu_item/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -55,41 +55,37 @@ class AdminDistrictControllerTest extends BaseTestController
         );
     }
 
-    public function testDistrictEdit()
-    {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'user_admin',
-            'PHP_AUTH_PW'   => 'qweasz',
-        ));
-        $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertCount(
-            1,
-            $crawler->filter('h1')
-        );
-    }
-
-    public function testDistrictEditManager()
+    public function testEditItem()
     {
         $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_admin',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(
+            1,
+            $crawler->filter('h1')
+        );
+    }
+
+    public function testEditItemManager()
+    {
+        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
+        $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $this->assertCount(
-            1,
-            $crawler->filter('h1')
-        );
     }
 }
