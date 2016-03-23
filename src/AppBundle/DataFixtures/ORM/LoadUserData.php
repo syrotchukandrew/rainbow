@@ -26,15 +26,25 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     public function load(ObjectManager $manager)
     {
         $passwordEncoder = $this->container->get('security.password_encoder');
+        for ($i = 0; $i < 3; $i++) {
+            $user_user = new User();
+            $user_user->setUsername('user_user'.$i);
+            $user_user->setEmail('user_user'.$i.'@rainbow.com');
+            $user_user->setRoles(array('ROLE_USER'));
+            $user_user->setEnabled(true);
+            $encodedPassword = $passwordEncoder->encodePassword($user_user, 'qweasz');
+            $user_user->setPassword($encodedPassword);
+            $manager->persist($user_user);
 
-        $user_user = new User();
-        $user_user->setUsername('user_user');
-        $user_user->setEmail('user_user@rainbow.com');
-        $user_user->setRoles(array('ROLE_USER'));
-        $user_user->setEnabled(true);
-        $encodedPassword = $passwordEncoder->encodePassword($user_user, 'qweasz');
-        $user_user->setPassword($encodedPassword);
-        $manager->persist($user_user);
+            $user_manager = new User();
+            $user_manager->setUsername('user_manager'.$i);
+            $user_manager->setEmail('user_manager'.$i.'@rainbow.com');
+            $user_manager->setRoles(array('ROLE_MANAGER'));
+            $user_manager->setEnabled(true);
+            $encodedPassword = $passwordEncoder->encodePassword($user_manager, 'qweasz');
+            $user_manager->setPassword($encodedPassword);
+            $manager->persist($user_manager);
+        }
 
         $user_admin = new User();
         $user_admin->setUsername('user_admin');
@@ -44,15 +54,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $encodedPassword = $passwordEncoder->encodePassword($user_admin, 'qweasz');
         $user_admin->setPassword($encodedPassword);
         $manager->persist($user_admin);
-
-        $user_manager = new User();
-        $user_manager->setUsername('user_manager');
-        $user_manager->setEmail('user_manager@rainbow.com');
-        $user_manager->setRoles(array('ROLE_MANAGER'));
-        $user_manager->setEnabled(true);
-        $encodedPassword = $passwordEncoder->encodePassword($user_manager, 'qweasz');
-        $user_manager->setPassword($encodedPassword);
-        $manager->persist($user_manager);
 
         $manager->flush();
     }

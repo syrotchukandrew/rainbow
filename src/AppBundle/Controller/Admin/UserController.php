@@ -100,7 +100,7 @@ class UserController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setRoles(array('ROLE_MANAGER'));
+        $user->addRole('ROLE_MANAGER');
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
     }
@@ -114,11 +114,8 @@ class UserController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $roles = $user->getRoles();
-        if (in_array("ROLE_MANAGER", $roles)) {
-            $key = array_search("ROLE_MANAGER", $roles);
-            $roles[$key] = 'ROLE_USER';
-            $user->setRoles($roles);
+        if ($user->hasRole('ROLE_MANAGER')) {
+            $user->removeRole('ROLE_MANAGER');
             $entityManager->flush();
         }
         return $this->redirectToRoute('admin_users');
