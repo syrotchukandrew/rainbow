@@ -6,7 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
-use AppBundle\Entity\File as Foto;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
@@ -30,6 +31,13 @@ class Estate
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="estate.title.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 200,
+     *      minMessage = "estate.title.too_short",
+     *      maxMessage = "estate.title.too_long"
+     * )
      */
     private $title;
 
@@ -71,6 +79,14 @@ class Estate
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     *
+     * @Assert\NotBlank(message="estate.title.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 200,
+     *      minMessage = "estate.title.too_short",
+     *      maxMessage = "estate.title.too_long"
+     * )
      */
     private $description;
 
@@ -121,6 +137,7 @@ class Estate
     /**
      * @var File
      */
+
     private $imageFile;
 
     /**

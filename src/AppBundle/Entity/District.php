@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Estate as Estate;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -36,6 +36,13 @@ class District
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="district.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "district.title.too_short",
+     *      maxMessage = "district.title.too_long"
+     * )
      */
     private $title;
 

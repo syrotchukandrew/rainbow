@@ -2572,11 +2572,10 @@
     </div>
     <div data-u="slides"
          style="cursor: default; position: relative; top: 0px; left: 0px; width: 800px; height: 356px; overflow: hidden;">
-
         {% for file in estate.files %}
             <div data-p="144.50" style="display: none;">
-                <img data-u="image" src={{ asset(file.path) }}/>
-                <img data-u="thumb" src={{ asset(file.path) }}/>
+                <img data-u="image" src={{ asset(file.path)  }}/>
+                <img data-u="thumb" src={{ asset(file.path)  }}/>
 
             </div>
         {% endfor %}
