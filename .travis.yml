@@ -14,7 +14,8 @@ before_script:
     - app/console cache:warmup --env=test --quiet
 
 script:
-
+  - app/console doctrine:schema:update --force
+  - app/console doctrine:fixtures:load --append --purge-with-truncate
   - phpunit -c app/ --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

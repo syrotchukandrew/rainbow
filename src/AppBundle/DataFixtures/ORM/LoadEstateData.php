@@ -15,7 +15,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
-        for ($i = 0; $i <= 130; $i++) {
+        for ($i = 0; $i <= 200; $i++) {
             $estate = new Estate();
             $estate->setTitle($faker->sentence);
             $estate->setDescription($faker->sentence);
