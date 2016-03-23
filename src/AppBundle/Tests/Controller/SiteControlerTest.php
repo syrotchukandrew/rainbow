@@ -96,7 +96,7 @@ class SiteControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testAddEstateToFavorites()
+    public function testAddDeleteEstateToFavorites()
     {
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
