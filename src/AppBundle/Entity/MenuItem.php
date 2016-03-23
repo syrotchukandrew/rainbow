@@ -25,6 +25,13 @@ class MenuItem
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="menu_item.title.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 200,
+     *      minMessage = "menu_item.title.too_short",
+     *      maxMessage = "menu_item.title.too_long"
+     * )
      */
     private $title;
 
@@ -32,6 +39,13 @@ class MenuItem
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Assert\NotBlank(message="menu_item.description.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 200,
+     *      minMessage = "menu_item.description.too_short",
+     *      maxMessage = "menu_item.description.too_long"
+     * )
      */
     private $description;
 
