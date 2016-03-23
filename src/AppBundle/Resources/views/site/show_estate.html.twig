@@ -1,4 +1,5 @@
 {% extends '@App/site/base_site.html.twig' %}
+
 {% block panel %}
     <div style="margin-bottom: 20px">
         <h1>
@@ -20,7 +21,8 @@
                 <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
             </a>
         </h1>
-        {% include 'AppBundle:includes:deep-minified.html.twig' %}
+        {% include 'AppBundle:includes:slider.html.twig' %}
+
     </div>
     <div class="col-lg-9">
         <div class="panel panel-default">

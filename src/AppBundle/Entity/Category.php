@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -30,6 +31,13 @@ class Category
     /**
      * @Gedmo\Translatable
      * @ORM\Column(name="title", type="string", length=64)
+     * @Assert\NotBlank(message="category.blank")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "category.title.too_short",
+     *      maxMessage = "category.title.too_long"
+     * )
      */
     private $title;
 

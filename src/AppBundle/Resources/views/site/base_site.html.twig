@@ -109,3 +109,18 @@
         </div>
     </div>
 {% endblock %}
+{% block footer %}
+    <!-- Footer -->
+    <footer class="clear-both">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline" >
+                    <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
+                    {{ render(controller('AppBundle:Site:showMenuItem')) }}
+                </ul>
+                <p>Copyright &copy; Syrotchuk's Website 2016</p>
+            </div>
+        </div>
+        <!-- /.row -->
+    </footer>
+{% endblock footer %}

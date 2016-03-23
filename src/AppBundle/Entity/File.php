@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @Gedmo\Uploadable(path="images/estates/", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true)
  */
+
 class File
 {
     /**
@@ -45,6 +46,7 @@ class File
     private $mimeType;
 
     /**
+     * @Assert\File(maxSize="5M")
      * @ORM\Column(type="decimal")
      * @Gedmo\UploadableFileSize
      */
