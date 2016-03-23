@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-
 /**
  * Estate
  *
@@ -94,10 +93,7 @@ class Estate
      * @var int
      *
      * @ORM\Column(name="price", type="integer", nullable=true)
-     * @Assert\Type(
-     *     type="integer",
-     *     message="estate.price"
-     * )
+     *
      */
     private $price;
 
