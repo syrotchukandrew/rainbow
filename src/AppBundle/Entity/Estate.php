@@ -80,12 +80,12 @@ class Estate
      *
      * @ORM\Column(name="description", type="text")
      *
-     * @Assert\NotBlank(message="estate.title.blank")
+     * @Assert\NotBlank(message="estate.description.blank")
      * @Assert\Length(
      *      min = 3,
      *      max = 200,
-     *      minMessage = "estate.title.too_short",
-     *      maxMessage = "estate.title.too_long"
+     *      minMessage = "estate.description.too_short",
+     *      maxMessage = "estate.description.too_long"
      * )
      */
     private $description;
@@ -94,6 +94,10 @@ class Estate
      * @var int
      *
      * @ORM\Column(name="price", type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="integer",
+     *     message="estate.price"
+     * )
      */
     private $price;
 

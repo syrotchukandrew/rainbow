@@ -30,30 +30,30 @@ class SearchType extends AbstractType
                 'choice_label' => 'title',
             ))
             ->add('except_floor', CheckboxType::class, array(
-                'label' => 'Исключить первый/последний этажи',
+                'label' => 'form.search.disable_floor',
                 'required' => false,
 
             ))
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle:District',
-                'placeholder' => 'Выберите район',
+                'placeholder' => 'form.search.district',
                 'choice_label' => 'title',
                 'label' => 'Район',
                 'required' => false,
             ))
             ->add('price', ChoiceType::class, array(
-                    'placeholder' => 'Выберите цену',
+                    'placeholder' => 'form.search.price',
                     'label' => 'Цена',
                     'choices' => array(
-                        '0 - 20000' => 'to_20000',
-                        '20001 - 50000' => 'to_50000',
-                        'больше 50000' => 'more_then_50000',
+                        'form.search.to_20000' => 'to_20000',
+                        'form.search.to_50000' => 'to_50000',
+                        'form.search.more_then_50000' => 'more_then_50000',
                     ),
                     'choices_as_values' => true,
                     'required' => false,
                 )
             )
-            ->add('search', SubmitType::class, ['label' => 'Искать',
+            ->add('search', SubmitType::class, ['label' => 'form.search.search',
                 'attr' => ['class' => 'btn btn-default']
             ]);
     }

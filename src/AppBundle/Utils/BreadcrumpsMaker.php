@@ -29,7 +29,7 @@ class BreadcrumpsMaker
             $this->breadcrumbs->prependItem($node->getTitle());
             $node = $node->getParent();
         }
-        $this->breadcrumbs->prependItem("Главная");
+        $this->breadcrumbs->prependItem("site.main");
 
         return $this->breadcrumbs;
     }

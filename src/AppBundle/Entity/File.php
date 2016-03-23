@@ -46,7 +46,7 @@ class File
     private $mimeType;
 
     /**
-     * @Assert\File(maxSize="5M")
+     * @Assert\File(maxSize="5M", maxSizeMessage="file.size")
      * @ORM\Column(type="decimal")
      * @Gedmo\UploadableFileSize
      */

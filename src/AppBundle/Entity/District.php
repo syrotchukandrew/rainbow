@@ -40,8 +40,8 @@ class District
      * @Assert\Length(
      *      min = 3,
      *      max = 50,
-     *      minMessage = "district.title.too_short",
-     *      maxMessage = "district.title.too_long"
+     *      minMessage = "district.too_short",
+     *      maxMessage = "district.too_long"
      * )
      */
     private $title;

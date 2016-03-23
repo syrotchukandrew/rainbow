@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MenuItem
@@ -42,7 +43,7 @@ class MenuItem
      * @Assert\NotBlank(message="menu_item.description.blank")
      * @Assert\Length(
      *      min = 3,
-     *      max = 200,
+     *      max = 5000,
      *      minMessage = "menu_item.description.too_short",
      *      maxMessage = "menu_item.description.too_long"
      * )

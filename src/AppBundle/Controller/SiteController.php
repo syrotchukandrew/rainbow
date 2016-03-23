@@ -40,7 +40,7 @@ class SiteController extends Controller
             5
         );
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addItem("Главная");
+        $breadcrumbs->addItem("site.main");
         return $this->render("AppBundle::site/index.html.twig", array('pagination' => $pagination));
     }
 

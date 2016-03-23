@@ -36,6 +36,8 @@ site:
     exclusive_estates: Exlusive estates
     sing_in_please: Sing in, please, to leave a comment and a rate
     flush_comment: The comment is successfully written. After rewise by moderator, will be published.
+    search: Search
+    main: Home
 
 security:
     username: Username
@@ -80,5 +82,17 @@ common:
     favorite_estates: Your favorite estates
     save: Save
     downloadPDF: Download PDF
+    comments: Comments
+    price: Price
+    district: District
 
+form:
+    search:
+        district: Choose district
+        price: Choose price
+        search: Search
+        disable_floor: Disable first/last floor
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: more then 50000
 
