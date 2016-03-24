@@ -160,6 +160,7 @@ class AdminEstateController extends Controller
      */
     public function doMainFotoAction(Estate $estate, File $file, Request $request)
     {
+        $this->denyAccessUnlessGranted('edit', $estate);
         $entityManager = $this->getDoctrine()->getManager();
         $estate->setMainFoto($file);
         $entityManager->flush();

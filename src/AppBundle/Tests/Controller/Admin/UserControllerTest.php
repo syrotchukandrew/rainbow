@@ -45,7 +45,7 @@ class UserControllerTest extends BaseTestController
         $users = $em
             ->getRepository('AppBundle:User')
             ->findByRole('ROLE_MANAGER');
-        $user = $users[0];
+        $user = $users[1];
         $crawler = $this->client->request('GET', "/ru/admin/estates/{$user->getUsername()}");
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
