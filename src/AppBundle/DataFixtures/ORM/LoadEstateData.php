@@ -20,7 +20,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setTitle($faker->sentence);
             $estate->setDescription($faker->sentence);
             $estate->setPrice($faker->numberBetween(10000, 500000));
-            $estate->setCreatedBy('user_manager'.rand(0,2));
+            $estate->setCreatedBy('user_manager' . rand(0, 2));
             $estate->setDistrict($this->getReference('district' . rand(1, 10)));
 
             $exclusive = rand(1, 10);
@@ -42,8 +42,14 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 $comment->setEstate($estate);
                 $estate->addComment($comment);
                 $comment->setContent($faker->sentence);
-                $comment->setCreatedBy('user_admin');
-                $comment->setEnabled(true);
+                $enable = rand(1,2);
+                if ($enable === 1) {
+                    $comment->setEnabled(false);
+                } else {
+                    $comment->setEnabled(true);
+                }
+                $comment->setCreatedBy('user_user1');
+
                 $manager->persist($comment);
             }
             // flats - 40%
