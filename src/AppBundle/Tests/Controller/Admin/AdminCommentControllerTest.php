@@ -89,7 +89,7 @@ class AdminCommentControllerTest extends BaseTestController
             ->getDisabledComments();
         $countCommentsAfter = count($comments);
 
-        $this->assertEquals($countCommentsAfter, $countCommentsBefore - 1);
+        $this->assertEquals($countCommentsAfter, ($countCommentsBefore - 1));
 
     }
 

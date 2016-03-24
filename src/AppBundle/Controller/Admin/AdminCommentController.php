@@ -88,7 +88,7 @@ class AdminCommentController extends Controller
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->flush();
         return $this->redirectToRoute('admin_comments');
     }
