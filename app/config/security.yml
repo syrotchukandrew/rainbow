@@ -17,7 +17,6 @@ security:
             pattern: ^/
 
             anonymous: true
-
             form_login:
                 provider: fos_userbundle
                 check_path: security_login_check

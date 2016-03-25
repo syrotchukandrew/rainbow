@@ -93,7 +93,6 @@ class Estate
      * @var int
      *
      * @ORM\Column(name="price", type="integer", nullable=true)
-     *
      */
     private $price;
 
@@ -130,7 +129,7 @@ class Estate
     private $files;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File")
      */
     private $mainFoto;
 

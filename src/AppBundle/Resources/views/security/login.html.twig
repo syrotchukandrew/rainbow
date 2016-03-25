@@ -28,6 +28,11 @@
                     </fieldset>
                 </form>
             </div>
+            <div>
+                <a class="btn btn-default" href="{{ path('fos_user_resetting_request') }}"
+                   role="button">{{ 'security.forgotten_password'|trans }}
+                </a>
+            </div>
 
             {% block content %}
                 <div id="fb-root"></div>

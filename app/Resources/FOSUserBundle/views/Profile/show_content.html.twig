@@ -4,7 +4,7 @@
     <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
     <a class="btn btn-default" href="{{ path('fos_user_profile_edit') }}"
        role="button">{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</a>
-    <a class="btn btn-default" href="{{ path('fos_user_resetting_request') }}"
+    <a class="btn btn-default" href="{{ path('fos_user_change_password') }}"
        role="button">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
     <h2>{{ 'common.favorite_estates'|trans }}</h2>
     <table class="table table-striped">

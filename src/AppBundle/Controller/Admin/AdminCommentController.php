@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -89,7 +88,7 @@ class AdminCommentController extends Controller
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->flush();
         return $this->redirectToRoute('admin_comments');
     }
