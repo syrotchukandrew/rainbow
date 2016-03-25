@@ -12,6 +12,7 @@ read Clue
 case "$Clue" in
 1) echo "start installing project..."
     npm install
+    npm install pgwslideshow
     composer install --verbose
     ./node_modules/.bin/bower install
     ./node_modules/.bin/gulp
