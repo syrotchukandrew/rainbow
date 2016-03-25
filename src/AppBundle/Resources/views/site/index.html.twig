@@ -2,34 +2,39 @@
     {% block panel %}
         <div class="panel">
             {% for estate in pagination %}
-            <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a></h2>
+                <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a>
+                </h2>
 
-            <div class="row">
-                <div class="col col-sm-8">
-                    {% if estate.files[0] is defined %}
-                    <img src="{{ asset("#{estate.files[0].path}") }}" class="img-responsive">
-                    {% endif %}
+                <div class="row">
+                    <div class="col col-sm-8">
+                        {% if estate.mainFoto is not null %}
+                            <img src="{{ asset(estate.mainFoto.path) }}" class="img-responsive">
+                        {% else %}
+                            <img src="{{ asset(estate.files[0].path) }}" class="img-responsive">
+                        {% endif %}
+                    </div>
+                    <div class="col col-sm-4">
+                        {% if estate.files[1] is defined %}
+                            {% if estate.files[1] != estate.mainFoto %}
+                                <img src="{{ asset("#{estate.files[2].path}") }}" class="img-responsive">
+                            {% endif %}
+                        {% endif %}
+                        <hr>
+                        {% if estate.files[3] is defined %}
+                            <img src="{{ asset("#{estate.files[3].path}") }}" class="img-responsive">
+                        {% endif %}
+                        <hr>
+                    </div>
                 </div>
-                <div class="col col-sm-4">
-                    {% if estate.files[1] is defined %}
-                        <img src="{{ asset("#{estate.files[1].path}") }}" class="img-responsive">
-                    {% endif %}
-                    <hr>
-                    {% if estate.files[2] is defined %}
-                        <img src="{{ asset("#{estate.files[2].path}") }}" class="img-responsive">
-                    {% endif %}
-                    <hr>
-                </div>
-            </div>
 
-            <h3>{{ 'site.summary'|trans }}:</h3>
-            {{ estate.description }}
-            <br><br>
+                <h3>{{ 'site.summary'|trans }}:</h3>
+                {{ estate.description }}
+                <br><br>
                 <a href="{{ path('show_estate', { 'slug': estate.slug }) }}"
                    class="btn btn-default">
                     {{ 'site.more'|trans }}
                 </a>
-            <hr>
+                <hr>
             {% endfor %}
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
