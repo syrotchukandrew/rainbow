@@ -15,6 +15,7 @@ case "$Clue" in
     composer install --verbose
     ./node_modules/.bin/bower install
     ./node_modules/.bin/gulp
+    npm install pgwslideshow
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
     php app/console doctrine:fixtures:load --append --purge-with-truncate
