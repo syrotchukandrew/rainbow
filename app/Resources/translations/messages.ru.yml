@@ -1,0 +1,102 @@
+site:
+    menu:
+        homepage: Главная
+        about: Про нас
+        contacts: Контакты
+    offers: Наши предложения
+    category:
+        houses: Дома
+        house:
+            in_town: Дома в городе
+            outside: Дома за городом
+        flats: Квартиры
+        flat:
+            room: Комната
+            studio: Однокомнатные квартиры
+            two_rooms: Двокомнатные квартиры
+            three_rooms: Трьохкомнатные квартиры
+            multiroom: Многокомнатные
+        steads: Участки
+        stead:
+            cottage: Дачные участки
+            in_town: Участки в городе
+            outside: Участки за городом
+        rent_of_dwelling: Аренда жилья
+        rent:
+            houses: Дома в аренду
+            flats: Квартиры в аренду
+        commerces: Коммерция
+        commerce:
+            rent: Аренда коммерции
+            buy: Продажа коммерции
+    recommend: Посоветуй друзьям
+    summary: Краткое описание
+    more: Подробнее
+    num_comments: %count% коментар|%count% коментаря|%count% коментарів
+    exclusive_estates: Ексклюзивные объекты
+    sing_in_please: Чтобы оставить комментарий зарегистрируйтесь, пожалуйста
+    flush_comment: Комментарий успешно записан. После просмотра модератором, будет опубликован.
+    search: Поиск
+    main: Главная
+
+security:
+    username: Имя пользователя
+    password: Пароль
+    repeat_password: Повторите пароль
+    register: Зарегистрировать
+    login_form: Авторизация
+    login: Войти
+    login_social: Войти через социальные сети:
+    log:
+        facebook: Войти через Facebook
+        google: Войти через Google
+        vk: Войти через VK
+    logout: Выйти
+    registration: Регистрация
+    admin: Панель администрирования
+    user: Пользователь
+    user_email: Електронная почта
+    forgotten_password: Забыли пароль?
+
+admin:
+    back_to_list: Назад к списку
+    title: Название
+    action: Действие
+    user_locked: Заблоктровать
+    user_unlocked: Разблоктровать
+    make_manager: Назначить менеджером
+    make_user: Сделать пользователем
+    id: Идентификатор
+
+common:
+    submit: Отправить
+    foto: Фото
+    published_at: Опубликовано
+    update_at: Редактировано
+    show: Показать
+    edit: Редактировать
+    content: Содержание
+    add: Добавить
+    description: Описание
+    add_favorites: Добавить в избранное
+    delete_favorites: Удалить из избраного
+    favorite_estates: Ваши избранные объекты
+    save: Сохранить
+    downloadPDF: Загрузить PDF
+    comments: Комментарии
+    price: Цена
+    district: Район
+
+form:
+    search:
+        district: Выберите район
+        price: Выберите цену
+        search: Поиск
+        disable_floor: Исключить первый/последний этажи
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: больше 50000
+
+
+
+

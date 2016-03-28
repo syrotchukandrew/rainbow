@@ -1,0 +1,11 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.description }}</p>
+    {{ include('@App/admin/menu_item/_form.html.twig', {
+        form: delete_form,
+        button_label: 'Удалить',
+        button_css: 'btn btn-default',
+        show_confirmation: true,
+    }, with_context = false) }}
+{% endblock panel %}

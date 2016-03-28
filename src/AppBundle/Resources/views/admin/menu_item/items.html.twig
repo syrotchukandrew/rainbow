@@ -1,0 +1,32 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+<h1>Пункты второстепенного меню</h1>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#">Показать все</a></li>
+    <li><a href="{{ path('admin_add_menu_item') }}">Добавить новый</a></li>
+</ul>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Заглавие</th><th><i class="fa fa-cogs"></i>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>
+                <div class="item-actions">
+                    <a href="{{ path('admin_item_show', {'id': item.id }) }}" class="btn btn-default">
+                        Показать</a>
+                    <a href="{{ path('admin_item_edit', {'id': item.id }) }}" class="btn btn-default">
+                        Редактировать </a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock panel %}

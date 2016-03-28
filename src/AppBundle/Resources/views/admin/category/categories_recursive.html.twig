@@ -1,0 +1,39 @@
+{% for category in categories %}
+    {% set title = category.title %}
+    {% if category %}
+        <tr>
+            <td>
+                {% for i in 0..category.lvl %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% endfor %}
+                {{ category.title|trans }}</td>
+            <td>
+                {% if category.lvl != 0 %}
+                    <a href="{{ path('admin_category_up', {'slug': category.slug}) }}">
+                        <img src="{{ asset('images/admin/arrow-up.png') }}" alt="Вверх"/>
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if category.lvl != 0 %}
+                    <a href="{{ path('admin_category_down', {'slug': category.slug}) }}">
+                        <img src="{{ asset('images/admin/arrow-down.png') }}" alt="Вниз"/>
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                <div class="item-actions">
+                    <a href="{{ path('admin_category_delete', { 'slug': category.slug }) }}"
+                       class="btn btn-sm btn-default">
+                        Удалить </a>
+                    <a href="{{ path('admin_category_edit', { 'slug': category.slug }) }}"
+                       class="btn btn-sm btn-default">
+                        <i class="fa fa-edit"></i> Изменить </a>
+                </div>
+            </td>
+        </tr>
+    {% endif %}
+    {% if category.__children %}
+        {% include "@App/admin/category/categories_recursive.html.twig" with {'categories': category.__children} %}
+    {% endif %}
+{% endfor %}

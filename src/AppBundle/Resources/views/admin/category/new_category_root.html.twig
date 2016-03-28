@@ -1,0 +1,15 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+
+{% block panel %}
+            <h1>Добавить корневую категорию</h1>
+            {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            <input type="submit" value="Добавить" class="btn btn-default"/>
+            <br><br>
+            <a href="{{ path('admin_categories') }}" class="btn btn-default">
+                Назад к списку
+            </a>
+            {{ form_end(form) }}
+{% endblock %}
+

@@ -1,0 +1,99 @@
+site:
+    menu:
+        homepage: Home
+        about: About us
+        contacts: Contacts
+    offers: Our offers
+    category:
+        houses: Houses
+        house:
+            in_town: Houses in the town
+            outside: Suburb houses
+        flats: Flats
+        flat:
+            room: Room
+            studio: Studio apartment
+            two_rooms: Tworoom apartment
+            three_rooms: Threeroom apartment
+            multiroom: Multiroom apartment
+        steads: Steads
+        stead:
+            cottage: Steads for cottage
+            in_town: Steads in the town
+            outside: Steads outside the town
+        rent_of_dwelling: Rent of dwelling
+        rent:
+            houses: Houses for rent
+            flats: Flats for rent
+        commerces: Commerce
+        commerce:
+            rent: Commerce for rent
+            buy: Commerce for buy
+    recommend: Recommend to friends
+    summary: Summary
+    more: More
+    num_comments: %count% comment|%count% comments
+    exclusive_estates: Exlusive estates
+    sing_in_please: Sing in, please, to leave a comment and a rate
+    flush_comment: The comment is successfully written. After rewise by moderator, will be published.
+    search: Search
+    main: Home
+
+security:
+    username: Username
+    password: Password
+    repeat_password: Repeat password
+    register: Register
+    login_form: Secure Sign in
+    login_social: Login via social network:
+    log:
+        facebook: Login via Facebook
+        google: Login via Google
+        vk: Login via VK
+    login: login
+    logout: Logout
+    registration: Registration
+    admin: Admin dashboard
+    user: User
+    user_email: Email
+    forgotten_password: Forgotten password?
+
+admin:
+    back_to_list: Back to list
+    title: Title
+    action: Action
+    user_locked: Lock
+    user_unlocked: Unlock
+    make_manager: Do manager
+    make_user: Do user
+    id: id
+
+common:
+    submit: Submit
+    foto: Foto
+    published_at: Published at
+    update_at: Updated at
+    show: Show
+    edit: Edit
+    content: Content:
+    add: Add
+    description: Description
+    add_favorites: Add to favorites
+    delete_favorites: Delete from favorites
+    favorite_estates: Your favorite estates
+    save: Save
+    downloadPDF: Download PDF
+    comments: Comments
+    price: Price
+    district: District
+
+form:
+    search:
+        district: Choose district
+        price: Choose price
+        search: Search
+        disable_floor: Disable first/last floor
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: more then 50000
+

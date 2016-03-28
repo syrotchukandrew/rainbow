@@ -21,14 +21,20 @@ gulp.task('images', function () {
 });
 
 gulp.task('fonts', function () {
-    return gulp.src(['bower_components/bootstrap/fonts/*'])
-        .pipe(gulp.dest('web/fonts/'))
+    return gulp.src(['bower_components/bootstrap/fonts/*',
+    'web-src/fonts/**'
+    ])
+        .pipe(gulp.dest('web/fonts'))
 });
 
 gulp.task('lib-js', function() {
     return gulp.src([
             'bower_components/jquery/dist/jquery.js',
-            'bower_components/bootstrap/dist/js/bootstrap.js'
+            'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/metisMenu/dist/metisMenu.min.js',
+            'bower_components/raphael/raphael-min.js',
+            'bower_components/morrisjs/morris.min.js',
+
         ])
         .pipe(concatJs('app.js'))
         .pipe(minifyJs())

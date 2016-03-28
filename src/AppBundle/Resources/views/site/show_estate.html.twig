@@ -1,0 +1,116 @@
+{% extends '@App/site/base_site.html.twig' %}
+
+{% block panel %}
+    <div style="margin-bottom: 20px">
+        <h1>
+            {{ estate.title }}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if app.user.hasEstate(estate) %}
+                    <a href="{{ path('delete_estate_from_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}"
+                       class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.delete_favorites'|trans }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('add_estate_to_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}"
+                       class="btn btn-info btn-sm">
+                        <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.add_favorites'|trans }}
+                    </a>
+                {% endif %}
+            {% endif %}
+            <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
+            </a>
+        </h1>
+        <ul class="pgwSlideshow">
+            {% for file in estate.files %}
+                <li><img src="{{ asset(file.path) }}"></li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> {{ 'common.description'|trans }}
+            </div>
+            <div class="panel-body">
+                {{ estate.description }}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> {{ 'common.comments'|trans }}
+            </div>
+            <br>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="well">
+                    {{ render(controller('AppBundle:Site:commentNew', { 'slug': estate.slug })) }}
+                </div>
+            {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
+                <hr>
+            {% endif %}
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% for comment in estate.comments %}
+                {% if comment.enabled %}
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ comment.createdBy }}
+                                <small>{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+                            </h4>
+                            {{ comment.content }}
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> {{ 'common.price'|trans }}
+            </div>
+            <div class="panel-body">
+                {{ estate.price }}&#032грн.
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="glyphicon glyphicon-stats"></i> {{ 'common.district'|trans }}
+            </div>
+            <div class="panel-body">
+                {{ estate.district.title }}
+            </div>
+        </div>
+        {% if estate.floor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
+                </div>
+                <div class="panel-body">
+                    {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
+                </div>
+            </div>
+        {% endif %}
+        <ul>
+            <li>{{ googlePlusButton() }}</li>
+            <li>{{ twitterButton() }}</li>
+            <li>{{ facebookButton() }}</li>
+        </ul>
+    </div>
+{% endblock panel %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pgwslideshow.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.pgwSlideshow').pgwSlideshow();
+        });
+    </script>
+{% endblock javascripts %}

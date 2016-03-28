@@ -1,0 +1,17 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+
+{% block panel %}
+            <h1>Добавить район</h1>
+            {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            <input type="submit" value="Добавить" class="btn btn-default"/>
+
+            {{ form_widget(form.saveAndCreateNew, { label: 'Сохранить и создать еще'|trans, attr: { class: 'btn btn-default' } }) }}
+            <br><br>
+            <a href="{{ path('admin_districts') }}" class="btn btn-default">
+                Назад к списку
+            </a>
+            {{ form_end(form) }}
+{% endblock %}
+

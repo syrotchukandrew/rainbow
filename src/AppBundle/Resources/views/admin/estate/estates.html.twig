@@ -1,0 +1,56 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+            <h1>Объекты недвижимocти</h1>
+            <a href="{{ path('admin_estate_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus"></i> Добавить новый </a>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Фото</th>
+                    <th>Категория</th>
+                    <th>Цена</th>
+                    <th>Создано</th>
+                    <th>Район</th>
+                    <th>Ексклюзив</th>
+                    <th><i class="fa fa-cogs"></i>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for estate in pagination %}
+                    <tr>
+                        <td>{{ estate.title }}</td>
+                        <td>
+                            {% if estate.files[0] is defined %}
+                                <img class="img-responsive"
+                                     src={{ asset("#{estate.files[0].path}") | imagine_filter('small') }} alt="foto">
+                            {% endif %}
+                        </td>
+                        <td>{{ estate.category.title|trans }}</td>
+                        <td>{{ estate.price }}</td>
+                        <td>{{ estate.createdAt.date|date("d F Y H:i:s") }}</td>
+                        <td>{{ estate.district.title }}</td>
+                        <td>
+                            {% if estate.exclusive %}
+                                <p>Да</p>
+                            {% else %}
+                                <p>-</p>
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            <div class="item-actions">
+                                 <a href="{{ path('admin_estate_show', { 'slug': estate.slug }) }}" class="btn btn-sm btn-default">
+                                     Показать </a>
+                                 <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="btn btn-sm btn-default">
+                                     <i class="fa fa-edit"></i> Изменить </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+{% endblock panel %}

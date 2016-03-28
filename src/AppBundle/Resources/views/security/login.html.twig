@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="well">
+                <form action="{{ path('security_login_check') }}" method="post">
+                    <fieldset>
+                        <legend><i class="fa fa-lock"></i>{{ 'security.login_form'|trans }}</legend>
+                        <div class="form-group">
+                            <label for="username">{{ 'security.username'|trans }}</label>
+                            <input type="text" id="username" name="_username" value="{{ last_username }}"
+                                   class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">{{ "security.password"|trans }}</label>
+                            <input type="password" id="password" name="_password" class="form-control"/>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+                        <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-sign-in"></i> {{ 'security.login'|trans }}</button>
+                    </fieldset>
+                </form>
+            </div>
+            <div>
+                <a class="btn btn-default" href="{{ path('fos_user_resetting_request') }}"
+                   role="button">{{ 'security.forgotten_password'|trans }}
+                </a>
+            </div>
+
+            {% block content %}
+                <div id="fb-root"></div>
+                <script>
+                    window.fbAsyncInit = function () {
+                        // init the FB JS SDK
+                        FB.init({
+                            appId: '12345678910',                        // App ID from the app dashboard
+                            channelUrl: '//yourdomain.com/channel.html',      // Channel file for x-domain comms
+                            status: true,                                 // Check Facebook Login status
+                            xfbml: true                                  // Look for social plugins on the page
+                        });
+                    };
+
+                    // Load the SDK asynchronously
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) {
+                            return;
+                        }
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/en_US/all.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+
+                    function fb_login() {
+                        FB.getLoginStatus(function (response) {
+                            if (response.status === 'connected') {
+                                // connected
+                                alert('Already connected, redirect to login page to create token.');
+                                document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                            } else {
+                                // not_authorized
+                                FB.login(function (response) {
+                                    if (response.authResponse) {
+                                        document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                                    } else {
+                                        alert('Cancelled.');
+                                    }
+                                }, {scope: 'email'});
+                            }
+                        });
+                    }
+                </script>
+                <div class="well">
+                    <h3>{{ 'security.login_social'|trans }}</h3>
+                    <a class="btn btn-block btn-social btn-facebook" href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook'}) }}">
+                        <span class="fa fa-facebook"></span> {{ 'security.log.facebook'|trans }}
+                    </a>
+                    <a class="btn btn-block btn-social btn-google" href="{{ path('hwi_oauth_service_redirect', {'service': 'google'}) }}">
+                        <span class="fa fa-google"></span> {{ 'security.log.google'|trans }}
+                    </a>
+                    <a class="btn btn-block btn-social btn-vk" href="{{ path('hwi_oauth_service_redirect', {'service': 'vkontakte'}) }}">
+                        <span class="fa fa-vk"></span> {{ 'security.log.vk'|trans }}
+                    </a>
+                </div>
+            {% endblock %}
+
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block sidebar %}
+
+{% endblock %}
+

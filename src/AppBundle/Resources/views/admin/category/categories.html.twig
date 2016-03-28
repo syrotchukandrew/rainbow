@@ -1,0 +1,24 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+    <h1>Категории</h1>
+    <div class="item-actions">
+        <a href="{{ path('admin_category_root_new') }}" class="btn btn-sm btn-default">
+            <i class="fa fa-plus"></i> Добавить корневую категорию</a>
+        <a href="{{ path('admin_category_new') }}" class="btn btn-sm btn-default">
+            <i class="fa fa-plus"></i> Добавить категорию</a>
+    </div>
+    <table class="table table">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Вверх</th>
+            <th>Вниз</th>
+            <th><i class="fa fa-cogs"></i>Действия</th>
+        </tr>
+        </thead>
+        {% include "@App/admin/category/categories_recursive.html.twig" with {'categories':categories} only %}
+    </table>
+{% endblock panel %}
+
+
+

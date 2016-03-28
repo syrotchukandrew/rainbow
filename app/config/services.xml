@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+   <services>
+
+       <service id="my.custom.user_provider" class="AppBundle\Security\Core\User\MyFOSUBUserProvider">
+           <argument type="service" id="fos_user.user_manager"/>
+           <argument type="collection">
+               <argument key="facebook">facebookId</argument>
+               <argument key="google">googleId</argument>
+               <argument key="vkontakte">vkontakteId</argument>
+           </argument>
+       </service>
+
+       <service id="app.twig_extension" class="AppBundle\Twig\AppExtension" public="false">
+           <tag name="twig.extension"/>
+           <argument>%app_locales%</argument>
+           <argument type="service" id="service_container"/>
+       </service>
+
+       <service id="app.socialBarHelper" class="AppBundle\Templating\Helper\SocialBarHelper">
+           <argument type="service" id="templating"/>
+           <tag name="templating.helper" alias="social-buttons"/>
+       </service>
+
+       <service id="app.redirect_to_preferred_locale_listener" class="AppBundle\EventListener\RedirectToPreferredLocaleListener">
+           <argument type="service" id="router"/>
+           <argument>%app_locales%</argument>
+           <argument>%locale%</argument>
+           <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+       </service>
+
+       <service id="app.file_manager" class="AppBundle\Utils\FileManager">
+           <argument type="service" id="doctrine"/>
+           <argument type="service" id="request_stack"/>
+           <argument type="service" id="stof_doctrine_extensions.uploadable.manager"/>
+       </service>
+
+       <service id="app.final_category_finder" class="AppBundle\Utils\FinalCategoryFinder">
+           <argument type="service" id="doctrine"/>
+       </service>
+
+       <service id="app.estate_voter" class="AppBundle\Security\EstateVoter" public="false">
+           <argument type="service" id="security.access.decision_manager"/>
+           <tag name="security.voter"/>
+       </service>
+
+       <service id="app.image_subscriber" class="AppBundle\EventListener\FileCacheRemoveEventSubscriber">
+           <tag name="doctrine.event_subscriber" connection="default"/>
+           <argument type="service" id="liip_imagine.cache.manager"/>
+       </service>
+
+       <service id="app.search" class="AppBundle\Utils\SearchManager">
+           <argument type="service" id="doctrine" />
+       </service>
+
+       <service id="app.check_floor" class="AppBundle\Utils\EstateManager">
+       </service>
+
+       <service id="app.breadcrumps_maker" class="AppBundle\Utils\BreadcrumpsMaker">
+           <argument type="service" id="white_october_breadcrumbs" />
+       </service>
+
+   </services>
+
+</container>

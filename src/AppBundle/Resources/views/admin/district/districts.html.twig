@@ -1,0 +1,33 @@
+{% extends 'AppBundle:admin:base_admin.html.twig' %}
+{% block panel %}
+               <h1>Районы</h1>
+            <a href="{{ path('admin_district_new') }}" class="btn btn-lg btn-block btn-success">
+                <i class="fa fa-plus"></i> Добавить </a>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Идетификатор</th>
+                    <th>Название</th>
+                    <th>Псевдоним</th>
+                    <th><i class="fa fa-cogs"></i>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for district in districts %}
+                    <tr>
+                        <td>{{ district.id }}</td>
+                        <td>{{ district.title }}</td>
+                        <td>{{ district.slug }}</td>
+                        <td>
+                            <div class="item-actions">
+                                <a href="{{ path('admin_district_show', { 'slug': district.slug }) }}" class="btn btn-sm btn-default">
+                                    Показать </a>
+                                <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="btn btn-sm btn-default">
+                                    <i class="fa fa-edit"></i> Редактировать </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+{% endblock panel %}

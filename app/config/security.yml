@@ -1,24 +1,52 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
 security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    role_hierarchy:
+        ROLE_MANAGER:       ROLE_USER
+        ROLE_ADMIN:         ROLE_MANAGER
+
     providers:
-        in_memory:
-            memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username
+        hwi:
+            id: my.custom.user_provider
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
+        main:
+            pattern: ^/
+
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                check_path: security_login_check
+                login_path: security_login_form
+                failure_path: security_login_form
+                csrf_token_generator: security.csrf.token_manager
+
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                    vkontakte:          "/login/check-vkontakte"
+                login_path:        security_login_form
+                use_forward:       false
+                failure_path:      security_login_form
+
+                oauth_user_provider:
+                    service: my.custom.user_provider
+
+
+            logout:
+                path: /logout
+                target: /
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

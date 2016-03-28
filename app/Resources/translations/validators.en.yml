@@ -1,0 +1,34 @@
+comment:
+    blank: Comment don't must be empty
+    too_short: Content of comment must contain minimum {{ limit }} chars
+    too_long: Content of comment must contain maximum {{ limit }} chars
+category:
+    title:
+        blank:
+        too_short: Title of category must contain minimum {{ limit }} chars
+        too_blank: Title of categry must contain maximum {{ limit }} chars
+district:
+    blank: Title of district don't must be empty
+    too_short: Title of district must contain minimum {{ limit }} chars
+    too_long: Title of district must contain maximum {{ limit }} chars
+estate:
+    title:
+        blank: Title of estate don't must be empty
+        too_short: Title of estate must contain minimum {{ limit }} chars
+        too_long: Title of estate must contain maximum {{ limit }} chars
+    description:
+        blank:  Descriptin of estate don't must be empty
+        too_short: Description of estate must contain minimum {{ limit }} chars
+        too_long: Description of estate must contain maximum {{ limit }} chars
+
+file:
+    size: The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.
+menu_item:
+    title:
+        blank:  Title of menu item don't must be empty
+        too_short: Title of menu item must contain minimum {{ limit }} chars
+        too_long: Title of menu item must contain maximum {{ limit }} chars
+    description:
+        blank:  Descriptin of menu item don't must be empty
+        too_short: Description of menu item must contain minimum {{ limit }} chars
+        too_long: Description of menu item must contain maximum {{ limit }} chars

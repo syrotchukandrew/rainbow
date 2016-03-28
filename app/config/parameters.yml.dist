@@ -6,7 +6,7 @@ parameters:
     database_port:     ~
     database_name:     rainbow
     database_user:     root
-    database_password: qweasz
+    database_password:
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
@@ -17,3 +17,6 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    locale: ru
+

@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+{{ form_widget(form) }}
+
+<input type="submit" value="{{ button_label|default('Удалить') }}"
+       class="{{ button_css|default("btn btn-default") }}"/>
+
+<a href="{{ path('admin_items') }}" class="btn btn-default">
+    Вернуться назад
+</a>
+{{ form_end(form) }}
