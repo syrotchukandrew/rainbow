@@ -64,6 +64,11 @@
            <argument type="service" id="white_october_breadcrumbs" />
        </service>
 
+       <service id="app.searcher" class="AppBundle\Utils\Searcher">
+           <argument type="service" id="doctrine"/>
+           <argument type="service" id="request_stack"/>
+       </service>
+
    </services>
 
 </container>

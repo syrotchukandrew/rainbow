@@ -30,15 +30,17 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                         class="glyphicon glyphicon-search"></i></a>
                             <ul class="dropdown-menu" style="padding:12px;">
-                                <form class="form-inline">
+                                <form action="{{ path('livesearch') }}" method="post" class="form-inline">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search">
-
+                                        <input type="text" class="form-control" name="slug"
+                                               onkeyup="showResult(this.value)" placeholder={{ 'common.search.placeholder'|trans }}>
                                         <div class="input-group-btn">
                                             <button type="submit" class="btn btn-default"><i
-                                                        class="glyphicon glyphicon-search"></i></button>
+                                                        class="glyphicon glyphicon-search"></i>
+                                            </button>
                                         </div>
                                     </div>
+                                    <div id="livesearch"></div>
                                 </form>
                             </ul>
                         </li>
@@ -114,7 +116,7 @@
     <footer class="clear-both">
         <div class="row">
             <div class="col-lg-12">
-                <ul class="list-inline" >
+                <ul class="list-inline">
                     <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
                     {{ render(controller('AppBundle:Site:showMenuItem')) }}
                 </ul>
@@ -124,3 +126,10 @@
         <!-- /.row -->
     </footer>
 {% endblock footer %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script src="{{ asset('js/livesearch.js') }}"></script>
+{% endblock javascripts %}
