@@ -20,6 +20,7 @@ class CommentRepository extends EntityRepository
                 SELECT c
                 FROM AppBundle:Comment c
                 WHERE (c.enabled = false)
+                ORDER BY c.createdAt DESC
             ');
         return $query->getResult();
     }
@@ -31,10 +32,20 @@ class CommentRepository extends EntityRepository
                 SELECT c
                 FROM AppBundle:Comment c
                 WHERE (c.enabled = true)
+                ORDER BY c.createdAt DESC
             ');
         return $query->getResult();
     }
 
-
+    public function findAllComments()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                SELECT c
+                FROM AppBundle:Comment c
+                ORDER BY c.createdAt DESC
+            ');
+        return $query->getResult();
+    }
 
 }
