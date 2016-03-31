@@ -86,6 +86,8 @@ common:
     comments: Комментарии
     price: Цена
     district: Район
+    search:
+        placeholder: Введите объект поиска здесь
 
 form:
     search:

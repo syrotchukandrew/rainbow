@@ -76,7 +76,7 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/show_estate/{slug}", name="show_estate")
+     * @Route("/show_estate/{slug}", name="show_estate", options={"expose"=true})
      */
     public function showEstateAction(Request $request, $slug)
     {
@@ -228,5 +228,22 @@ class SiteController extends Controller
         );
     }
 
-
+    /**
+     * @Route("/livesearch", name="livesearch", options={"expose"=true})
+     */
+    public function livesearchAction(Request $request)
+    {
+        if ($request->getMethod() === 'GET') {
+            return new Response(json_encode($this->get('app.searcher')->search()));
+        }
+        if ($request->getMethod() === 'POST') {
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->get('app.searcher')->search(),
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->render('@App/site/index.html.twig', array('pagination' => $pagination));
+        }
+    }
 }
