@@ -23,7 +23,7 @@
         </h1>
         <ul class="pgwSlideshow">
             {% for file in estate.files %}
-                <li><img src="{{ asset(file.path) }}"></li>
+                <li><img src="{{ asset(file.path) |imagine_filter('large') }} "></li>
             {% endfor %}
         </ul>
 

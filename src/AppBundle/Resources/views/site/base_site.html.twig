@@ -1,126 +1,131 @@
 {% extends 'base.html.twig' %}
 {% block nav %}
     <nav class="navbar navbar-static">
-        <div class="container">
-            <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-
-            <div class="nav-collapse collase">
-                <div class="container-fluid">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
-                        {{ render(controller('AppBundle:Site:showMenuItem')) }}
-                    </ul>
-                    <ul class="nav navbar-right navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
-                                <span class="glyphicon glyphicon-globe"></span><span class="caret"></span></a>
-                            <ul class="dropdown-menu locales" role="menu">
-                                {% for locale in locales() %}
-                                    <li {% if app.request.locale == locale.code %}class="active"{% endif %}>
-                                        <a href="{{ path(app.request.get('_route', 'homepage'),
-                                        app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}">
-                                            {{ locale.name|capitalize }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                        class="glyphicon glyphicon-search"></i></a>
-                            <ul class="dropdown-menu" style="padding:12px;">
-                                <form class="form-inline">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search">
-
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default"><i
-                                                        class="glyphicon glyphicon-search"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                        class="glyphicon glyphicon-user"></i><i
-                                        class="glyphicon glyphicon-chevron-down"></i></a>
-                            <ul class="dropdown-menu">
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                    <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
-                                    <li><a href="{{ path('logout') }}">{{ 'security.logout'|trans }}</a></li>
-                                {% else %}
-                                    <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                {% endif %}
-                                {% if is_granted('ROLE_MANAGER') %}
-                                    <li><a href="{{ path('admin_index') }}">{{ 'security.admin'|trans }}</a></li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-{% endblock nav %}
-{% block header %}
-    <header class="masthead">
-        <div class="container">
-            <div class="row">
-                <div class="col col-sm-3">
-                    <img src="{{ asset("images/logo/радуга 1 - копия.png") |imagine_filter('logo') }}">
-                </div>
-                <div class="col col-sm-9">
-                    <div class="well pull-right">
-                        {{ 'site.search'|trans }}
-                        {{ render(controller("AppBundle:Site:search")) }}
-                    </div>
-                </div>
-            </div>
-            {{ wo_render_breadcrumbs() }}
-        </div>
-    </header>
-{% endblock header %}
-{% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col col-sm-3">
-                {% block sidebar %}
-                    <div id="sidebar">
-                        <ul class="nav nav-stacked">
-                            <li><h3 class="highlight">{{ 'site.offers'|trans }}<i
-                                            class="glyphicon glyphicon-dashboard pull-right"></i>
-                                </h3></li>
-                            {{ render(controller('AppBundle:Site:menu')) }}
-                        </ul>
+    <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+    </a>
+
+    <div class="nav-collapse collase">
+    <div class="container-fluid">
+    <ul class="nav navbar-nav">
+        <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
+        {{ render(controller('AppBundle:Site:showMenuItem')) }}
+    </ul>
+    <ul class="nav navbar-right navbar-nav">
+        <li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="#">{{ app.user.username }}</a>
+            {% endif %}
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+               aria-expanded="false">
+                <span class="glyphicon glyphicon-globe"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu locales" role="menu">
+                {% for locale in locales() %}
+                    <li {% if app.request.locale == locale.code %}class="active"{% endif %}>
+                        <a href="{{ path(app.request.get('_route', 'homepage'),
+                        app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}">
+                            {{ locale.name|capitalize }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-search"></i></a>
+            <ul class="dropdown-menu" style="padding:12px;">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search">
+
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i
+                                        class="glyphicon glyphicon-search"></i></button>
+                        </div>
                     </div>
-                {% endblock sidebar %}
-            </div>
-            <div class="col col-sm-9">
-                {% block panel %}{% endblock %}
-            </div>
+                </form>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="glyphicon glyphicon-user"></i><i
+                        class="glyphicon glyphicon-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
+                    <li><a href="{{ path('logout') }}">{{ 'security.logout'|trans }}</a></li>
+                {% else %}
+                    <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a>
+                    </li>
+                    <li class="divider"></li>
+                {% endif %}
+                {% if is_granted('ROLE_MANAGER') %}
+                    <li><a href="{{ path('admin_index') }}">{{ 'security.admin'|trans }}</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        </ul>
         </div>
-    </div>
-{% endblock %}
-{% block footer %}
-    <!-- Footer -->
-    <footer class="clear-both">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-inline" >
-                    <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
-                    {{ render(controller('AppBundle:Site:showMenuItem')) }}
-                </ul>
-                <p>Copyright &copy; Syrotchuk's Website 2016</p>
-            </div>
         </div>
-        <!-- /.row -->
-    </footer>
-{% endblock footer %}
+        </div>
+        </nav>
+        {% endblock nav %}
+        {% block header %}
+            <header class="masthead">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-sm-3">
+                            <img src="{{ asset("images/logo/радуга 1 - копия.png") |imagine_filter('logo') }}">
+                        </div>
+                        <div class="col col-sm-9">
+                            <div class="well pull-right">
+                                {{ 'site.search'|trans }}
+                                {{ render(controller("AppBundle:Site:search")) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ wo_render_breadcrumbs() }}
+                </div>
+            </header>
+        {% endblock header %}
+        {% block body %}
+            <div class="container">
+                <div class="row">
+                    <div class="col col-sm-3">
+                        {% block sidebar %}
+                            <div id="sidebar">
+                                <ul class="nav nav-stacked">
+                                    <li><h3 class="highlight">{{ 'site.offers'|trans }}<i
+                                                    class="glyphicon glyphicon-dashboard pull-right"></i>
+                                        </h3></li>
+                                    {{ render(controller('AppBundle:Site:menu')) }}
+                                </ul>
+                            </div>
+                        {% endblock sidebar %}
+                    </div>
+                    <div class="col col-sm-9">
+                        {% block panel %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        {% block footer %}
+            <!-- Footer -->
+            <footer class="clear-both">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-inline">
+                            <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
+                            {{ render(controller('AppBundle:Site:showMenuItem')) }}
+                        </ul>
+                        <p>Copyright &copy; Syrotchuk's Website 2016</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </footer>
+        {% endblock footer %}

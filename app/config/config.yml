@@ -156,6 +156,11 @@ liip_imagine:
             filters:
                 thumbnail: { size: [60, 40], mode: outbound }
                 auto_rotate: ~
+        icon:
+            quality: 75
+            filters:
+                thumbnail: { size: [60, 60], mode: outbound }
+                auto_rotate: ~
 
 knp_snappy:
     pdf:
