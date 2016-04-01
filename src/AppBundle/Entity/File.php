@@ -23,6 +23,7 @@ class File
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="files", cascade={"persist"})
+     * @ORM\JoinColumn(name="estate_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $estate;
 
