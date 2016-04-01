@@ -129,13 +129,13 @@ liip_imagine:
     resolvers:
         default:
             web_path:
-                web_root: "%kernel.root_dir%/../"
-                cache_prefix:  media/cache/
+                web_root: %kernel.root_dir%/../web
+                cache_prefix: /media/cache/
     loaders:
         default:
             filesystem:
-                data_root: "%kernel.root_dir%/../"
-            web_path: ~
+                data_root: %kernel.root_dir%/../web
+    cache: default
     filter_sets:
         cache: ~
         large:
