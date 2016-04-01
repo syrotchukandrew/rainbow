@@ -14,8 +14,8 @@
                         {% endif %}
                     </div>
                     <div class="col col-sm-4">
-                        {% if estate.files[1] is defined %}
-                            {% if estate.files[1] != estate.mainFoto %}
+                        {% if estate.files[2] is defined %}
+                            {% if estate.files[2] != estate.mainFoto %}
                                 <img src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}" class="img-responsive">
                             {% endif %}
                         {% endif %}

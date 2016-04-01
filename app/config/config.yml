@@ -127,40 +127,40 @@ services:
 
 liip_imagine:
     resolvers:
-       default:
-          web_path: ~
+        default:
+            web_path: ~
     filter_sets:
         cache: ~
         large:
             quality: 75
             filters:
                 thumbnail: { size: [900, 600], mode: outbound }
-                auto_rotate: ~
+                auto_rotate: { angle: 0 }
         medium:
             quality: 75
             filters:
                 thumbnail: { size: [300, 200], mode: outbound }
-                auto_rotate: ~
+                auto_rotate:  { angle: 0 }
         logo:
              quality: 75
              filters:
                  thumbnail: { size: [485, 235], mode: outbound }
-                 auto_rotate: ~
+                 auto_rotate:  { angle: 0 }
         little:
             quality: 75
             filters:
                 thumbnail: { size: [120, 80], mode: outbound }
-                auto_rotate: ~
+                auto_rotate:  { angle: 0 }
         small:
             quality: 75
             filters:
                 thumbnail: { size: [60, 40], mode: outbound }
-                auto_rotate: ~
+                auto_rotate:  { angle: 0 }
         icon:
             quality: 75
             filters:
                 thumbnail: { size: [60, 60], mode: outbound }
-                auto_rotate: ~
+                auto_rotate:  { angle: 0 }
 
 knp_snappy:
     pdf:
