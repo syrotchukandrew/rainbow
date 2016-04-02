@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block nav %}
     <nav class="navbar navbar-static">
-    <div class="container">
-    <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="glyphicon glyphicon-chevron-down"></span>
-    </a>
+        <div class="container">
+            <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
 
             <div class="nav-collapse collase">
                 <div class="container-fluid">
@@ -38,7 +38,9 @@
                                 <form action="{{ path('livesearch') }}" method="post" class="form-inline">
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="slug"
-                                               onkeyup="showResult(this.value)" placeholder={{ 'common.search.placeholder'|trans }}>
+                                               onkeyup="showResult(this.value)"
+                                               placeholder={{ 'common.search.placeholder'|trans }}>
+
                                         <div class="input-group-btn">
                                             <button type="submit" class="btn btn-default"><i
                                                         class="glyphicon glyphicon-search"></i>
@@ -74,72 +76,6 @@
                     </ul>
                 </div>
             </div>
-    <div class="nav-collapse collase">
-    <div class="container-fluid">
-    <ul class="nav navbar-nav">
-        <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
-        {{ render(controller('AppBundle:Site:showMenuItem')) }}
-    </ul>
-    <ul class="nav navbar-right navbar-nav">
-        <li>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="#">{{ app.user.username }}</a>
-            {% endif %}
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-               aria-expanded="false">
-                <span class="glyphicon glyphicon-globe"></span><span class="caret"></span></a>
-            <ul class="dropdown-menu locales" role="menu">
-                {% for locale in locales() %}
-                    <li {% if app.request.locale == locale.code %}class="active"{% endif %}>
-                        <a href="{{ path(app.request.get('_route', 'homepage'),
-                        app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}">
-                            {{ locale.name|capitalize }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-search"></i></a>
-            <ul class="dropdown-menu" style="padding:12px;">
-                <form class="form-inline">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
-
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i
-                                        class="glyphicon glyphicon-search"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-user"></i><i
-                        class="glyphicon glyphicon-chevron-down"></i></a>
-            <ul class="dropdown-menu">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
-                    <li><a href="{{ path('logout') }}">{{ 'security.logout'|trans }}</a></li>
-                {% else %}
-                    <li><a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="{{ path('user_registration') }}">{{ 'security.registration'|trans }}</a>
-                    </li>
-                    <li class="divider"></li>
-                {% endif %}
-                {% if is_granted('ROLE_MANAGER') %}
-                    <li><a href="{{ path('admin_index') }}">{{ 'security.admin'|trans }}</a></li>
-                {% endif %}
-            </ul>
-        </li>
-        </ul>
-        </div>
-        </div>
         </div>
     </nav>
 {% endblock nav %}

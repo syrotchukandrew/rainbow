@@ -124,7 +124,7 @@ class Estate
     private $district;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\File", mappedBy="estate", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\File", mappedBy="estate", cascade={"remove"}, orphanRemoval=true)
      */
     private $files;
 
