@@ -11,11 +11,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $('#username').val('user_admin');
-    $('#password').val('qweasz');
-});
-
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
