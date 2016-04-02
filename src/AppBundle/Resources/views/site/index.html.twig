@@ -8,20 +8,20 @@
                 <div class="row">
                     <div class="col col-sm-8">
                         {% if estate.mainFoto is not null %}
-                            <img src="{{ asset(estate.mainFoto.path) }}" class="img-responsive">
+                            <img src="{{ asset(estate.mainFoto.path) |imagine_filter('large')  }}" class="img-responsive">
                         {% else %}
-                            <img src="{{ asset(estate.files[0].path) }}" class="img-responsive">
+                            <img src="{{ asset(estate.files[0].path) |imagine_filter('large')}}" class="img-responsive">
                         {% endif %}
                     </div>
                     <div class="col col-sm-4">
-                        {% if estate.files[1] is defined %}
-                            {% if estate.files[1] != estate.mainFoto %}
-                                <img src="{{ asset("#{estate.files[2].path}") }}" class="img-responsive">
+                        {% if estate.files[2] is defined %}
+                            {% if estate.files[2] != estate.mainFoto %}
+                                <img src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}" class="img-responsive">
                             {% endif %}
                         {% endif %}
                         <hr>
                         {% if estate.files[3] is defined %}
-                            <img src="{{ asset("#{estate.files[3].path}") }}" class="img-responsive">
+                            <img src="{{ asset("#{estate.files[3].path}") |imagine_filter('medium') }}" class="img-responsive">
                         {% endif %}
                         <hr>
                     </div>

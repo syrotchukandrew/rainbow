@@ -20,7 +20,7 @@ class EstateRepository extends EntityRepository
                 FROM AppBundle:Estate e
                 LEFT JOIN e.files f
                 WHERE (e.exclusive = true)
-                ORDER BY e.createdAt DESC
+                ORDER BY e.updatedAt DESC
             ');
         return $query->getResult();
 

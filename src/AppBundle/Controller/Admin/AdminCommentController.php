@@ -44,7 +44,7 @@ class AdminCommentController extends Controller
      */
     public function allCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->findAll();
+        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->findAllComments();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $comments,
