@@ -90,8 +90,8 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           "%%facebook_id%%"
-            client_secret:       "%%%facebook_secret%%%"
+            client_id:           "%facebook_id%"
+            client_secret:       "%facebook_secret%"
             options:
                 display:    popup
             csrf:                true
@@ -103,16 +103,16 @@ hwi_oauth:
 
         google:
             type:                google
-            client_id:           "%%google_id%%"
-            client_secret:       "%%google_secret%%"
+            client_id:           "%google_id%"
+            client_secret:       "%google_secret%"
             scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
             paths:
                 email: email
 
         vkontakte:
             type:                vkontakte
-            client_id:           "%%vkontakte_id%%"
-            client_secret:       "%%vkontakte_secret%%"
+            client_id:           "%vkontakte_id%"
+            client_secret:       "%vkontakte_secret%"
             scope:               email status
 
 fos_user:
