@@ -85,11 +85,13 @@ hwi_oauth:
     firewall_names: [main]
     fosub:
         username_iterations: 30
+        properties:
+            facebook:    facebook_id
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           "%facebook_id%"
-            client_secret:       "%facebook_secret%"
+            client_id:           "%facebook_client_id%"
+            client_secret:       "%facebook_client_secret%"
             options:
                 display:    popup
             csrf:                true
