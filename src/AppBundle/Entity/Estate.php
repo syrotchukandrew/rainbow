@@ -136,7 +136,6 @@ class Estate
     /**
      * @var File
      */
-
     private $imageFile;
 
     /**
