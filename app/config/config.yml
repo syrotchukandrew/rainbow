@@ -87,6 +87,8 @@ hwi_oauth:
         username_iterations: 30
         properties:
             facebook:    facebook_id
+            google:      google_id
+            vkontakte:   vkontakte_id
     resource_owners:
         facebook:
             type:                facebook
