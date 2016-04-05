@@ -58,9 +58,9 @@ class EstateType extends AbstractType
                 'label' => 'Этажность для квартир во многоэтажках',
             ))
             ->add('price', MoneyType::class, array(
-                'label' => 'Цена в гривнах',
+                'label' => 'Цена в долларах',
                 'grouping' => true,
-                'currency' => 'UAH',
+                'currency' => 'USD',
             ));
 
         if ($options['isDeleteImages']) {
