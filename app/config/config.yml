@@ -85,8 +85,6 @@ hwi_oauth:
     firewall_names: [main]
     fosub:
         username_iterations: 30
-        properties:
-            facebook:    facebook_id1
     resource_owners:
         facebook:
             type:                facebook
