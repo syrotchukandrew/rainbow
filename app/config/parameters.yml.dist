@@ -20,10 +20,10 @@ parameters:
 
     locale: ru
 
-    facebook_id: ~
-    vkontakte_id: ~
-    google_id: ~
-    facebook_secret: ~
-    vkontakte_secret: ~
-    google_secret: ~
+    facebook_client_id: ~
+    vkontakte_client_id: ~
+    google_client_id: ~
+    facebook_client_secret: ~
+    vkontakte_client_secret: ~
+    google_client_secret: ~
 

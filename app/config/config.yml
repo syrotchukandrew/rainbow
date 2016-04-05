@@ -91,7 +91,7 @@ hwi_oauth:
         facebook:
             type:                facebook
             client_id:           %facebook_client_id%
-            client_secret:       "%facebook_client_secret%"
+            client_secret:       %facebook_client_secret%
             options:
                 display:    popup
             csrf:                true
