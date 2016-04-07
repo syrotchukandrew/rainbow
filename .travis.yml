@@ -15,7 +15,7 @@ before_script:
 
 script:
   - app/console doctrine:schema:update --force
-  - app/console doctrine:fixtures:load --append --purge-with-truncate
+  - app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/Dev --append --purge-with-truncate
   - phpunit -c app/ --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

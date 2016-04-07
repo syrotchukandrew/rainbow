@@ -14,19 +14,19 @@ class BaseTestController extends WebTestCase
     /** @var Client */
     protected $client = null;
 
-
-    /*    public function setUp()
+        public function setUp()
         {
             $this->client = static::createClient();
-            $this->runCommand(['command' => 'doctrine:database:create']);
-            $this->runCommand(['command' => 'doctrine:schema:update', '--force' => true]);
-            $this->runCommand(['command' => 'doctrine:fixtures:load', '--no-interaction' => true]);
-        }*/
+            //$this->runCommand(['command' => 'doctrine:database:create']);
+            //$this->runCommand(['command' => 'doctrine:schema:update', '--force' => true]);
+            //$this->runCommand(['command' => 'doctrine:fixtures:load', '--no-interaction' => true]);
+        }
 
     protected function logIn($role)
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $session = $this->client->getContainer()->get('session');
+        $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $session = $client->getContainer()->get('session');
         $admin = $em
             ->getRepository('AppBundle:User')
             ->findByRole($role);
@@ -35,7 +35,7 @@ class BaseTestController extends WebTestCase
         $session->set('_security_' . $firewall, serialize($token));
         $session->save();
         $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+        $client->getCookieJar()->set($cookie);
     }
 
     /*public function tearDown()

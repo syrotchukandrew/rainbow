@@ -34,14 +34,14 @@ class AdminEstateControllerTest extends BaseTestController
 
     public function testEstateShow()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:Estate')
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository('AppBundle:Estate')
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/estate/show/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -68,14 +68,14 @@ class AdminEstateControllerTest extends BaseTestController
 
     public function testEstateEdit()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:Estate')
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository('AppBundle:Estate')
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/estate/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
