@@ -20,7 +20,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         for ($i = 0; $i < count($districts); $i++) {
             $district = new District();
             $district->setTitle($districts[$i]);
-            $this->setReference('district'.($i+1), $district);
             $manager->persist($district);
         }
 
@@ -31,6 +30,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
     {
         // the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
-        return 3;
+        return 1;
     }
 }

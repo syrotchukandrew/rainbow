@@ -34,7 +34,7 @@ case "$Clue" in
     php app/console doctrine:database:drop --force
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
-    php app/console doctrine:fixtures:load --append --purge-with-truncate
+    php app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/Dev --append --purge-with-truncate
 
 ;;
 4) exit 0
