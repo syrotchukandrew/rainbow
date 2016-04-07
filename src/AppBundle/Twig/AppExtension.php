@@ -85,7 +85,7 @@ class AppExtension extends \Twig_Extension
     {
         // default values, you can override the values by setting them
         $parameters = $parameters + array(
-                'url' => 'http://symfony.com',
+                'url' => 'http://anraduga.ck.ua',
                 'locale' => 'en_US',
                 'send' => false,
                 'width' => 300,
@@ -99,7 +99,7 @@ class AppExtension extends \Twig_Extension
     public function getTwitterButton($parameters = array())
     {
         $parameters = $parameters + array(
-                'url' => 'http://symfony.com',
+                'url' => 'http://anraduga.ck.ua',
                 'locale' => 'en',
                 'message' => 'I want to share that page with you',
                 'text' => 'Tweet',
@@ -114,7 +114,7 @@ class AppExtension extends \Twig_Extension
     public function getGooglePlusButton($parameters = array())
     {
         $parameters = $parameters + array(
-                'url' => 'http://symfony.com',
+                'url' => 'http://anraduga.ck.ua',
                 'locale' => 'en',
                 'size' => 'medium',
                 'annotation' => 'bubble',

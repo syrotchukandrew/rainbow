@@ -28,7 +28,7 @@
         "twig/extensions":                   "~1.2",
         "fzaninotto/faker": "1.5.0",
         "knplabs/knp-paginator-bundle": "^2.5",
-        "liip/imagine-bundle": "^1.4",
+        "liip/imagine-bundle": "^1.5",
         "knplabs/knp-snappy-bundle": "dev-master",
         "h4cc/wkhtmltopdf-amd64": "^0.12.3",
         "whiteoctober/breadcrumbs-bundle": "^1.2",

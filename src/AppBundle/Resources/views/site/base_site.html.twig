@@ -82,17 +82,17 @@
 {% block header %}
     <header class="masthead">
         <div class="container">
-            <div class="row">
-                <div class="col col-sm-3">
-                    <img src="{{ asset("images/logo/радуга 1 - копия.png") |imagine_filter('logo') }}">
+                <div class="col col-sm-6">
+                    <a href="{{ path('homepage') }}">
+                        <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}">
+                    </a>
                 </div>
-                <div class="col col-sm-9">
+                <div class="col col-sm-6">
                     <div class="well pull-right">
                         {{ 'site.search'|trans }}
                         {{ render(controller("AppBundle:Site:search")) }}
                     </div>
                 </div>
-            </div>
             {{ wo_render_breadcrumbs() }}
         </div>
     </header>

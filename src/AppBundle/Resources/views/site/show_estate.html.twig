@@ -23,7 +23,7 @@
         </h1>
         <ul class="pgwSlideshow">
             {% for file in estate.files %}
-                <li><img src="{{ asset(file.path) |imagine_filter('large') }} "></li>
+                <li><img alt="фото квартиры купить Черкассы" src="{{ asset(file.path) |imagine_filter('large') }} "></li>
             {% endfor %}
         </ul>
 
@@ -77,7 +77,7 @@
                 <i class="glyphicon glyphicon-stats"></i> {{ 'common.price'|trans }}
             </div>
             <div class="panel-body">
-                {{ estate.price }}&#032грн.
+                {{ estate.price }}&#032дол.
             </div>
         </div>
         <div class="panel panel-default">

@@ -90,7 +90,6 @@ class AdminCommentControllerTest extends BaseTestController
         $countCommentsAfter = count($comments);
 
         $this->assertEquals($countCommentsAfter, ($countCommentsBefore - 1));
-
     }
 
     public function testEnableCommentManager()
