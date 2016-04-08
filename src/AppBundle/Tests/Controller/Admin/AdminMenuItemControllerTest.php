@@ -23,14 +23,14 @@ class AdminMenuItemControllerTest extends BaseTestController
 
     public function testShowItem()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $id = $em
-            ->getRepository('AppBundle:MenuItem')
-            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/show/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -57,14 +57,14 @@ class AdminMenuItemControllerTest extends BaseTestController
 
     public function testEditItem()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $id = $em
-            ->getRepository('AppBundle:MenuItem')
-            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -76,14 +76,14 @@ class AdminMenuItemControllerTest extends BaseTestController
 
     public function testEditItemManager()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $id = $em
-            ->getRepository('AppBundle:MenuItem')
-            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $id = $em
+            ->getRepository('AppBundle:MenuItem')
+            ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());

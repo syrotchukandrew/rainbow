@@ -23,14 +23,14 @@ class AdminDistrictControllerTest extends BaseTestController
 
     public function testDistrictShow()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository('AppBundle:District')
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/show/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -57,14 +57,14 @@ class AdminDistrictControllerTest extends BaseTestController
 
     public function testDistrictEdit()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository('AppBundle:District')
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -76,14 +76,14 @@ class AdminDistrictControllerTest extends BaseTestController
 
     public function testDistrictEditManager()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository('AppBundle:District')
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository('AppBundle:District')
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());

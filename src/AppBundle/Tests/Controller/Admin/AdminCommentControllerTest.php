@@ -53,14 +53,14 @@ class AdminCommentControllerTest extends BaseTestController
 
     public function testShowComment()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $id = $em
-            ->getRepository('AppBundle:Comment')
-            ->findOneBy([])->getId();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $id = $em
+            ->getRepository('AppBundle:Comment')
+            ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/comment/show/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -72,15 +72,15 @@ class AdminCommentControllerTest extends BaseTestController
 
     public function testEnableComment()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $comments = $em
-            ->getRepository('AppBundle:Comment')
-            ->getDisabledComments();
-        $countCommentsBefore = count($comments);
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $comments = $em
+            ->getRepository('AppBundle:Comment')
+            ->getDisabledComments();
+        $countCommentsBefore = count($comments);
         $client->request('GET', "/ru/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
@@ -94,14 +94,15 @@ class AdminCommentControllerTest extends BaseTestController
 
     public function testEnableCommentManager()
     {
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $comments = $em
-            ->getRepository('AppBundle:Comment')
-            ->getDisabledComments();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW' => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $comments = $em
+            ->getRepository('AppBundle:Comment')
+            ->getDisabledComments();
+
         $client->request('GET', "/ru/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
