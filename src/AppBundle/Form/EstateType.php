@@ -39,7 +39,6 @@ class EstateType extends AbstractType
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
-                'choice_translation_domain' => true,
                 'choices' => $options['categories_choices'],
                 'label' => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',

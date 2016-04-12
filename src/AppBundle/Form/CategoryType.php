@@ -17,7 +17,6 @@ class CategoryType extends AbstractType
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
                 'label' => 'Название категории',
-                'translation_domain' => 'messages',
             ));
 
         if ($options['isForm_cat']) {
@@ -25,7 +24,6 @@ class CategoryType extends AbstractType
                 ->add('parent', EntityType::class, array(
                     'required' => false,
                     'class' => 'AppBundle:Category',
-                    'choice_translation_domain' => true,
                     'choice_label' => 'title',
                     'label' => 'Выберите родительскую категорию из выпадающего списка',
                 ));
@@ -37,7 +35,6 @@ class CategoryType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Category',
             'isForm_cat' => null,
-            'translation_domain' => 'messages',
         ));
     }
 
