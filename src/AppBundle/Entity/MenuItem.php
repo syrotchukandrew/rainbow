@@ -41,12 +41,6 @@ class MenuItem
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      * @Assert\NotBlank(message="menu_item.description.blank")
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 5000,
-     *      minMessage = "menu_item.description.too_short",
-     *      maxMessage = "menu_item.description.too_long"
-     * )
      */
     private $description;
 
