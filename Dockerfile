@@ -42,8 +42,8 @@ RUN pecl install xdebug-2.9.8 \
     && echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# Install Composer 1.x (required for Symfony 2.8)
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+# Install Composer 2
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Install wkhtmltopdf for PDF generation
 RUN apt-get update && apt-get install -y wkhtmltopdf \

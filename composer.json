@@ -63,6 +63,10 @@
         "bin-dir": "bin",
         "platform": {
             "php": "5.3.9"
+        },
+        "audit": {
+            "abandoned": "ignore",
+            "block-insecure": false
         }
     },
     "extra": {
