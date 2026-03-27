@@ -99,9 +99,16 @@ class AdminEstateControllerTest extends BaseTestController
         $files = $estate->getFiles();
         $foto = $files[0];
 
+        $estateId = $estate->getId();
+        $fotoId = $foto->getId();
+        $estate->setMainFoto(null);
+        $em->flush();
         $this->assertNull($estate->getMainFoto());
-        $client->request('GET', "/ru/admin/do_main_foto/{$estate->getSlug()}/{$foto->getId()}");
+        $client->request('GET', "/ru/admin/do_main_foto/{$estate->getSlug()}/{$fotoId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals($estate->getMainFoto(), $foto);
+        $em->clear();
+        $freshEstate = $em->getRepository('AppBundle:Estate')->find($estateId);
+        $this->assertNotNull($freshEstate->getMainFoto());
+        $this->assertEquals($fotoId, $freshEstate->getMainFoto()->getId());
     }
 }
