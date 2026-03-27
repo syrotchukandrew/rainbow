@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: rainbow_db
+    platform: linux/amd64
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rainbow
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - rainbow_network
+
+  web:
+    build: .
+    container_name: rainbow_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_NAME: rainbow
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+    networks:
+      - rainbow_network
+
+networks:
+  rainbow_network:
+    driver: bridge
+
+volumes:
+  db_data:
