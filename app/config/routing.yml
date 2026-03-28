@@ -29,18 +29,18 @@ app:
     type:     annotation
     prefix:   /{_locale}
     requirements:
-        _locale: %app_locales%
+        _locale: "%app_locales%"
     defaults:
-        _locale: %locale%
+        _locale: "%locale%"
 
 homepage:
     path:      /{_locale}
-    defaults:  { _controller: AppBundle:Site:index, _locale: ru }
+    defaults:  { _controller: AppBundle\Controller\SiteController::indexAction, _locale: ru }
     requirements:
         _locale:  ru|en
 
 _liip_imagine:
-    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

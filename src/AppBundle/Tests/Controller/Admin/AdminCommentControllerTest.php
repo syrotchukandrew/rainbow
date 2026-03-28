@@ -59,7 +59,7 @@ class AdminCommentControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $id = $em
-            ->getRepository('AppBundle:Comment')
+            ->getRepository(\AppBundle\Entity\Comment::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/comment/show/{$id}");
 
@@ -78,14 +78,14 @@ class AdminCommentControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $comments = $em
-            ->getRepository('AppBundle:Comment')
+            ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
         $countCommentsBefore = count($comments);
         $client->request('GET', "/ru/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $comments = $em
-            ->getRepository('AppBundle:Comment')
+            ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
         $countCommentsAfter = count($comments);
 
@@ -100,7 +100,7 @@ class AdminCommentControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $comments = $em
-            ->getRepository('AppBundle:Comment')
+            ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
 
         $client->request('GET', "/ru/admin/comment_enable/{$comments[0]->getId()}");

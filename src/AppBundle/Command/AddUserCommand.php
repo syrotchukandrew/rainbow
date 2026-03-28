@@ -115,11 +115,11 @@ class AddUserCommand extends Command
         $plainPassword = $input->getArgument('password');
         $email = $input->getArgument('email');
         $isAdmin = $input->getOption('is-admin');
-        $existingUser = $this->entityManager->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
+        $existingUser = $this->entityManager->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
         if (null !== $existingUser) {
             throw new \RuntimeException(sprintf('There is already a user registered with the "%s" username.', $username));
         }
-        $existingEmail = $this->entityManager->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
+        $existingEmail = $this->entityManager->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('email' => $email));
         if (null !== $existingEmail) {
             throw new \RuntimeException(sprintf('There is already a user registered with the "%s" email.', $email));
         }

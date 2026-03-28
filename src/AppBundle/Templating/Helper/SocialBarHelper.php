@@ -2,40 +2,34 @@
 
 namespace AppBundle\Templating\Helper;
 
-use Symfony\Component\Templating\Helper\Helper;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
-class SocialBarHelper extends Helper
+class SocialBarHelper
 {
-    protected $templating;
+    protected $twig;
 
-    public function __construct(EngineInterface $templating)
+    public function __construct(Environment $twig)
     {
-        $this->templating  = $templating;
+        $this->twig = $twig;
     }
 
     public function socialButtons($parameters)
     {
-        return $this->templating->render('AppBundle:helper:socialButtons.html.twig', $parameters);
+        return $this->twig->render('@App/helper/socialButtons.html.twig', $parameters);
     }
 
     public function facebookButton($parameters)
     {
-        return $this->templating->render('AppBundle:helper:facebookButton.html.twig', $parameters);
+        return $this->twig->render('@App/helper/facebookButton.html.twig', $parameters);
     }
 
     public function twitterButton($parameters)
     {
-        return $this->templating->render('AppBundle:helper:twitterButton.html.twig', $parameters);
+        return $this->twig->render('@App/helper/twitterButton.html.twig', $parameters);
     }
 
     public function googlePlusButton($parameters)
     {
-        return $this->templating->render('AppBundle:helper:googlePlusButton.html.twig', $parameters);
-    }
-
-    public function getName()
-    {
-        return 'socialButtons';
+        return $this->twig->render('@App/helper/googlePlusButton.html.twig', $parameters);
     }
 }

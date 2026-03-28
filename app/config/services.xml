@@ -6,7 +6,7 @@
 
    <services>
 
-       <service id="my.custom.user_provider" class="AppBundle\Security\Core\User\MyFOSUBUserProvider">
+       <service id="my.custom.user_provider" class="AppBundle\Security\Core\User\MyFOSUBUserProvider" public="true">
            <argument type="service" id="fos_user.user_manager"/>
            <argument type="collection">
                <argument key="facebook">facebookId</argument>
@@ -15,31 +15,30 @@
            </argument>
        </service>
 
+       <service id="app.socialBarHelper" class="AppBundle\Templating\Helper\SocialBarHelper" public="true">
+           <argument type="service" id="twig"/>
+       </service>
+
        <service id="app.twig_extension" class="AppBundle\Twig\AppExtension" public="false">
            <tag name="twig.extension"/>
            <argument>%app_locales%</argument>
-           <argument type="service" id="service_container"/>
+           <argument type="service" id="app.socialBarHelper"/>
        </service>
 
-       <service id="app.socialBarHelper" class="AppBundle\Templating\Helper\SocialBarHelper">
-           <argument type="service" id="templating"/>
-           <tag name="templating.helper" alias="social-buttons"/>
-       </service>
-
-       <service id="app.redirect_to_preferred_locale_listener" class="AppBundle\EventListener\RedirectToPreferredLocaleListener">
+       <service id="app.redirect_to_preferred_locale_listener" class="AppBundle\EventListener\RedirectToPreferredLocaleListener" public="true">
            <argument type="service" id="router"/>
            <argument>%app_locales%</argument>
            <argument>%locale%</argument>
            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
        </service>
 
-       <service id="app.file_manager" class="AppBundle\Utils\FileManager">
+       <service id="app.file_manager" class="AppBundle\Utils\FileManager" public="true">
            <argument type="service" id="doctrine"/>
            <argument type="service" id="request_stack"/>
            <argument type="service" id="stof_doctrine_extensions.uploadable.manager"/>
        </service>
 
-       <service id="app.final_category_finder" class="AppBundle\Utils\FinalCategoryFinder">
+       <service id="app.final_category_finder" class="AppBundle\Utils\FinalCategoryFinder" public="true">
            <argument type="service" id="doctrine"/>
        </service>
 
@@ -48,26 +47,27 @@
            <tag name="security.voter"/>
        </service>
 
-       <service id="app.image_subscriber" class="AppBundle\EventListener\FileCacheRemoveEventSubscriber">
+       <service id="app.image_subscriber" class="AppBundle\EventListener\FileCacheRemoveEventSubscriber" public="true">
            <tag name="doctrine.event_subscriber" connection="default"/>
            <argument type="service" id="liip_imagine.cache.manager"/>
        </service>
 
-       <service id="app.search" class="AppBundle\Utils\SearchManager">
+       <service id="app.search" class="AppBundle\Utils\SearchManager" public="true">
            <argument type="service" id="doctrine" />
        </service>
 
-       <service id="app.check_floor" class="AppBundle\Utils\EstateManager">
+       <service id="app.check_floor" class="AppBundle\Utils\EstateManager" public="true">
        </service>
 
-       <service id="app.breadcrumps_maker" class="AppBundle\Utils\BreadcrumpsMaker">
+       <service id="app.breadcrumps_maker" class="AppBundle\Utils\BreadcrumpsMaker" public="true">
            <argument type="service" id="white_october_breadcrumbs" />
        </service>
 
-       <service id="app.searcher" class="AppBundle\Utils\Searcher">
+       <service id="app.searcher" class="AppBundle\Utils\Searcher" public="true">
            <argument type="service" id="doctrine"/>
            <argument type="service" id="request_stack"/>
        </service>
+
 
    </services>
 

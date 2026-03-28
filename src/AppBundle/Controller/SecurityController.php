@@ -2,13 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Form\UserType;
+use AppBundle\Controller\AppController;
 use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class SecurityController extends Controller
+class SecurityController extends AppController
 {
     /**
      * @Route("/login", name="security_login_form")
@@ -17,7 +17,7 @@ class SecurityController extends Controller
     {
         $helper = $this->get('security.authentication_utils');
 
-        return $this->render('AppBundle:security:login.html.twig', array(
+        return $this->render('@App/security/login.html.twig', array(
             'last_username' => $helper->getLastUsername(),
             'error' => $helper->getLastAuthenticationError(),
         ));
@@ -41,7 +41,7 @@ class SecurityController extends Controller
             return $this->redirectToRoute('security_login_form');
         }
         return $this->render(
-            'AppBundle:security:register.html.twig',
+            '@App/security/register.html.twig',
             array('form' => $form->createView())
         );
     }

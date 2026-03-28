@@ -40,7 +40,7 @@ class AdminEstateControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/estate/show/{$slug}");
 
@@ -74,7 +74,7 @@ class AdminEstateControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/estate/edit/{$slug}");
 
@@ -94,7 +94,7 @@ class AdminEstateControllerTest extends BaseTestController
 
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $estate = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([]);
         $files = $estate->getFiles();
         $foto = $files[0];
@@ -107,7 +107,7 @@ class AdminEstateControllerTest extends BaseTestController
         $client->request('GET', "/ru/admin/do_main_foto/{$estate->getSlug()}/{$fotoId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $freshEstate = $em->getRepository('AppBundle:Estate')->find($estateId);
+        $freshEstate = $em->getRepository(\AppBundle\Entity\Estate::class)->find($estateId);
         $this->assertNotNull($freshEstate->getMainFoto());
         $this->assertEquals($fotoId, $freshEstate->getMainFoto()->getId());
     }

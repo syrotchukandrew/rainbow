@@ -13,7 +13,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
-        $client->request('GET', '/ru/admin/');
+        $client->request('GET', '/ru/admin');
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
@@ -24,7 +24,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $client->request('GET', '/ru/admin/');
+        $client->request('GET', '/ru/admin');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -52,7 +52,7 @@ class UserControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $users = $em
-            ->getRepository('AppBundle:User')
+            ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[1];
         $crawler = $client->request('GET', "/ru/admin/estates/{$user->getUsername()}");
@@ -72,7 +72,7 @@ class UserControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $users = $em
-            ->getRepository('AppBundle:User')
+            ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $userId = $user->getId();
@@ -82,12 +82,12 @@ class UserControllerTest extends BaseTestController
         $client->request('GET', "/ru/admin/users/lock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
         $this->assertEquals(false, $user->isEnabled());
         $client->request('GET', "/ru/admin/users/unlock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
         $this->assertEquals(true, $user->isEnabled());
 
         $client = static::createClient(array(), array(
@@ -107,7 +107,7 @@ class UserControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $users = $em
-            ->getRepository('AppBundle:User')
+            ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
@@ -124,7 +124,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $query = $em->createQuery(
-                'SELECT u FROM AppBundle:User u
+                'SELECT u FROM AppBundle\Entity\User u
              WHERE NOT u.roles LIKE :role2
              AND NOT u.roles LIKE :role3')
             ->setParameter('role2', '%ROLE_ADMIN%')

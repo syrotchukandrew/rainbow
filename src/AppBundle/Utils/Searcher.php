@@ -25,7 +25,7 @@ class Searcher
 
     public function search()
     {
-        $allEstates = $this->doctrine->getRepository('AppBundle:Estate')->findAll();
+        $allEstates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->findAll();
         $request = $this->requestStack->getCurrentRequest();
         $slug = $request->get('slug');
         $method = $request->getMethod();

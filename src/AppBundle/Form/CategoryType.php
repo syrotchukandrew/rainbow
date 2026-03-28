@@ -23,7 +23,7 @@ class CategoryType extends AbstractType
             $builder
                 ->add('parent', EntityType::class, array(
                     'required' => false,
-                    'class' => 'AppBundle:Category',
+                    'class' => 'AppBundle\Entity\Category',
                     'choice_label' => 'title',
                     'label' => 'Выберите родительскую категорию из выпадающего списка',
                 ));

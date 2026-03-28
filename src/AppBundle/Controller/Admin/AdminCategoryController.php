@@ -2,23 +2,21 @@
 
 namespace AppBundle\Controller\Admin;
 
+use AppBundle\Controller\AppController;
 use AppBundle\Entity\Category;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Form\CategoryType;
-
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Security("has_role('ROLE_MANAGER')")
+ * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminCategoryController extends Controller
+class AdminCategoryController extends AppController
 {
     /**
      * @Route("/categories", name="admin_categories")
@@ -27,7 +25,7 @@ class AdminCategoryController extends Controller
     public function categoriesAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $categories = $repo->childrenHierarchy();
         return $this->render("@App/admin/category/categories.html.twig", ['categories' => $categories]);
     }
@@ -35,12 +33,12 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category_root/new", name="admin_category_root_new")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function newCategoryRootAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -61,12 +59,12 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category/new", name="admin_category_new")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function newCategoryAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $form->handleRequest($request);
@@ -89,13 +87,13 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category/edit/{slug}", name="admin_category_edit")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryEditAction(Category $category, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $editForm = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -116,13 +114,13 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category/delete/{slug}", name="admin_category_delete")
      * @Method({"GET", "DELETE"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function categoryDeleteAction(Request $request, Category $category)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $deleteForm = $this->createForm(CategoryType::class, $category,['method' => 'DELETE']);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
@@ -141,13 +139,13 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category/up/{slug}", name="admin_category_up")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryUpAction(Request $request, Category $category)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         if ($category->getParent()){
             $repo->moveUp($category);
             $repo->verify();
@@ -160,13 +158,13 @@ class AdminCategoryController extends Controller
     /**
      * @Route("/category/down/{slug}", name="admin_category_down")
      * @Method("GET")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryDownAction(Request $request, Category $category)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $repo = $entityManager->getRepository('AppBundle\Entity\Category');
+        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         if ($category->getParent()){
             $repo->moveDown($category);
             $repo->verify();

@@ -23,7 +23,7 @@ class FinalCategoryFinder
     {
         $finalCategories = array();
         $entityManager = $this->doctrine->getManager();
-        $categories = $entityManager->getRepository('AppBundle:Category')->findAll();
+        $categories = $entityManager->getRepository(\AppBundle\Entity\Category::class)->findAll();
         foreach ($categories as $category1) {
             $flag = false;
             foreach ($categories as $category2) {

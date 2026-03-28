@@ -32,7 +32,7 @@ class SiteControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/en/show_estate/{$slug}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -60,7 +60,7 @@ class SiteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/en/menu_item");
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $menuItems = $em
-            ->getRepository('AppBundle:MenuItem')
+            ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findAll();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(
@@ -74,7 +74,7 @@ class SiteControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $menuItems = $em
-            ->getRepository('AppBundle:MenuItem')
+            ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findAll();
 
         $crawler = $client->request('GET', "/en/description_menu/{$menuItems[0]->getId()}}");
@@ -90,7 +90,7 @@ class SiteControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $estates = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findAll();
         $client->request('GET', "/en/pdf/{$estates[0]->getSlug()}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -101,10 +101,10 @@ class SiteControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Estate')
+            ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
         $users = $em
-            ->getRepository('AppBundle:User')
+            ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $countBefore = count($user->getEstates());

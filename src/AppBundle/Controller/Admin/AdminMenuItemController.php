@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Controller\Admin;
+use AppBundle\Controller\AppController;
 
 use AppBundle\Entity\MenuItem;
 use AppBundle\Form\MenuItemType;
@@ -14,15 +15,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Security("has_role('ROLE_MANAGER')")
+ * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminMenuItemController extends Controller
+class AdminMenuItemController extends AppController
 {
     /**
      * @Route("/menu_items", name="admin_items")
@@ -30,7 +31,7 @@ class AdminMenuItemController extends Controller
     public function showItemsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $items = $em->getRepository('AppBundle:MenuItem')->findAll();
+        $items = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
         return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
     }
 
@@ -71,7 +72,7 @@ class AdminMenuItemController extends Controller
     /**
      * @Route("/menu_item/edit/{id}", name="admin_item_edit")
      * @Method({"GET", "PUT"})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
      */
     public function editItemAction(Request $request, MenuItem $menuItem)
@@ -101,7 +102,7 @@ class AdminMenuItemController extends Controller
     /**
      * @Route("/menu_item/delete/{id}", name="admin_menu_item_delete")
      * @Method("DELETE")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
      */
     public function deleteCommentAction(Request $request, MenuItem $menuItem)

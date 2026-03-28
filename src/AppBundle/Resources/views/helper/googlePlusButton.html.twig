@@ -2,7 +2,7 @@
     {% set url = app.request.uri %}
 {% endif %}
 
-{% spaceless %}
+{% apply spaceless %}
     <div class="g-plusone" data-size="{{size}}" data-annotation="{{annotation}}" data-width="{{width}}" data-href="{{url}}"></div>
 
     <script type="text/javascript">
@@ -15,4 +15,4 @@
         })();
     </script>
 
-{% endspaceless %}
+{% endapply %}

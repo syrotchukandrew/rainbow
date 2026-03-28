@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -11,10 +11,10 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class BaseTestController extends WebTestCase
 {
-    /** @var Client */
+    /** @var KernelBrowser */
     protected $client = null;
 
-        public function setUp()
+        public function setUp(): void
         {
             $this->client = static::createClient();
             //$this->runCommand(['command' => 'doctrine:database:create']);
@@ -28,7 +28,7 @@ class BaseTestController extends WebTestCase
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $session = $client->getContainer()->get('session');
         $admin = $em
-            ->getRepository('AppBundle:User')
+            ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole($role);
         $firewall = 'main';
         $token = new UsernamePasswordToken($admin[0]->getUsername(), null, $firewall, array($role));

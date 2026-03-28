@@ -42,7 +42,7 @@ class SearchManager
         }
         $id_category = $data['category']->getId();
         $except_floor = $data['except_floor'];
-        $estates = $this->doctrine->getRepository('AppBundle:Estate')
+        $estates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)
             ->findEstatesFromForm($id_category, $id_district, $price_min, $price_max, $except_floor);
         return $estates;
 

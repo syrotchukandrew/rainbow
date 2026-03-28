@@ -29,7 +29,7 @@ class AdminDistrictControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:District')
+            ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/show/{$slug}");
 
@@ -63,7 +63,7 @@ class AdminDistrictControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:District')
+            ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
 
@@ -82,7 +82,7 @@ class AdminDistrictControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:District')
+            ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/district/edit/{$slug}");
 

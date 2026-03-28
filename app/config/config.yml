@@ -15,18 +15,15 @@ framework:
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.project_dir%/app/config/routing.yml"
         strict_requirements: ~
+    assets:          ~
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
-    templating:
-        engines: ['twig']
-        #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
@@ -92,8 +89,8 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           %facebook_client_id%
-            client_secret:       %facebook_client_secret%
+            client_id:           "%facebook_client_id%"
+            client_secret:       "%facebook_client_secret%"
             options:
                 display:    popup
             csrf:                true
@@ -121,6 +118,8 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
     from_email:
         address: "noreply@rainbow.local"
         sender_name: "Rainbow"
@@ -181,7 +180,7 @@ knp_snappy:
         enabled:    true
         binary:     /usr/bin/wkhtmltopdf
         options:    []
-    temporary_folder: %kernel.cache_dir%/snappy
+    temporary_folder: "%kernel.cache_dir%/snappy"
 
 white_october_breadcrumbs:
     separator:          false

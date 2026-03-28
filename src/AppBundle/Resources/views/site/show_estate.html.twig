@@ -44,7 +44,7 @@
             <br>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div class="well">
-                    {{ render(controller('AppBundle:Site:commentNew', { 'slug': estate.slug })) }}
+                    {{ render(controller('AppBundle\\Controller\\SiteController::commentNewAction', { 'slug': estate.slug })) }}
                 </div>
             {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
                 <hr>
