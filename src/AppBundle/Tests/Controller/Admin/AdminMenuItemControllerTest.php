@@ -29,7 +29,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $id = $em
-            ->getRepository('AppBundle:MenuItem')
+            ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/show/{$id}");
 
@@ -63,7 +63,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $id = $em
-            ->getRepository('AppBundle:MenuItem')
+            ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
 
@@ -82,7 +82,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $id = $em
-            ->getRepository('AppBundle:MenuItem')
+            ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/ru/admin/menu_item/edit/{$id}");
 

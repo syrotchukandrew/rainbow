@@ -18,7 +18,7 @@ class CommentRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT c
-                FROM AppBundle:Comment c
+                FROM AppBundle\Entity\Comment c
                 WHERE (c.enabled = false)
                 ORDER BY c.createdAt DESC
             ');
@@ -30,7 +30,7 @@ class CommentRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT c
-                FROM AppBundle:Comment c
+                FROM AppBundle\Entity\Comment c
                 WHERE (c.enabled = true)
                 ORDER BY c.createdAt DESC
             ');
@@ -42,7 +42,7 @@ class CommentRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT c
-                FROM AppBundle:Comment c
+                FROM AppBundle\Entity\Comment c
                 ORDER BY c.createdAt DESC
             ');
         return $query->getResult();

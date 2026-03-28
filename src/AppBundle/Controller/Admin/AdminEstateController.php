@@ -1,11 +1,12 @@
 <?php
 
 namespace AppBundle\Controller\Admin;
+use AppBundle\Controller\AppController;
 
 use AppBundle\Entity\Estate;
 use AppBundle\Entity\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\EstateType;
@@ -17,21 +18,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Security("has_role('ROLE_MANAGER')")
+ * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminEstateController extends Controller
+class AdminEstateController extends AppController
 {
     /**
      * @Route("/", name="admin_index")
      */
     public function indexAction(Request $request)
     {
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
-        $districts = $this->getDoctrine()->getRepository('AppBundle:District')->findAll();
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
-        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->findAll();
-        return $this->render('AppBundle::admin/index.html.twig', array(
+        $users = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findAll();
+        $districts = $this->getDoctrine()->getRepository(\AppBundle\Entity\District::class)->findAll();
+        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
+        $estates = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->findAll();
+        return $this->render('@App/admin/index.html.twig', array(
             'count_disabled_comments' => count($comments),
             'count_estates' => count($estates),
             'count_users' => count($users),
@@ -45,7 +46,7 @@ class AdminEstateController extends Controller
      */
     public function estatesAction(Request $request)
     {
-        $estates = $this->getDoctrine()->getRepository('AppBundle:Estate')->getEstatesWithAll();
+        $estates = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getEstatesWithAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $estates,
@@ -61,7 +62,7 @@ class AdminEstateController extends Controller
      */
     public function estateShowAction($slug, Request $request)
     {
-        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->getOneEstateWithAll($slug);
+        $estate = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
         $deleteForm = $this->createDeleteForm($estate);
         return $this->render('@App/admin/estate/show_estate.html.twig', array(
             'estate' => $estate,
@@ -77,7 +78,7 @@ class AdminEstateController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $estate = new Estate();
-        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
         $this->denyAccessUnlessGranted('create', $estate);
         $form = $this->createForm(EstateType::class, $estate, array('categories_choices' => $finalCategories))
             ->add('saveAndCreateNew', SubmitType::class);
@@ -104,10 +105,10 @@ class AdminEstateController extends Controller
      */
     public function estateEditAction($slug, Request $request)
     {
-        $estate = $this->getDoctrine()->getRepository('AppBundle:Estate')->getOneEstateWithAll($slug);
+        $estate = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('edit', $estate);
-        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
         $editForm = $this->createForm(EstateType::class, $estate, array(
             'categories_choices' => $finalCategories, 'isDeleteImages' => true));
         $deleteForm = $this->createDeleteForm($estate);

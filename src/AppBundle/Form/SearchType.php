@@ -23,7 +23,7 @@ class SearchType extends AbstractType
     {
         $builder
             ->add('category', EntityType::class, array(
-                'class' => 'AppBundle:Category',
+                'class' => 'AppBundle\Entity\Category',
                 'choices' => $options['categories_choices'],
                 'label' => 'Категория',
                 'choice_label' => 'title',
@@ -34,7 +34,7 @@ class SearchType extends AbstractType
 
             ))
             ->add('district', EntityType::class, array(
-                'class' => 'AppBundle:District',
+                'class' => 'AppBundle\Entity\District',
                 'placeholder' => 'form.search.district',
                 'choice_label' => 'title',
                 'label' => 'Район',
@@ -48,7 +48,6 @@ class SearchType extends AbstractType
                         'form.search.to_50000' => 'to_50000',
                         'form.search.more_then_50000' => 'more_then_50000',
                     ),
-                    'choices_as_values' => true,
                     'required' => false,
                 )
             )

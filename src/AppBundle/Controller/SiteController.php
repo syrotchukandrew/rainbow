@@ -8,23 +8,23 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\MenuItem;
-use AppBundle\Entity\Estate;
-use AppBundle\Entity\User;
+use AppBundle\Controller\AppController;
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Estate;
+use AppBundle\Entity\MenuItem;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\SearchType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class SiteController extends Controller
+class SiteController extends AppController
 {
     /**
      * @Route("/", name="homepage")
@@ -32,7 +32,7 @@ class SiteController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle:Estate')->getEstateExclusiveWithFiles();
+        $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateExclusiveWithFiles();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $estates,
@@ -41,7 +41,7 @@ class SiteController extends Controller
         );
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("site.main");
-        return $this->render("AppBundle::site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
 
     /**
@@ -50,10 +50,10 @@ class SiteController extends Controller
     public function menuAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $categoryEntity = $em->getRepository('AppBundle\Entity\Category');
+        $categoryEntity = $em->getRepository(\AppBundle\Entity\Category::class);
         $categories = $categoryEntity->childrenHierarchy();
 
-        return $this->render("AppBundle::includes/menu.html.twig", ['links' => $categories]);
+        return $this->render("@App/includes/menu.html.twig", ['links' => $categories]);
     }
 
     /**
@@ -63,16 +63,16 @@ class SiteController extends Controller
     public function showCategoryAction(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $estates = $em->getRepository('AppBundle\Entity\Estate')->getEstateFromCategory($category->getTitle());
+        $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateFromCategory($category->getTitle());
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
             5
         );
-        $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($category);
+        $this->get('app.breadcrumps_maker')->makeBreadcrumps($category);
 
-        return $this->render("AppBundle::site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
 
     /**
@@ -81,10 +81,10 @@ class SiteController extends Controller
     public function showEstateAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $estate = $em->getRepository('AppBundle\Entity\Estate')->getEstateWithDistrictComment($slug);
-        $this->container->get('app.breadcrumps_maker')->makeBreadcrumps($estate->getCategory(), $estate);
+        $estate = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateWithDistrictComment($slug);
+        $this->get('app.breadcrumps_maker')->makeBreadcrumps($estate->getCategory(), $estate);
 
-        return $this->render('AppBundle:site:show_estate.html.twig', array('estate' => $estate));
+        return $this->render('@App/site/show_estate.html.twig', array('estate' => $estate));
     }
 
     /**
@@ -108,7 +108,7 @@ class SiteController extends Controller
             $comment->setEstate($estate);
             $entityManager->persist($comment);
             $entityManager->flush();
-            $this->get('session')->getFlashBag()->add('success', 'site.flush_comment');
+            $this->addFlash('success', 'site.flush_comment');
             return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
         }
 
@@ -123,7 +123,7 @@ class SiteController extends Controller
      * */
     public function searchAction(Request $request)
     {
-        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
             'action' => $this->generateUrl('site_search_result'),
             'categories_choices' => $finalCategories));
@@ -138,7 +138,7 @@ class SiteController extends Controller
      * */
     public function searchResultAction(Request $request)
     {
-        $finalCategories = $this->container->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
             'action' => $this->generateUrl('site_search_result'),
             'categories_choices' => $finalCategories));
@@ -152,7 +152,7 @@ class SiteController extends Controller
                 $request->query->getInt('page', 1),
                 5
             );
-            return $this->render('AppBundle:site:index.html.twig', array('pagination' => $pagination));
+            return $this->render('@App/site/index.html.twig', array('pagination' => $pagination));
         }
 
         return $this->redirectToRoute('homepage');
@@ -164,8 +164,8 @@ class SiteController extends Controller
     public function showMenuItemAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $menuitems = $em->getRepository('AppBundle:MenuItem')->findAll();
-        return $this->render('AppBundle:includes:menu_items.html.twig', array('items' => $menuitems));
+        $menuitems = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
+        return $this->render('@App/includes/menu_items.html.twig', array('items' => $menuitems));
     }
 
     /**
@@ -174,7 +174,7 @@ class SiteController extends Controller
      */
     public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
     {
-        return $this->render('AppBundle:site:show_description_menu_item.html.twig', array('item' => $menuItem));
+        return $this->render('@App/site/show_description_menu_item.html.twig', array('item' => $menuItem));
     }
 
     /**

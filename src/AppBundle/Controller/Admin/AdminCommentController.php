@@ -8,35 +8,34 @@
 
 namespace AppBundle\Controller\Admin;
 
+use AppBundle\Controller\AppController;
 use AppBundle\Entity\Comment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 
 /**
- * @Security("has_role('ROLE_MANAGER')")
+ * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminCommentController extends Controller
+class AdminCommentController extends AppController
 {
     /**
      * @Route("/comments", name="admin_comments")
      */
     public function indexAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
+        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('AppBundle::admin/comment/comments.html.twig', array('pagination' => $pagination));
+        return $this->render('@App/admin/comment/comments.html.twig', array('pagination' => $pagination));
     }
 
     /**
@@ -44,14 +43,14 @@ class AdminCommentController extends Controller
      */
     public function allCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->findAllComments();
+        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->findAllComments();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('AppBundle::admin/comment/all_comments.html.twig', array('pagination' => $pagination));
+        return $this->render('@App/admin/comment/all_comments.html.twig', array('pagination' => $pagination));
     }
 
     /**
@@ -59,14 +58,14 @@ class AdminCommentController extends Controller
      */
     public function publishedCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getEnabledComments();
+        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getEnabledComments();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('AppBundle:admin/comment:published_comments.html.twig', array('pagination' => $pagination));
+        return $this->render('@App/admin/comment/published_comments.html.twig', array('pagination' => $pagination));
     }
 
     /**
@@ -76,14 +75,14 @@ class AdminCommentController extends Controller
     public function showCommentAction(Request $request, Comment $comment)
     {
         $form = $this->deleteForm($comment);
-        return $this->render("AppBundle:admin/comment:show_comment.html.twig", array("comment" => $comment,
+        return $this->render("@App/admin/comment/show_comment.html.twig", array("comment" => $comment,
             'delete_form' => $form->createView(),));
     }
 
     /**
      * @Route("/comment_enable/{id}", name="admin_enable_comment")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function enableCommentAction(Request $request, Comment $comment)
     {
@@ -96,7 +95,7 @@ class AdminCommentController extends Controller
     /**
      * @Route("/comment/delete/{id}", name="admin_comment_delete")
      * @Method("DELETE")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
      */
     public function deleteCommentAction(Request $request, Comment $comment)
@@ -125,8 +124,8 @@ class AdminCommentController extends Controller
      */
     public function countDisablesCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->getDisabledComments();
-        return $this->render("AppBundle:admin/comment:count_disables_comment.html.twig",
+        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
+        return $this->render("@App/admin/comment/count_disables_comment.html.twig",
             array("count_disables_comments" => count($comments)));
     }
 }

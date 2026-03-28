@@ -32,11 +32,15 @@ security:
                 login_path:        security_login_form
                 use_forward:       false
                 failure_path:      security_login_form
+                provider:          fos_userbundle
 
                 oauth_user_provider:
                     service: my.custom.user_provider
 
+            http_basic:
+                provider: fos_userbundle
 
+            logout_on_user_change: true
             logout:
                 path: /logout
                 target: /

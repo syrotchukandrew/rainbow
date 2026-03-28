@@ -56,7 +56,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $this->client = static::createClient();
         $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
@@ -79,7 +79,7 @@ class AdminCategoryControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
 
         $crawler = $client->request('GET', "/ru/admin/category/edit/{$slug}");
@@ -99,9 +99,9 @@ class AdminCategoryControllerTest extends BaseTestController
         ));
 
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $repo = $em->getRepository('AppBundle\Entity\Category');
+        $repo = $em->getRepository(\AppBundle\Entity\Category::class);
         $category = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[0];
@@ -111,7 +111,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $category = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[1];
@@ -121,9 +121,9 @@ class AdminCategoryControllerTest extends BaseTestController
         $client->request('GET', "/ru/admin/category/up/{$child->getSlug()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        $repo = $em->getRepository('AppBundle\Entity\Category');
+        $repo = $em->getRepository(\AppBundle\Entity\Category::class);
         $category = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[0];
@@ -140,7 +140,7 @@ class AdminCategoryControllerTest extends BaseTestController
         ));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $slug = $em
-            ->getRepository('AppBundle:Category')
+            ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
 
         $client->request('GET', "/ru/admin/category/up/{$slug}");

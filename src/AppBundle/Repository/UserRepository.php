@@ -38,7 +38,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         if (null === $user) {
             $message = sprintf(
-                'Unable to find an active admin AppBundle:User object identified by "%s".',
+                'Unable to find an active admin AppBundle\Entity\User object identified by "%s".',
                 $username
             );
             throw new UsernameNotFoundException($message);

@@ -33,12 +33,12 @@ class EstateType extends AbstractType
                 ]
             ))
             ->add('district', EntityType::class, array(
-                'class' => 'AppBundle:District',
+                'class' => 'AppBundle\Entity\District',
                 'choice_label' => 'title',
                 'label' => 'Выберите район из выпадающего списка',
             ))
             ->add('category', EntityType::class, array(
-                'class' => 'AppBundle:Category',
+                'class' => 'AppBundle\Entity\Category',
                 'choices' => $options['categories_choices'],
                 'label' => 'Выберите категорию из выпадающего списка',
                 'choice_label' => 'title',
@@ -65,7 +65,7 @@ class EstateType extends AbstractType
         if ($options['isDeleteImages']) {
             $builder
                 ->add('files', EntityType::class, array(
-                    'class' => 'AppBundle:File',
+                    'class' => 'AppBundle\Entity\File',
                     'query_builder' => function (\Doctrine\ORM\EntityRepository $repository) use ($estate) {
                         return $repository->createQueryBuilder('file')
                             ->where('file.estate = ?1')

@@ -7,7 +7,7 @@
     {% endif %}
     {% if link.__children %}
         <ul class="nav">
-            {% include "AppBundle::includes/menu-links.html.twig" with {'links': link.__children} %}
+            {% include "@App/includes/menu-links.html.twig" with {'links': link.__children} %}
         </ul>
         {% endif %}
         </li>

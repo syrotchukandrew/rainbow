@@ -17,7 +17,7 @@ class EstateRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT e, f
-                FROM AppBundle:Estate e
+                FROM AppBundle\Entity\Estate e
                 LEFT JOIN e.files f
                 WHERE (e.exclusive = true)
                 ORDER BY e.updatedAt DESC
@@ -31,7 +31,7 @@ class EstateRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT e, c, f
-                FROM AppBundle:Estate e
+                FROM AppBundle\Entity\Estate e
                 LEFT JOIN e.category c
                 LEFT JOIN e.files f
                 WHERE (c.title = :slug)
@@ -46,7 +46,7 @@ class EstateRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT e, d, com, f, cat
-                FROM AppBundle:Estate e
+                FROM AppBundle\Entity\Estate e
                 LEFT JOIN e.district d
                 LEFT JOIN e.category cat
                 LEFT JOIN e.comments com
@@ -100,7 +100,7 @@ class EstateRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery('
                 SELECT e, d, c, f
-                FROM AppBundle:Estate e
+                FROM AppBundle\Entity\Estate e
                 LEFT JOIN e.district d
                 LEFT JOIN e.files f
                 LEFT JOIN e.category c
