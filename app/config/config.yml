@@ -135,7 +135,12 @@ services:
 liip_imagine:
     resolvers:
         default:
-            web_path: ~
+            web_path:
+                web_root: "%kernel.project_dir%/web"
+    loaders:
+        default:
+            filesystem:
+                data_root: "%kernel.project_dir%/web"
     filter_sets:
         cache: ~
         large:
