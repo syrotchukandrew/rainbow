@@ -7,7 +7,7 @@ use AppBundle\Entity\Estate;
 use AppBundle\Entity\File;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface

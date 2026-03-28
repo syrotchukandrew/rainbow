@@ -10,7 +10,6 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Controller\AppController;
 use AppBundle\Entity\Comment;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -93,9 +92,7 @@ class AdminCommentController extends AppController
     }
 
     /**
-     * @Route("/comment/delete/{id}", name="admin_comment_delete")
-     * @Method("DELETE")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/comment/delete/{id}", name="admin_comment_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
      */
     public function deleteCommentAction(Request $request, Comment $comment)

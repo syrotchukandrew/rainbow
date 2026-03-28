@@ -49,12 +49,12 @@ class EstateVoter extends Voter
         }
         switch ($attribute) {
             case self::VIEW:
-                if ($this->decisionManager->decide($token, array('ROLE_ADMIN', 'ROLE_MANAGER'))) {
+                if ($this->decisionManager->decide($token, ['ROLE_ADMIN']) || $this->decisionManager->decide($token, ['ROLE_MANAGER'])) {
                     return true;
                 }
                 break;
             case self::CREATE:
-                if ($this->decisionManager->decide($token, array('ROLE_ADMIN', 'ROLE_MANAGER'))) {
+                if ($this->decisionManager->decide($token, ['ROLE_ADMIN']) || $this->decisionManager->decide($token, ['ROLE_MANAGER'])) {
                     return true;
                 }
                 break;

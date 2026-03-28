@@ -14,6 +14,8 @@ framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
+    mailer:
+        dsn: "%mailer_dsn%"
     router:
         resource: "%kernel.project_dir%/app/config/routing.yml"
         strict_requirements: ~
@@ -34,6 +36,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    paths:
+        "%kernel.project_dir%/app/Resources/views": ~
 
 # Doctrine Configuration
 doctrine:
@@ -57,15 +61,6 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-# Swiftmailer Configuration
-swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    auth_mode:  login
-    spool:     { type: memory }
-
 stof_doctrine_extensions:
     default_locale: ru
     orm:
@@ -80,12 +75,6 @@ hwi_oauth:
     connect:
         account_connector: my.custom.user_provider
     firewall_names: [main]
-    fosub:
-        username_iterations: 30
-        properties:
-            facebook:    facebook_id
-            google:      google_id
-            vkontakte:   vkontakte_id
     resource_owners:
         facebook:
             type:                facebook
@@ -114,22 +103,7 @@ hwi_oauth:
             client_secret:       "%vkontakte_client_secret%"
             scope:               email status
 
-fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
-    firewall_name: main
-    user_class: AppBundle\Entity\User
-    service:
-        mailer: fos_user.mailer.twig_swift
-    from_email:
-        address: "noreply@rainbow.local"
-        sender_name: "Rainbow"
-    registration:
-        confirmation:
-            enabled: true
-
 services:
-    fos_user.doctrine_registry:
-        alias: doctrine
 
 
 liip_imagine:

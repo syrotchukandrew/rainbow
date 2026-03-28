@@ -20,8 +20,8 @@
                         <tr><td>Назавание</td><td>{{ estate.title }}</td></tr>
                         <tr><td>Псевдоним</td><td>{{ estate.slug }}</td></tr>
                         <tr><td>Кем создано</td><td>{{ estate.createdBy }}</td></tr>
-                        <tr><td>Дата создания</td><td>{{ estate.createdAt.date|date("d F Y H:i:s") }}</td></tr>
-                        <tr><td>Дата редактирования</td><td>{{ estate.updatedAt.date|date("d F Y H:i:s") }}</td></tr>
+                        <tr><td>Дата создания</td><td>{{ estate.createdAt|date("d F Y H:i:s") }}</td></tr>
+                        <tr><td>Дата редактирования</td><td>{{ estate.updatedAt|date("d F Y H:i:s") }}</td></tr>
                         <tr><td>Описание</td><td>{{ estate.description }}</td></tr>
                         <tr><td>Цена</td><td>{{ estate.price }}</td></tr>
                         <tr><td>Ексклюзив</td><td>{{ estate.exclusive }}</td></tr>

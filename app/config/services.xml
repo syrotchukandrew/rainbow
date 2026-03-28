@@ -6,13 +6,16 @@
 
    <services>
 
-       <service id="my.custom.user_provider" class="AppBundle\Security\Core\User\MyFOSUBUserProvider" public="true">
-           <argument type="service" id="fos_user.user_manager"/>
-           <argument type="collection">
-               <argument key="facebook">facebookId</argument>
-               <argument key="google">googleId</argument>
-               <argument key="vkontakte">vkontakteId</argument>
-           </argument>
+       <prototype namespace="AppBundle\Controller\" resource="../../src/AppBundle/Controller" autoconfigure="true" public="true">
+       </prototype>
+
+       <service id="security.authentication_utils" class="Symfony\Component\Security\Http\Authentication\AuthenticationUtils" public="true">
+           <argument type="service" id="request_stack"/>
+           <argument type="service" id="security.token_storage" on-invalid="null"/>
+       </service>
+
+       <service id="my.custom.user_provider" class="AppBundle\Security\Core\User\OAuthUserProvider" public="true">
+           <argument type="service" id="doctrine.orm.entity_manager"/>
        </service>
 
        <service id="app.socialBarHelper" class="AppBundle\Templating\Helper\SocialBarHelper" public="true">

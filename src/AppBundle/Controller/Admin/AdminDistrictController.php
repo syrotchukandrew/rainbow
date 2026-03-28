@@ -5,7 +5,6 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Controller\AppController;
 use AppBundle\Entity\District;
 use AppBundle\Form\DistrictType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -20,9 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminDistrictController extends AppController
 {
     /**
-     * @Route("/districts", name="admin_districts")
-     * @Method("GET")
-     */
+     * @Route("/districts", name="admin_districts", methods={"GET"})     */
     public function districtsAction(Request $request)
     {
         $districts = $this->getDoctrine()->getRepository(\AppBundle\Entity\District::class)->findAll();
@@ -30,9 +27,7 @@ class AdminDistrictController extends AppController
     }
 
     /**
-     * @Route("/district/show/{slug}", name="admin_district_show")
-     * @Method("GET")
-     * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
+     * @Route("/district/show/{slug}", name="admin_district_show", methods={"GET"})     * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
     public function districtShowAction(District $district, Request $request)
     {
@@ -44,9 +39,7 @@ class AdminDistrictController extends AppController
     }
 
     /**
-     * @Route("/district/new", name="admin_district_new")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/district/new", name="admin_district_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function newDistrictAction(Request $request)
     {
@@ -70,9 +63,7 @@ class AdminDistrictController extends AppController
     }
 
     /**
-     * @Route("/district/edit/{slug}", name="admin_district_edit")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/district/edit/{slug}", name="admin_district_edit", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
     public function districtEditAction(District $district, Request $request)
@@ -94,9 +85,7 @@ class AdminDistrictController extends AppController
     }
 
     /**
-     * @Route("/district/delete/{slug}", name="admin_district_delete")
-     * @Method("DELETE")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/district/delete/{slug}", name="admin_district_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
      */
     public function DistrictDeleteAction(Request $request, District $district)

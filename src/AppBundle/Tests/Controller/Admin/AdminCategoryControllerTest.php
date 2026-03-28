@@ -53,15 +53,14 @@ class AdminCategoryControllerTest extends BaseTestController
 
     public function testCategoryEdit()
     {
-        $this->client = static::createClient();
-        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        $slug = $em
-            ->getRepository(\AppBundle\Entity\Category::class)
-            ->findOneBy([])->getSlug();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $slug = $em
+            ->getRepository(\AppBundle\Entity\Category::class)
+            ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/ru/admin/category/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

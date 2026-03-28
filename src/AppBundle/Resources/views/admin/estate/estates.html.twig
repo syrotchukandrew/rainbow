@@ -28,7 +28,7 @@
                         </td>
                         <td>{{ estate.category.title|trans }}</td>
                         <td>{{ estate.price }}</td>
-                        <td>{{ estate.createdAt.date|date("d F Y H:i:s") }}</td>
+                        <td>{{ estate.createdAt|date("d F Y H:i:s") }}</td>
                         <td>{{ estate.district.title }}</td>
                         <td>
                             {% if estate.exclusive %}

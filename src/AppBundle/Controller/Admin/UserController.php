@@ -5,7 +5,6 @@ use AppBundle\Controller\AppController;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends AppController
 {
     /**
-     * @Route("/users", name="admin_users")
-     * @Method("GET")
+     * @Route("/users", name="admin_users", methods={"GET"})
      */
     public function usersAction(Request $request)
     {
@@ -34,8 +32,7 @@ class UserController extends AppController
     }
 
     /**
-     * @Route("/users/managers", name="admin_users_managers")
-     * @Method("GET")
+     * @Route("/users/managers", name="admin_users_managers", methods={"GET"})
      */
     public function usersManagersAction(Request $request)
     {
@@ -62,11 +59,11 @@ class UserController extends AppController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/user/estates_manager.html.twig', array('pagination' => $pagination));    }
+        return $this->render('@App/admin/user/estates_manager.html.twig', array('pagination' => $pagination));
+    }
 
     /**
-     * @Route("/users/lock_user/{username}", name="lock_user")
-     * @Method("GET")
+     * @Route("/users/lock_user/{username}", name="lock_user", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function lockUserAction(Request $request, $username)
@@ -79,8 +76,7 @@ class UserController extends AppController
     }
 
     /**
-     * @Route("/users/unlock_user/{username}", name="unlock_user")
-     * @Method("GET")
+     * @Route("/users/unlock_user/{username}", name="unlock_user", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function unlockUserAction(Request $request, $username)
@@ -93,8 +89,7 @@ class UserController extends AppController
     }
 
     /**
-     * @Route("/users/do_manager/{username}", name="do_manager")
-     * @Method("GET")
+     * @Route("/users/do_manager/{username}", name="do_manager", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function doManagerAction(Request $request, $username)
@@ -107,8 +102,7 @@ class UserController extends AppController
     }
 
     /**
-     * @Route("/users/do_user/{username}", name="do_user")
-     * @Method("GET")
+     * @Route("/users/do_user/{username}", name="do_user", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function doUserAction(Request $request, $username)

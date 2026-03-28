@@ -16,10 +16,6 @@ class BaseTestController extends WebTestCase
 
         public function setUp(): void
         {
-            $this->client = static::createClient();
-            //$this->runCommand(['command' => 'doctrine:database:create']);
-            //$this->runCommand(['command' => 'doctrine:schema:update', '--force' => true]);
-            //$this->runCommand(['command' => 'doctrine:fixtures:load', '--no-interaction' => true]);
         }
 
     protected function logIn($role)
