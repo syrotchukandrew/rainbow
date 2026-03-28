@@ -2,7 +2,7 @@
 
 namespace AppBundle\Utils;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Searcher
@@ -14,10 +14,10 @@ class Searcher
     /**
      * Constructor.
      *
-     * @param Registry $doctrine A Registry instance
+     * @param ManagerRegistry $doctrine A Registry instance
      * @param RequestStack $doctrine A RequestStack instance
      */
-    public function __construct(Registry $doctrine, RequestStack $requestStack)
+    public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack)
     {
         $this->doctrine = $doctrine;
         $this->requestStack = $requestStack;

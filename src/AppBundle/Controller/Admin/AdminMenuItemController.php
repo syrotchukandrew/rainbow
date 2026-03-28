@@ -7,14 +7,14 @@
  */
 
 namespace AppBundle\Controller\Admin;
-use AppBundle\Controller\AppController;
 
 use AppBundle\Entity\MenuItem;
 use AppBundle\Form\MenuItemType;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,14 +22,21 @@ use Symfony\Component\HttpFoundation\Request;
  * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminMenuItemController extends AppController
+class AdminMenuItemController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * @Route("/menu_items", name="admin_items")
      */
     public function showItemsAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $items = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
         return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
     }
@@ -39,7 +46,7 @@ class AdminMenuItemController extends AppController
      */
     public function addItemAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $menu_item = new MenuItem();
         $form = $this->createForm(MenuItemType::class, $menu_item);
         $form->handleRequest($request);
@@ -74,7 +81,7 @@ class AdminMenuItemController extends AppController
      */
     public function editItemAction(Request $request, MenuItem $menuItem)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $form = $this->createForm(MenuItemType::class, $menuItem, [
             'method' => 'PUT',
             'attr' => ['class' => 'horizontal']
@@ -105,7 +112,7 @@ class AdminMenuItemController extends AppController
         $form = $this->deleteForm($menuItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
             $entityManager->remove($menuItem);
             $entityManager->flush();
         }

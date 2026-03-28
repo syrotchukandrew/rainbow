@@ -3,7 +3,7 @@
 namespace AppBundle\Utils;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
 use AppBundle\Entity\File;
 
@@ -17,11 +17,11 @@ class FileManager
     /**
      * Constructor.
      *
-     * @param Registry $doctrine A Registry instance
+     * @param ManagerRegistry $doctrine A Registry instance
      * @param RequestStack $doctrine A RequestStack instance
      * @param UploadableManager $uploadableManager A UploadableManager instance
      */
-    public function __construct(Registry $doctrine, RequestStack $requestStack, UploadableManager $uploadableManager)
+    public function __construct(ManagerRegistry $doctrine, RequestStack $requestStack, UploadableManager $uploadableManager)
     {
         $this->doctrine = $doctrine;
         $this->requestStack = $requestStack;

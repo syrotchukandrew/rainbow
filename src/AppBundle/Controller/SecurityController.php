@@ -2,32 +2,38 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\AppController;
 use AppBundle\Entity\User;
 use AppBundle\Form\PasswordResetRequestType;
 use AppBundle\Form\PasswordResetType;
 use AppBundle\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AppController
+class SecurityController extends AbstractController
 {
+    private AuthenticationUtils $authenticationUtils;
+
+    public function __construct(AuthenticationUtils $authenticationUtils)
+    {
+        $this->authenticationUtils = $authenticationUtils;
+    }
+
     /**
      * @Route("/login", name="security_login_form")
      */
     public function loginAction()
     {
-        $helper = $this->get('security.authentication_utils');
-
         return $this->render('@App/security/login.html.twig', array(
-            'last_username' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError(),
+            'last_username' => $this->authenticationUtils->getLastUsername(),
+            'error' => $this->authenticationUtils->getLastAuthenticationError(),
         ));
     }
 

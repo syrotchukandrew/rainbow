@@ -8,11 +8,13 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Controller\AppController;
 use AppBundle\Entity\Comment;
+use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -20,16 +22,24 @@ use Symfony\Component\HttpFoundation\Request;
  * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminCommentController extends AppController
+class AdminCommentController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $doctrine, PaginatorInterface $paginator)
+    {
+        $this->doctrine = $doctrine;
+        $this->paginator = $paginator;
+    }
+
     /**
      * @Route("/comments", name="admin_comments")
      */
     public function indexAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
+        $pagination = $this->paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
@@ -42,9 +52,8 @@ class AdminCommentController extends AppController
      */
     public function allCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->findAllComments();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->findAllComments();
+        $pagination = $this->paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
@@ -57,9 +66,8 @@ class AdminCommentController extends AppController
      */
     public function publishedCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getEnabledComments();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getEnabledComments();
+        $pagination = $this->paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             20
@@ -86,7 +94,7 @@ class AdminCommentController extends AppController
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->flush();
         return $this->redirectToRoute('admin_comments');
     }
@@ -100,7 +108,7 @@ class AdminCommentController extends AppController
         $form = $this->deleteForm($comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
         }
@@ -121,7 +129,7 @@ class AdminCommentController extends AppController
      */
     public function countDisablesCommentsAction(Request $request)
     {
-        $comments = $this->getDoctrine()->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
+        $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
         return $this->render("@App/admin/comment/count_disables_comment.html.twig",
             array("count_disables_comments" => count($comments)));
     }

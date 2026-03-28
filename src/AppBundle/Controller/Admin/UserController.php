@@ -1,8 +1,10 @@
 <?php
 
 namespace AppBundle\Controller\Admin;
-use AppBundle\Controller\AppController;
 
+use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,16 +16,24 @@ use Symfony\Component\HttpFoundation\Response;
  * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class UserController extends AppController
+class UserController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $doctrine, PaginatorInterface $paginator)
+    {
+        $this->doctrine = $doctrine;
+        $this->paginator = $paginator;
+    }
+
     /**
      * @Route("/users", name="admin_users", methods={"GET"})
      */
     public function usersAction(Request $request)
     {
-        $users = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findAll();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findAll();
+        $pagination = $this->paginator->paginate(
             $users,
             $request->query->getInt('page', 1),
             10
@@ -36,9 +46,8 @@ class UserController extends AppController
      */
     public function usersManagersAction(Request $request)
     {
-        $users = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findByRole('ROLE_MANAGER');
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findByRole('ROLE_MANAGER');
+        $pagination = $this->paginator->paginate(
             $users,
             $request->query->getInt('page', 1),
             10
@@ -51,10 +60,9 @@ class UserController extends AppController
      */
     public function showEstatesManagerAction(Request $request, $slug)
     {
-        $estates = $this->getDoctrine()->getManager()->getRepository(\AppBundle\Entity\Estate::class)
+        $estates = $this->doctrine->getManager()->getRepository(\AppBundle\Entity\Estate::class)
             ->getEstatesOfManager($slug);
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
             10
@@ -68,8 +76,8 @@ class UserController extends AppController
      */
     public function lockUserAction(Request $request, $username)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
+        $entityManager = $this->doctrine->getManager();
+        $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
         $user->setEnabled(false);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -81,8 +89,8 @@ class UserController extends AppController
      */
     public function unlockUserAction(Request $request, $username)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
+        $entityManager = $this->doctrine->getManager();
+        $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
         $user->setEnabled(true);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -94,8 +102,8 @@ class UserController extends AppController
      */
     public function doManagerAction(Request $request, $username)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
+        $entityManager = $this->doctrine->getManager();
+        $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
         $user->addRole('ROLE_MANAGER');
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -107,8 +115,8 @@ class UserController extends AppController
      */
     public function doUserAction(Request $request, $username)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
+        $entityManager = $this->doctrine->getManager();
+        $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
         if ($user->hasRole('ROLE_MANAGER')) {
             $user->removeRole('ROLE_MANAGER');
             $entityManager->flush();
@@ -116,4 +124,3 @@ class UserController extends AppController
         return $this->redirectToRoute('admin_users');
     }
 }
-

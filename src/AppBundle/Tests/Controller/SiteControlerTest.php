@@ -45,7 +45,7 @@ class SiteControllerTest extends WebTestCase
     public function testShowCategory()
     {
         $client = static::createClient();
-        $categories = $client->getContainer()->get('app.final_category_finder')->findFinalCategories();
+        $categories = $client->getContainer()->get(\AppBundle\Utils\FinalCategoryFinder::class)->findFinalCategories();
         $crawler = $client->request('GET', "en/show_category/{$categories[0]->getTitle()}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(

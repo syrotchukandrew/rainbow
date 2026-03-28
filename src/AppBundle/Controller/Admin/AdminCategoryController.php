@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Controller\AppController;
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,13 +16,21 @@ use Symfony\Component\HttpFoundation\Request;
  * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminCategoryController extends AppController
+class AdminCategoryController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     /**
-     * @Route("/categories", name="admin_categories", methods={"GET"})     */
+     * @Route("/categories", name="admin_categories", methods={"GET"})
+     */
     public function categoriesAction(Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $categories = $repo->childrenHierarchy();
         return $this->render("@App/admin/category/categories.html.twig", ['categories' => $categories]);
@@ -32,7 +41,7 @@ class AdminCategoryController extends AppController
      */
     public function newCategoryRootAction(Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -56,7 +65,7 @@ class AdminCategoryController extends AppController
      */
     public function newCategoryAction(Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
@@ -83,7 +92,7 @@ class AdminCategoryController extends AppController
      */
     public function categoryEditAction(Category $category, Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $editForm = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $editForm->handleRequest($request);
@@ -108,7 +117,7 @@ class AdminCategoryController extends AppController
      */
     public function categoryDeleteAction(Request $request, Category $category)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $deleteForm = $this->createForm(CategoryType::class, $category,['method' => 'DELETE']);
         $deleteForm->handleRequest($request);
@@ -131,7 +140,7 @@ class AdminCategoryController extends AppController
      */
     public function categoryUpAction(Request $request, Category $category)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         if ($category->getParent()){
             $repo->moveUp($category);
@@ -148,7 +157,7 @@ class AdminCategoryController extends AppController
      */
     public function categoryDownAction(Request $request, Category $category)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         if ($category->getParent()){
             $repo->moveDown($category);

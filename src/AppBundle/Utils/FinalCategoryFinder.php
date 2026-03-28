@@ -2,7 +2,7 @@
 
 namespace AppBundle\Utils;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class FinalCategoryFinder
@@ -12,9 +12,9 @@ class FinalCategoryFinder
     /**
      * Constructor.
      *
-     * @param Registry $doctrine A Registry instance
+     * @param ManagerRegistry $doctrine A Registry instance
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }

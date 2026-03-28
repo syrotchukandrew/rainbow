@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Controller\AppController;
 use AppBundle\Entity\District;
 use AppBundle\Form\DistrictType;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,13 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
  * @Security("is_granted('ROLE_MANAGER')")
  * @Route("/admin")
  */
-class AdminDistrictController extends AppController
+class AdminDistrictController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * @Route("/districts", name="admin_districts", methods={"GET"})     */
     public function districtsAction(Request $request)
     {
-        $districts = $this->getDoctrine()->getRepository(\AppBundle\Entity\District::class)->findAll();
+        $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
         return $this->render('@App/admin/district/districts.html.twig', array('districts' => $districts));
     }
 
@@ -43,9 +51,8 @@ class AdminDistrictController extends AppController
      */
     public function newDistrictAction(Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $district = new District();
-        //$this->denyAccessUnlessGranted('create', $estate);
         $form = $this->createForm(DistrictType::class, $district)->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,7 +75,7 @@ class AdminDistrictController extends AppController
      */
     public function districtEditAction(District $district, Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $editForm = $this->createForm(DistrictType::class, $district);
         $deleteForm = $this->createDeleteForm($district);
         $editForm->handleRequest($request);
@@ -93,7 +100,7 @@ class AdminDistrictController extends AppController
         $form = $this->createDeleteForm($district);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
 
             $entityManager->remove($district);
             $entityManager->flush();

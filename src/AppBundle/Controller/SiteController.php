@@ -8,7 +8,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\AppController;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Estate;
@@ -16,30 +15,66 @@ use AppBundle\Entity\MenuItem;
 use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\SearchType;
+use AppBundle\Utils\BreadcrumpsMaker;
+use AppBundle\Utils\FinalCategoryFinder;
+use AppBundle\Utils\SearchManager;
+use AppBundle\Utils\Searcher;
+use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Snappy\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 
-class SiteController extends AppController
+class SiteController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+    private PaginatorInterface $paginator;
+    private BreadcrumpsMaker $breadcrumpsMaker;
+    private FinalCategoryFinder $finalCategoryFinder;
+    private SearchManager $searchManager;
+    private Searcher $searcher;
+    private Pdf $pdf;
+    private Breadcrumbs $breadcrumbs;
+
+    public function __construct(
+        ManagerRegistry $doctrine,
+        PaginatorInterface $paginator,
+        BreadcrumpsMaker $breadcrumpsMaker,
+        FinalCategoryFinder $finalCategoryFinder,
+        SearchManager $searchManager,
+        Searcher $searcher,
+        Pdf $pdf,
+        Breadcrumbs $breadcrumbs
+    ) {
+        $this->doctrine = $doctrine;
+        $this->paginator = $paginator;
+        $this->breadcrumpsMaker = $breadcrumpsMaker;
+        $this->finalCategoryFinder = $finalCategoryFinder;
+        $this->searchManager = $searchManager;
+        $this->searcher = $searcher;
+        $this->pdf = $pdf;
+        $this->breadcrumbs = $breadcrumbs;
+    }
+
     /**
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateExclusiveWithFiles();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
             5
         );
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addItem("site.main");
+        $this->breadcrumbs->addItem("site.main");
         return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
 
@@ -48,7 +83,7 @@ class SiteController extends AppController
      */
     public function menuAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $categoryEntity = $em->getRepository(\AppBundle\Entity\Category::class);
         $categories = $categoryEntity->childrenHierarchy();
 
@@ -61,15 +96,14 @@ class SiteController extends AppController
      */
     public function showCategoryAction(Request $request, Category $category)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateFromCategory($category->getTitle());
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
             5
         );
-        $this->get('app.breadcrumps_maker')->makeBreadcrumps($category);
+        $this->breadcrumpsMaker->makeBreadcrumps($category);
 
         return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
@@ -79,9 +113,9 @@ class SiteController extends AppController
      */
     public function showEstateAction(Request $request, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $estate = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateWithDistrictComment($slug);
-        $this->get('app.breadcrumps_maker')->makeBreadcrumps($estate->getCategory(), $estate);
+        $this->breadcrumpsMaker->makeBreadcrumps($estate->getCategory(), $estate);
 
         return $this->render('@App/site/show_estate.html.twig', array('estate' => $estate));
     }
@@ -93,7 +127,7 @@ class SiteController extends AppController
      */
     public function commentNewAction(Estate $estate, Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -121,7 +155,7 @@ class SiteController extends AppController
      * */
     public function searchAction(Request $request)
     {
-        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->finalCategoryFinder->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
             'action' => $this->generateUrl('site_search_result'),
             'categories_choices' => $finalCategories));
@@ -136,16 +170,15 @@ class SiteController extends AppController
      * */
     public function searchResultAction(Request $request)
     {
-        $finalCategories = $this->get('app.final_category_finder')->findFinalCategories();
+        $finalCategories = $this->finalCategoryFinder->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
             'action' => $this->generateUrl('site_search_result'),
             'categories_choices' => $finalCategories));
 
         $searchForm->handleRequest($request);
         if ($searchForm->isValid() && $searchForm->isSubmitted()) {
-            $estates = $this->get('app.search')->searchEstate($searchForm->getData());
-            $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate(
+            $estates = $this->searchManager->searchEstate($searchForm->getData());
+            $pagination = $this->paginator->paginate(
                 $estates,
                 $request->query->getInt('page', 1),
                 5
@@ -161,7 +194,7 @@ class SiteController extends AppController
      */
     public function showMenuItemAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $menuitems = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
         return $this->render('@App/includes/menu_items.html.twig', array('items' => $menuitems));
     }
@@ -182,7 +215,7 @@ class SiteController extends AppController
      */
     public function addEstateToFavoritesAction(Estate $estate, User $user, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         if (!$user->hasEstate($estate)) {
             $user->addEstate($estate);
             $em->persist($user);
@@ -199,7 +232,7 @@ class SiteController extends AppController
      */
     public function deleteEstateFromFavoritesAction(Estate $estate, User $user, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         if ($user->hasEstate($estate)) {
             $user->removeEstate($estate);
             $em->persist($user);
@@ -218,7 +251,7 @@ class SiteController extends AppController
         $html = $this->renderView('@App/site/pdf.html.twig', array('estate' => $estate));
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('images' => true)), 200,
+            $this->pdf->getOutputFromHtml($html, array('images' => true)), 200,
             array(
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="file.pdf"'
@@ -232,16 +265,16 @@ class SiteController extends AppController
     public function livesearchAction(Request $request)
     {
         if ($request->getMethod() === 'GET') {
-            return new Response(json_encode($this->get('app.searcher')->search()));
+            return new Response(json_encode($this->searcher->search()));
         }
         if ($request->getMethod() === 'POST') {
-            $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate(
-                $this->get('app.searcher')->search(),
+            $pagination = $this->paginator->paginate(
+                $this->searcher->search(),
                 $request->query->getInt('page', 1),
                 10
             );
             return $this->render('@App/site/index.html.twig', array('pagination' => $pagination));
         }
+        return new Response('', 405);
     }
 }
