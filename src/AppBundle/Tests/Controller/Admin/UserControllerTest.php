@@ -75,16 +75,20 @@ class UserControllerTest extends BaseTestController
             ->getRepository('AppBundle:User')
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
-        $status = $user->isAccountNonLocked();
+        $userId = $user->getId();
+        $username = $user->getUsername();
 
-        $this->assertEquals(true, $status);
-        $client->request('GET', "/ru/admin/users/lock_user/{$user->getUsername()}");
-        $status = $user->isAccountNonLocked();
+        $this->assertEquals(true, $user->isEnabled());
+        $client->request('GET', "/ru/admin/users/lock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals(false, $status);
-        $client->request('GET', "/ru/admin/users/unlock_user/{$user->getUsername()}");
+        $em->clear();
+        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $this->assertEquals(false, $user->isEnabled());
+        $client->request('GET', "/ru/admin/users/unlock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals(false, $status);
+        $em->clear();
+        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $this->assertEquals(true, $user->isEnabled());
 
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager1',

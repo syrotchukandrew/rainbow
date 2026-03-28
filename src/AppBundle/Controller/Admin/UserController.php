@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setLocked(true);
+        $user->setEnabled(false);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
     }
@@ -86,7 +86,7 @@ class UserController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setLocked(false);
+        $user->setEnabled(true);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
     }

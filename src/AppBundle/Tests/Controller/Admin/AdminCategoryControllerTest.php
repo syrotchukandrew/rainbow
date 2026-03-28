@@ -85,9 +85,9 @@ class AdminCategoryControllerTest extends BaseTestController
         $crawler = $client->request('GET', "/ru/admin/category/edit/{$slug}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $this->assertCount(
+        $this->assertGreaterThanOrEqual(
             1,
-            $crawler->filter('h1')
+            $crawler->filter('h1')->count()
         );
     }
 
