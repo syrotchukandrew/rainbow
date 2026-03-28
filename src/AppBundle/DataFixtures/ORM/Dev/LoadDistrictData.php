@@ -10,7 +10,7 @@ namespace AppBundle\DataFixtures;
 use AppBundle\Entity\District;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterface
 {

@@ -1,14 +1,17 @@
 security:
-    encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+    password_hashers:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
 
     role_hierarchy:
         ROLE_MANAGER:       ROLE_USER
         ROLE_ADMIN:         ROLE_MANAGER
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+        app_users:
+            entity:
+                class: AppBundle\Entity\User
+                property: username
         hwi:
             id: my.custom.user_provider
 
@@ -16,9 +19,9 @@ security:
         main:
             pattern: ^/
 
-            anonymous: true
+            lazy: true
+            provider: app_users
             form_login:
-                provider: fos_userbundle
                 check_path: security_login_check
                 login_path: security_login_form
                 failure_path: security_login_form
@@ -32,15 +35,14 @@ security:
                 login_path:        security_login_form
                 use_forward:       false
                 failure_path:      security_login_form
-                provider:          fos_userbundle
+                provider:          app_users
 
                 oauth_user_provider:
                     service: my.custom.user_provider
 
             http_basic:
-                provider: fos_userbundle
+                provider: app_users
 
-            logout_on_user_change: true
             logout:
                 path: /logout
                 target: /
@@ -50,7 +52,7 @@ security:
             security: false
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/reset-password, role: PUBLIC_ACCESS }
         - { path: ^/admin/, role: ROLE_ADMIN }

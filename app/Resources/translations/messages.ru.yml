@@ -57,6 +57,12 @@ security:
     user: Пользователь
     user_email: Електронная почта
     forgotten_password: Забыли пароль?
+    reset_send: Отправить ссылку
+    reset_email_sent: Если аккаунт с таким email существует, ссылка для сброса пароля отправлена.
+    reset_token_invalid: Ссылка для сброса пароля недействительна или устарела.
+    reset_password_success: Пароль успешно изменён. Войдите в систему.
+    reset_new_password: Новый пароль
+    reset_save: Сохранить пароль
 
 admin:
     back_to_list: Назад к списку

@@ -5,7 +5,6 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Controller\AppController;
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -19,9 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminCategoryController extends AppController
 {
     /**
-     * @Route("/categories", name="admin_categories")
-     * @Method("GET")
-     */
+     * @Route("/categories", name="admin_categories", methods={"GET"})     */
     public function categoriesAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -31,9 +28,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category_root/new", name="admin_category_root_new")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category_root/new", name="admin_category_root_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function newCategoryRootAction(Request $request)
     {
@@ -57,9 +52,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category/new", name="admin_category_new")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category/new", name="admin_category_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function newCategoryAction(Request $request)
     {
@@ -85,9 +78,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category/edit/{slug}", name="admin_category_edit")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category/edit/{slug}", name="admin_category_edit", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryEditAction(Category $category, Request $request)
@@ -112,9 +103,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category/delete/{slug}", name="admin_category_delete")
-     * @Method({"GET", "DELETE"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category/delete/{slug}", name="admin_category_delete", methods={"GET", "DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function categoryDeleteAction(Request $request, Category $category)
@@ -137,9 +126,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category/up/{slug}", name="admin_category_up")
-     * @Method({"GET", "POST"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category/up/{slug}", name="admin_category_up", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryUpAction(Request $request, Category $category)
@@ -156,9 +143,7 @@ class AdminCategoryController extends AppController
     }
 
     /**
-     * @Route("/category/down/{slug}", name="admin_category_down")
-     * @Method("GET")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/category/down/{slug}", name="admin_category_down", methods={"GET"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
      */
     public function categoryDownAction(Request $request, Category $category)

@@ -16,7 +16,6 @@ use AppBundle\Entity\MenuItem;
 use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\SearchType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -89,8 +88,7 @@ class SiteController extends AppController
 
     /**
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
-     * @Route("/comment/{slug}/new", name = "comment_new")
-     * @Method("POST")estates
+     * @Route("/comment/{slug}/new", name = "comment_new", methods={"POST"})
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function commentNewAction(Estate $estate, Request $request)

@@ -57,6 +57,12 @@ security:
     user: User
     user_email: Email
     forgotten_password: Forgotten password?
+    reset_send: Send reset link
+    reset_email_sent: If an account with that email exists, a reset link has been sent.
+    reset_token_invalid: The reset link is invalid or has expired.
+    reset_password_success: Your password has been reset. Please log in.
+    reset_new_password: Choose new password
+    reset_save: Save new password
 
 admin:
     back_to_list: Back to list

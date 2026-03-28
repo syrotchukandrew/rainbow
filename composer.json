@@ -12,32 +12,31 @@
         ]
     },
     "require": {
-        "php": ">=7.2",
-        "symfony/symfony": "4.4.*",
-        "doctrine/orm": "^2.9",
-        "doctrine/doctrine-bundle": "^2.3",
-        "symfony/swiftmailer-bundle": "^3.4",
-        "symfony/monolog-bundle": "^3.5",
+        "php": ">=8.0",
+        "symfony/symfony": "5.4.*",
+        "doctrine/orm": "^2.11",
+        "doctrine/doctrine-bundle": "^2.5",
+        "symfony/monolog-bundle": "^3.7",
         "sensio/framework-extra-bundle": "^6.1",
         "incenteev/composer-parameter-handler": "~2.0",
 
-        "friendsofsymfony/user-bundle":      "^2.1",
-        "hwi/oauth-bundle":                  "^1.2",
-        "stof/doctrine-extensions-bundle":   "^1.6",
-        "fzaninotto/faker":                  "^1.8",
+        "hwi/oauth-bundle":                  "^1.4",
+        "stof/doctrine-extensions-bundle":   "^1.7",
+        "fakerphp/faker":                    "^1.20",
         "knplabs/knp-paginator-bundle":      "^5.0",
-        "liip/imagine-bundle":               "^2.3",
-        "knplabs/knp-snappy-bundle":         "^1.7",
-        "knplabs/knp-snappy":                "^1.2",
+        "liip/imagine-bundle":               "^2.6",
+        "knplabs/knp-snappy-bundle":         "^1.9",
+        "knplabs/knp-snappy":                "^1.4",
         "h4cc/wkhtmltopdf-amd64":            "^0.12.3",
         "mhujer/breadcrumbs-bundle":          "^1.0",
-        "friendsofsymfony/jsrouting-bundle": "^2.7",
-        "php-http/httplug-bundle":           "^1.19"
+        "friendsofsymfony/jsrouting-bundle": "^3.2",
+        "php-http/httplug-bundle":           "^1.19",
+        "symfony/mailer": "*"
     },
     "require-dev": {
         "symfony/phpunit-bridge":            "^5.4",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "phpunit/phpunit":                   "^8.5"
+        "phpunit/phpunit":                   "^9.5"
     },
     "scripts": {
         "post-install-cmd": [
@@ -50,7 +49,7 @@
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "7.2.34"
+            "php": "8.0.0"
         },
         "audit": {
             "abandoned": "ignore",

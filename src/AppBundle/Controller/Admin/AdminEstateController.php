@@ -8,7 +8,6 @@ use AppBundle\Entity\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Form\EstateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -41,9 +40,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/estates", name="admin_estates")
-     * @Method("GET")
-     */
+     * @Route("/estates", name="admin_estates", methods={"GET"})     */
     public function estatesAction(Request $request)
     {
         $estates = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getEstatesWithAll();
@@ -57,9 +54,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/estate/show/{slug}", name="admin_estate_show")
-     * @Method("GET")
-     */
+     * @Route("/estate/show/{slug}", name="admin_estate_show", methods={"GET"})     */
     public function estateShowAction($slug, Request $request)
     {
         $estate = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
@@ -71,9 +66,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/estate/new", name="admin_estate_new")
-     * @Method({"GET", "POST"})
-     */
+     * @Route("/estate/new", name="admin_estate_new", methods={"GET", "POST"})     */
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -100,9 +93,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/estate/edit/{slug}", name="admin_estate_edit")
-     * @Method({"GET", "POST"})
-     */
+     * @Route("/estate/edit/{slug}", name="admin_estate_edit", methods={"GET", "POST"})     */
     public function estateEditAction($slug, Request $request)
     {
         $estate = $this->getDoctrine()->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
@@ -127,9 +118,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/estate/delete/{slug}", name="admin_estate_delete")
-     * @Method("DELETE")
-     * @Security("is_granted('remove', estate)")
+     * @Route("/estate/delete/{slug}", name="admin_estate_delete", methods={"DELETE"})     * @Security("is_granted('remove', estate)")
      * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
      */
     public function estateDeleteAction(Request $request, Estate $estate)
@@ -154,9 +143,7 @@ class AdminEstateController extends AppController
     }
 
     /**
-     * @Route("/do_main_foto/{slug}/{id}", name="do_main_foto")
-     * @Method("GET")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"slug": "slug"}})
+     * @Route("/do_main_foto/{slug}/{id}", name="do_main_foto", methods={"GET"})     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"slug": "slug"}})
      * @ParamConverter("file", class="AppBundle\Entity\File", options={"mapping": {"id": "id"}})
      */
     public function doMainFotoAction(Estate $estate, File $file, Request $request)

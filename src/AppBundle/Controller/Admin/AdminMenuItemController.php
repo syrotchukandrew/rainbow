@@ -11,7 +11,6 @@ use AppBundle\Controller\AppController;
 
 use AppBundle\Entity\MenuItem;
 use AppBundle\Form\MenuItemType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -70,9 +69,7 @@ class AdminMenuItemController extends AppController
     }
 
     /**
-     * @Route("/menu_item/edit/{id}", name="admin_item_edit")
-     * @Method({"GET", "PUT"})
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/menu_item/edit/{id}", name="admin_item_edit", methods={"GET", "PUT"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
      */
     public function editItemAction(Request $request, MenuItem $menuItem)
@@ -100,9 +97,7 @@ class AdminMenuItemController extends AppController
     }
 
     /**
-     * @Route("/menu_item/delete/{id}", name="admin_menu_item_delete")
-     * @Method("DELETE")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/menu_item/delete/{id}", name="admin_menu_item_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
      * @ParamConverter("comment", options={"mapping": {"id": "id"}})
      */
     public function deleteCommentAction(Request $request, MenuItem $menuItem)

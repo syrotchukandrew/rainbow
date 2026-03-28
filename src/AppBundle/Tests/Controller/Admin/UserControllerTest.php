@@ -90,6 +90,7 @@ class UserControllerTest extends BaseTestController
         $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
         $this->assertEquals(true, $user->isEnabled());
 
+        static::ensureKernelShutdown();
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user_manager1',
             'PHP_AUTH_PW'   => 'qweasz',

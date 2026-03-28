@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -53,15 +53,12 @@ class RedirectToPreferredLocaleListener
         array_unshift($this->locales, $this->defaultLocale);
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
 
         // Ignore sub-requests and all URLs but the homepage
-        if (!$event->isMasterRequest() || '/' !== $request->getPathInfo()) {
+        if (!$event->isMainRequest() || '/' !== $request->getPathInfo()) {
             return;
         }
 

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use AppBundle\Entity\User;
 
 /**
@@ -22,13 +22,13 @@ class AddUserCommand extends Command
     const MAX_ATTEMPTS = 5;
 
     private $entityManager;
-    private $passwordEncoder;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
     }
     /**
      * {@inheritdoc}
@@ -128,8 +128,7 @@ class AddUserCommand extends Command
         $user->setEmail($email);
         $user->setRoles(array($isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER'));
         $user->setEnabled(true);
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encodedPassword);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $output->writeln('');
