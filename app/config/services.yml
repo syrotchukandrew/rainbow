@@ -1,0 +1,97 @@
+services:
+
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        autoconfigure: true
+
+    security.authentication_utils:
+        class: Symfony\Component\Security\Http\Authentication\AuthenticationUtils
+        public: true
+        arguments:
+            - '@request_stack'
+            - '@?security.token_storage'
+
+    my.custom.user_provider:
+        class: AppBundle\Security\Core\User\OAuthUserProvider
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    app.socialBarHelper:
+        class: AppBundle\Templating\Helper\SocialBarHelper
+        public: true
+        arguments:
+            - '@twig'
+
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+        arguments:
+            - '%app_locales%'
+            - '@app.socialBarHelper'
+
+    app.redirect_to_preferred_locale_listener:
+        class: AppBundle\EventListener\RedirectToPreferredLocaleListener
+        public: true
+        arguments:
+            - '@router'
+            - '%app_locales%'
+            - '%locale%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    app.file_manager:
+        class: AppBundle\Utils\FileManager
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            - '@stof_doctrine_extensions.uploadable.manager'
+
+    app.final_category_finder:
+        class: AppBundle\Utils\FinalCategoryFinder
+        public: true
+        arguments:
+            - '@doctrine'
+
+    app.estate_voter:
+        class: AppBundle\Security\EstateVoter
+        public: false
+        arguments:
+            - '@security.access.decision_manager'
+        tags:
+            - { name: security.voter }
+
+    app.image_subscriber:
+        class: AppBundle\EventListener\FileCacheRemoveEventSubscriber
+        public: true
+        arguments:
+            - '@liip_imagine.cache.manager'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    app.search:
+        class: AppBundle\Utils\SearchManager
+        public: true
+        arguments:
+            - '@doctrine'
+
+    app.check_floor:
+        class: AppBundle\Utils\EstateManager
+        public: true
+
+    app.breadcrumps_maker:
+        class: AppBundle\Utils\BreadcrumpsMaker
+        public: true
+        arguments:
+            - '@white_october_breadcrumbs'
+
+    app.searcher:
+        class: AppBundle\Utils\Searcher
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
