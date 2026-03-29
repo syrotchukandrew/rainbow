@@ -12,7 +12,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/ru/admin/categories');
+        $crawler = $client->request('GET', '/uk/admin/categories');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -27,7 +27,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/ru/admin/category_root/new");
+        $crawler = $client->request('GET', "/uk/admin/category_root/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -42,7 +42,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/ru/admin/category/new");
+        $crawler = $client->request('GET', "/uk/admin/category/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -61,7 +61,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/ru/admin/category/edit/{$slug}");
+        $crawler = $client->request('GET', "/uk/admin/category/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -81,7 +81,7 @@ class AdminCategoryControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
 
-        $crawler = $client->request('GET', "/ru/admin/category/edit/{$slug}");
+        $crawler = $client->request('GET', "/uk/admin/category/edit/{$slug}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
         $this->assertGreaterThanOrEqual(
@@ -106,7 +106,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $child = $children[0];
         $title1 = $child->getTitle();
 
-        $client->request('GET', "/ru/admin/category/down/{$child->getSlug()}");
+        $client->request('GET', "/uk/admin/category/down/{$child->getSlug()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $category = $em
@@ -117,7 +117,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $title2 = $child->getTitle();
 
         $this->assertEquals($title1, $title2);
-        $client->request('GET', "/ru/admin/category/up/{$child->getSlug()}");
+        $client->request('GET', "/uk/admin/category/up/{$child->getSlug()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $repo = $em->getRepository(\AppBundle\Entity\Category::class);
@@ -142,10 +142,10 @@ class AdminCategoryControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
 
-        $client->request('GET', "/ru/admin/category/up/{$slug}");
+        $client->request('GET', "/uk/admin/category/up/{$slug}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', "/ru/admin/category/down/{$slug}");
+        $client->request('GET', "/uk/admin/category/down/{$slug}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

@@ -1,0 +1,106 @@
+site:
+    menu:
+        homepage: Головна
+        about: Про нас
+        contacts: Контакти
+    offers: Наші пропозиції
+    category:
+        houses: Будинки
+        house:
+            in_town: Будинки в місті
+            outside: Будинки за містом
+        flats: Квартири
+        flat:
+            room: Кімната
+            studio: Однокімнатні квартири
+            two_rooms: Двокімнатні квартири
+            three_rooms: Трикімнатні квартири
+            multiroom: Багатокімнатні
+        steads: Ділянки
+        stead:
+            cottage: Дачні ділянки
+            in_town: Ділянки в місті
+            outside: Ділянки за містом
+        rent_of_dwelling: Оренда житла
+        rent:
+            houses: Будинки в оренду
+            flats: Квартири в оренду
+        commerces: Комерція
+        commerce:
+            rent: Оренда комерції
+            buy: Продаж комерції
+    recommend: Порадь друзям
+    summary: Короткий опис
+    more: Детальніше
+    num_comments: "%count% коментар|%count% коментарі|%count% коментарів"
+    exclusive_estates: Ексклюзивні об'єкти
+    sing_in_please: Щоб залишити коментар, будь ласка, зареєструйтесь
+    flush_comment: Коментар успішно збережено. Після перевірки модератором буде опубліковано.
+    search: Пошук
+    main: Головна
+
+security:
+    username: Ім'я користувача
+    password: Пароль
+    repeat_password: Повторіть пароль
+    register: Зареєструватись
+    login_form: Авторизація
+    login: Увійти
+    login_social: Увійти через соціальні мережі:
+    log:
+        facebook: Увійти через Facebook
+        google: Увійти через Google
+        vk: Увійти через VK
+    logout: Вийти
+    registration: Реєстрація
+    admin: Панель адміністрування
+    user: Користувач
+    user_email: Електронна пошта
+    forgotten_password: Забули пароль?
+    reset_send: Надіслати посилання
+    reset_email_sent: Якщо акаунт з таким email існує, посилання для скидання пароля надіслано.
+    reset_token_invalid: Посилання для скидання пароля недійсне або застаріле.
+    reset_password_success: Пароль успішно змінено. Увійдіть у систему.
+    reset_new_password: Новий пароль
+    reset_save: Зберегти пароль
+
+admin:
+    back_to_list: Назад до списку
+    title: Назва
+    action: Дія
+    user_locked: Заблокувати
+    user_unlocked: Розблокувати
+    make_manager: Призначити менеджером
+    make_user: Зробити користувачем
+    id: Ідентифікатор
+
+common:
+    submit: Надіслати
+    foto: Фото
+    published_at: Опубліковано
+    update_at: Відредаговано
+    show: Показати
+    edit: Редагувати
+    content: Зміст
+    add: Додати
+    description: Опис
+    add_favorites: Додати до обраного
+    delete_favorites: Видалити з обраного
+    favorite_estates: Ваші обрані об'єкти
+    save: Зберегти
+    downloadPDF: Завантажити PDF
+    comments: Коментарі
+    price: Ціна
+    district: Район
+    search:
+        placeholder: Введіть об'єкт пошуку тут
+
+form:
+    search:
+        district: Оберіть район
+        price: Оберіть ціну
+        search: Пошук
+        disable_floor: Виключити перший/останній поверхи
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: більше 50000

@@ -5,7 +5,7 @@
  * Date: 16.03.16
  * Time: 23:34
  */
-namespace AppBundle\DataFixtures\ORM;
+namespace AppBundle\DataFixtures\ORM\Dev;
 
 use AppBundle\Entity\MenuItem;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -15,7 +15,7 @@ use Faker\Factory;
 
 class LoadMenuItemData extends AbstractFixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
         for ($i = 1; $i <= 2; $i++) {
@@ -27,7 +27,7 @@ class LoadMenuItemData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 5;
     }

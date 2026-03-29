@@ -5,7 +5,7 @@
  * Date: 24.02.16
  * Time: 13:39
  */
-namespace AppBundle\DataFixtures;
+namespace AppBundle\DataFixtures\ORM\Deploy;
 
 use AppBundle\Entity\District;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -14,9 +14,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $districts = array('Центр', 'Казбет', 'Днепровский', 'Хим. посолек', 'ЮЗР', 'Громова', 'Луна', 'Сосновка', 'Дахновка', 'Школьная');
+        $districts = array('Центр', 'Казбет', 'Дніпровський', 'Хім. селище', 'ЮЗР', 'Громова', 'Луна', 'Соснівка', 'Дахнівка', 'Шкільна');
         for ($i = 0; $i < count($districts); $i++) {
             $district = new District();
             $district->setTitle($districts[$i]);
@@ -26,7 +26,7 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         // the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded

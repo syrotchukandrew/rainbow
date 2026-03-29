@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace AppBundle\DataFixtures\ORM\Dev;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Estate;
@@ -12,7 +12,7 @@ use Faker\Factory;
 
 class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
         for ($i = 0; $i <= 200; $i++) {
@@ -21,7 +21,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setDescription($faker->sentence);
             $estate->setPrice($faker->numberBetween(10000, 500000));
             $estate->setCreatedBy('user_manager' . rand(0, 2));
-            $estate->setDistrict($this->getReference('district' . rand(1, 10)));
+            $estate->setDistrict($this->getReference('district' . rand(1, 10), \AppBundle\Entity\District::class));
 
             $exclusive = rand(1, 10);
             if ($exclusive == 10) {
@@ -58,7 +58,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $quart = rand(0, 9);
             if ($quart <= 3) {
                 $cat = rand(1, 5);
-                $estate->setCategory($this->getReference('category' . $cat));
+                $estate->setCategory($this->getReference('category' . $cat, \AppBundle\Entity\Category::class));
                 $countFloors = rand(4, 16);
                 $estate->setFloor(array('floor' => rand(1, $countFloors), 'count_floor' => $countFloors));
                 $floor = $estate->getFloor();
@@ -69,10 +69,10 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 }
             } elseif ($quart == 4 || $quart == 5) {
                 $cat = rand(13, 14);
-                $estate->setCategory($this->getReference('category' . $cat));
+                $estate->setCategory($this->getReference('category' . $cat, \AppBundle\Entity\Category::class));
             } else {
                 $cat = rand(6, 12);
-                $estate->setCategory($this->getReference('category' . $cat));
+                $estate->setCategory($this->getReference('category' . $cat, \AppBundle\Entity\Category::class));
             }
 
             $manager->persist($estate);
@@ -80,7 +80,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 4;
     }

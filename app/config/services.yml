@@ -14,6 +14,14 @@ services:
             - '../../src/AppBundle/Tests'
             - '../../src/AppBundle/DataFixtures'
 
+    AppBundle\DataFixtures\ORM\Dev\:
+        resource: '../../src/AppBundle/DataFixtures/ORM/Dev'
+        tags: ['doctrine.fixture.orm']
+
+    AppBundle\DataFixtures\ORM\Deploy\:
+        resource: '../../src/AppBundle/DataFixtures/ORM/Deploy'
+        tags: ['doctrine.fixture.orm']
+
     # Controllers must be public so the ControllerResolver can instantiate them
     AppBundle\Controller\:
         resource: '../../src/AppBundle/Controller'

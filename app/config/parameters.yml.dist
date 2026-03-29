@@ -18,7 +18,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    locale: ru
+    locale: uk
 
     facebook_client_id: 0
     vkontakte_client_id: 0

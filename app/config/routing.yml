@@ -29,9 +29,9 @@ app:
 
 homepage:
     path:      /{_locale}
-    defaults:  { _controller: AppBundle\Controller\SiteController::indexAction, _locale: ru }
+    defaults:  { _controller: AppBundle\Controller\SiteController::indexAction, _locale: uk }
     requirements:
-        _locale:  ru|en
+        _locale:  uk|en
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"

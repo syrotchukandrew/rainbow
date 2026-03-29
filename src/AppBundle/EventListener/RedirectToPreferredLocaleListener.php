@@ -57,8 +57,19 @@ class RedirectToPreferredLocaleListener
     {
         $request = $event->getRequest();
 
-        // Ignore sub-requests and all URLs but the homepage
-        if (!$event->isMainRequest() || '/' !== $request->getPathInfo()) {
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
+        // Redirect legacy /ru/ URLs to /uk/
+        if (str_starts_with($request->getPathInfo(), '/ru/') || $request->getPathInfo() === '/ru') {
+            $newPath = '/uk' . substr($request->getPathInfo(), 3);
+            $event->setResponse(new RedirectResponse($newPath, 301));
+            return;
+        }
+
+        // Ignore all URLs but the homepage
+        if ('/' !== $request->getPathInfo()) {
             return;
         }
 

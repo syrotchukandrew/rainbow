@@ -6,14 +6,17 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: ru
-    app_locales: ru|en
+    locale: uk
+    app_locales: uk|en
 
 
 framework:
     #esi:             ~
     annotations:     ~
-    translator:      { fallbacks: ["%locale%"] }
+    translator:
+        fallbacks: ["%locale%"]
+        paths:
+            - '%kernel.project_dir%/app/Resources/translations'
     secret:          "%secret%"
     mailer:
         dsn: "%mailer_dsn%"
@@ -63,7 +66,7 @@ doctrine:
         auto_mapping: true
 
 stof_doctrine_extensions:
-    default_locale: ru
+    default_locale: uk
     orm:
         default:
             tree: true
