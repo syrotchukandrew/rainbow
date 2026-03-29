@@ -4,10 +4,8 @@ namespace AppBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class BaseTestController extends WebTestCase
 {
@@ -18,20 +16,13 @@ class BaseTestController extends WebTestCase
         {
         }
 
-    protected function logIn($role)
+    protected function logIn($role): \Symfony\Bundle\FrameworkBundle\KernelBrowser
     {
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $session = $client->getContainer()->get('session');
-        $admin = $em
-            ->getRepository(\AppBundle\Entity\User::class)
-            ->findByRole($role);
-        $firewall = 'main';
-        $token = new UsernamePasswordToken($admin[0]->getUsername(), null, $firewall, array($role));
-        $session->set('_security_' . $firewall, serialize($token));
-        $session->save();
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
+        $user = $em->getRepository(\AppBundle\Entity\User::class)->findByRole($role)[0];
+        $client->loginUser($user);
+        return $client;
     }
 
     /*public function tearDown()

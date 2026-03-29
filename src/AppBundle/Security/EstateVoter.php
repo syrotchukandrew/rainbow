@@ -25,7 +25,7 @@ class EstateVoter extends Voter
         $this->decisionManager = $decisionManager;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports(string $attribute, mixed $subject): bool
     {
         if (!in_array($attribute, array(self::VIEW, self::CREATE, self::EDIT, self::REMOVE))) {
             return false;
@@ -38,7 +38,7 @@ class EstateVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         /** @var Estate */
@@ -59,13 +59,13 @@ class EstateVoter extends Voter
                 }
                 break;
             case self::EDIT:
-                if ($user->getUsername() === $estate->getCreatedBy() ||
+                if ($user->getUserIdentifier() === $estate->getCreatedBy() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
                     return true;
                 }
                 break;
             case self::REMOVE:
-                if ($user->getUsername() === $estate->getCreatedBy() ||
+                if ($user->getUserIdentifier() === $estate->getCreatedBy() ||
                 $this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
                     return true;
                 }

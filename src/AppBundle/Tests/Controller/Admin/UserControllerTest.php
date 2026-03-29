@@ -9,13 +9,13 @@ class UserControllerTest extends BaseTestController
     public function testRegularUsersCannotAccessToTheBackend()
     {
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'user_user',
+            'PHP_AUTH_USER' => 'user_user1',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
         $client->request('GET', '/ru/admin');
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     public function testAdministratorUsersCanAccessToTheBackend()

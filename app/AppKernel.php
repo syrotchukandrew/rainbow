@@ -11,7 +11,7 @@ class AppKernel extends Kernel
         parent::__construct($environment, $debug);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -19,7 +19,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
 
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -43,7 +42,7 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml');
     }

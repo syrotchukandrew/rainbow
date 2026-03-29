@@ -5,17 +5,15 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
 use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * @Security("is_granted('ROLE_MANAGER')")
- * @Route("/admin")
- */
+#[IsGranted('ROLE_MANAGER')]
+#[Route('/admin')]
 class AdminCategoryController extends AbstractController
 {
     private ManagerRegistry $doctrine;
@@ -25,9 +23,7 @@ class AdminCategoryController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * @Route("/categories", name="admin_categories", methods={"GET"})
-     */
+    #[Route('/categories', name: 'admin_categories', methods: ['GET'])]
     public function categoriesAction(Request $request)
     {
         $entityManager = $this->doctrine->getManager();
@@ -36,9 +32,8 @@ class AdminCategoryController extends AbstractController
         return $this->render("@App/admin/category/categories.html.twig", ['categories' => $categories]);
     }
 
-    /**
-     * @Route("/category_root/new", name="admin_category_root_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category_root/new', name: 'admin_category_root_new', methods: ['GET', 'POST'])]
     public function newCategoryRootAction(Request $request)
     {
         $entityManager = $this->doctrine->getManager();
@@ -60,9 +55,8 @@ class AdminCategoryController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/category/new", name="admin_category_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category/new', name: 'admin_category_new', methods: ['GET', 'POST'])]
     public function newCategoryAction(Request $request)
     {
         $entityManager = $this->doctrine->getManager();
@@ -86,11 +80,9 @@ class AdminCategoryController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/category/edit/{slug}", name="admin_category_edit", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
-     */
-    public function categoryEditAction(Category $category, Request $request)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category/edit/{slug}', name: 'admin_category_edit', methods: ['GET', 'POST'])]
+    public function categoryEditAction(#[MapEntity(mapping: ['slug' => 'slug'])] Category $category, Request $request)
     {
         $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
@@ -111,15 +103,13 @@ class AdminCategoryController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/category/delete/{slug}", name="admin_category_delete", methods={"GET", "DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
-     */
-    public function categoryDeleteAction(Request $request, Category $category)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category/delete/{slug}', name: 'admin_category_delete', methods: ['GET', 'DELETE'])]
+    public function categoryDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category)
     {
         $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
-        $deleteForm = $this->createForm(CategoryType::class, $category,['method' => 'DELETE']);
+        $deleteForm = $this->createForm(CategoryType::class, $category, ['method' => 'DELETE']);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
             $entityManager->remove($category);
@@ -134,15 +124,13 @@ class AdminCategoryController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/category/up/{slug}", name="admin_category_up", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
-     */
-    public function categoryUpAction(Request $request, Category $category)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category/up/{slug}', name: 'admin_category_up', methods: ['GET', 'POST'])]
+    public function categoryUpAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category)
     {
         $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
-        if ($category->getParent()){
+        if ($category->getParent()) {
             $repo->moveUp($category);
             $repo->verify();
             $repo->recover();
@@ -151,15 +139,13 @@ class AdminCategoryController extends AbstractController
         return $this->redirectToRoute('admin_categories');
     }
 
-    /**
-     * @Route("/category/down/{slug}", name="admin_category_down", methods={"GET"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("category", options={"mapping": {"slug": "slug"}})
-     */
-    public function categoryDownAction(Request $request, Category $category)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/category/down/{slug}', name: 'admin_category_down', methods: ['GET'])]
+    public function categoryDownAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category)
     {
         $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
-        if ($category->getParent()){
+        if ($category->getParent()) {
             $repo->moveDown($category);
             $repo->verify();
             $repo->recover();

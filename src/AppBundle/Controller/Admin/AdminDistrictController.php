@@ -5,18 +5,16 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\District;
 use AppBundle\Form\DistrictType;
 use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-/**
- * @Security("is_granted('ROLE_MANAGER')")
- * @Route("/admin")
- */
+#[IsGranted('ROLE_MANAGER')]
+#[Route('/admin')]
 class AdminDistrictController extends AbstractController
 {
     private ManagerRegistry $doctrine;
@@ -26,18 +24,15 @@ class AdminDistrictController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * @Route("/districts", name="admin_districts", methods={"GET"})     */
+    #[Route('/districts', name: 'admin_districts', methods: ['GET'])]
     public function districtsAction(Request $request)
     {
         $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
         return $this->render('@App/admin/district/districts.html.twig', array('districts' => $districts));
     }
 
-    /**
-     * @Route("/district/show/{slug}", name="admin_district_show", methods={"GET"})     * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
-     */
-    public function districtShowAction(District $district, Request $request)
+    #[Route('/district/show/{slug}', name: 'admin_district_show', methods: ['GET'])]
+    public function districtShowAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request)
     {
         $deleteForm = $this->createDeleteForm($district);
         return $this->render('@App/admin/district/show_district.html.twig', array(
@@ -46,9 +41,8 @@ class AdminDistrictController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/district/new", name="admin_district_new", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/district/new', name: 'admin_district_new', methods: ['GET', 'POST'])]
     public function newDistrictAction(Request $request)
     {
         $entityManager = $this->doctrine->getManager();
@@ -69,11 +63,9 @@ class AdminDistrictController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/district/edit/{slug}", name="admin_district_edit", methods={"GET", "POST"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
-     */
-    public function districtEditAction(District $district, Request $request)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/district/edit/{slug}', name: 'admin_district_edit', methods: ['GET', 'POST'])]
+    public function districtEditAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request)
     {
         $entityManager = $this->doctrine->getManager();
         $editForm = $this->createForm(DistrictType::class, $district);
@@ -91,11 +83,9 @@ class AdminDistrictController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/district/delete/{slug}", name="admin_district_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("district", options={"mapping": {"slug": "slug"}})
-     */
-    public function DistrictDeleteAction(Request $request, District $district)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/district/delete/{slug}', name: 'admin_district_delete', methods: ['DELETE'])]
+    public function DistrictDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] District $district)
     {
         $form = $this->createDeleteForm($district);
         $form->handleRequest($request);

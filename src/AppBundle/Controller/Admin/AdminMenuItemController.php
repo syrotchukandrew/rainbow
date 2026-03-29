@@ -11,17 +11,14 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\MenuItem;
 use AppBundle\Form\MenuItemType;
 use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * @Security("is_granted('ROLE_MANAGER')")
- * @Route("/admin")
- */
+#[IsGranted('ROLE_MANAGER')]
+#[Route('/admin')]
 class AdminMenuItemController extends AbstractController
 {
     private ManagerRegistry $doctrine;
@@ -31,9 +28,7 @@ class AdminMenuItemController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * @Route("/menu_items", name="admin_items")
-     */
+    #[Route('/menu_items', name: 'admin_items')]
     public function showItemsAction(Request $request)
     {
         $em = $this->doctrine->getManager();
@@ -41,9 +36,7 @@ class AdminMenuItemController extends AbstractController
         return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
     }
 
-    /**
-     * @Route("/menu_item/new", name="admin_add_menu_item")
-     */
+    #[Route('/menu_item/new', name: 'admin_add_menu_item')]
     public function addItemAction(Request $request)
     {
         $em = $this->doctrine->getManager();
@@ -59,13 +52,9 @@ class AdminMenuItemController extends AbstractController
             'item' => $menu_item,
             'form' => $form->createView(),
         ));
-
     }
 
-    /**
-     * @Route("/menu_item/show/{id}", name="admin_item_show")
-     * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
-     */
+    #[Route('/menu_item/show/{id}', name: 'admin_item_show')]
     public function showItemAction(Request $request, MenuItem $menuItem)
     {
         //for delete
@@ -75,10 +64,8 @@ class AdminMenuItemController extends AbstractController
             array('item' => $menuItem, 'delete_form' => $form->createView()));
     }
 
-    /**
-     * @Route("/menu_item/edit/{id}", name="admin_item_edit", methods={"GET", "PUT"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/menu_item/edit/{id}', name: 'admin_item_edit', methods: ['GET', 'PUT'])]
     public function editItemAction(Request $request, MenuItem $menuItem)
     {
         $em = $this->doctrine->getManager();
@@ -103,10 +90,8 @@ class AdminMenuItemController extends AbstractController
             ));
     }
 
-    /**
-     * @Route("/menu_item/delete/{id}", name="admin_menu_item_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/menu_item/delete/{id}', name: 'admin_menu_item_delete', methods: ['DELETE'])]
     public function deleteCommentAction(Request $request, MenuItem $menuItem)
     {
         $form = $this->deleteForm($menuItem);

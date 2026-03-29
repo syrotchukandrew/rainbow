@@ -11,17 +11,14 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Comment;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-/**
- * @Security("is_granted('ROLE_MANAGER')")
- * @Route("/admin")
- */
+#[IsGranted('ROLE_MANAGER')]
+#[Route('/admin')]
 class AdminCommentController extends AbstractController
 {
     private ManagerRegistry $doctrine;
@@ -33,9 +30,7 @@ class AdminCommentController extends AbstractController
         $this->paginator = $paginator;
     }
 
-    /**
-     * @Route("/comments", name="admin_comments")
-     */
+    #[Route('/comments', name: 'admin_comments')]
     public function indexAction(Request $request)
     {
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
@@ -47,9 +42,7 @@ class AdminCommentController extends AbstractController
         return $this->render('@App/admin/comment/comments.html.twig', array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/comments/all", name="admin_all_comments")
-     */
+    #[Route('/comments/all', name: 'admin_all_comments')]
     public function allCommentsAction(Request $request)
     {
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->findAllComments();
@@ -61,9 +54,7 @@ class AdminCommentController extends AbstractController
         return $this->render('@App/admin/comment/all_comments.html.twig', array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/comments/published", name="admin_published_comments")
-     */
+    #[Route('/comments/published', name: 'admin_published_comments')]
     public function publishedCommentsAction(Request $request)
     {
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getEnabledComments();
@@ -75,10 +66,7 @@ class AdminCommentController extends AbstractController
         return $this->render('@App/admin/comment/published_comments.html.twig', array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/comment/show/{id}", name="admin_comment_show")
-     * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-     */
+    #[Route('/comment/show/{id}', name: 'admin_comment_show')]
     public function showCommentAction(Request $request, Comment $comment)
     {
         $form = $this->deleteForm($comment);
@@ -86,11 +74,8 @@ class AdminCommentController extends AbstractController
             'delete_form' => $form->createView(),));
     }
 
-    /**
-     * @Route("/comment_enable/{id}", name="admin_enable_comment")
-     * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-     * @Security("is_granted('ROLE_ADMIN')")
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/comment_enable/{id}', name: 'admin_enable_comment')]
     public function enableCommentAction(Request $request, Comment $comment)
     {
         $comment->setEnabled(true);
@@ -99,10 +84,8 @@ class AdminCommentController extends AbstractController
         return $this->redirectToRoute('admin_comments');
     }
 
-    /**
-     * @Route("/comment/delete/{id}", name="admin_comment_delete", methods={"DELETE"})     * @Security("is_granted('ROLE_ADMIN')")
-     * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-     */
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/comment/delete/{id}', name: 'admin_comment_delete', methods: ['DELETE'])]
     public function deleteCommentAction(Request $request, Comment $comment)
     {
         $form = $this->deleteForm($comment);
@@ -124,9 +107,7 @@ class AdminCommentController extends AbstractController
             ;
     }
 
-    /**
-     * @Route (name="count_disables_comments")
-     */
+    #[Route('', name: 'count_disables_comments')]
     public function countDisablesCommentsAction(Request $request)
     {
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
