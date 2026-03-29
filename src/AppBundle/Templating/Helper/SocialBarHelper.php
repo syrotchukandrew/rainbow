@@ -15,21 +15,21 @@ class SocialBarHelper
 
     public function socialButtons($parameters)
     {
-        return $this->twig->render('@App/helper/socialButtons.html.twig', $parameters);
+        return $this->twig->render('helper/socialButtons.html.twig', $parameters);
     }
 
     public function facebookButton($parameters)
     {
-        return $this->twig->render('@App/helper/facebookButton.html.twig', $parameters);
+        return $this->twig->render('helper/facebookButton.html.twig', $parameters);
     }
 
     public function twitterButton($parameters)
     {
-        return $this->twig->render('@App/helper/twitterButton.html.twig', $parameters);
+        return $this->twig->render('helper/twitterButton.html.twig', $parameters);
     }
 
     public function googlePlusButton($parameters)
     {
-        return $this->twig->render('@App/helper/googlePlusButton.html.twig', $parameters);
+        return $this->twig->render('helper/googlePlusButton.html.twig', $parameters);
     }
 }

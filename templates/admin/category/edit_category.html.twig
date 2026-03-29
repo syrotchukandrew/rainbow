@@ -1,0 +1,14 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block panel %}
+    <h1>Редактировать категорию</h1>
+    {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+    {{ include('admin/category/_form.html.twig', {
+        form: edit_form,
+        button_label: 'Сохранить',
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+
+{% endblock %}
+

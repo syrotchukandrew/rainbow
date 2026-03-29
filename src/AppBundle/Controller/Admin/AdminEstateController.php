@@ -46,7 +46,7 @@ class AdminEstateController extends AbstractController
         $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
         $estates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->findAll();
-        return $this->render('@App/admin/index.html.twig', array(
+        return $this->render('admin/index.html.twig', array(
             'count_disabled_comments' => count($comments),
             'count_estates' => count($estates),
             'count_users' => count($users),
@@ -63,7 +63,7 @@ class AdminEstateController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/estate/estates.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/estate/estates.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/estate/show/{slug}', name: 'admin_estate_show', methods: ['GET'])]
@@ -71,7 +71,7 @@ class AdminEstateController extends AbstractController
     {
         $estate = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
         $deleteForm = $this->createDeleteForm($estate);
-        return $this->render('@App/admin/estate/show_estate.html.twig', array(
+        return $this->render('admin/estate/show_estate.html.twig', array(
             'estate' => $estate,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -96,7 +96,7 @@ class AdminEstateController extends AbstractController
                 : 'admin_estates';
             return $this->redirectToRoute($nextAction);
         }
-        return $this->render('@App/admin/estate/new_estate.html.twig', array(
+        return $this->render('admin/estate/new_estate.html.twig', array(
             'form' => $form->createView(),
             'estate' => $estate
         ));
@@ -119,7 +119,7 @@ class AdminEstateController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_estate_show', array('slug' => $estate->getSlug()));
         }
-        return $this->render('@App/admin/estate/edit_estate.html.twig', array(
+        return $this->render('admin/estate/edit_estate.html.twig', array(
             'estate' => $estate,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

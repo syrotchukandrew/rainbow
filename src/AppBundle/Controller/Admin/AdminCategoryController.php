@@ -29,8 +29,8 @@ class AdminCategoryController extends AbstractController
         $entityManager = $this->doctrine->getManager();
         $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
         $categories = $repo->childrenHierarchy();
-        return $this->render("@App/admin/category/categories.html.twig", ['categories' => $categories]);
-    }
+        return $this->render("admin/category/categories.html.twig", ['categories' => $categories]);
+}
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/category_root/new', name: 'admin_category_root_new', methods: ['GET', 'POST'])]
@@ -49,7 +49,7 @@ class AdminCategoryController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_categories');
         }
-        return $this->render('@App/admin/category/new_category_root.html.twig', array(
+        return $this->render('admin/category/new_category_root.html.twig', array(
             'category' => $category,
             'form' => $form->createView(),
         ));
@@ -74,7 +74,7 @@ class AdminCategoryController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_categories');
         }
-        return $this->render('@App/admin/category/new_category.html.twig', array(
+        return $this->render('admin/category/new_category.html.twig', array(
             'category' => $category,
             'form' => $form->createView(),
         ));
@@ -97,7 +97,7 @@ class AdminCategoryController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_categories');
         }
-        return $this->render('@App/admin/category/edit_category.html.twig', array(
+        return $this->render('admin/category/edit_category.html.twig', array(
             'category'        => $category,
             'edit_form'   => $editForm->createView(),
         ));
@@ -118,7 +118,7 @@ class AdminCategoryController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_categories');
         }
-        return $this->render('@App/admin/category/delete_category.html.twig', array(
+        return $this->render('admin/category/delete_category.html.twig', array(
             'category'        => $category,
             'delete_form'   => $deleteForm->createView(),
         ));

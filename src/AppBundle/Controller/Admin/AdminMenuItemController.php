@@ -33,7 +33,7 @@ class AdminMenuItemController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $items = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
-        return $this->render('@App/admin/menu_item/items.html.twig', array('items' => $items));
+        return $this->render('admin/menu_item/items.html.twig', array('items' => $items));
     }
 
     #[Route('/menu_item/new', name: 'admin_add_menu_item')]
@@ -48,7 +48,7 @@ class AdminMenuItemController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('admin_items');
         }
-        return $this->render('@App/admin/menu_item/new_item.html.twig', array(
+        return $this->render('admin/menu_item/new_item.html.twig', array(
             'item' => $menu_item,
             'form' => $form->createView(),
         ));
@@ -60,7 +60,7 @@ class AdminMenuItemController extends AbstractController
         //for delete
         $form = $this->deleteForm($menuItem);
 
-        return $this->render('@App/admin/menu_item/show_item.html.twig',
+        return $this->render('admin/menu_item/show_item.html.twig',
             array('item' => $menuItem, 'delete_form' => $form->createView()));
     }
 
@@ -85,7 +85,7 @@ class AdminMenuItemController extends AbstractController
             }
         }
 
-        return $this->render('@App/admin/menu_item/edit_menu_item.html.twig',
+        return $this->render('admin/menu_item/edit_menu_item.html.twig',
             array('form' => $form->createView(),
             ));
     }

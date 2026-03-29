@@ -1,0 +1,61 @@
+imports:
+    - { resource: parameters.yaml }
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AppBundle\:
+        resource: '../src/AppBundle'
+        exclude:
+            - '../src/AppBundle/Entity'
+            - '../src/AppBundle/Form'
+            - '../src/AppBundle/Repository'
+            - '../src/AppBundle/Tests'
+            - '../src/AppBundle/DataFixtures'
+
+    AppBundle\DataFixtures\ORM\Dev\:
+        resource: '../src/AppBundle/DataFixtures/ORM/Dev'
+        tags: ['doctrine.fixture.orm']
+
+    AppBundle\DataFixtures\ORM\Deploy\:
+        resource: '../src/AppBundle/DataFixtures/ORM/Deploy'
+        tags: ['doctrine.fixture.orm']
+
+    AppBundle\Controller\:
+        resource: '../src/AppBundle/Controller'
+        public: true
+
+    Symfony\Component\Security\Http\Authentication\AuthenticationUtils:
+        alias: security.authentication_utils
+        public: true
+
+    my.custom.user_provider:
+        alias: AppBundle\Security\Core\User\OAuthUserProvider
+        public: true
+
+    AppBundle\EventListener\RedirectToPreferredLocaleListener:
+        bind:
+            $locales: '%app_locales%'
+            $defaultLocale: '%locale%'
+
+    AppBundle\Twig\AppExtension:
+        bind:
+            $locales: '%app_locales%'
+
+    AppBundle\EventListener\FileCacheRemoveEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    AppBundle\Utils\BreadcrumpsMaker:
+        arguments:
+            - '@white_october_breadcrumbs'
+
+    AppBundle\Controller\SiteController:
+        public: true
+        bind:
+            $breadcrumbs: '@white_october_breadcrumbs'
+            $pdf: '@knp_snappy.pdf'

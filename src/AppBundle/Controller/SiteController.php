@@ -73,7 +73,7 @@ class SiteController extends AbstractController
             5
         );
         $this->breadcrumbs->addItem("site.main");
-        return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("site/index.html.twig", array('pagination' => $pagination));
     }
 
     #[Route('/menu', name: 'menu')]
@@ -83,7 +83,7 @@ class SiteController extends AbstractController
         $categoryEntity = $em->getRepository(\AppBundle\Entity\Category::class);
         $categories = $categoryEntity->childrenHierarchy();
 
-        return $this->render("@App/includes/menu.html.twig", ['links' => $categories]);
+        return $this->render("includes/menu.html.twig", ['links' => $categories]);
     }
 
     #[Route('/show_category/{slug}', name: 'show_category')]
@@ -98,7 +98,7 @@ class SiteController extends AbstractController
         );
         $this->breadcrumpsMaker->makeBreadcrumps($category);
 
-        return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("site/index.html.twig", array('pagination' => $pagination));
     }
 
     #[Route('/show_estate/{slug}', name: 'show_estate', options: ['expose' => true])]
@@ -108,7 +108,7 @@ class SiteController extends AbstractController
         $estate = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateWithDistrictComment($slug);
         $this->breadcrumpsMaker->makeBreadcrumps($estate->getCategory(), $estate);
 
-        return $this->render('@App/site/show_estate.html.twig', array('estate' => $estate));
+        return $this->render('site/show_estate.html.twig', array('estate' => $estate));
     }
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -132,7 +132,7 @@ class SiteController extends AbstractController
             return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
         }
 
-        return $this->render('@App/site/_comment_form.html.twig', array(
+        return $this->render('site/_comment_form.html.twig', array(
             'estate' => $estate,
             'form' => $form->createView(),
         ));
@@ -146,7 +146,7 @@ class SiteController extends AbstractController
             'action' => $this->generateUrl('site_search_result'),
             'categories_choices' => $finalCategories));
 
-        return $this->render('@App/site/search.html.twig', array(
+        return $this->render('site/search.html.twig', array(
             'form' => $searchForm->createView(),
         ));
     }
@@ -167,7 +167,7 @@ class SiteController extends AbstractController
                 $request->query->getInt('page', 1),
                 5
             );
-            return $this->render('@App/site/index.html.twig', array('pagination' => $pagination));
+            return $this->render('site/index.html.twig', array('pagination' => $pagination));
         }
 
         return $this->redirectToRoute('homepage');
@@ -178,13 +178,13 @@ class SiteController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $menuitems = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
-        return $this->render('@App/includes/menu_items.html.twig', array('items' => $menuitems));
+        return $this->render('includes/menu_items.html.twig', array('items' => $menuitems));
     }
 
     #[Route('/description_menu/{id}', name: 'show_description_menu_item')]
     public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
     {
-        return $this->render('@App/site/show_description_menu_item.html.twig', array('item' => $menuItem));
+        return $this->render('site/show_description_menu_item.html.twig', array('item' => $menuItem));
     }
 
     #[Route('/add_favorites/{estate}/{user}', name: 'add_estate_to_favorites')]
@@ -222,7 +222,7 @@ class SiteController extends AbstractController
     #[Route('/pdf/{estate}', name: 'pdf_estate')]
     public function pdfEstateAction(#[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate, Request $request)
     {
-        $html = $this->renderView('@App/site/pdf.html.twig', array('estate' => $estate));
+        $html = $this->renderView('site/pdf.html.twig', array('estate' => $estate));
 
         return new Response(
             $this->pdf->getOutputFromHtml($html, array('images' => true)), 200,
@@ -245,7 +245,7 @@ class SiteController extends AbstractController
                 $request->query->getInt('page', 1),
                 10
             );
-            return $this->render('@App/site/index.html.twig', array('pagination' => $pagination));
+            return $this->render('site/index.html.twig', array('pagination' => $pagination));
         }
         return new Response('', 405);
     }

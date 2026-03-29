@@ -1,5 +1,6 @@
 /app/bootstrap.php.cache
 /app/config/parameters.yml
+/config/parameters.yaml
 /app/phpunit.xml
 /bin/
 /composer.phar
@@ -10,5 +11,6 @@
 /web-src/
 /web/media/
 /web/images/estates/
-/app/.phpunit.result.cache
+/phpunit.xml
+/.phpunit.result.cache
 .claude/settings.local.json

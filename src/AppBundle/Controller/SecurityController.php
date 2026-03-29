@@ -29,7 +29,7 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'security_login_form')]
     public function loginAction(): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('@App/security/login.html.twig', [
+        return $this->render('security/login.html.twig', [
             'last_username' => $this->authenticationUtils->getLastUsername(),
             'error' => $this->authenticationUtils->getLastAuthenticationError(),
         ]);
@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('security_login_form');
         }
-        return $this->render('@App/security/register.html.twig', ['form' => $form->createView()]);
+        return $this->render('security/register.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/login_check', name: 'security_login_check')]
@@ -90,7 +90,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('security_login_form');
         }
 
-        return $this->render('@App/security/reset_request.html.twig', ['form' => $form->createView()]);
+        return $this->render('security/reset_request.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/reset-password/{token}', name: 'security_reset_password')]
@@ -117,6 +117,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('security_login_form');
         }
 
-        return $this->render('@App/security/reset_password.html.twig', ['form' => $form->createView(), 'token' => $token]);
+        return $this->render('security/reset_password.html.twig', ['form' => $form->createView(), 'token' => $token]);
     }
 }

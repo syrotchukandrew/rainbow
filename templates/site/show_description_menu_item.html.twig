@@ -1,0 +1,7 @@
+{% extends 'site/base_site.html.twig' %}
+{% block panel %}
+    <h1>
+        {{ item.title|raw }}
+    </h1>
+    {{ item.description|raw }}
+{% endblock panel %}

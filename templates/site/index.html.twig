@@ -1,0 +1,58 @@
+{% extends 'site/base_site.html.twig' %}
+    {% block panel %}
+        <div class="panel">
+            {% for estate in pagination %}
+                <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a>
+                </h2>
+
+                <div class="row">
+                    <div class="col col-sm-8">
+                        {% if estate.mainFoto is not null %}
+                            <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                <img alt="фото квартиры купить Черкассы" src="{{ asset(estate.mainFoto.path) |imagine_filter('large') }}"
+                                     class="img-responsive">
+                            </a>
+                        {% else %}
+                            <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                <img alt="фото квартиры купить Черкассы" src="{{ asset(estate.files[0].path) |imagine_filter('large') }}"
+                                     class="img-responsive">
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col col-sm-4">
+                        {% if estate.files[1] is defined %}
+                            {% if estate.files[1] != estate.mainFoto %}
+                                <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                    <img alt="фото квартиры купить Черкассы" src="{{ asset("#{estate.files[1].path}") |imagine_filter('medium') }}"
+                                         class="img-responsive">
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        <hr>
+                        {% if estate.files[2] is defined %}
+                            <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                <img alt="фото квартиры купить Черкассы" src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}"
+                                     class="img-responsive">
+                            </a>
+                        {% endif %}
+                        <hr>
+                    </div>
+                </div>
+
+                <h3>{{ 'site.summary'|trans }}:</h3>
+                {{ estate.description }}
+                <br><br>
+                <a href="{{ path('show_estate', { 'slug': estate.slug }) }}"
+                   class="btn btn-default">
+                    {{ 'site.more'|trans }}
+                </a>
+                <hr>
+            {% endfor %}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    {% endblock panel %}
+
+
+

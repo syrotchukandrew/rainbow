@@ -28,14 +28,14 @@ class AdminDistrictController extends AbstractController
     public function districtsAction(Request $request)
     {
         $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
-        return $this->render('@App/admin/district/districts.html.twig', array('districts' => $districts));
+        return $this->render('admin/district/districts.html.twig', array('districts' => $districts));
     }
 
     #[Route('/district/show/{slug}', name: 'admin_district_show', methods: ['GET'])]
     public function districtShowAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request)
     {
         $deleteForm = $this->createDeleteForm($district);
-        return $this->render('@App/admin/district/show_district.html.twig', array(
+        return $this->render('admin/district/show_district.html.twig', array(
             'district'        => $district,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -57,7 +57,7 @@ class AdminDistrictController extends AbstractController
                 : 'admin_districts';
             return $this->redirectToRoute($nextAction);
         }
-        return $this->render('@App/admin/district/new_district.html.twig', array(
+        return $this->render('admin/district/new_district.html.twig', array(
             'district' => $district,
             'form' => $form->createView(),
         ));
@@ -76,7 +76,7 @@ class AdminDistrictController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_districts');
         }
-        return $this->render('@App/admin/district/edit_district.html.twig', array(
+        return $this->render('admin/district/edit_district.html.twig', array(
             'district'        => $district,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

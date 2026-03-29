@@ -39,7 +39,7 @@ class AdminCommentController extends AbstractController
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('@App/admin/comment/comments.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/comment/comments.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/comments/all', name: 'admin_all_comments')]
@@ -51,7 +51,7 @@ class AdminCommentController extends AbstractController
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('@App/admin/comment/all_comments.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/comment/all_comments.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/comments/published', name: 'admin_published_comments')]
@@ -63,14 +63,14 @@ class AdminCommentController extends AbstractController
             $request->query->getInt('page', 1),
             20
         );
-        return $this->render('@App/admin/comment/published_comments.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/comment/published_comments.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/comment/show/{id}', name: 'admin_comment_show')]
     public function showCommentAction(Request $request, Comment $comment)
     {
         $form = $this->deleteForm($comment);
-        return $this->render("@App/admin/comment/show_comment.html.twig", array("comment" => $comment,
+        return $this->render("admin/comment/show_comment.html.twig", array("comment" => $comment,
             'delete_form' => $form->createView(),));
     }
 
@@ -111,7 +111,7 @@ class AdminCommentController extends AbstractController
     public function countDisablesCommentsAction(Request $request)
     {
         $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
-        return $this->render("@App/admin/comment/count_disables_comment.html.twig",
+        return $this->render("admin/comment/count_disables_comment.html.twig",
             array("count_disables_comments" => count($comments)));
     }
 }

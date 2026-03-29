@@ -33,7 +33,7 @@ class UserController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/user/users.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/user/users.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/users/managers', name: 'admin_users_managers', methods: ['GET'])]
@@ -45,7 +45,7 @@ class UserController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/user/users.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/user/users.html.twig', array('pagination' => $pagination));
     }
 
     #[Route('/estates/{slug}', name: 'admin_estates_manager')]
@@ -58,7 +58,7 @@ class UserController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('@App/admin/user/estates_manager.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/user/estates_manager.html.twig', array('pagination' => $pagination));
     }
 
     #[IsGranted('ROLE_ADMIN')]

@@ -1,0 +1,23 @@
+parameters:
+    locale: uk
+    app_locales: uk|en
+
+framework:
+    annotations:     ~
+    translator:
+        fallbacks: ["%locale%"]
+    secret:          "%secret%"
+    mailer:
+        dsn: "%mailer_dsn%"
+    router:
+        strict_requirements: ~
+    assets:          ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
