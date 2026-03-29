@@ -15,8 +15,6 @@ framework:
     annotations:     ~
     translator:
         fallbacks: ["%locale%"]
-        paths:
-            - '%kernel.project_dir%/app/Resources/translations'
     secret:          "%secret%"
     mailer:
         dsn: "%mailer_dsn%"
