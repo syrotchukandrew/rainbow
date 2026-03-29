@@ -21,11 +21,12 @@ security:
 
             lazy: true
             provider: app_users
+            entry_point: form_login
             form_login:
                 check_path: security_login_check
                 login_path: security_login_form
                 failure_path: security_login_form
-                csrf_token_generator: security.csrf.token_manager
+                enable_csrf: true
 
             oauth:
                 resource_owners:

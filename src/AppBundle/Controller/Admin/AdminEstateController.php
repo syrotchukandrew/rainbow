@@ -4,25 +4,22 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Estate;
 use AppBundle\Entity\File;
+use AppBundle\Form\EstateType;
 use AppBundle\Utils\FileManager;
 use AppBundle\Utils\FinalCategoryFinder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\EstateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-/**
- * @Security("is_granted('ROLE_MANAGER')")
- * @Route("/admin")
- */
+#[IsGranted('ROLE_MANAGER')]
+#[Route('/admin')]
 class AdminEstateController extends AbstractController
 {
     private ManagerRegistry $doctrine;
@@ -42,9 +39,7 @@ class AdminEstateController extends AbstractController
         $this->fileManager = $fileManager;
     }
 
-    /**
-     * @Route("/", name="admin_index")
-     */
+    #[Route('/', name: 'admin_index')]
     public function indexAction(Request $request)
     {
         $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findAll();
@@ -59,9 +54,7 @@ class AdminEstateController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/estates", name="admin_estates", methods={"GET"})
-     */
+    #[Route('/estates', name: 'admin_estates', methods: ['GET'])]
     public function estatesAction(Request $request)
     {
         $estates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getEstatesWithAll();
@@ -73,9 +66,7 @@ class AdminEstateController extends AbstractController
         return $this->render('@App/admin/estate/estates.html.twig', array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/estate/show/{slug}", name="admin_estate_show", methods={"GET"})
-     */
+    #[Route('/estate/show/{slug}', name: 'admin_estate_show', methods: ['GET'])]
     public function estateShowAction($slug, Request $request)
     {
         $estate = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
@@ -86,9 +77,7 @@ class AdminEstateController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/estate/new", name="admin_estate_new", methods={"GET", "POST"})
-     */
+    #[Route('/estate/new', name: 'admin_estate_new', methods: ['GET', 'POST'])]
     public function newEstateAction(Request $request)
     {
         $entityManager = $this->doctrine->getManager();
@@ -113,9 +102,7 @@ class AdminEstateController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/estate/edit/{slug}", name="admin_estate_edit", methods={"GET", "POST"})
-     */
+    #[Route('/estate/edit/{slug}', name: 'admin_estate_edit', methods: ['GET', 'POST'])]
     public function estateEditAction($slug, Request $request)
     {
         $estate = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
@@ -139,11 +126,8 @@ class AdminEstateController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/estate/delete/{slug}", name="admin_estate_delete", methods={"DELETE"})     * @Security("is_granted('remove', estate)")
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
-     */
-    public function estateDeleteAction(Request $request, Estate $estate)
+    #[Route('/estate/delete/{slug}', name: 'admin_estate_delete', methods: ['DELETE'])]
+    public function estateDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate)
     {
         $this->denyAccessUnlessGranted('remove', $estate);
         $form = $this->createDeleteForm($estate);
@@ -164,12 +148,12 @@ class AdminEstateController extends AbstractController
             ->getForm();
     }
 
-    /**
-     * @Route("/do_main_foto/{slug}/{id}", name="do_main_foto", methods={"GET"})     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"slug": "slug"}})
-     * @ParamConverter("file", class="AppBundle\Entity\File", options={"mapping": {"id": "id"}})
-     */
-    public function doMainFotoAction(Estate $estate, File $file, Request $request)
-    {
+    #[Route('/do_main_foto/{slug}/{id}', name: 'do_main_foto', methods: ['GET'])]
+    public function doMainFotoAction(
+        #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate,
+        #[MapEntity(mapping: ['id' => 'id'])] File $file,
+        Request $request
+    ) {
         $this->denyAccessUnlessGranted('edit', $estate);
         $entityManager = $this->doctrine->getManager();
         $estate->setMainFoto($file);
@@ -177,5 +161,4 @@ class AdminEstateController extends AbstractController
 
         return $this->redirectToRoute('admin_estate_edit', array('slug' => $estate->getSlug()));
     }
-
 }

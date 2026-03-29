@@ -275,7 +275,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         }
         return $this->password === $user->getPassword()
             && $this->enabled === $user->isEnabled()
-            && $this->username === $user->getUsername();
+            && $this->username === $user->getUserIdentifier();
     }
 
     public function getLastLogin(): ?\DateTimeInterface

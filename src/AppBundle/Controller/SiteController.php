@@ -22,12 +22,12 @@ use AppBundle\Utils\Searcher;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 
@@ -62,9 +62,7 @@ class SiteController extends AbstractController
         $this->breadcrumbs = $breadcrumbs;
     }
 
-    /**
-     * @Route("/", name="homepage")
-     */
+    #[Route('/', name: 'homepage')]
     public function indexAction(Request $request)
     {
         $em = $this->doctrine->getManager();
@@ -78,9 +76,7 @@ class SiteController extends AbstractController
         return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/menu", name="menu")
-     */
+    #[Route('/menu', name: 'menu')]
     public function menuAction(Request $request)
     {
         $em = $this->doctrine->getManager();
@@ -90,11 +86,8 @@ class SiteController extends AbstractController
         return $this->render("@App/includes/menu.html.twig", ['links' => $categories]);
     }
 
-    /**
-     * @Route("/show_category/{slug}", name="show_category")
-     * @ParamConverter("category", class="AppBundle\Entity\Category", options={"mapping": {"slug": "title"}})
-     */
-    public function showCategoryAction(Request $request, Category $category)
+    #[Route('/show_category/{slug}', name: 'show_category')]
+    public function showCategoryAction(Request $request, #[MapEntity(mapping: ['slug' => 'title'])] Category $category)
     {
         $em = $this->doctrine->getManager();
         $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateFromCategory($category->getTitle());
@@ -108,9 +101,7 @@ class SiteController extends AbstractController
         return $this->render("@App/site/index.html.twig", array('pagination' => $pagination));
     }
 
-    /**
-     * @Route("/show_estate/{slug}", name="show_estate", options={"expose"=true})
-     */
+    #[Route('/show_estate/{slug}', name: 'show_estate', options: ['expose' => true])]
     public function showEstateAction(Request $request, $slug)
     {
         $em = $this->doctrine->getManager();
@@ -120,12 +111,9 @@ class SiteController extends AbstractController
         return $this->render('@App/site/show_estate.html.twig', array('estate' => $estate));
     }
 
-    /**
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
-     * @Route("/comment/{slug}/new", name = "comment_new", methods={"POST"})
-     * @ParamConverter("estate", options={"mapping": {"slug": "slug"}})
-     */
-    public function commentNewAction(Estate $estate, Request $request)
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/comment/{slug}/new', name: 'comment_new', methods: ['POST'])]
+    public function commentNewAction(#[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate, Request $request)
     {
         $entityManager = $this->doctrine->getManager();
         $comment = new Comment();
@@ -150,9 +138,7 @@ class SiteController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/search", name="site_search")
-     * */
+    #[Route('/search', name: 'site_search')]
     public function searchAction(Request $request)
     {
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();
@@ -165,9 +151,7 @@ class SiteController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/search/result", name="site_search_result")
-     * */
+    #[Route('/search/result', name: 'site_search_result')]
     public function searchResultAction(Request $request)
     {
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();
@@ -189,9 +173,7 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('homepage');
     }
 
-    /**
-     * @Route("/menu_item", name="show_menu_item")
-     */
+    #[Route('/menu_item', name: 'show_menu_item')]
     public function showMenuItemAction(Request $request)
     {
         $em = $this->doctrine->getManager();
@@ -199,22 +181,18 @@ class SiteController extends AbstractController
         return $this->render('@App/includes/menu_items.html.twig', array('items' => $menuitems));
     }
 
-    /**
-     * @Route("/description_menu/{id}", name="show_description_menu_item")
-     * @ParamConverter("MenuItem", options={"mapping": {"id": "id"}})
-     */
+    #[Route('/description_menu/{id}', name: 'show_description_menu_item')]
     public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
     {
         return $this->render('@App/site/show_description_menu_item.html.twig', array('item' => $menuItem));
     }
 
-    /**
-     * @Route("/add_favorites/{estate}/{user}", name = "add_estate_to_favorites")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
-     */
-    public function addEstateToFavoritesAction(Estate $estate, User $user, Request $request)
-    {
+    #[Route('/add_favorites/{estate}/{user}', name: 'add_estate_to_favorites')]
+    public function addEstateToFavoritesAction(
+        #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
+        #[MapEntity(mapping: ['user' => 'id'])] User $user,
+        Request $request
+    ) {
         $em = $this->doctrine->getManager();
         if (!$user->hasEstate($estate)) {
             $user->addEstate($estate);
@@ -225,13 +203,12 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
     }
 
-    /**
-     * @Route("/delete_favorites/{estate}/{user}", name = "delete_estate_from_favorites")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     * @ParamConverter("user", class="AppBundle\Entity\User", options={"mapping": {"user": "id"}})
-     */
-    public function deleteEstateFromFavoritesAction(Estate $estate, User $user, Request $request)
-    {
+    #[Route('/delete_favorites/{estate}/{user}', name: 'delete_estate_from_favorites')]
+    public function deleteEstateFromFavoritesAction(
+        #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
+        #[MapEntity(mapping: ['user' => 'id'])] User $user,
+        Request $request
+    ) {
         $em = $this->doctrine->getManager();
         if ($user->hasEstate($estate)) {
             $user->removeEstate($estate);
@@ -242,11 +219,8 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
     }
 
-    /**
-     * @Route("/pdf/{estate}", name = "pdf_estate")
-     * @ParamConverter("estate", class="AppBundle\Entity\Estate", options={"mapping": {"estate": "slug"}})
-     */
-    public function pdfEstateAction(Estate $estate, Request $request)
+    #[Route('/pdf/{estate}', name: 'pdf_estate')]
+    public function pdfEstateAction(#[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate, Request $request)
     {
         $html = $this->renderView('@App/site/pdf.html.twig', array('estate' => $estate));
 
@@ -259,9 +233,7 @@ class SiteController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/livesearch", name="livesearch", options={"expose"=true})
-     */
+    #[Route('/livesearch', name: 'livesearch', options: ['expose' => true])]
     public function livesearchAction(Request $request)
     {
         if ($request->getMethod() === 'GET') {

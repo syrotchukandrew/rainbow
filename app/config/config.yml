@@ -12,6 +12,7 @@ parameters:
 
 framework:
     #esi:             ~
+    annotations:     ~
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     mailer:
