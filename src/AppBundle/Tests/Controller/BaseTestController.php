@@ -1,11 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace AppBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class BaseTestController extends WebTestCase
 {

@@ -5,6 +5,9 @@
  * Date: 24.02.16
  * Time: 13:39
  */
+
+declare(strict_types=1);
+
 namespace AppBundle\DataFixtures\ORM\Deploy;
 
 use AppBundle\Entity\District;

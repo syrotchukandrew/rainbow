@@ -6,6 +6,8 @@
  * Time: 11:34
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\MenuItem;

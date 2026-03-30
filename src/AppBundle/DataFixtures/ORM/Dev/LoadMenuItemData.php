@@ -5,6 +5,9 @@
  * Date: 16.03.16
  * Time: 23:34
  */
+
+declare(strict_types=1);
+
 namespace AppBundle\DataFixtures\ORM\Dev;
 
 use AppBundle\Entity\MenuItem;

@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use AppBundle\Entity\Estate;
-use AppBundle\Entity\MenuItem;
-use AppBundle\Entity\User;
 
 /**
  * Execute the application tests using this command (requires PHPUnit to be installed):
@@ -114,6 +113,6 @@ class SiteControllerTest extends WebTestCase
         $client->request('GET', "/en/delete_favorites/{$slug}/{$user->getId()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $countComeBack = count($user->getEstates());
-        $this->assertEquals($countBefore , ($countAfter - 1), $countComeBack);
+        $this->assertEquals($countBefore, ($countAfter - 1), (string) $countComeBack);
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 

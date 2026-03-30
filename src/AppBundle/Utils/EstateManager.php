@@ -6,6 +6,8 @@
  * Time: 23:55
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Estate;

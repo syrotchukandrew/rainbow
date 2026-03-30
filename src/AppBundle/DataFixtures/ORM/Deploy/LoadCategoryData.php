@@ -6,6 +6,8 @@
  * Time: 17:14
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\DataFixtures\ORM\Deploy;
 
 use AppBundle\Entity\Category;

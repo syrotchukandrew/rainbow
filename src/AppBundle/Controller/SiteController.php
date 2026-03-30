@@ -6,6 +6,8 @@
  * Time: 9:30
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;

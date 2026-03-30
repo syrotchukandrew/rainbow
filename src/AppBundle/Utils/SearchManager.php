@@ -6,6 +6,8 @@
  * Time: 22:57
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\Utils;
 
 use Doctrine\Persistence\ManagerRegistry;

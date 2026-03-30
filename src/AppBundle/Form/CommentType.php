@@ -6,6 +6,8 @@
  * Time: 15:38
  */
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

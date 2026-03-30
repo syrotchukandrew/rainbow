@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Templating\Helper;
 
 use Twig\Environment;

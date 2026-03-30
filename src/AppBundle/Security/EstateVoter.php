@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

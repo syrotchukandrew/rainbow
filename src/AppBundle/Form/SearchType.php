@@ -6,6 +6,7 @@
  * Time: 12:20
  */
 
+declare(strict_types=1);
 
 namespace AppBundle\Form;
 
