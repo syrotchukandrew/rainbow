@@ -101,11 +101,10 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_PW' => 'qweasz',
         ));
         $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $comments = $em
-            ->getRepository(\AppBundle\Entity\Comment::class)
-            ->getDisabledComments();
+        // Use any comment — the 403 auth check fires before any state change
+        $comment = $em->getRepository(\AppBundle\Entity\Comment::class)->findOneBy([]);
 
-        $client->request('GET', "/admin/comment_enable/{$comments[0]->getId()}");
+        $client->request('GET', "/admin/comment_enable/{$comment->getId()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

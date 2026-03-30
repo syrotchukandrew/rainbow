@@ -80,6 +80,12 @@ class UserControllerTest extends BaseTestController
         $userId = $user->getId();
         $username = $user->getUserIdentifier();
 
+        // Ensure user starts enabled regardless of previous test run state
+        if (!$user->isEnabled()) {
+            $client->request('GET', "/admin/users/unlock_user/{$username}");
+            $em->clear();
+            $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
+        }
         $this->assertEquals(true, $user->isEnabled());
         $client->request('GET', "/admin/users/lock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
