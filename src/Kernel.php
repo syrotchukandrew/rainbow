@@ -33,6 +33,7 @@ class Kernel extends BaseKernel
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
