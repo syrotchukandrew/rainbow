@@ -79,6 +79,15 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_PW' => 'qweasz',
         ));
         $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+
+        // Ensure there is at least one disabled comment regardless of prior test runs
+        $anyComment = $em->getRepository(\AppBundle\Entity\Comment::class)->findOneBy([]);
+        if ($anyComment->isEnabled()) {
+            $anyComment->setEnabled(false);
+            $em->flush();
+            $em->clear();
+        }
+
         $comments = $em
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
