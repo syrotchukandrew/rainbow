@@ -4,7 +4,11 @@
   "description": "Kate&Andrew project for geekhub's final challenge",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "encore dev",
+    "dev-server": "encore dev-server",
+    "watch": "encore dev --watch",
+    "build": "encore production"
   },
   "repository": {
     "type": "git",
