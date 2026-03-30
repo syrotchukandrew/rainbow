@@ -14,7 +14,7 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin');
+        $crawler = $client->request('GET', '/admin');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -25,7 +25,7 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/estates');
+        $crawler = $client->request('GET', '/admin/estates');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -44,7 +44,7 @@ class AdminEstateControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/uk/admin/estate/show/{$slug}");
+        $crawler = $client->request('GET', "/admin/estate/show/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -59,7 +59,7 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/uk/admin/estate/new");
+        $crawler = $client->request('GET', "/admin/estate/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -78,7 +78,7 @@ class AdminEstateControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/uk/admin/estate/edit/{$slug}");
+        $crawler = $client->request('GET', "/admin/estate/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -106,7 +106,7 @@ class AdminEstateControllerTest extends BaseTestController
         $estate->setMainFoto(null);
         $em->flush();
         $this->assertNull($estate->getMainFoto());
-        $client->request('GET', "/uk/admin/do_main_foto/{$estate->getSlug()}/{$fotoId}");
+        $client->request('GET', "/admin/do_main_foto/{$estate->getSlug()}/{$fotoId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
         $freshEstate = $em->getRepository(\AppBundle\Entity\Estate::class)->find($estateId);

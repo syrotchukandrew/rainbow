@@ -14,7 +14,7 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/menu_items');
+        $crawler = $client->request('GET', '/admin/menu_items');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -33,7 +33,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
-        $crawler = $client->request('GET', "/uk/admin/menu_item/show/{$id}");
+        $crawler = $client->request('GET', "/admin/menu_item/show/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -48,7 +48,7 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/uk/admin/menu_item/new");
+        $crawler = $client->request('GET', "/admin/menu_item/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -67,7 +67,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
-        $crawler = $client->request('GET', "/uk/admin/menu_item/edit/{$id}");
+        $crawler = $client->request('GET', "/admin/menu_item/edit/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -86,7 +86,7 @@ class AdminMenuItemControllerTest extends BaseTestController
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
-        $crawler = $client->request('GET', "/uk/admin/menu_item/edit/{$id}");
+        $crawler = $client->request('GET', "/admin/menu_item/edit/{$id}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }

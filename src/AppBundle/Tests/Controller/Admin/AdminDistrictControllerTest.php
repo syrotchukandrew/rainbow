@@ -14,7 +14,7 @@ class AdminDistrictControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/districts');
+        $crawler = $client->request('GET', '/admin/districts');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -33,7 +33,7 @@ class AdminDistrictControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/uk/admin/district/show/{$slug}");
+        $crawler = $client->request('GET', "/admin/district/show/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -48,7 +48,7 @@ class AdminDistrictControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', "/uk/admin/district/new");
+        $crawler = $client->request('GET', "/admin/district/new");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -67,7 +67,7 @@ class AdminDistrictControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/uk/admin/district/edit/{$slug}");
+        $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -86,7 +86,7 @@ class AdminDistrictControllerTest extends BaseTestController
         $slug = $em
             ->getRepository(\AppBundle\Entity\District::class)
             ->findOneBy([])->getSlug();
-        $crawler = $client->request('GET', "/uk/admin/district/edit/{$slug}");
+        $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }

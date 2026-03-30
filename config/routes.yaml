@@ -18,6 +18,10 @@ vkontakte_login:
 logout:
     path: /logout
 
+app_admin:
+    resource: "@AppBundle/Controller/Admin/"
+    type:     attribute
+
 app:
     resource: "@AppBundle/Controller/"
     type:     attribute
@@ -26,6 +30,8 @@ app:
         _locale: "%app_locales%"
     defaults:
         _locale: "%locale%"
+    exclude:
+        - "@AppBundle/Controller/Admin/"
 
 homepage:
     path:     /{_locale}

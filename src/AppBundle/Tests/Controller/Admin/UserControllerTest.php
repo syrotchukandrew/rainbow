@@ -15,7 +15,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
-        $client->request('GET', '/uk/admin');
+        $client->request('GET', '/admin');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
@@ -26,7 +26,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $client->request('GET', '/uk/admin');
+        $client->request('GET', '/admin');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -37,7 +37,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/users');
+        $crawler = $client->request('GET', '/admin/users');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -57,7 +57,7 @@ class UserControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[1];
-        $crawler = $client->request('GET', "/uk/admin/estates/{$user->getUserIdentifier()}");
+        $crawler = $client->request('GET', "/admin/estates/{$user->getUserIdentifier()}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -81,12 +81,12 @@ class UserControllerTest extends BaseTestController
         $username = $user->getUserIdentifier();
 
         $this->assertEquals(true, $user->isEnabled());
-        $client->request('GET', "/uk/admin/users/lock_user/{$username}");
+        $client->request('GET', "/admin/users/lock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
         $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
         $this->assertEquals(false, $user->isEnabled());
-        $client->request('GET', "/uk/admin/users/unlock_user/{$username}");
+        $client->request('GET', "/admin/users/unlock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
         $user = $em->getRepository(\AppBundle\Entity\User::class)->find($userId);
@@ -97,9 +97,9 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager1',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $client->request('GET', "/uk/admin/users/lock_user/{$user->getUserIdentifier()}");
+        $client->request('GET', "/admin/users/lock_user/{$user->getUserIdentifier()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $client->request('GET', "/uk/admin/users/unlock_user/{$user->getUserIdentifier()}");
+        $client->request('GET', "/admin/users/unlock_user/{$user->getUserIdentifier()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
@@ -116,7 +116,7 @@ class UserControllerTest extends BaseTestController
         $user = $users[0];
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
 
-        $client->request('GET', "/uk/admin/users/do_user/{$user->getUserIdentifier()}");
+        $client->request('GET', "/admin/users/do_user/{$user->getUserIdentifier()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals(false, $user->hasRole('ROLE_MANAGER'));
     }
@@ -138,7 +138,7 @@ class UserControllerTest extends BaseTestController
 
         $user = $users[0];
         $this->assertEquals(false, $user->hasRole('ROLE_MANAGER'));
-        $client->request('GET', "/uk/admin/users/do_manager/{$user->getUserIdentifier()}");
+        $client->request('GET', "/admin/users/do_manager/{$user->getUserIdentifier()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
     }

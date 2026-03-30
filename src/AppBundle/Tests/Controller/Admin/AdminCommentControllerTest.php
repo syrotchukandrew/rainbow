@@ -14,7 +14,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/comments');
+        $crawler = $client->request('GET', '/admin/comments');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -29,7 +29,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/comments/all');
+        $crawler = $client->request('GET', '/admin/comments/all');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -44,7 +44,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $crawler = $client->request('GET', '/uk/admin/comments/published');
+        $crawler = $client->request('GET', '/admin/comments/published');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -63,7 +63,7 @@ class AdminCommentControllerTest extends BaseTestController
         $id = $em
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->findOneBy([])->getId();
-        $crawler = $client->request('GET', "/uk/admin/comment/show/{$id}");
+        $crawler = $client->request('GET', "/admin/comment/show/{$id}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -83,7 +83,7 @@ class AdminCommentControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
         $countCommentsBefore = count($comments);
-        $client->request('GET', "/uk/admin/comment_enable/{$comments[0]->getId()}");
+        $client->request('GET', "/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $comments = $em
@@ -105,7 +105,7 @@ class AdminCommentControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
 
-        $client->request('GET', "/uk/admin/comment_enable/{$comments[0]->getId()}");
+        $client->request('GET', "/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }
