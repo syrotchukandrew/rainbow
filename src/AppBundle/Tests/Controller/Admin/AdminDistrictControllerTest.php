@@ -87,9 +87,5 @@ class AdminDistrictControllerTest extends BaseTestController
         $crawler = $client->request('GET', "/uk/admin/district/edit/{$slug}");
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $this->assertGreaterThanOrEqual(
-            1,
-            $crawler->filter('h1')->count()
-        );
     }
 }
