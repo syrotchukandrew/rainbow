@@ -7,50 +7,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * District
- *
- * @ORM\Table(name="district")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DistrictRepository")
- */
+#[ORM\Table(name: 'district')]
+#[ORM\Entity(repositoryClass: 'AppBundle\Repository\DistrictRepository')]
 class District
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(name="slug", type="string", length=255, unique=true)
-     */
+    #[Gedmo\Slug(fields: ['title'])]
+    #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
     private $slug;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     * @Assert\NotBlank(message="district.blank")
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 50,
-     *      minMessage = "district.too_short",
-     *      maxMessage = "district.too_long"
-     * )
-     */
+    #[ORM\Column(name: 'title', type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'district.blank')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'district.too_short',
+        maxMessage: 'district.too_long'
+    )]
     private $title;
 
-    /**
-     * @var array
-     * @ORM\OneToMany(targetEntity="Estate", mappedBy="district")
-     * @ORM\OrderBy({"createdAt" = "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: 'Estate', mappedBy: 'district')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private $estates;
 
     public function __construct()
@@ -58,23 +39,11 @@ class District
         $this->estates = new ArrayCollection();
     }
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return District
-     */
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -82,22 +51,11 @@ class District
         return $this;
     }
 
-    /**
-     * Get slug
-     *
-     * @return string
-     */
     public function getSlug()
     {
         return $this->slug;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return District
-     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -105,22 +63,11 @@ class District
         return $this;
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    /**
-     * Add estates
-     *
-     * @param \AppBundle\Entity\Estate $estates
-     * @return District
-     */
     public function addEstate(\AppBundle\Entity\Estate $estates)
     {
         $this->estates[] = $estates;
@@ -128,21 +75,11 @@ class District
         return $this;
     }
 
-    /**
-     * Remove estates
-     *
-     * @param \AppBundle\Entity\Estate $estates
-     */
     public function removeEstate(\AppBundle\Entity\Estate $estates)
     {
         $this->estates->removeElement($estates);
     }
 
-    /**
-     * Get estates
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
     public function getEstates()
     {
         return $this->estates;

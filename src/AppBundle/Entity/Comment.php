@@ -6,68 +6,39 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
-/**
- * Comment
- *
- * @ORM\Table(name="comment")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
- */
+#[ORM\Table(name: 'comment')]
+#[ORM\Entity(repositoryClass: 'AppBundle\Repository\CommentRepository')]
 class Comment
 {
-    /**
-     * @var int
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Estate", inversedBy="comments", cascade={"persist"})
-     *
-     */
+    #[ORM\ManyToOne(targetEntity: 'AppBundle\Entity\Estate', inversedBy: 'comments', cascade: ['persist'])]
     private $estate;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="comment.blank")
-     * @Assert\Length(
-     *     min = "5",
-     *     minMessage = "comment.too_short",
-     *     max = "10000",
-     *     maxMessage = "comment.too_long"
-     * )
-     */
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: 'comment.blank')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'comment.too_short',
+        max: 10000,
+        maxMessage: 'comment.too_long'
+    )]
     private $content;
 
-    /**
-     * @var \DateTime $createdAt
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
-     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private $createdAt;
 
-    /**
-     * @var string $createdBy
-     *
-     * @Gedmo\Blameable(on="create")
-     * @ORM\Column
-     */
+    #[Gedmo\Blameable(on: 'create')]
+    #[ORM\Column]
     private $createdBy;
 
-    /**
-     * @var boolean
-     * @ORM\Column(name="enabled", type="boolean")
-     */
+    #[ORM\Column(name: 'enabled', type: 'boolean')]
     protected $enabled;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
@@ -95,25 +66,11 @@ class Comment
         return $this;
     }
 
-    /**
-     * Is the given User the author of this Comment?
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
     public function isAuthor(User $user)
     {
-        return $user->getUsername() == $this->getCreatedBy();
+        return $user->getUserIdentifier() == $this->getCreatedBy();
     }
 
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Comment
-     */
     public function setContent($content)
     {
         $this->content = $content;
@@ -121,33 +78,16 @@ class Comment
         return $this;
     }
 
-    /**
-     * Get content
-     *
-     * @return string
-     */
     public function getContent()
     {
         return $this->content;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set estate
-     *
-     * @param \AppBundle\Entity\Estate $estate
-     *
-     * @return Estate
-     */
     public function setEstate(\AppBundle\Entity\Estate $estate = null)
     {
         $this->estate = $estate;
@@ -155,22 +95,11 @@ class Comment
         return $this;
     }
 
-    /**
-     * Get estate
-     *
-     * @return \AppBundle\Entity\Estate
-     */
     public function getEstate()
     {
         return $this->estate;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Comment
-     */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;

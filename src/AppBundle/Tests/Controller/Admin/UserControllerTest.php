@@ -55,7 +55,7 @@ class UserControllerTest extends BaseTestController
             ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[1];
-        $crawler = $client->request('GET', "/uk/admin/estates/{$user->getUsername()}");
+        $crawler = $client->request('GET', "/uk/admin/estates/{$user->getUserIdentifier()}");
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -76,7 +76,7 @@ class UserControllerTest extends BaseTestController
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $userId = $user->getId();
-        $username = $user->getUsername();
+        $username = $user->getUserIdentifier();
 
         $this->assertEquals(true, $user->isEnabled());
         $client->request('GET', "/uk/admin/users/lock_user/{$username}");
@@ -95,9 +95,9 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager1',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $client->request('GET', "/uk/admin/users/lock_user/{$user->getUsername()}");
+        $client->request('GET', "/uk/admin/users/lock_user/{$user->getUserIdentifier()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $client->request('GET', "/uk/admin/users/unlock_user/{$user->getUsername()}");
+        $client->request('GET', "/uk/admin/users/unlock_user/{$user->getUserIdentifier()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
@@ -114,7 +114,7 @@ class UserControllerTest extends BaseTestController
         $user = $users[0];
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
 
-        $client->request('GET', "/uk/admin/users/do_user/{$user->getUsername()}");
+        $client->request('GET', "/uk/admin/users/do_user/{$user->getUserIdentifier()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals(false, $user->hasRole('ROLE_MANAGER'));
     }
@@ -136,7 +136,7 @@ class UserControllerTest extends BaseTestController
 
         $user = $users[0];
         $this->assertEquals(false, $user->hasRole('ROLE_MANAGER'));
-        $client->request('GET', "/uk/admin/users/do_manager/{$user->getUsername()}");
+        $client->request('GET', "/uk/admin/users/do_manager/{$user->getUserIdentifier()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
     }

@@ -1,41 +1,27 @@
 <?php
+
+declare(strict_types=1);
+
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\File;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Events;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
-class FileCacheRemoveEventSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::preRemove, connection: 'default')]
+class FileCacheRemoveEventSubscriber
 {
-    protected $cacheManager;
-
-    /**
-     * Constructor.
-     *
-     * @param CacheManager $cacheManager A CacheManager instance
-     */
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(private CacheManager $cacheManager)
     {
-        $this->cacheManager = $cacheManager;
     }
 
-    public function getSubscribedEvents()
+    public function preRemove(PreRemoveEventArgs $args): void
     {
-        return array(
-            'preRemove'
-        );
-    }
-
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function preRemove(LifecycleEventArgs $args)
-    {
-        $file = $args->getEntity();
+        $file = $args->getObject();
         if ($file instanceof File && $file->getName() !== null && file_exists($file->getPath())) {
             $this->cacheManager->remove($file->getPath());
         }
     }
-
 }
