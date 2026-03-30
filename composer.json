@@ -84,7 +84,7 @@
         }
     },
     "extra": {
-        "symfony-web-dir": "web",
+        "symfony-web-dir": "public",
         "incenteev-parameters": {
             "file": "config/parameters.yaml"
         }

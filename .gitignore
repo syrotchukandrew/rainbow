@@ -9,8 +9,8 @@
 /node_modules/
 /bower_components/
 /web-src/
-/web/media/
-/web/images/estates/
+/public/media/
+/public/images/estates/
 /phpunit.xml
 /.phpunit.result.cache
 .claude/settings.local.json

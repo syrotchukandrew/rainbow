@@ -45,9 +45,10 @@ RUN apt-get update && apt-get install -y wkhtmltopdf \
 RUN a2enmod rewrite
 
 # Configure Apache DocumentRoot
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN sed -ri -e 's!AllowOverride None!AllowOverride All!g' /etc/apache2/apache2.conf
 
 WORKDIR /var/www/html
 
@@ -58,9 +59,9 @@ COPY . .
 RUN composer install --no-interaction --no-scripts --optimize-autoloader
 
 # Create directories and set permissions
-RUN mkdir -p var/cache var/logs var/sessions web/uploads \
-    && chown -R www-data:www-data var web/uploads \
-    && chmod -R 775 var web/uploads
+RUN mkdir -p var/cache var/logs var/sessions public/uploads \
+    && chown -R www-data:www-data var public/uploads \
+    && chmod -R 775 var public/uploads
 
 # Expose port 80
 EXPOSE 80
