@@ -59,7 +59,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $id = $em
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->findOneBy([])->getId();
@@ -78,7 +78,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $comments = $em
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();
@@ -100,7 +100,7 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $comments = $em
             ->getRepository(\AppBundle\Entity\Comment::class)
             ->getDisabledComments();

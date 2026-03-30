@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
@@ -17,7 +18,7 @@ class Estate
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(name: 'title', type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'estate.title.blank')]
@@ -27,23 +28,23 @@ class Estate
         minMessage: 'estate.title.too_short',
         maxMessage: 'estate.title.too_long'
     )]
-    private $title;
+    private ?string $title = null;
 
     #[Gedmo\Slug(fields: ['title'])]
     #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
-    private $slug;
+    private ?string $slug = null;
 
     #[Gedmo\Blameable(on: 'create')]
     #[ORM\Column(name: 'createdBy', type: 'string', length: 255)]
-    private $createdBy;
+    private ?string $createdBy = null;
 
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(name: 'createdAt', type: 'datetime')]
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(name: 'updatedAt', type: 'datetime')]
-    private $updatedAt;
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(name: 'description', type: 'text')]
     #[Assert\NotBlank(message: 'estate.description.blank')]
@@ -53,39 +54,39 @@ class Estate
         minMessage: 'estate.description.too_short',
         maxMessage: 'estate.description.too_long'
     )]
-    private $description;
+    private ?string $description = null;
 
     #[ORM\Column(name: 'price', type: 'integer', nullable: true)]
-    private $price;
+    private ?int $price = null;
 
     #[ORM\Column(name: 'floor', type: 'array', nullable: true)]
-    private $floor;
+    private mixed $floor = null;
 
     #[ORM\Column(name: 'first_last_floor', type: 'boolean', nullable: true)]
-    private $firstLastFloor;
+    private ?bool $firstLastFloor = null;
 
     #[ORM\Column(name: 'exclusive', type: 'boolean')]
-    private $exclusive;
+    private bool $exclusive;
 
     #[ORM\ManyToOne(targetEntity: 'District', inversedBy: 'estates')]
     #[ORM\JoinColumn(name: 'district_id', referencedColumnName: 'id', nullable: false)]
-    private $district;
+    private ?District $district = null;
 
     #[ORM\OneToMany(targetEntity: 'AppBundle\Entity\File', mappedBy: 'estate', cascade: ['remove'], orphanRemoval: true)]
-    private $files;
+    private Collection $files;
 
     #[ORM\OneToOne(targetEntity: 'AppBundle\Entity\File')]
-    private $mainFoto;
+    private ?\AppBundle\Entity\File $mainFoto = null;
 
-    private $imageFile;
+    private mixed $imageFile = null;
 
     #[ORM\OneToMany(targetEntity: 'Comment', mappedBy: 'estate', orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
-    private $comments;
+    private Collection $comments;
 
     #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'estates')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
-    private $category;
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -94,206 +95,206 @@ class Estate
         $this->exclusive = false;
     }
 
-    public function setImageFile($imageFile)
+    public function setImageFile(mixed $imageFile): static
     {
         $this->imageFile = $imageFile;
         return $this;
     }
 
-    public function getImageFile()
+    public function getImageFile(): mixed
     {
         return $this->imageFile;
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setTitle($title)
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setSlug($slug)
+    public function setSlug(?string $slug): static
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setCreatedBy($createdBy)
+    public function setCreatedBy(?string $createdBy): static
     {
         $this->createdBy = $createdBy;
 
         return $this;
     }
 
-    public function getCreatedBy()
+    public function getCreatedBy(): ?string
     {
         return $this->createdBy;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(?\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setDescription($description)
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setPrice($price)
+    public function setPrice(?int $price): static
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getPrice()
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setFloor($floor)
+    public function setFloor(mixed $floor): static
     {
         $this->floor = $floor;
 
         return $this;
     }
 
-    public function getFloor()
+    public function getFloor(): mixed
     {
         return $this->floor;
     }
 
-    public function isFirstLastFloor()
+    public function isFirstLastFloor(): ?bool
     {
         return $this->firstLastFloor;
     }
 
-    public function setFirstLastFloor($firstLastFloor)
+    public function setFirstLastFloor(?bool $firstLastFloor): void
     {
         $this->firstLastFloor = $firstLastFloor;
     }
 
-    public function setExclusive($exclusive)
+    public function setExclusive(bool $exclusive): static
     {
         $this->exclusive = $exclusive;
 
         return $this;
     }
 
-    public function isExclusive()
+    public function isExclusive(): bool
     {
         return $this->exclusive;
     }
 
-    public function setDistrict(\AppBundle\Entity\District $district = null)
+    public function setDistrict(?\AppBundle\Entity\District $district = null): static
     {
         $this->district = $district;
 
         return $this;
     }
 
-    public function getDistrict()
+    public function getDistrict(): ?District
     {
         return $this->district;
     }
 
-    public function addFile(\AppBundle\Entity\File $files)
+    public function addFile(\AppBundle\Entity\File $files): static
     {
         $this->files[] = $files;
 
         return $this;
     }
 
-    public function removeFile(\AppBundle\Entity\File $files)
+    public function removeFile(\AppBundle\Entity\File $files): void
     {
         $this->files->removeElement($files);
     }
 
-    public function getFiles()
+    public function getFiles(): Collection
     {
         return $this->files;
     }
 
-    public function addComment(\AppBundle\Entity\Comment $comments)
+    public function addComment(\AppBundle\Entity\Comment $comments): static
     {
         $this->comments[] = $comments;
 
         return $this;
     }
 
-    public function removeComment(\AppBundle\Entity\Comment $comments)
+    public function removeComment(\AppBundle\Entity\Comment $comments): void
     {
         $this->comments->removeElement($comments);
     }
 
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function setCategory(\AppBundle\Entity\Category $category = null)
+    public function setCategory(?\AppBundle\Entity\Category $category = null): static
     {
         $this->category = $category;
 
         return $this;
     }
 
-    public function getCategory()
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setMainFoto($mainFoto)
+    public function setMainFoto(?\AppBundle\Entity\File $mainFoto): static
     {
         $this->mainFoto = $mainFoto;
 
         return $this;
     }
 
-    public function getMainFoto()
+    public function getMainFoto(): ?\AppBundle\Entity\File
     {
         return $this->mainFoto;
     }

@@ -29,7 +29,7 @@ class SiteControllerTest extends WebTestCase
     public function testShowEstate()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();
@@ -57,7 +57,7 @@ class SiteControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', "/en/menu_item");
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $menuItems = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findAll();
@@ -71,7 +71,7 @@ class SiteControllerTest extends WebTestCase
     public function testShowDescriptionMenuItem()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $menuItems = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findAll();
@@ -87,7 +87,7 @@ class SiteControllerTest extends WebTestCase
     public function testPdfEstate()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $estates = $em
             ->getRepository(\AppBundle\Entity\Estate::class)
             ->findAll();
@@ -98,7 +98,7 @@ class SiteControllerTest extends WebTestCase
     public function testAddDeleteEstateToFavorites()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\AppBundle\Entity\Estate::class)
             ->findOneBy([])->getSlug();

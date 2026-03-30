@@ -41,6 +41,49 @@
 - Never use `|raw` without explicit justification
 - Keep templates thin — logic belongs in controllers/services
 
+## Symfony
+
+### Controllers
+- Extend `AbstractController`
+- Use `#[Route]` attributes with explicit `methods` param
+- Return `Response` or `JsonResponse` — no `echo`, no direct output
+- No business logic — delegate to services
+- No `$this->getDoctrine()` — inject `ManagerRegistry` via constructor
+
+### Services
+- Register via autowiring (`services.yaml` autoconfigure + autowire)
+- Constructor injection only — no setter injection, no property injection
+- Type-hint interfaces (`UserRepositoryInterface`), not concrete classes
+- Stateless where possible — no request/session state stored on the service
+
+### Entities
+- ORM mapping via PHP 8 attributes (`#[ORM\...]`) — no XML, no YAML, no docblock annotations
+- No business logic beyond simple computed properties
+- No Doctrine calls inside entities — flush/persist in services or commands
+- All properties private or protected, accessed via getters/setters
+
+### Forms
+- One `FormType` class per form
+- `data_class` set in `configureOptions()` for entity-bound forms
+- Labels use translation keys, not hardcoded strings
+- Constraints defined in the entity via `#[Assert\...]`, not in the form
+
+### Security
+- Access control via `#[IsGranted]` attribute on controller methods
+- Password hashing: `UserPasswordHasherInterface` only
+- Voters for complex permission logic — no inline `isGranted()` chains
+- Firewalls use `lazy: true` (not `anonymous: true`)
+
+### Translations
+- All user-visible strings go through `trans()` or the `{{ 'key'|trans }}` Twig filter
+- Translation files live in `translations/` as YAML
+- Keys follow dot-notation: `section.subsection.label`
+
+### Commands
+- Use `#[AsCommand]` attribute — no `setName()` / `setDescription()` in `configure()`
+- Extend `Command`, return `Command::SUCCESS` / `Command::FAILURE`
+- No HTTP or Twig dependencies in commands
+
 ## General
 
 - No magic numbers — use named constants

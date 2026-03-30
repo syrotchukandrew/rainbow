@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class FinalCategoryFinder
 {
-    protected $doctrine;
+    private ManagerRegistry $doctrine;
 
     /**
      * Constructor.
@@ -21,7 +21,7 @@ class FinalCategoryFinder
         $this->doctrine = $doctrine;
     }
 
-    public function findFinalCategories()
+    public function findFinalCategories(): array
     {
         $finalCategories = array();
         $entityManager = $this->doctrine->getManager();

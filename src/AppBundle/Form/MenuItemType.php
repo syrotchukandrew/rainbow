@@ -18,26 +18,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuItemType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Название меню',
+                'label' => 'form.menu_item.title',
             ))
             ->add('description', TextareaType::class);
 
 
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\MenuItem',
         ));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_menu_item_type';
     }

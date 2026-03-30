@@ -47,7 +47,6 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $category = new Category();
         $category->setTitle("Будинки в місті");
-        //$category->setUrl("{{ path('show_category', {'slug': link.title}) }}");
         $category->setParent($this->getReference("houses", \AppBundle\Entity\Category::class));
         $this->setReference("category6", $category);
         $manager->persist($category);

@@ -20,13 +20,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SearchType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Category',
                 'choices' => $options['categories_choices'],
-                'label' => 'Категория',
+                'label' => 'form.search.category',
                 'choice_label' => 'title',
             ))
             ->add('except_floor', CheckboxType::class, array(
@@ -38,12 +38,12 @@ class SearchType extends AbstractType
                 'class' => 'AppBundle\Entity\District',
                 'placeholder' => 'form.search.district',
                 'choice_label' => 'title',
-                'label' => 'Район',
+                'label' => 'form.search.district_label',
                 'required' => false,
             ))
             ->add('price', ChoiceType::class, array(
                     'placeholder' => 'form.search.price',
-                    'label' => 'Цена',
+                    'label' => 'form.search.price_label',
                     'choices' => array(
                         'form.search.to_20000' => 'to_20000',
                         'form.search.to_50000' => 'to_50000',
@@ -57,7 +57,7 @@ class SearchType extends AbstractType
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
 
         $resolver->setDefaults(array(
@@ -68,7 +68,7 @@ class SearchType extends AbstractType
 
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_search_type';
     }

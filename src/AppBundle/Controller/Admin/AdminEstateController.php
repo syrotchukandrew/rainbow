@@ -14,7 +14,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -40,8 +42,8 @@ class AdminEstateController extends AbstractController
         $this->fileManager = $fileManager;
     }
 
-    #[Route('/', name: 'admin_index')]
-    public function indexAction(Request $request)
+    #[Route('/', name: 'admin_index', methods: ['GET'])]
+    public function indexAction(Request $request): Response
     {
         $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findAll();
         $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
@@ -56,7 +58,7 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estates', name: 'admin_estates', methods: ['GET'])]
-    public function estatesAction(Request $request)
+    public function estatesAction(Request $request): Response
     {
         $estates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getEstatesWithAll();
         $pagination = $this->paginator->paginate(
@@ -68,7 +70,7 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estate/show/{slug}', name: 'admin_estate_show', methods: ['GET'])]
-    public function estateShowAction($slug, Request $request)
+    public function estateShowAction(string $slug, Request $request): Response
     {
         $estate = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
         $deleteForm = $this->createDeleteForm($estate);
@@ -79,7 +81,7 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estate/new', name: 'admin_estate_new', methods: ['GET', 'POST'])]
-    public function newEstateAction(Request $request)
+    public function newEstateAction(Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $estate = new Estate();
@@ -104,7 +106,7 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estate/edit/{slug}', name: 'admin_estate_edit', methods: ['GET', 'POST'])]
-    public function estateEditAction($slug, Request $request)
+    public function estateEditAction(string $slug, Request $request): Response
     {
         $estate = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getOneEstateWithAll($slug);
         $entityManager = $this->doctrine->getManager();
@@ -128,7 +130,7 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estate/delete/{slug}', name: 'admin_estate_delete', methods: ['DELETE'])]
-    public function estateDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate)
+    public function estateDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate): Response
     {
         $this->denyAccessUnlessGranted('remove', $estate);
         $form = $this->createDeleteForm($estate);
@@ -154,7 +156,7 @@ class AdminEstateController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate,
         #[MapEntity(mapping: ['id' => 'id'])] File $file,
         Request $request
-    ) {
+    ): Response {
         $this->denyAccessUnlessGranted('edit', $estate);
         $entityManager = $this->doctrine->getManager();
         $estate->setMainFoto($file);

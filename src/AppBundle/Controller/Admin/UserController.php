@@ -7,7 +7,9 @@ namespace AppBundle\Controller\Admin;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -26,7 +28,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'admin_users', methods: ['GET'])]
-    public function usersAction(Request $request)
+    public function usersAction(Request $request): Response
     {
         $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findAll();
         $pagination = $this->paginator->paginate(
@@ -38,7 +40,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/managers', name: 'admin_users_managers', methods: ['GET'])]
-    public function usersManagersAction(Request $request)
+    public function usersManagersAction(Request $request): Response
     {
         $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findByRole('ROLE_MANAGER');
         $pagination = $this->paginator->paginate(
@@ -49,8 +51,8 @@ class UserController extends AbstractController
         return $this->render('admin/user/users.html.twig', array('pagination' => $pagination));
     }
 
-    #[Route('/estates/{slug}', name: 'admin_estates_manager')]
-    public function showEstatesManagerAction(Request $request, $slug)
+    #[Route('/estates/{slug}', name: 'admin_estates_manager', methods: ['GET'])]
+    public function showEstatesManagerAction(Request $request, $slug): Response
     {
         $estates = $this->doctrine->getManager()->getRepository(\AppBundle\Entity\Estate::class)
             ->getEstatesOfManager($slug);
@@ -63,8 +65,8 @@ class UserController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/users/lock_user/{username}', name: 'lock_user', methods: ['GET'])]
-    public function lockUserAction(Request $request, $username)
+    #[Route('/users/lock_user/{username}', name: 'lock_user', methods: ['GET', 'POST'])]
+    public function lockUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
         $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
@@ -74,8 +76,8 @@ class UserController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/users/unlock_user/{username}', name: 'unlock_user', methods: ['GET'])]
-    public function unlockUserAction(Request $request, $username)
+    #[Route('/users/unlock_user/{username}', name: 'unlock_user', methods: ['GET', 'POST'])]
+    public function unlockUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
         $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
@@ -85,8 +87,8 @@ class UserController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/users/do_manager/{username}', name: 'do_manager', methods: ['GET'])]
-    public function doManagerAction(Request $request, $username)
+    #[Route('/users/do_manager/{username}', name: 'do_manager', methods: ['GET', 'POST'])]
+    public function doManagerAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
         $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));
@@ -96,8 +98,8 @@ class UserController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/users/do_user/{username}', name: 'do_user', methods: ['GET'])]
-    public function doUserAction(Request $request, $username)
+    #[Route('/users/do_user/{username}', name: 'do_user', methods: ['GET', 'POST'])]
+    public function doUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
         $user = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findOneBy(array('username' => $username));

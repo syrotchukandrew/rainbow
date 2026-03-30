@@ -26,6 +26,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,6 +37,9 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 class SiteController extends AbstractController
 {
+    private const ITEMS_PER_PAGE = 5;
+    private const LIVESEARCH_ITEMS_PER_PAGE = 10;
+
     private ManagerRegistry $doctrine;
     private PaginatorInterface $paginator;
     private BreadcrumpsMaker $breadcrumpsMaker;
@@ -64,22 +69,22 @@ class SiteController extends AbstractController
         $this->breadcrumbs = $breadcrumbs;
     }
 
-    #[Route('/', name: 'homepage')]
-    public function indexAction(Request $request)
+    #[Route('/', name: 'homepage', methods: ['GET'])]
+    public function indexAction(Request $request): Response
     {
         $em = $this->doctrine->getManager();
         $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateExclusiveWithFiles();
         $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
-            5
+            self::ITEMS_PER_PAGE
         );
         $this->breadcrumbs->addItem("site.main");
         return $this->render("site/index.html.twig", array('pagination' => $pagination));
     }
 
-    #[Route('/menu', name: 'menu')]
-    public function menuAction(Request $request)
+    #[Route('/menu', name: 'menu', methods: ['GET'])]
+    public function menuAction(Request $request): Response
     {
         $em = $this->doctrine->getManager();
         $categoryEntity = $em->getRepository(\AppBundle\Entity\Category::class);
@@ -88,23 +93,23 @@ class SiteController extends AbstractController
         return $this->render("includes/menu.html.twig", ['links' => $categories]);
     }
 
-    #[Route('/show_category/{slug}', name: 'show_category')]
-    public function showCategoryAction(Request $request, #[MapEntity(mapping: ['slug' => 'title'])] Category $category)
+    #[Route('/show_category/{slug}', name: 'show_category', methods: ['GET'])]
+    public function showCategoryAction(Request $request, #[MapEntity(mapping: ['slug' => 'title'])] Category $category): Response
     {
         $em = $this->doctrine->getManager();
         $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateFromCategory($category->getTitle());
         $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
-            5
+            self::ITEMS_PER_PAGE
         );
         $this->breadcrumpsMaker->makeBreadcrumps($category);
 
         return $this->render("site/index.html.twig", array('pagination' => $pagination));
     }
 
-    #[Route('/show_estate/{slug}', name: 'show_estate', options: ['expose' => true])]
-    public function showEstateAction(Request $request, $slug)
+    #[Route('/show_estate/{slug}', name: 'show_estate', options: ['expose' => true], methods: ['GET', 'POST'])]
+    public function showEstateAction(Request $request, $slug): Response
     {
         $em = $this->doctrine->getManager();
         $estate = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateWithDistrictComment($slug);
@@ -115,14 +120,15 @@ class SiteController extends AbstractController
 
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/comment/{slug}/new', name: 'comment_new', methods: ['POST'])]
-    public function commentNewAction(#[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate, Request $request)
+    public function commentNewAction(#[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate, Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+            $currentUser = $this->getUser();
+            if ($currentUser !== null && $currentUser->hasRole('ROLE_ADMIN')) {
                 $comment->setEnabled(true);
             } else {
                 $comment->setEnabled(false);
@@ -140,8 +146,8 @@ class SiteController extends AbstractController
         ));
     }
 
-    #[Route('/search', name: 'site_search')]
-    public function searchAction(Request $request)
+    #[Route('/search', name: 'site_search', methods: ['GET', 'POST'])]
+    public function searchAction(Request $request): Response
     {
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
@@ -153,8 +159,8 @@ class SiteController extends AbstractController
         ));
     }
 
-    #[Route('/search/result', name: 'site_search_result')]
-    public function searchResultAction(Request $request)
+    #[Route('/search/result', name: 'site_search_result', methods: ['GET', 'POST'])]
+    public function searchResultAction(Request $request): Response
     {
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();
         $searchForm = $this->createForm(SearchType::class, null, array(
@@ -167,7 +173,7 @@ class SiteController extends AbstractController
             $pagination = $this->paginator->paginate(
                 $estates,
                 $request->query->getInt('page', 1),
-                5
+                self::ITEMS_PER_PAGE
             );
             return $this->render('site/index.html.twig', array('pagination' => $pagination));
         }
@@ -175,26 +181,26 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('homepage');
     }
 
-    #[Route('/menu_item', name: 'show_menu_item')]
-    public function showMenuItemAction(Request $request)
+    #[Route('/menu_item', name: 'show_menu_item', methods: ['GET'])]
+    public function showMenuItemAction(Request $request): Response
     {
         $em = $this->doctrine->getManager();
         $menuitems = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
         return $this->render('includes/menu_items.html.twig', array('items' => $menuitems));
     }
 
-    #[Route('/description_menu/{id}', name: 'show_description_menu_item')]
-    public function showDescriptionMenuItem(Request $request, MenuItem $menuItem)
+    #[Route('/description_menu/{id}', name: 'show_description_menu_item', methods: ['GET'])]
+    public function showDescriptionMenuItem(Request $request, MenuItem $menuItem): Response
     {
         return $this->render('site/show_description_menu_item.html.twig', array('item' => $menuItem));
     }
 
-    #[Route('/add_favorites/{estate}/{user}', name: 'add_estate_to_favorites')]
+    #[Route('/add_favorites/{estate}/{user}', name: 'add_estate_to_favorites', methods: ['GET', 'POST'])]
     public function addEstateToFavoritesAction(
         #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
         #[MapEntity(mapping: ['user' => 'id'])] User $user,
         Request $request
-    ) {
+    ): RedirectResponse {
         $em = $this->doctrine->getManager();
         if (!$user->hasEstate($estate)) {
             $user->addEstate($estate);
@@ -205,12 +211,12 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
     }
 
-    #[Route('/delete_favorites/{estate}/{user}', name: 'delete_estate_from_favorites')]
+    #[Route('/delete_favorites/{estate}/{user}', name: 'delete_estate_from_favorites', methods: ['GET', 'POST'])]
     public function deleteEstateFromFavoritesAction(
         #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
         #[MapEntity(mapping: ['user' => 'id'])] User $user,
         Request $request
-    ) {
+    ): RedirectResponse {
         $em = $this->doctrine->getManager();
         if ($user->hasEstate($estate)) {
             $user->removeEstate($estate);
@@ -221,8 +227,8 @@ class SiteController extends AbstractController
         return $this->redirectToRoute('show_estate', array('slug' => $estate->getSlug()));
     }
 
-    #[Route('/pdf/{estate}', name: 'pdf_estate')]
-    public function pdfEstateAction(#[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate, Request $request)
+    #[Route('/pdf/{estate}', name: 'pdf_estate', methods: ['GET'])]
+    public function pdfEstateAction(#[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate, Request $request): Response
     {
         $html = $this->renderView('site/pdf.html.twig', array('estate' => $estate));
 
@@ -235,17 +241,17 @@ class SiteController extends AbstractController
         );
     }
 
-    #[Route('/livesearch', name: 'livesearch', options: ['expose' => true])]
-    public function livesearchAction(Request $request)
+    #[Route('/livesearch', name: 'livesearch', options: ['expose' => true], methods: ['GET', 'POST'])]
+    public function livesearchAction(Request $request): Response
     {
-        if ($request->getMethod() === 'GET') {
+        if ($request->isMethod('GET')) {
             return new Response(json_encode($this->searcher->search()));
         }
-        if ($request->getMethod() === 'POST') {
+        if ($request->isMethod('POST')) {
             $pagination = $this->paginator->paginate(
                 $this->searcher->search(),
                 $request->query->getInt('page', 1),
-                10
+                self::LIVESEARCH_ITEMS_PER_PAGE
             );
             return $this->render('site/index.html.twig', array('pagination' => $pagination));
         }

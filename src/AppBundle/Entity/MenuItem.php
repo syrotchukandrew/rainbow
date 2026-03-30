@@ -14,7 +14,7 @@ class MenuItem
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(name: 'title', type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'menu_item.title.blank')]
@@ -24,37 +24,37 @@ class MenuItem
         minMessage: 'menu_item.title.too_short',
         maxMessage: 'menu_item.title.too_long'
     )]
-    private $title;
+    private ?string $title = null;
 
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[Assert\NotBlank(message: 'menu_item.description.blank')]
-    private $description;
+    private ?string $description = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setTitle($title)
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setDescription($description)
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }

@@ -2,7 +2,7 @@
 
 ## Non-Negotiable
 
-- All 49 tests must pass before any merge: `php bin/phpunit -c app/`
+- All tests must pass before any merge: `php bin/phpunit -c app/` run in Docker container
 - Never mock the database in integration tests — use a real test DB
 - Never skip or delete tests to make the suite pass
 

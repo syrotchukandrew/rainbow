@@ -4,15 +4,14 @@
 
 - `master` — stable releases only, never commit directly
 - `dev` — integration branch, merge target for all features
-- `feature/symfony-X.Y` — Symfony migration steps
-- `feature/<name>` or `fix/<name>` — other work
+- `feature/name-of-the-feature` — implement every feature in detached branch
 
 ## Commits
 
 - Commit only when explicitly asked by the user
 - Stage specific files by name — never `git add -A` or `git add .`
 - Never commit: `.env.local`, `parameters.yml`, secrets, large binaries
-- Write commit messages in imperative mood: "Add X", "Fix Y", "Remove Z"
+- Write commit messages in an past tense: "Added X", "Fixed Y", "Removed Z"
 - Never skip hooks (`--no-verify`)
 - Never amend published commits
 
@@ -26,7 +25,7 @@
 ## Pull Requests
 
 - PRs target `dev` (not `master`)
-- All 49 tests must pass before opening a PR
+- All tests must pass before opening a PR
 - Title: short imperative sentence under 70 characters
 - Body: summary of what changed and why
 

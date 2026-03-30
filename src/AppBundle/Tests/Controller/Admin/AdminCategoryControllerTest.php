@@ -59,7 +59,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
@@ -78,7 +78,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();
@@ -95,7 +95,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $repo = $em->getRepository(\AppBundle\Entity\Category::class);
         $category = $em
             ->getRepository(\AppBundle\Entity\Category::class)
@@ -135,7 +135,7 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\AppBundle\Entity\Category::class)
             ->findOneBy([])->getSlug();

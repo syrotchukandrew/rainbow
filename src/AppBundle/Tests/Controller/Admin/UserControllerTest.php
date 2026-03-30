@@ -52,7 +52,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $users = $em
             ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
@@ -72,7 +72,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $users = $em
             ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
@@ -109,7 +109,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $users = $em
             ->getRepository(\AppBundle\Entity\User::class)
             ->findByRole('ROLE_MANAGER');
@@ -127,7 +127,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $query = $em->createQuery(
                 'SELECT u FROM AppBundle\Entity\User u
              WHERE NOT u.roles LIKE :role2

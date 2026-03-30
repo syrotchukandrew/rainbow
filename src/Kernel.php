@@ -9,7 +9,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    public function __construct($environment, $debug)
+    public function __construct(string $environment, bool $debug)
     {
         date_default_timezone_set( 'Europe/Kiev' );
         parent::__construct($environment, $debug);
@@ -17,7 +17,7 @@ class Kernel extends BaseKernel
 
     public function registerBundles(): iterable
     {
-        $bundles = array(
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -33,9 +33,9 @@ class Kernel extends BaseKernel
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-        );
+        ];
 
-        if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
 

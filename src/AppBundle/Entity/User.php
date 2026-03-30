@@ -22,57 +22,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $username;
+    private ?string $username = null;
 
     #[ORM\Column(name: 'username_canonical', type: 'string', length: 255, unique: true)]
-    protected $usernameCanonical;
+    private ?string $usernameCanonical = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $email;
+    private ?string $email = null;
 
     #[ORM\Column(name: 'email_canonical', type: 'string', length: 255, unique: true)]
-    protected $emailCanonical;
+    private ?string $emailCanonical = null;
 
     #[ORM\Column(type: 'boolean')]
-    protected $enabled = false;
+    private bool $enabled = false;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected $salt;
+    private ?string $salt = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $password;
+    private ?string $password = null;
 
-    protected $plainPassword;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
-    protected $lastLogin;
+    private ?\DateTimeInterface $lastLogin = null;
 
     #[ORM\Column(type: 'boolean')]
-    protected $locked = false;
+    private bool $locked = false;
 
     #[ORM\Column(type: 'boolean')]
-    protected $expired = false;
+    private bool $expired = false;
 
     #[ORM\Column(name: 'expires_at', type: 'datetime', nullable: true)]
-    protected $expiresAt;
+    private ?\DateTimeInterface $expiresAt = null;
 
     #[ORM\Column(name: 'confirmation_token', type: 'string', length: 255, nullable: true)]
-    protected $confirmationToken;
+    private ?string $confirmationToken = null;
 
     #[ORM\Column(name: 'password_requested_at', type: 'datetime', nullable: true)]
-    protected $passwordRequestedAt;
+    private ?\DateTimeInterface $passwordRequestedAt = null;
 
     #[ORM\Column(type: 'json')]
-    protected $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(name: 'credentials_expired', type: 'boolean')]
-    protected $credentialsExpired = false;
+    private bool $credentialsExpired = false;
 
     #[ORM\Column(name: 'credentials_expire_at', type: 'datetime', nullable: true)]
-    protected $credentialsExpireAt;
+    private ?\DateTimeInterface $credentialsExpireAt = null;
 
     #[ORM\ManyToMany(targetEntity: 'AppBundle\Entity\Estate')]
     #[ORM\JoinTable(
@@ -81,16 +81,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         inverseJoinColumns: [new ORM\JoinColumn(name: 'estate_id', referencedColumnName: 'id')]
     )]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
-    private $estates;
+    private Collection $estates;
 
     #[ORM\Column(name: 'facebook_id', type: 'string', length: 255, nullable: true)]
-    protected $facebookId;
+    private ?string $facebookId = null;
 
     #[ORM\Column(name: 'google_id', type: 'string', length: 255, nullable: true)]
-    protected $googleId;
+    private ?string $googleId = null;
 
     #[ORM\Column(name: 'vkontakte_id', type: 'string', length: 255, nullable: true)]
-    protected $vkontakteId;
+    private ?string $vkontakteId = null;
 
     public function __construct()
     {

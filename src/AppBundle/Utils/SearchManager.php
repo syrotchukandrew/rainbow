@@ -15,14 +15,14 @@ use Doctrine\Persistence\ManagerRegistry;
 class SearchManager
 {
 
-    private $doctrine;
+    private ManagerRegistry $doctrine;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
 
-    public function searchEstate($data)
+    public function searchEstate(array $data): array
     {
         if ($data['price'] == 'more_then_50000') {
             $price_min = 50000;

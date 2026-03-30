@@ -13,12 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Название категории',
+                'label' => 'form.category.title',
             ));
 
         if ($options['isForm_cat']) {
@@ -27,12 +27,12 @@ class CategoryType extends AbstractType
                     'required' => false,
                     'class' => 'AppBundle\Entity\Category',
                     'choice_label' => 'title',
-                    'label' => 'Выберите родительскую категорию из выпадающего списка',
+                    'label' => 'form.category.parent',
                 ));
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Category',
@@ -40,7 +40,7 @@ class CategoryType extends AbstractType
         ));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_category_type';
     }

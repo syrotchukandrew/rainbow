@@ -29,7 +29,7 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
@@ -63,7 +63,7 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();
@@ -82,7 +82,7 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $id = $em
             ->getRepository(\AppBundle\Entity\MenuItem::class)
             ->findOneBy([])->getId();

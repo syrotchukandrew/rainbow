@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_MANAGER')]
@@ -31,7 +32,7 @@ class AdminMenuItemController extends AbstractController
     }
 
     #[Route('/menu_items', name: 'admin_items')]
-    public function showItemsAction(Request $request)
+    public function showItemsAction(Request $request): Response
     {
         $em = $this->doctrine->getManager();
         $items = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
@@ -39,27 +40,26 @@ class AdminMenuItemController extends AbstractController
     }
 
     #[Route('/menu_item/new', name: 'admin_add_menu_item')]
-    public function addItemAction(Request $request)
+    public function addItemAction(Request $request): Response
     {
         $em = $this->doctrine->getManager();
-        $menu_item = new MenuItem();
-        $form = $this->createForm(MenuItemType::class, $menu_item);
+        $menuItem = new MenuItem();
+        $form = $this->createForm(MenuItemType::class, $menuItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($menu_item);
+            $em->persist($menuItem);
             $em->flush();
             return $this->redirectToRoute('admin_items');
         }
         return $this->render('admin/menu_item/new_item.html.twig', array(
-            'item' => $menu_item,
+            'item' => $menuItem,
             'form' => $form->createView(),
         ));
     }
 
     #[Route('/menu_item/show/{id}', name: 'admin_item_show')]
-    public function showItemAction(Request $request, MenuItem $menuItem)
+    public function showItemAction(Request $request, MenuItem $menuItem): Response
     {
-        //for delete
         $form = $this->deleteForm($menuItem);
 
         return $this->render('admin/menu_item/show_item.html.twig',
@@ -68,7 +68,7 @@ class AdminMenuItemController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/menu_item/edit/{id}', name: 'admin_item_edit', methods: ['GET', 'PUT'])]
-    public function editItemAction(Request $request, MenuItem $menuItem)
+    public function editItemAction(Request $request, MenuItem $menuItem): Response
     {
         $em = $this->doctrine->getManager();
         $form = $this->createForm(MenuItemType::class, $menuItem, [
@@ -94,7 +94,7 @@ class AdminMenuItemController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/menu_item/delete/{id}', name: 'admin_menu_item_delete', methods: ['DELETE'])]
-    public function deleteCommentAction(Request $request, MenuItem $menuItem)
+    public function deleteCommentAction(Request $request, MenuItem $menuItem): Response
     {
         $form = $this->deleteForm($menuItem);
         $form->handleRequest($request);

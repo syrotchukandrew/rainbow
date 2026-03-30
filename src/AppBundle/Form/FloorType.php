@@ -12,27 +12,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FloorType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('floor', IntegerType::class, array(
                 'required' => false,
-                'label'    => 'На каком этаже находится квартира',
+                'label'    => 'form.floor.floor',
 
             ))
             ->add('count_floor', IntegerType::class, array(
                 'required' => false,
-                'label'    => 'Сколько этажей во многоэтажке',
+                'label'    => 'form.floor.count_floor',
 
             ));
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
 
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_floor_type';
     }

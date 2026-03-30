@@ -17,19 +17,19 @@ use Symfony\Component\Form\AbstractType;
 
 class CommentType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('content', TextareaType::class, array('label' => false,
             ));
     }
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Comment',
         ));
     }
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_comment_type';
     }

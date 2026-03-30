@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PasswordResetRequestType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('email', EmailType::class, [
             'label' => 'security.user_email',

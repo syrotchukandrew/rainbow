@@ -17,18 +17,18 @@ use AppBundle\Form\FloorType;
 
 class EstateType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $estate = $builder->getData();
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Заголовок объекта недвижимости',
+                'label' => 'form.estate.title',
             ))
             ->add('description', TextareaType::class, array(
-                'label' => 'Описание объекта недвижимости',
+                'label' => 'form.estate.description',
                 'attr' => [
-                    'placeholder' => 'Добавте описание здесь',
+                    'placeholder' => 'form.estate.description_placeholder',
                     'class' => 'form-control',
                     'rows' => 5,
                     'cols' => 120,
@@ -37,29 +37,29 @@ class EstateType extends AbstractType
             ->add('district', EntityType::class, array(
                 'class' => 'AppBundle\Entity\District',
                 'choice_label' => 'title',
-                'label' => 'Выберите район из выпадающего списка',
+                'label' => 'form.estate.district',
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Category',
                 'choices' => $options['categories_choices'],
-                'label' => 'Выберите категорию из выпадающего списка',
+                'label' => 'form.estate.category',
                 'choice_label' => 'title',
             ))
             ->add('imageFile', FileType::class, array(
                 'multiple' => true,
-                'label' => 'Добавте фото недвижимости',
+                'label' => 'form.estate.image_file',
                 'required' => false,
             ))
             ->add('exclusive', CheckboxType::class, array(
-                'label' => 'Добавить в екслюзив?',
+                'label' => 'form.estate.exclusive',
                 'required' => false,
             ))
             ->add('floor', FloorType::class, array(
                 'property_path' => 'floor',
-                'label' => 'Этажность для квартир во многоэтажках',
+                'label' => 'form.estate.floor',
             ))
             ->add('price', MoneyType::class, array(
-                'label' => 'Цена в долларах',
+                'label' => 'form.estate.price',
                 'grouping' => true,
                 'currency' => 'USD',
             ));
@@ -75,14 +75,14 @@ class EstateType extends AbstractType
                     },
                     'multiple' => true,
                     'choice_label' => 'id',
-                    'label' => 'Фото на сайте',
+                    'label' => 'form.estate.files',
                     'required' => false,
                     'expanded' => true,
                 ));
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Estate',
@@ -91,7 +91,7 @@ class EstateType extends AbstractType
         ));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_estate_type';
     }

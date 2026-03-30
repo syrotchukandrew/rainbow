@@ -11,110 +11,110 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
-    private $locales;
-    private $socialBarHelper;
+    private string $locales;
+    private SocialBarHelper $socialBarHelper;
 
-    public function __construct($locales, SocialBarHelper $socialBarHelper)
+    public function __construct(string $locales, SocialBarHelper $socialBarHelper)
     {
         $this->locales = $locales;
         $this->socialBarHelper = $socialBarHelper;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new TwigFunction('dots3', array($this, 'dots3'), array('is_safe' => array('html'))),
-            new TwigFunction('facebookButton', array($this, 'getFacebookLikeButton'), array('is_safe' => array('html'))),
-            new TwigFunction('twitterButton', array($this, 'getTwitterButton'), array('is_safe' => array('html'))),
-            new TwigFunction('googlePlusButton', array($this, 'getGooglePlusButton'), array('is_safe' => array('html'))),
-            new TwigFunction('socialButtons', array($this, 'getSocialButtons'), array('is_safe' => array('html'))),
-            new TwigFunction('locales', array($this, 'getLocales')),
-        );
+        return [
+            new TwigFunction('dots3', [$this, 'dots3'], ['is_safe' => ['html']]),
+            new TwigFunction('facebookButton', [$this, 'getFacebookLikeButton'], ['is_safe' => ['html']]),
+            new TwigFunction('twitterButton', [$this, 'getTwitterButton'], ['is_safe' => ['html']]),
+            new TwigFunction('googlePlusButton', [$this, 'getGooglePlusButton'], ['is_safe' => ['html']]),
+            new TwigFunction('socialButtons', [$this, 'getSocialButtons'], ['is_safe' => ['html']]),
+            new TwigFunction('locales', [$this, 'getLocales']),
+        ];
     }
 
-    public function getSocialButtons($parameters = array())
+    public function getSocialButtons(array $parameters = []): string
     {
-        if (!array_key_exists('facebook', $parameters)){
-            $render_parameters['facebook'] = array();
-        }else if(is_array($parameters['facebook'])){
+        if (!array_key_exists('facebook', $parameters)) {
+            $render_parameters['facebook'] = [];
+        } elseif (is_array($parameters['facebook'])) {
             $render_parameters['facebook'] = $parameters['facebook'];
-        }else{
+        } else {
             $render_parameters['facebook'] = false;
         }
 
-        if (!array_key_exists('twitter', $parameters)){
-            $render_parameters['twitter'] = array();
-        }else if(is_array($parameters['twitter'])){
+        if (!array_key_exists('twitter', $parameters)) {
+            $render_parameters['twitter'] = [];
+        } elseif (is_array($parameters['twitter'])) {
             $render_parameters['twitter'] = $parameters['twitter'];
-        }else{
+        } else {
             $render_parameters['twitter'] = false;
         }
 
-        if (!array_key_exists('googleplus', $parameters)){
-            $render_parameters['googleplus'] = array();
-        }else if(is_array($parameters['googleplus'])){
+        if (!array_key_exists('googleplus', $parameters)) {
+            $render_parameters['googleplus'] = [];
+        } elseif (is_array($parameters['googleplus'])) {
             $render_parameters['googleplus'] = $parameters['googleplus'];
-        }else{
+        } else {
             $render_parameters['googleplus'] = false;
         }
 
         return $this->socialBarHelper->socialButtons($render_parameters);
     }
 
-    public function getFacebookLikeButton($parameters = array())
+    public function getFacebookLikeButton(array $parameters = []): string
     {
-        $parameters = $parameters + array(
+        $parameters = $parameters + [
             'url' => 'http://anraduga.ck.ua',
             'locale' => 'en_US',
             'send' => false,
             'width' => 300,
             'showFaces' => false,
             'layout' => 'button_count',
-        );
+        ];
 
         return $this->socialBarHelper->facebookButton($parameters);
     }
 
-    public function getTwitterButton($parameters = array())
+    public function getTwitterButton(array $parameters = []): string
     {
-        $parameters = $parameters + array(
+        $parameters = $parameters + [
             'url' => 'http://anraduga.ck.ua',
             'locale' => 'en',
             'message' => 'I want to share that page with you',
             'text' => 'Tweet',
             'via' => 'The Acme team',
             'tag' => 'ttot',
-        );
+        ];
 
         return $this->socialBarHelper->twitterButton($parameters);
     }
 
-    public function getGooglePlusButton($parameters = array())
+    public function getGooglePlusButton(array $parameters = []): string
     {
-        $parameters = $parameters + array(
+        $parameters = $parameters + [
             'url' => 'http://anraduga.ck.ua',
             'locale' => 'en',
             'size' => 'medium',
             'annotation' => 'bubble',
             'width' => '300',
-        );
+        ];
 
         return $this->socialBarHelper->googlePlusButton($parameters);
     }
 
-    public function getLocales()
+    public function getLocales(): array
     {
         $localeCodes = explode('|', $this->locales);
 
-        $locales = array();
+        $locales = [];
         foreach ($localeCodes as $localeCode) {
-            $locales[] = array('code' => $localeCode, 'name' => Locales::getName($localeCode, $localeCode));
+            $locales[] = ['code' => $localeCode, 'name' => Locales::getName($localeCode, $localeCode)];
         }
 
         return $locales;
     }
 
-    public function dots3($content, $limit = 25)
+    public function dots3(string $content, int $limit = 25): string
     {
         $words = explode(' ', (trim($content)));
         $countWords = count($words);

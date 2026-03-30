@@ -11,6 +11,7 @@ use AppBundle\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -28,8 +29,8 @@ class SecurityController extends AbstractController
         $this->authenticationUtils = $authenticationUtils;
     }
 
-    #[Route('/login', name: 'security_login_form')]
-    public function loginAction(): \Symfony\Component\HttpFoundation\Response
+    #[Route('/login', name: 'security_login_form', methods: ['GET'])]
+    public function loginAction(): Response
     {
         return $this->render('security/login.html.twig', [
             'last_username' => $this->authenticationUtils->getLastUsername(),
@@ -38,7 +39,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'user_registration')]
-    public function registerAction(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): \Symfony\Component\HttpFoundation\Response
+    public function registerAction(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -60,8 +61,8 @@ class SecurityController extends AbstractController
         throw new \Exception('This should never be reached!');
     }
 
-    #[Route('/reset-password', name: 'security_reset_request')]
-    public function resetRequestAction(Request $request, ManagerRegistry $doctrine, MailerInterface $mailer): \Symfony\Component\HttpFoundation\Response
+    #[Route('/reset-password', name: 'security_reset_request', methods: ['GET', 'POST'])]
+    public function resetRequestAction(Request $request, ManagerRegistry $doctrine, MailerInterface $mailer): Response
     {
         $form = $this->createForm(PasswordResetRequestType::class);
         $form->handleRequest($request);
@@ -95,8 +96,8 @@ class SecurityController extends AbstractController
         return $this->render('security/reset_request.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/reset-password/{token}', name: 'security_reset_password')]
-    public function resetPasswordAction(Request $request, string $token, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): \Symfony\Component\HttpFoundation\Response
+    #[Route('/reset-password/{token}', name: 'security_reset_password', methods: ['GET', 'POST'])]
+    public function resetPasswordAction(Request $request, string $token, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): Response
     {
         $em = $doctrine->getManager();
         $user = $em->getRepository(User::class)->findOneBy(['confirmationToken' => $token]);

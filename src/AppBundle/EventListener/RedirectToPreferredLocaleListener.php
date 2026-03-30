@@ -34,7 +34,7 @@ class RedirectToPreferredLocaleListener
      * @param string $locales Supported locales separated by '|'
      * @param string|null $defaultLocale
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, $locales, $defaultLocale = null)
+    public function __construct(UrlGeneratorInterface $urlGenerator, string $locales, string $defaultLocale = null)
     {
         $this->urlGenerator = $urlGenerator;
 
@@ -55,7 +55,7 @@ class RedirectToPreferredLocaleListener
         array_unshift($this->locales, $this->defaultLocale);
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

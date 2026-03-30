@@ -10,7 +10,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -27,14 +29,14 @@ class AdminDistrictController extends AbstractController
     }
 
     #[Route('/districts', name: 'admin_districts', methods: ['GET'])]
-    public function districtsAction(Request $request)
+    public function districtsAction(Request $request): Response
     {
         $districts = $this->doctrine->getRepository(\AppBundle\Entity\District::class)->findAll();
         return $this->render('admin/district/districts.html.twig', array('districts' => $districts));
     }
 
     #[Route('/district/show/{slug}', name: 'admin_district_show', methods: ['GET'])]
-    public function districtShowAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request)
+    public function districtShowAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request): Response
     {
         $deleteForm = $this->createDeleteForm($district);
         return $this->render('admin/district/show_district.html.twig', array(
@@ -45,7 +47,7 @@ class AdminDistrictController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/district/new', name: 'admin_district_new', methods: ['GET', 'POST'])]
-    public function newDistrictAction(Request $request)
+    public function newDistrictAction(Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $district = new District();
@@ -67,7 +69,7 @@ class AdminDistrictController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/district/edit/{slug}', name: 'admin_district_edit', methods: ['GET', 'POST'])]
-    public function districtEditAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request)
+    public function districtEditAction(#[MapEntity(mapping: ['slug' => 'slug'])] District $district, Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $editForm = $this->createForm(DistrictType::class, $district);
@@ -87,7 +89,7 @@ class AdminDistrictController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/district/delete/{slug}', name: 'admin_district_delete', methods: ['DELETE'])]
-    public function DistrictDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] District $district)
+    public function districtDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] District $district): RedirectResponse
     {
         $form = $this->createDeleteForm($district);
         $form->handleRequest($request);

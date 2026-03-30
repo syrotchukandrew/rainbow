@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -16,11 +17,11 @@ class District
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $id;
+    private ?int $id = null;
 
     #[Gedmo\Slug(fields: ['title'])]
     #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
-    private $slug;
+    private ?string $slug = null;
 
     #[ORM\Column(name: 'title', type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'district.blank')]
@@ -30,59 +31,59 @@ class District
         minMessage: 'district.too_short',
         maxMessage: 'district.too_long'
     )]
-    private $title;
+    private ?string $title = null;
 
     #[ORM\OneToMany(targetEntity: 'Estate', mappedBy: 'district')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
-    private $estates;
+    private Collection $estates;
 
     public function __construct()
     {
         $this->estates = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setSlug($slug)
+    public function setSlug(?string $slug): static
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setTitle($title)
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function addEstate(\AppBundle\Entity\Estate $estates)
+    public function addEstate(\AppBundle\Entity\Estate $estates): static
     {
         $this->estates[] = $estates;
 
         return $this;
     }
 
-    public function removeEstate(\AppBundle\Entity\Estate $estates)
+    public function removeEstate(\AppBundle\Entity\Estate $estates): void
     {
         $this->estates->removeElement($estates);
     }
 
-    public function getEstates()
+    public function getEstates(): Collection
     {
         return $this->estates;
     }

@@ -15,90 +15,90 @@ class File
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: 'AppBundle\Entity\Estate', inversedBy: 'files', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'estate_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
-    private $estate;
+    private ?Estate $estate = null;
 
     #[ORM\Column]
     #[Gedmo\UploadableFilePath]
-    private $path;
+    private ?string $path = null;
 
     #[ORM\Column]
     #[Gedmo\UploadableFileName]
-    private $name;
+    private ?string $name = null;
 
     #[ORM\Column]
     #[Gedmo\UploadableFileMimeType]
-    private $mimeType;
+    private ?string $mimeType = null;
 
     #[Assert\File(maxSize: '5M', maxSizeMessage: 'file.size')]
     #[ORM\Column(type: 'decimal')]
     #[Gedmo\UploadableFileSize]
-    private $size;
+    private ?int $size = null;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setPath($path)
+    public function setPath(?string $path): static
     {
         $this->path = $path;
 
         return $this;
     }
 
-    public function getPath()
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    public function setName($name)
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setMimeType($mimeType)
+    public function setMimeType(?string $mimeType): static
     {
         $this->mimeType = $mimeType;
 
         return $this;
     }
 
-    public function getMimeType()
+    public function getMimeType(): ?string
     {
         return $this->mimeType;
     }
 
-    public function setSize($size)
+    public function setSize(?int $size): static
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function getSize()
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    public function setEstate(\AppBundle\Entity\Estate $estate = null)
+    public function setEstate(?\AppBundle\Entity\Estate $estate = null): static
     {
         $this->estate = $estate;
 
         return $this;
     }
 
-    public function getEstate()
+    public function getEstate(): ?Estate
     {
         return $this->estate;
     }

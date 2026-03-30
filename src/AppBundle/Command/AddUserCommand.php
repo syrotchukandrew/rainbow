@@ -145,7 +145,7 @@ class AddUserCommand extends Command
     /**
      * @internal
      */
-    public function passwordValidator($plainPassword)
+    public function passwordValidator(mixed $plainPassword): string
     {
         if (empty($plainPassword)) {
             throw new \Exception('The password can not be empty');
@@ -159,7 +159,7 @@ class AddUserCommand extends Command
     /**
      * @internal
      */
-    public function emailValidator($email)
+    public function emailValidator(mixed $email): string
     {
         if (empty($email)) {
             throw new \Exception('The email can not be empty');
@@ -170,7 +170,7 @@ class AddUserCommand extends Command
         return $email;
     }
 
-    private function getCommandHelp()
+    private function getCommandHelp(): string
     {
         return <<<HELP
 The <info>%command.name%</info> command creates new users and saves them in the database:
