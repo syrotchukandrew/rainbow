@@ -14,3 +14,5 @@
 /phpunit.xml
 /.phpunit.result.cache
 .claude/settings.local.json
+# Git worktrees
+.worktrees/
