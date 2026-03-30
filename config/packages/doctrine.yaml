@@ -11,4 +11,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        mappings:
+            AppBundle:
+                type: attribute
+                dir: '%kernel.project_dir%/src/AppBundle/Entity'
+                prefix: 'AppBundle\Entity'
+                alias: AppBundle

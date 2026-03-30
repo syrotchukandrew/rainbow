@@ -11,126 +11,83 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @ORM\Table(name="fos_user")
- * @UniqueEntity(fields="email", message="Email already taken")
- * @UniqueEntity(fields="username", message="Username already taken")
- */
+#[ORM\Entity(repositoryClass: 'AppBundle\Repository\UserRepository')]
+#[ORM\Table(name: 'fos_user')]
+#[UniqueEntity(fields: 'email', message: 'Email already taken')]
+#[UniqueEntity(fields: 'username', message: 'Username already taken')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $username;
 
-    /**
-     * @ORM\Column(name="username_canonical", type="string", length=255, unique=true)
-     */
+    #[ORM\Column(name: 'username_canonical', type: 'string', length: 255, unique: true)]
     protected $usernameCanonical;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $email;
 
-    /**
-     * @ORM\Column(name="email_canonical", type="string", length=255, unique=true)
-     */
+    #[ORM\Column(name: 'email_canonical', type: 'string', length: 255, unique: true)]
     protected $emailCanonical;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected $enabled = false;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected $salt;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $password;
 
     protected $plainPassword;
 
-    /**
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
-     */
+    #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
     protected $lastLogin;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected $locked = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected $expired = false;
 
-    /**
-     * @ORM\Column(name="expires_at", type="datetime", nullable=true)
-     */
+    #[ORM\Column(name: 'expires_at', type: 'datetime', nullable: true)]
     protected $expiresAt;
 
-    /**
-     * @ORM\Column(name="confirmation_token", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'confirmation_token', type: 'string', length: 255, nullable: true)]
     protected $confirmationToken;
 
-    /**
-     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
-     */
+    #[ORM\Column(name: 'password_requested_at', type: 'datetime', nullable: true)]
     protected $passwordRequestedAt;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     protected $roles = [];
 
-    /**
-     * @ORM\Column(name="credentials_expired", type="boolean")
-     */
+    #[ORM\Column(name: 'credentials_expired', type: 'boolean')]
     protected $credentialsExpired = false;
 
-    /**
-     * @ORM\Column(name="credentials_expire_at", type="datetime", nullable=true)
-     */
+    #[ORM\Column(name: 'credentials_expire_at', type: 'datetime', nullable: true)]
     protected $credentialsExpireAt;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Estate")
-     * @ORM\JoinTable(name="users_estates",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="estate_id", referencedColumnName="id")}
-     * )
-     * @ORM\OrderBy({"createdAt" = "DESC"})
-     */
+    #[ORM\ManyToMany(targetEntity: 'AppBundle\Entity\Estate')]
+    #[ORM\JoinTable(
+        name: 'users_estates',
+        joinColumns: [new ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'estate_id', referencedColumnName: 'id')]
+    )]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private $estates;
 
-    /**
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'facebook_id', type: 'string', length: 255, nullable: true)]
     protected $facebookId;
 
-    /**
-     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'google_id', type: 'string', length: 255, nullable: true)]
     protected $googleId;
 
-    /**
-     * @ORM\Column(name="vkontakte_id", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: 'vkontakte_id', type: 'string', length: 255, nullable: true)]
     protected $vkontakteId;
 
     public function __construct()
@@ -372,7 +329,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function isPasswordRequestNonExpired(int $ttl): bool
     {
-        return $this->passwordRequestedAt instanceof \DateTime
+        return $this->passwordRequestedAt instanceof \DateTimeInterface
             && $this->passwordRequestedAt->getTimestamp() + $ttl > time();
     }
 }

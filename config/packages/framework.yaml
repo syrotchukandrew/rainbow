@@ -3,7 +3,6 @@ parameters:
     app_locales: uk|en
 
 framework:
-    annotations:     ~
     translator:
         fallbacks: ["%locale%"]
     secret:          "%secret%"
@@ -14,10 +13,9 @@ framework:
     assets:          ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enable_attributes: true }
     default_locale:  "%locale%"
     trusted_hosts:   ~
     session:
-        handler_id:  ~
+        storage_factory_id: session.storage.factory.native
     fragments:       ~
-    http_method_override: true

@@ -46,9 +46,6 @@ services:
         bind:
             $locales: '%app_locales%'
 
-    AppBundle\EventListener\FileCacheRemoveEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
 
     AppBundle\Utils\BreadcrumpsMaker:
         arguments:

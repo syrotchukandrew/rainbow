@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,15 +16,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use AppBundle\Entity\User;
 
 /**
- *     $ php app/console app:add-user --is-admin
- *     $ php app/console app:add-user
- *     $ php app/console app:add-user --help
+ *     $ php bin/console app:add-user --is-admin
+ *     $ php bin/console app:add-user
+ *     $ php bin/console app:add-user --help
  */
+#[AsCommand(name: 'app:add-user', description: 'Creates users and stores them in the database')]
 class AddUserCommand extends Command
 {
-    const MAX_ATTEMPTS = 5;
+    private const MAX_ATTEMPTS = 5;
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
     private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
@@ -30,14 +34,10 @@ class AddUserCommand extends Command
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
     }
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
+
+    protected function configure(): void
     {
         $this
-            ->setName('app:add-user')
-            ->setDescription('Creates users and stores them in the database')
             ->setHelp($this->getCommandHelp())
             ->addArgument('username', InputArgument::OPTIONAL, 'The username of the new user')
             ->addArgument('password', InputArgument::OPTIONAL, 'The plain password of the new user')
@@ -46,7 +46,7 @@ class AddUserCommand extends Command
         ;
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email')) {
             return;
@@ -108,7 +108,7 @@ class AddUserCommand extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = microtime(true);
         $username = $input->getArgument('username');
@@ -132,12 +132,14 @@ class AddUserCommand extends Command
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $output->writeln('');
-        $output->writeln(sprintf('[OK] %s was successfully created: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getUsername(), $user->getEmail()));
-        if ($output->getVerbosity()) {
+        $output->writeln(sprintf('[OK] %s was successfully created: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getUserIdentifier(), $user->getEmail()));
+        if ($output->isVerbose()) {
             $finishTime = microtime(true);
             $elapsedTime = $finishTime - $startTime;
             $output->writeln(sprintf('[INFO] New user database id: %d / Elapsed time: %.2f ms', $user->getId(), $elapsedTime*1000));
         }
+
+        return Command::SUCCESS;
     }
 
     /**
