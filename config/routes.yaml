@@ -22,6 +22,10 @@ app_admin:
     resource: "@AppBundle/Controller/Admin/"
     type:     attribute
 
+app_api:
+    resource: "@AppBundle/Controller/Api/"
+    type:     attribute
+
 app:
     resource: "@AppBundle/Controller/"
     type:     attribute
@@ -32,6 +36,7 @@ app:
         _locale: "%locale%"
     exclude:
         - "@AppBundle/Controller/Admin/"
+        - "@AppBundle/Controller/Api/"
 
 homepage:
     path:     /{_locale}
