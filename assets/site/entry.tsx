@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import HelloIsland from './components/HelloIsland';
 
 function mountIsland(
     id: string,
@@ -15,5 +16,4 @@ function mountIsland(
     }
 }
 
-// Islands registered below — Phase 1 will populate this section
-export { mountIsland };
+mountIsland('react-hello-island', HelloIsland);

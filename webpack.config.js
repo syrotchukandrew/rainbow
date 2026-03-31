@@ -30,7 +30,9 @@ Encore
     })
 
     // ts-loader handles .ts/.tsx; enableReactPreset adds @babel/preset-react for JSX
-    .enableTypeScriptLoader()
+    .enableTypeScriptLoader((config) => {
+        config.transpileOnly = true;
+    })
     .enableReactPreset()
 
     // PostCSS (Tailwind runs through here)

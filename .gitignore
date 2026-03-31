@@ -16,3 +16,9 @@
 .claude/settings.local.json
 # Git worktrees
 .worktrees/
+
+# Webpack Encore build output
+/web/build/
+
+# Superpowers brainstorm sessions
+/.superpowers/
