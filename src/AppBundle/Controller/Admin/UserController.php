@@ -30,25 +30,13 @@ class UserController extends AbstractController
     #[Route('/users', name: 'admin_users', methods: ['GET'])]
     public function usersAction(Request $request): Response
     {
-        $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findAll();
-        $pagination = $this->paginator->paginate(
-            $users,
-            $request->query->getInt('page', 1),
-            10
-        );
-        return $this->render('admin/user/users.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/user/users.html.twig');
     }
 
     #[Route('/users/managers', name: 'admin_users_managers', methods: ['GET'])]
     public function usersManagersAction(Request $request): Response
     {
-        $users = $this->doctrine->getRepository(\AppBundle\Entity\User::class)->findByRole('ROLE_MANAGER');
-        $pagination = $this->paginator->paginate(
-            $users,
-            $request->query->getInt('page', 1),
-            10
-        );
-        return $this->render('admin/user/users.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/user/users.html.twig');
     }
 
     #[Route('/estates/{slug}', name: 'admin_estates_manager', methods: ['GET'])]

@@ -6,6 +6,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\District;
+use AppBundle\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,6 +96,103 @@ class AdminApiController extends AbstractController
         $em->flush();
 
         return new JsonResponse(null, 204);
+    }
+
+    #[Route('/users', name: 'api_admin_users_list', methods: ['GET'])]
+    public function userList(): JsonResponse
+    {
+        $users = $this->doctrine->getRepository(User::class)->findAll();
+
+        $data = array_values(array_map(
+            static fn(User $u) => [
+                'id'        => $u->getId(),
+                'username'  => $u->getUsername(),
+                'email'     => $u->getEmail(),
+                'roles'     => $u->getRoles(),
+                'enabled'   => $u->isEnabled(),
+                'locked'    => !$u->isAccountNonLocked(),
+                'lastLogin' => $u->getLastLogin()?->format('d.m.Y H:i'),
+            ],
+            array_filter($users, static fn(User $u) => !in_array('ROLE_ADMIN', $u->getRoles(), true)),
+        ));
+
+        return new JsonResponse($data);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/users/{username}/lock', name: 'api_admin_users_lock', methods: ['POST'])]
+    public function userLock(string $username, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_user', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
+        if (!$user) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $user->setEnabled(false);
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['username' => $user->getUsername(), 'enabled' => $user->isEnabled()]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/users/{username}/unlock', name: 'api_admin_users_unlock', methods: ['POST'])]
+    public function userUnlock(string $username, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_user', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
+        if (!$user) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $user->setEnabled(true);
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['username' => $user->getUsername(), 'enabled' => $user->isEnabled()]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/users/{username}/make-manager', name: 'api_admin_users_make_manager', methods: ['POST'])]
+    public function userMakeManager(string $username, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_user', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
+        if (!$user) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $user->addRole('ROLE_MANAGER');
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/users/{username}/make-user', name: 'api_admin_users_make_user', methods: ['POST'])]
+    public function userMakeUser(string $username, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_user', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
+        if (!$user) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $user->removeRole('ROLE_MANAGER');
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
     }
 
     #[Route('/districts', name: 'api_admin_districts_list', methods: ['GET'])]

@@ -4,6 +4,7 @@ import AdminSidebar from './components/AdminSidebar';
 import DataTable from './components/DataTable';
 import DistrictManager from './components/districts/DistrictManager';
 import CommentManager from './components/comments/CommentManager';
+import UserManager from './components/users/UserManager';
 
 function mountIsland<P extends object>(
     id: string,
@@ -46,4 +47,11 @@ const commentsEl = document.getElementById('react-admin-comments');
 if (commentsEl) {
     const csrf = commentsEl.dataset.csrf ?? '';
     mountIsland('react-admin-comments', CommentManager, { csrf });
+}
+
+// UserManager
+const usersEl = document.getElementById('react-admin-users');
+if (usersEl) {
+    const csrf = usersEl.dataset.csrf ?? '';
+    mountIsland('react-admin-users', UserManager, { csrf });
 }

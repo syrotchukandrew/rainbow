@@ -292,6 +292,92 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertNull($deleted);
     }
 
+    public function testUserListRequiresAuth(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/admin/users');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUserListReturnsUsers(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/users');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+        $this->assertArrayHasKey('username', $data[0]);
+        $this->assertArrayHasKey('email', $data[0]);
+        $this->assertArrayHasKey('roles', $data[0]);
+        $this->assertArrayHasKey('enabled', $data[0]);
+        // ROLE_ADMIN users must be excluded
+        foreach ($data as $user) {
+            $this->assertNotContains('ROLE_ADMIN', $user['roles']);
+        }
+    }
+
+    public function testLockUserRequiresAdmin(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_manager2', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('POST', '/api/admin/users/user_user1/lock', [], [], [
+            'HTTP_X-CSRF-Token' => 'any-token',
+        ]);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testLockAndUnlockUserSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getUserCsrfToken($client);
+
+        $client->request('POST', '/api/admin/users/user_user1/lock', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertFalse($data['enabled']);
+
+        // Restore
+        $client->request('POST', '/api/admin/users/user_user1/unlock', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue($data['enabled']);
+    }
+
+    public function testMakeManagerAndMakeUserSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getUserCsrfToken($client);
+
+        $client->request('POST', '/api/admin/users/user_user1/make-manager', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertContains('ROLE_MANAGER', $data['roles']);
+
+        // Restore
+        $client->request('POST', '/api/admin/users/user_user1/make-user', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertNotContains('ROLE_MANAGER', $data['roles']);
+    }
+
+    public function testLockUserNotFound(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getUserCsrfToken($client);
+        $client->request('POST', '/api/admin/users/nonexistent_user/lock', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
     private function getCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
     {
         // The districts page embeds the CSRF token in data-csrf;
@@ -304,5 +390,11 @@ class AdminApiControllerTest extends BaseTestController
     {
         $crawler = $client->request('GET', '/admin/comments');
         return $crawler->filter('#react-admin-comments')->attr('data-csrf');
+    }
+
+    private function getUserCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    {
+        $crawler = $client->request('GET', '/admin/users');
+        return $crawler->filter('#react-admin-users')->attr('data-csrf');
     }
 }
