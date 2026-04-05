@@ -28,13 +28,10 @@ class AdminCategoryController extends AbstractController
     }
 
     #[Route('/categories', name: 'admin_categories', methods: ['GET'])]
-    public function categoriesAction(Request $request): Response
+    public function categoriesAction(): Response
     {
-        $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\AppBundle\Entity\Category::class);
-        $categories = $repo->childrenHierarchy();
-        return $this->render("admin/category/categories.html.twig", ['categories' => $categories]);
-}
+        return $this->render('admin/category/categories.html.twig');
+    }
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/category_root/new', name: 'admin_category_root_new', methods: ['GET', 'POST'])]

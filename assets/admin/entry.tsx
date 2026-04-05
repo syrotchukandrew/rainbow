@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import AdminSidebar from './components/AdminSidebar';
 import EstateManager from './components/estates/EstateManager';
+import CategoryManager from './components/categories/CategoryManager';
 import DistrictManager from './components/districts/DistrictManager';
 import CommentManager from './components/comments/CommentManager';
 import UserManager from './components/users/UserManager';
@@ -32,6 +33,11 @@ if (sidebarEl) {
 // EstateManager
 if (document.getElementById('react-admin-estates')) {
     mountIsland('react-admin-estates', EstateManager, {});
+}
+
+// CategoryManager
+if (document.getElementById('react-admin-categories')) {
+    mountIsland('react-admin-categories', CategoryManager, {});
 }
 
 // DistrictManager

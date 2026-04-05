@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\District;
 use AppBundle\Entity\Estate;
@@ -299,6 +300,31 @@ class AdminApiController extends AbstractController
                 'editUrl'   => $this->generateUrl('admin_estate_edit', ['slug' => $e->getSlug()]),
             ],
             $estates,
+        ));
+    }
+
+    #[Route('/categories', name: 'api_admin_categories_list', methods: ['GET'])]
+    public function categoryList(): JsonResponse
+    {
+        $categories = $this->doctrine->getRepository(Category::class)
+            ->createQueryBuilder('c')
+            ->orderBy('c.root', 'ASC')
+            ->addOrderBy('c.lft', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return new JsonResponse(array_map(
+            fn(Category $c) => [
+                'id'        => $c->getId(),
+                'slug'      => $c->getSlug(),
+                'title'     => $c->getTitle(),
+                'lvl'       => $c->getLvl(),
+                'upUrl'     => $c->getLvl() > 0 ? $this->generateUrl('admin_category_up', ['slug' => $c->getSlug()]) : null,
+                'downUrl'   => $c->getLvl() > 0 ? $this->generateUrl('admin_category_down', ['slug' => $c->getSlug()]) : null,
+                'editUrl'   => $this->generateUrl('admin_category_edit', ['slug' => $c->getSlug()]),
+                'deleteUrl' => $this->generateUrl('admin_category_delete', ['slug' => $c->getSlug()]),
+            ],
+            $categories,
         ));
     }
 

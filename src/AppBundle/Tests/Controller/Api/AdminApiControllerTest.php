@@ -505,6 +505,27 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertNull($deleted);
     }
 
+    public function testCategoryListRequiresAuth(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/admin/categories');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testCategoryListReturnsArray(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/categories');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+        $this->assertArrayHasKey('id', $data[0]);
+        $this->assertArrayHasKey('slug', $data[0]);
+        $this->assertArrayHasKey('title', $data[0]);
+        $this->assertArrayHasKey('lvl', $data[0]);
+    }
+
     public function testEstateListRequiresAuth(): void
     {
         $client = static::createClient();
