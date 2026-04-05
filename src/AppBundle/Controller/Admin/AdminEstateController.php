@@ -58,15 +58,9 @@ class AdminEstateController extends AbstractController
     }
 
     #[Route('/estates', name: 'admin_estates', methods: ['GET'])]
-    public function estatesAction(Request $request): Response
+    public function estatesAction(): Response
     {
-        $estates = $this->doctrine->getRepository(\AppBundle\Entity\Estate::class)->getEstatesWithAll();
-        $pagination = $this->paginator->paginate(
-            $estates,
-            $request->query->getInt('page', 1),
-            10
-        );
-        return $this->render('admin/estate/estates.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/estate/estates.html.twig');
     }
 
     #[Route('/estate/show/{slug}', name: 'admin_estate_show', methods: ['GET'])]

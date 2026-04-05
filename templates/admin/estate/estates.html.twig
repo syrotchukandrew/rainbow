@@ -4,51 +4,5 @@
     <a href="{{ path('admin_estate_new') }}" class="btn btn-lg btn-block btn-success">
         <i class="fa fa-plus"></i> Додати новий
     </a>
-
-    <script type="application/json" id="react-estates-data">
-    {{ pagination|map(estate => {
-        'title':     estate.title,
-        'slug':      estate.slug,
-        'category':  estate.category.title,
-        'price':     estate.price,
-        'createdAt': estate.createdAt|date('d.m.Y'),
-        'district':  estate.district.title,
-        'exclusive': estate.exclusive,
-        'showUrl':   path('admin_estate_show', { 'slug': estate.slug }),
-        'editUrl':   path('admin_estate_edit', { 'slug': estate.slug })
-    })|json_encode }}
-    </script>
-
-    <div id="react-admin-data-table"></div>
-
-    <noscript>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Назва</th><th>Категорія</th><th>Ціна</th>
-                <th>Створено</th><th>Район</th><th>Ексклюзив</th><th>Дії</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for estate in pagination %}
-                <tr>
-                    <td>{{ estate.title }}</td>
-                    <td>{{ estate.category.title|trans }}</td>
-                    <td>{{ estate.price }}</td>
-                    <td>{{ estate.createdAt|date("d F Y H:i:s") }}</td>
-                    <td>{{ estate.district.title }}</td>
-                    <td>{{ estate.exclusive ? 'Так' : '-' }}</td>
-                    <td>
-                        <a href="{{ path('admin_estate_show', { 'slug': estate.slug }) }}" class="btn btn-sm btn-default">Показати</a>
-                        <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="btn btn-sm btn-default"><i class="fa fa-edit"></i> Змінити</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </noscript>
-
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+    <div id="react-admin-estates"></div>
 {% endblock panel %}

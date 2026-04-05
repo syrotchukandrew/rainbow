@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import AdminSidebar from './components/AdminSidebar';
-import DataTable from './components/DataTable';
+import EstateManager from './components/estates/EstateManager';
 import DistrictManager from './components/districts/DistrictManager';
 import CommentManager from './components/comments/CommentManager';
 import UserManager from './components/users/UserManager';
@@ -29,11 +29,9 @@ if (sidebarEl) {
     mountIsland('react-admin-sidebar', AdminSidebar, { items });
 }
 
-// DataTable
-const dataEl = document.getElementById('react-estates-data');
-if (dataEl) {
-    const rows = JSON.parse(dataEl.textContent ?? '[]');
-    mountIsland('react-admin-data-table', DataTable, { rows });
+// EstateManager
+if (document.getElementById('react-admin-estates')) {
+    mountIsland('react-admin-estates', EstateManager, {});
 }
 
 // DistrictManager

@@ -505,6 +505,28 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertNull($deleted);
     }
 
+    public function testEstateListRequiresAuth(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/admin/estates');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testEstateListReturnsArray(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/estates');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        if (!empty($data)) {
+            $this->assertArrayHasKey('id', $data[0]);
+            $this->assertArrayHasKey('title', $data[0]);
+            $this->assertArrayHasKey('slug', $data[0]);
+            $this->assertArrayHasKey('exclusive', $data[0]);
+        }
+    }
+
     private function getCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
     {
         // The districts page embeds the CSRF token in data-csrf;

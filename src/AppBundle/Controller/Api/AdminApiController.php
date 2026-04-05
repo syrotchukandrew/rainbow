@@ -6,6 +6,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\District;
+use AppBundle\Entity\Estate;
 use AppBundle\Entity\MenuItem;
 use AppBundle\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
@@ -277,6 +278,28 @@ class AdminApiController extends AbstractController
         $em->flush();
 
         return new JsonResponse(null, 204);
+    }
+
+    #[Route('/estates', name: 'api_admin_estates_list', methods: ['GET'])]
+    public function estateList(Request $request): JsonResponse
+    {
+        $estates = $this->doctrine->getRepository(Estate::class)->getEstatesWithAll();
+
+        return new JsonResponse(array_map(
+            fn(Estate $e) => [
+                'id'        => $e->getId(),
+                'title'     => $e->getTitle(),
+                'slug'      => $e->getSlug(),
+                'category'  => $e->getCategory()?->getTitle(),
+                'price'     => $e->getPrice(),
+                'createdAt' => $e->getCreatedAt()?->format('d.m.Y'),
+                'district'  => $e->getDistrict()?->getTitle(),
+                'exclusive' => $e->isExclusive(),
+                'showUrl'   => $this->generateUrl('admin_estate_show', ['slug' => $e->getSlug()]),
+                'editUrl'   => $this->generateUrl('admin_estate_edit', ['slug' => $e->getSlug()]),
+            ],
+            $estates,
+        ));
     }
 
     #[Route('/districts', name: 'api_admin_districts_list', methods: ['GET'])]
