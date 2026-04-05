@@ -158,11 +158,151 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertNull($deleted);
     }
 
+    public function testCommentListRequiresAuth(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/admin/comments');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testCommentListReturnsPendingByDefault(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/comments');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+        foreach ($data as $comment) {
+            $this->assertFalse($comment['enabled']);
+        }
+    }
+
+    public function testCommentListReturnsPublished(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/comments?status=published');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+        foreach ($data as $comment) {
+            $this->assertTrue($comment['enabled']);
+        }
+    }
+
+    public function testCommentListReturnsAll(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/comments?status=all');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+        $enabled = array_column($data, 'enabled');
+        $this->assertContains(true, $enabled);
+        $this->assertContains(false, $enabled);
+    }
+
+    public function testApproveCommentRequiresAdmin(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_manager2', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $comment = $em->getRepository(\AppBundle\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $client->request('POST', "/api/admin/comments/{$comment->getId()}/approve", [], [], [
+            'HTTP_X-CSRF-Token' => 'any-token',
+        ]);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testApproveCommentRequiresValidCsrf(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $comment = $em->getRepository(\AppBundle\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $client->request('POST', "/api/admin/comments/{$comment->getId()}/approve", [], [], [
+            'HTTP_X-CSRF-Token' => 'invalid-token',
+        ]);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testApproveCommentSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $comment = $em->getRepository(\AppBundle\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $commentId = $comment->getId();
+
+        $csrf = $this->getCommentCsrfToken($client);
+        $client->request('POST', "/api/admin/comments/{$commentId}/approve", [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue($data['enabled']);
+
+        // Restore
+        $em->clear();
+        $approved = $em->getRepository(\AppBundle\Entity\Comment::class)->find($commentId);
+        $approved->setEnabled(false);
+        $em->flush();
+    }
+
+    public function testApproveCommentNotFound(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getCommentCsrfToken($client);
+        $client->request('POST', '/api/admin/comments/999999/approve', [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteCommentRequiresAdmin(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_manager2', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('DELETE', '/api/admin/comments/1', [], [], [
+            'HTTP_X-CSRF-Token' => 'any-token',
+        ]);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteCommentSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $comment = new \AppBundle\Entity\Comment();
+        $comment->setContent('Comment to delete in test');
+        $comment->setEnabled(false);
+        $comment->setCreatedBy('user_admin');
+        $comment->setCreatedAt(new \DateTime());
+        $em->persist($comment);
+        $em->flush();
+        $commentId = $comment->getId();
+        $em->clear();
+
+        $csrf = $this->getCommentCsrfToken($client);
+        $client->request('DELETE', "/api/admin/comments/{$commentId}", [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        $deleted = $em->getRepository(\AppBundle\Entity\Comment::class)->find($commentId);
+        $this->assertNull($deleted);
+    }
+
     private function getCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
     {
         // The districts page embeds the CSRF token in data-csrf;
         // extract from HTML to avoid SessionNotFoundException outside a request
         $crawler = $client->request('GET', '/admin/districts');
         return $crawler->filter('#react-admin-districts')->attr('data-csrf');
+    }
+
+    private function getCommentCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    {
+        $crawler = $client->request('GET', '/admin/comments');
+        return $crawler->filter('#react-admin-comments')->attr('data-csrf');
     }
 }

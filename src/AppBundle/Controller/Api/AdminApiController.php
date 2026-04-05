@@ -33,6 +33,70 @@ class AdminApiController extends AbstractController
         return new JsonResponse(['count' => count($comments)]);
     }
 
+    #[Route('/comments', name: 'api_admin_comments_list', methods: ['GET'])]
+    public function commentList(Request $request): JsonResponse
+    {
+        $status = $request->query->getString('status', 'pending');
+        $repo = $this->doctrine->getRepository(Comment::class);
+
+        $comments = match ($status) {
+            'published' => $repo->getEnabledComments(),
+            'all'       => $repo->findAllComments(),
+            default     => $repo->getDisabledComments(),
+        };
+
+        return new JsonResponse(array_map(
+            static fn(Comment $c) => [
+                'id'        => $c->getId(),
+                'content'   => $c->getContent(),
+                'createdBy' => $c->getCreatedBy(),
+                'createdAt' => $c->getCreatedAt()?->format('d.m.Y H:i'),
+                'enabled'   => $c->isEnabled(),
+                'estateId'  => $c->getEstate()?->getId(),
+            ],
+            $comments,
+        ));
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/comments/{id}/approve', name: 'api_admin_comments_approve', methods: ['POST'])]
+    public function commentApprove(int $id, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_comment', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $comment = $this->doctrine->getRepository(Comment::class)->find($id);
+        if (!$comment) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $comment->setEnabled(true);
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['id' => $comment->getId(), 'enabled' => $comment->isEnabled()]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/comments/{id}', name: 'api_admin_comments_delete', methods: ['DELETE'])]
+    public function commentDelete(int $id, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_comment', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $comment = $this->doctrine->getRepository(Comment::class)->find($id);
+        if (!$comment) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $em = $this->doctrine->getManager();
+        $em->remove($comment);
+        $em->flush();
+
+        return new JsonResponse(null, 204);
+    }
+
     #[Route('/districts', name: 'api_admin_districts_list', methods: ['GET'])]
     public function districtList(): JsonResponse
     {

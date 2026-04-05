@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import AdminSidebar from './components/AdminSidebar';
 import DataTable from './components/DataTable';
 import DistrictManager from './components/districts/DistrictManager';
+import CommentManager from './components/comments/CommentManager';
 
 function mountIsland<P extends object>(
     id: string,
@@ -38,4 +39,11 @@ const districtsEl = document.getElementById('react-admin-districts');
 if (districtsEl) {
     const csrf = districtsEl.dataset.csrf ?? '';
     mountIsland('react-admin-districts', DistrictManager, { csrf });
+}
+
+// CommentManager
+const commentsEl = document.getElementById('react-admin-comments');
+if (commentsEl) {
+    const csrf = commentsEl.dataset.csrf ?? '';
+    mountIsland('react-admin-comments', CommentManager, { csrf });
 }

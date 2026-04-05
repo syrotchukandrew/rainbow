@@ -37,13 +37,7 @@ class AdminCommentController extends AbstractController
     #[Route('/comments', name: 'admin_comments', methods: ['GET'])]
     public function indexAction(Request $request): Response
     {
-        $comments = $this->doctrine->getRepository(\AppBundle\Entity\Comment::class)->getDisabledComments();
-        $pagination = $this->paginator->paginate(
-            $comments,
-            $request->query->getInt('page', 1),
-            20
-        );
-        return $this->render('admin/comment/comments.html.twig', array('pagination' => $pagination));
+        return $this->render('admin/comment/comments.html.twig');
     }
 
     #[Route('/comments/all', name: 'admin_all_comments', methods: ['GET'])]
