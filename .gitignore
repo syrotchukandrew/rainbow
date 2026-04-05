@@ -18,7 +18,7 @@
 .worktrees/
 
 # Webpack Encore build output
-/web/build/
+/public/build/
 
 # Superpowers brainstorm sessions
 /.superpowers/

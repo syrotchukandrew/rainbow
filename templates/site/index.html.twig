@@ -1,6 +1,5 @@
 {% extends 'site/base_site.html.twig' %}
     {% block panel %}
-        <div id="react-hello-island" style="margin-bottom: 1rem;"></div>
         <div class="panel">
             {% for estate in pagination %}
                 <h2><a class="grey" href="{{ path('show_estate', { 'slug': estate.slug }) }}">{{ estate.title }}</a>

@@ -6,7 +6,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-    .setOutputPath('web/build/')
+    .setOutputPath('public/build/')
     .setPublicPath('/build')
 
     // Entry points — one bundle per section

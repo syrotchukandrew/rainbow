@@ -31,7 +31,7 @@ class EstateApiController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate,
         Request $request,
     ): JsonResponse {
-        if (!$this->isCsrfTokenValid('api_estate_favorite', $request->headers->get('X-CSRF-Token', ''))) {
+        if (!$this->isCsrfTokenValid('api_estate_favorite', $request->headers->get('X-CSRF-Token'))) {
             return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
         }
 
@@ -50,7 +50,7 @@ class EstateApiController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate,
         Request $request,
     ): JsonResponse {
-        if (!$this->isCsrfTokenValid('api_estate_favorite', $request->headers->get('X-CSRF-Token', ''))) {
+        if (!$this->isCsrfTokenValid('api_estate_favorite', $request->headers->get('X-CSRF-Token'))) {
             return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
         }
 
@@ -69,7 +69,7 @@ class EstateApiController extends AbstractController
         #[MapEntity(mapping: ['slug' => 'slug'])] Estate $estate,
         Request $request,
     ): JsonResponse {
-        if (!$this->isCsrfTokenValid('api_estate_comment', $request->headers->get('X-CSRF-Token', ''))) {
+        if (!$this->isCsrfTokenValid('api_estate_comment', $request->headers->get('X-CSRF-Token'))) {
             return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
         }
 
@@ -92,6 +92,6 @@ class EstateApiController extends AbstractController
         $em->persist($comment);
         $em->flush();
 
-        return new JsonResponse(['success' => true], Response::HTTP_CREATED);
+        return new JsonResponse(['success' => true, 'pending' => true], Response::HTTP_CREATED);
     }
 }

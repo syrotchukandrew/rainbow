@@ -35,6 +35,8 @@ site:
     num_comments: "%count% коментар|%count% коментарі|%count% коментарів"
     exclusive_estates: Ексклюзивні об'єкти
     sing_in_please: Щоб залишити коментар, будь ласка, зареєструйтесь
+    comment_placeholder: 'Ваш коментар...'
+    comment_submit: 'Надіслати'
     flush_comment: Коментар успішно збережено. Після перевірки модератором буде опубліковано.
     search: Пошук
     main: Головна

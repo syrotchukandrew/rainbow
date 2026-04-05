@@ -5,27 +5,21 @@
         <h1>
             {{ estate.title }}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {% if app.user.hasEstate(estate) %}
-                    <a href="{{ path('delete_estate_from_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}"
-                       class="btn btn-info btn-sm">
-                        <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.delete_favorites'|trans }}
-                    </a>
-                {% else %}
-                    <a href="{{ path('add_estate_to_favorites', { 'estate': estate.slug, 'user': app.user.id }) }}"
-                       class="btn btn-info btn-sm">
-                        <span class="glyphicon glyphicon-star-empty"></span> {{ 'common.add_favorites'|trans }}
-                    </a>
-                {% endif %}
+                <div id="react-favorite-button"
+                     data-slug="{{ estate.slug }}"
+                     data-favorited="{{ app.user.hasEstate(estate) ? 'true' : 'false' }}"
+                     data-csrf="{{ csrf_token('api_estate_favorite') }}"
+                     data-label-add="{{ 'common.add_favorites'|trans }}"
+                     data-label-remove="{{ 'common.delete_favorites'|trans }}">
+                </div>
             {% endif %}
             <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}" class="btn btn-info btn-sm">
                 <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
             </a>
         </h1>
-        <ul class="pgwSlideshow">
-            {% for file in estate.files %}
-                <li><img alt="фото квартиры купить Черкассы" src="{{ asset(file.path) |imagine_filter('large') }} "></li>
-            {% endfor %}
-        </ul>
+        <div id="react-estate-slideshow"
+             data-images="{{ estate.files|map(f => asset(f.path)|imagine_filter('large'))|json_encode }}">
+        </div>
 
     </div>
     <div class="col-lg-9">
@@ -44,17 +38,16 @@
             <br>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div class="well">
-                    {{ render(controller('AppBundle\\Controller\\SiteController::commentNewAction', { 'slug': estate.slug })) }}
+                    <div id="react-comment-form"
+                         data-slug="{{ estate.slug }}"
+                         data-csrf="{{ csrf_token('api_estate_comment') }}"
+                         data-placeholder="{{ 'site.comment_placeholder'|trans }}"
+                         data-submit="{{ 'site.comment_submit'|trans }}">
+                    </div>
                 </div>
-            {% else %} <p>{{ 'site.sing_in_please'|trans }}</p>
+            {% else %}
+                <p>{{ 'site.sing_in_please'|trans }}</p>
                 <hr>
-            {% endif %}
-            {% if app.session.flashBag.has('success') %}
-                <div class="alert alert-success">
-                    {% for msg in app.session.flashBag.get('success') %}
-                        {{ msg|trans }}
-                    {% endfor %}
-                </div>
             {% endif %}
             {% for comment in estate.comments %}
                 {% if comment.enabled %}
@@ -105,12 +98,3 @@
         </ul>
     </div>
 {% endblock panel %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/pgwslideshow.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.pgwSlideshow').pgwSlideshow();
-        });
-    </script>
-{% endblock javascripts %}
