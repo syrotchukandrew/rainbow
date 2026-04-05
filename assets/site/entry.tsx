@@ -4,6 +4,7 @@ import LiveSearch from './components/LiveSearch';
 import EstateSlideshow from './components/EstateSlideshow';
 import FavoriteButton from './components/FavoriteButton';
 import CommentForm from './components/CommentForm';
+import EstateListing from './components/EstateListing';
 
 function mountIsland<P extends object>(
     id: string,
@@ -57,4 +58,11 @@ if (cfEl) {
         placeholder: cfEl.dataset.placeholder ?? '',
         submit: cfEl.dataset.submit ?? 'Submit',
     });
+}
+
+// EstateListing
+const estateListingEl = document.getElementById('react-estate-listing');
+if (estateListingEl) {
+    const apiUrl = estateListingEl.dataset.apiUrl ?? '/api/public/estates';
+    mountIsland('react-estate-listing', EstateListing, { apiUrl });
 }

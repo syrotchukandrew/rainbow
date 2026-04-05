@@ -20,10 +20,11 @@ class SiteControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
-            5,
-            $crawler->filter('h2'),
-            'The homepage displays the right number of estates.'
+            1,
+            $crawler->filter('#react-estate-listing'),
+            'The homepage displays the React estate listing island.'
         );
+        $this->assertSame('/api/public/estates', $crawler->filter('#react-estate-listing')->attr('data-api-url'));
     }
 
     public function testShowEstate()
@@ -45,12 +46,15 @@ class SiteControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $categories = $client->getContainer()->get(\AppBundle\Utils\FinalCategoryFinder::class)->findFinalCategories();
-        $crawler = $client->request('GET', "en/show_category/{$categories[0]->getTitle()}");
+        $crawler = $client->request('GET', "/en/show_category/{$categories[0]->getTitle()}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals(
-            5,
-            $crawler->filter('h2')->count()
+        $this->assertCount(
+            1,
+            $crawler->filter('#react-estate-listing'),
+            'The category page displays the React estate listing island.'
         );
+        $dataApiUrl = $crawler->filter('#react-estate-listing')->attr('data-api-url');
+        $this->assertStringStartsWith('/api/public/estates?category=', $dataApiUrl);
     }
 
     public function testShowMenuItem()

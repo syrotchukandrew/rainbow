@@ -70,17 +70,10 @@ class SiteController extends AbstractController
     }
 
     #[Route('/', name: 'homepage', methods: ['GET'])]
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
-        $em = $this->doctrine->getManager();
-        $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateExclusiveWithFiles();
-        $pagination = $this->paginator->paginate(
-            $estates,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
         $this->breadcrumbs->addItem("site.main");
-        return $this->render("site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("site/index.html.twig", ['apiUrl' => '/api/public/estates']);
     }
 
     #[Route('/menu', name: 'menu', methods: ['GET'])]
@@ -96,16 +89,10 @@ class SiteController extends AbstractController
     #[Route('/show_category/{slug}', name: 'show_category', methods: ['GET'])]
     public function showCategoryAction(Request $request, #[MapEntity(mapping: ['slug' => 'title'])] Category $category): Response
     {
-        $em = $this->doctrine->getManager();
-        $estates = $em->getRepository(\AppBundle\Entity\Estate::class)->getEstateFromCategory($category->getTitle());
-        $pagination = $this->paginator->paginate(
-            $estates,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
         $this->breadcrumpsMaker->makeBreadcrumps($category);
-
-        return $this->render("site/index.html.twig", array('pagination' => $pagination));
+        return $this->render("site/index.html.twig", [
+            'apiUrl' => '/api/public/estates?category=' . $category->getSlug(),
+        ]);
     }
 
     #[Route('/show_estate/{slug}', name: 'show_estate', options: ['expose' => true], methods: ['GET', 'POST'])]
