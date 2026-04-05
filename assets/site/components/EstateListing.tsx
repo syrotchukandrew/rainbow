@@ -29,6 +29,7 @@ export default function EstateListing({ apiUrl }: Props) {
 
     useEffect(() => {
         setLoading(true);
+        setError(null);
         const sep = apiUrl.includes('?') ? '&' : '?';
         fetch(`${apiUrl}${sep}page=${page}`)
             .then(r => r.json())

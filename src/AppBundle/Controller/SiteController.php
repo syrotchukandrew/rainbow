@@ -87,7 +87,7 @@ class SiteController extends AbstractController
     }
 
     #[Route('/show_category/{slug}', name: 'show_category', methods: ['GET'])]
-    public function showCategoryAction(Request $request, #[MapEntity(mapping: ['slug' => 'title'])] Category $category): Response
+    public function showCategoryAction(#[MapEntity(mapping: ['slug' => 'title'])] Category $category): Response
     {
         $this->breadcrumpsMaker->makeBreadcrumps($category);
         return $this->render("site/index.html.twig", [
