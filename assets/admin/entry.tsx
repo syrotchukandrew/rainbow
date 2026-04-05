@@ -5,6 +5,7 @@ import DataTable from './components/DataTable';
 import DistrictManager from './components/districts/DistrictManager';
 import CommentManager from './components/comments/CommentManager';
 import UserManager from './components/users/UserManager';
+import MenuItemManager from './components/menu-items/MenuItemManager';
 
 function mountIsland<P extends object>(
     id: string,
@@ -54,4 +55,11 @@ const usersEl = document.getElementById('react-admin-users');
 if (usersEl) {
     const csrf = usersEl.dataset.csrf ?? '';
     mountIsland('react-admin-users', UserManager, { csrf });
+}
+
+// MenuItemManager
+const menuItemsEl = document.getElementById('react-admin-menu-items');
+if (menuItemsEl) {
+    const csrf = menuItemsEl.dataset.csrf ?? '';
+    mountIsland('react-admin-menu-items', MenuItemManager, { csrf });
 }

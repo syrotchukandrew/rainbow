@@ -34,9 +34,7 @@ class AdminMenuItemController extends AbstractController
     #[Route('/menu_items', name: 'admin_items')]
     public function showItemsAction(Request $request): Response
     {
-        $em = $this->doctrine->getManager();
-        $items = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findAll();
-        return $this->render('admin/menu_item/items.html.twig', array('items' => $items));
+        return $this->render('admin/menu_item/items.html.twig');
     }
 
     #[Route('/menu_item/new', name: 'admin_add_menu_item')]

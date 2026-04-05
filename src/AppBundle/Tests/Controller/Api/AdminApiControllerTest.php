@@ -378,6 +378,133 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
+    public function testMenuItemListRequiresAuth(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/admin/menu-items');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testMenuItemListReturnsArray(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('GET', '/api/admin/menu-items');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+    }
+
+    public function testCreateMenuItemRequiresAdmin(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_manager2', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('POST', '/api/admin/menu-items', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => 'any-token',
+        ], json_encode(['title' => 'Test Item']));
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testCreateMenuItemRequiresValidCsrf(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $client->request('POST', '/api/admin/menu-items', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => 'invalid-token',
+        ], json_encode(['title' => 'Test Item']));
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testCreateMenuItemSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getMenuItemCsrfToken($client);
+        $client->request('POST', '/api/admin/menu-items', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => $csrf,
+        ], json_encode(['title' => 'Test Menu Item Api', 'description' => 'Test desc']));
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('Test Menu Item Api', $data['title']);
+        $this->assertEquals('Test desc', $data['description']);
+
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $item = $em->getRepository(\AppBundle\Entity\MenuItem::class)->find($data['id']);
+        if ($item) {
+            $em->remove($item);
+            $em->flush();
+        }
+    }
+
+    public function testCreateMenuItemValidationError(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getMenuItemCsrfToken($client);
+        $client->request('POST', '/api/admin/menu-items', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => $csrf,
+        ], json_encode(['title' => '']));
+        $this->assertEquals(422, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('error', $data);
+    }
+
+    public function testUpdateMenuItemSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $item = $em->getRepository(\AppBundle\Entity\MenuItem::class)->findOneBy([]);
+        $originalTitle = $item->getTitle();
+        $itemId = $item->getId();
+
+        $csrf = $this->getMenuItemCsrfToken($client);
+        $client->request('PUT', "/api/admin/menu-items/{$itemId}", [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => $csrf,
+        ], json_encode(['title' => $originalTitle . ' Updated', 'description' => 'Updated desc']));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertStringEndsWith(' Updated', $data['title']);
+
+        // Restore
+        $em->clear();
+        $restored = $em->getRepository(\AppBundle\Entity\MenuItem::class)->find($itemId);
+        $restored->setTitle($originalTitle);
+        $em->flush();
+    }
+
+    public function testUpdateMenuItemNotFound(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $csrf = $this->getMenuItemCsrfToken($client);
+        $client->request('PUT', '/api/admin/menu-items/999999', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X-CSRF-Token' => $csrf,
+        ], json_encode(['title' => 'Something', 'description' => 'Some desc']));
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteMenuItemSuccess(): void
+    {
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $item = new \AppBundle\Entity\MenuItem();
+        $item->setTitle('MenuItem To Delete');
+        $em->persist($item);
+        $em->flush();
+        $itemId = $item->getId();
+        $em->clear();
+
+        $csrf = $this->getMenuItemCsrfToken($client);
+        $client->request('DELETE', "/api/admin/menu-items/{$itemId}", [], [], [
+            'HTTP_X-CSRF-Token' => $csrf,
+        ]);
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        $deleted = $em->getRepository(\AppBundle\Entity\MenuItem::class)->find($itemId);
+        $this->assertNull($deleted);
+    }
+
     private function getCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
     {
         // The districts page embeds the CSRF token in data-csrf;
@@ -396,5 +523,11 @@ class AdminApiControllerTest extends BaseTestController
     {
         $crawler = $client->request('GET', '/admin/users');
         return $crawler->filter('#react-admin-users')->attr('data-csrf');
+    }
+
+    private function getMenuItemCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    {
+        $crawler = $client->request('GET', '/admin/menu_items');
+        return $crawler->filter('#react-admin-menu-items')->attr('data-csrf');
     }
 }

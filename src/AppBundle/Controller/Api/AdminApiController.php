@@ -6,6 +6,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\District;
+use AppBundle\Entity\MenuItem;
 use AppBundle\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -193,6 +194,89 @@ class AdminApiController extends AbstractController
         $this->doctrine->getManager()->flush();
 
         return new JsonResponse(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
+    }
+
+    #[Route('/menu-items', name: 'api_admin_menu_items_list', methods: ['GET'])]
+    public function menuItemList(): JsonResponse
+    {
+        $items = $this->doctrine->getRepository(MenuItem::class)->findAll();
+
+        return new JsonResponse(array_map(
+            static fn(MenuItem $m) => ['id' => $m->getId(), 'title' => $m->getTitle(), 'description' => $m->getDescription()],
+            $items,
+        ));
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/menu-items', name: 'api_admin_menu_items_create', methods: ['POST'])]
+    public function menuItemCreate(Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_menu_item', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $data = json_decode($request->getContent(), true) ?? [];
+        $item = new MenuItem();
+        $item->setTitle(trim((string) ($data['title'] ?? '')));
+        $item->setDescription(trim((string) ($data['description'] ?? '')));
+
+        $errors = $this->validator->validate($item);
+        if (count($errors) > 0) {
+            return new JsonResponse(['error' => $errors[0]->getMessage()], 422);
+        }
+
+        $em = $this->doctrine->getManager();
+        $em->persist($item);
+        $em->flush();
+
+        return new JsonResponse(['id' => $item->getId(), 'title' => $item->getTitle(), 'description' => $item->getDescription()], 201);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/menu-items/{id}', name: 'api_admin_menu_items_update', methods: ['PUT'])]
+    public function menuItemUpdate(int $id, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_menu_item', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $item = $this->doctrine->getRepository(MenuItem::class)->find($id);
+        if (!$item) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $data = json_decode($request->getContent(), true) ?? [];
+        $item->setTitle(trim((string) ($data['title'] ?? '')));
+        $item->setDescription(trim((string) ($data['description'] ?? '')));
+
+        $errors = $this->validator->validate($item);
+        if (count($errors) > 0) {
+            return new JsonResponse(['error' => $errors[0]->getMessage()], 422);
+        }
+
+        $this->doctrine->getManager()->flush();
+
+        return new JsonResponse(['id' => $item->getId(), 'title' => $item->getTitle(), 'description' => $item->getDescription()]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/menu-items/{id}', name: 'api_admin_menu_items_delete', methods: ['DELETE'])]
+    public function menuItemDelete(int $id, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('api_admin_menu_item', $request->headers->get('X-CSRF-Token'))) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+        }
+
+        $item = $this->doctrine->getRepository(MenuItem::class)->find($id);
+        if (!$item) {
+            return new JsonResponse(['error' => 'Not found'], 404);
+        }
+
+        $em = $this->doctrine->getManager();
+        $em->remove($item);
+        $em->flush();
+
+        return new JsonResponse(null, 204);
     }
 
     #[Route('/districts', name: 'api_admin_districts_list', methods: ['GET'])]
