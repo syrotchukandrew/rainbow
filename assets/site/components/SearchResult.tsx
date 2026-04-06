@@ -31,6 +31,10 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        setPage(1);
+    }, [categorySlug, districtSlug, price, exceptFloor]);
+
+    useEffect(() => {
         setLoading(true);
         setError(null);
         const params = new URLSearchParams({ category: categorySlug, page: String(page) });
@@ -39,7 +43,10 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
         if (exceptFloor === '1') params.set('except_floor', '1');
 
         fetch(`/api/public/search?${params.toString()}`)
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(String(r.status));
+                return r.json();
+            })
             .then((data: PagedResponse) => {
                 setResult(data);
                 setLoading(false);

@@ -156,7 +156,7 @@ class SiteController extends AbstractController
         ]);
 
         $searchForm->handleRequest($request);
-        if ($searchForm->isValid() && $searchForm->isSubmitted()) {
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $data = $searchForm->getData();
             /** @var \AppBundle\Entity\Category $category */
             $category = $data['category'];
