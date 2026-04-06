@@ -150,19 +150,25 @@ class SiteController extends AbstractController
     public function searchResultAction(Request $request): Response
     {
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();
-        $searchForm = $this->createForm(SearchType::class, null, array(
-            'action' => $this->generateUrl('site_search_result'),
-            'categories_choices' => $finalCategories));
+        $searchForm = $this->createForm(SearchType::class, null, [
+            'action'             => $this->generateUrl('site_search_result'),
+            'categories_choices' => $finalCategories,
+        ]);
 
         $searchForm->handleRequest($request);
         if ($searchForm->isValid() && $searchForm->isSubmitted()) {
-            $estates = $this->searchManager->searchEstate($searchForm->getData());
-            $pagination = $this->paginator->paginate(
-                $estates,
-                $request->query->getInt('page', 1),
-                self::ITEMS_PER_PAGE
-            );
-            return $this->render('site/index.html.twig', array('pagination' => $pagination));
+            $data = $searchForm->getData();
+            /** @var \AppBundle\Entity\Category $category */
+            $category = $data['category'];
+            /** @var \AppBundle\Entity\District|null $district */
+            $district = $data['district'];
+
+            return $this->render('site/search_result.html.twig', [
+                'categorySlug' => (string) $category->getSlug(),
+                'districtSlug' => $district ? (string) $district->getSlug() : '',
+                'price'        => (string) ($data['price'] ?? ''),
+                'exceptFloor'  => !empty($data['except_floor']) ? '1' : '0',
+            ]);
         }
 
         return $this->redirectToRoute('homepage');

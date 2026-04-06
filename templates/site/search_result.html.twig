@@ -1,0 +1,9 @@
+{% extends 'site/base_site.html.twig' %}
+{% block panel %}
+    <div id="react-search-results"
+         data-category="{{ categorySlug }}"
+         data-district="{{ districtSlug }}"
+         data-price="{{ price }}"
+         data-except-floor="{{ exceptFloor }}">
+    </div>
+{% endblock panel %}

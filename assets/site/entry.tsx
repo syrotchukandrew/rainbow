@@ -5,6 +5,7 @@ import EstateSlideshow from './components/EstateSlideshow';
 import FavoriteButton from './components/FavoriteButton';
 import CommentForm from './components/CommentForm';
 import EstateListing from './components/EstateListing';
+import SearchResult from './components/SearchResult';
 
 function mountIsland<P extends object>(
     id: string,
@@ -65,4 +66,14 @@ const estateListingEl = document.getElementById('react-estate-listing');
 if (estateListingEl) {
     const apiUrl = estateListingEl.dataset.apiUrl ?? '/api/public/estates';
     mountIsland('react-estate-listing', EstateListing, { apiUrl });
+}
+
+// SearchResult
+const searchResultsEl = document.getElementById('react-search-results');
+if (searchResultsEl) {
+    const categorySlug = searchResultsEl.dataset.category ?? '';
+    const districtSlug = searchResultsEl.dataset.district ?? '';
+    const price        = searchResultsEl.dataset.price ?? '';
+    const exceptFloor  = searchResultsEl.dataset.exceptFloor ?? '0';
+    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor });
 }
