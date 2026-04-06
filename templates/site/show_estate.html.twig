@@ -65,32 +65,7 @@
         </div>
     </div>
     <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'common.price'|trans }}
-            </div>
-            <div class="panel-body">
-                {{ estate.price }}&#032дол.
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'common.district'|trans }}
-            </div>
-            <div class="panel-body">
-                {{ estate.district.title }}
-            </div>
-        </div>
-        {% if estate.floor %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="glyphicon glyphicon-stats"></i> Этаж/Этажность
-                </div>
-                <div class="panel-body">
-                    {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
-                </div>
-            </div>
-        {% endif %}
+        <div id="react-estate-info-panel" data-slug="{{ estate.slug }}"></div>
         <ul>
             <li>{{ googlePlusButton() }}</li>
             <li>{{ twitterButton() }}</li>

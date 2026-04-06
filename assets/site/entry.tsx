@@ -6,6 +6,7 @@ import FavoriteButton from './components/FavoriteButton';
 import CommentForm from './components/CommentForm';
 import EstateListing from './components/EstateListing';
 import SearchResult from './components/SearchResult';
+import EstateInfoPanel from './components/EstateInfoPanel';
 
 function mountIsland<P extends object>(
     id: string,
@@ -76,4 +77,11 @@ if (searchResultsEl) {
     const price        = searchResultsEl.dataset.price ?? '';
     const exceptFloor  = searchResultsEl.dataset.exceptFloor ?? '0';
     mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor });
+}
+
+// EstateInfoPanel
+const estateInfoPanelEl = document.getElementById('react-estate-info-panel');
+if (estateInfoPanelEl) {
+    const slug = estateInfoPanelEl.dataset.slug ?? '';
+    mountIsland('react-estate-info-panel', EstateInfoPanel, { slug });
 }
