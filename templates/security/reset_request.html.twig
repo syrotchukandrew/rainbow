@@ -1,20 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('site') }}
+{% endblock %}
+
 {% block body %}
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="well">
-                <h2>{{ 'security.forgotten_password'|trans }}</h2>
-                {{ form_start(form) }}
-                <div class="form-group">
-                    {{ form_label(form.email) }}
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.email) }}
-                </div>
-                <button type="submit" class="btn btn-primary">{{ 'security.reset_send'|trans }}</button>
-                {{ form_end(form) }}
-            </div>
-            <a href="{{ path('security_login_form') }}">{{ 'security.login'|trans }}</a>
-        </div>
+    <div id="react-reset-request-form"
+         data-action="{{ path('security_reset_request') }}"
+         data-csrf="{{ form.vars.token.vars.value }}"
+         data-login-url="{{ path('security_login_form') }}">
     </div>
 {% endblock %}

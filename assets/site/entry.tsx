@@ -7,6 +7,9 @@ import CommentForm from './components/CommentForm';
 import EstateListing from './components/EstateListing';
 import SearchResult from './components/SearchResult';
 import EstateInfoPanel from './components/EstateInfoPanel';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
+import ResetRequestForm from './components/ResetRequestForm';
 
 function mountIsland<P extends object>(
     id: string,
@@ -84,4 +87,32 @@ const estateInfoPanelEl = document.getElementById('react-estate-info-panel');
 if (estateInfoPanelEl) {
     const slug = estateInfoPanelEl.dataset.slug ?? '';
     mountIsland('react-estate-info-panel', EstateInfoPanel, { slug });
+}
+
+// LoginForm
+const loginFormEl = document.getElementById('react-login-form');
+if (loginFormEl) {
+    const action       = loginFormEl.dataset.action ?? '';
+    const csrf         = loginFormEl.dataset.csrf ?? '';
+    const error        = loginFormEl.dataset.error ?? '';
+    const lastUsername = loginFormEl.dataset.lastUsername ?? '';
+    mountIsland('react-login-form', LoginForm, { action, csrf, error, lastUsername });
+}
+
+// RegisterForm
+const registerFormEl = document.getElementById('react-register-form');
+if (registerFormEl) {
+    const action = registerFormEl.dataset.action ?? '';
+    const csrf   = registerFormEl.dataset.csrf ?? '';
+    const errors: string[] = JSON.parse(registerFormEl.dataset.errors ?? '[]');
+    mountIsland('react-register-form', RegisterForm, { action, csrf, errors });
+}
+
+// ResetRequestForm
+const resetFormEl = document.getElementById('react-reset-request-form');
+if (resetFormEl) {
+    const action   = resetFormEl.dataset.action ?? '';
+    const csrf     = resetFormEl.dataset.csrf ?? '';
+    const loginUrl = resetFormEl.dataset.loginUrl ?? '';
+    mountIsland('react-reset-request-form', ResetRequestForm, { action, csrf, loginUrl });
 }

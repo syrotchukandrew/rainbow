@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('site') }}
+{% endblock %}
+
 {% block body %}
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="well">
-                {{ form_start(form) }}
-                {{ form_row(form.username) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.plainPassword.first) }}
-                {{ form_row(form.plainPassword.second) }}
-                <button type="submit">{{ 'security.register'|trans }}!</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
+    {% set formErrors = [] %}
+    {% for error in form.vars.errors %}
+        {% set formErrors = formErrors|merge([error.message]) %}
+    {% endfor %}
+    {% for field in form.children %}
+        {% for error in field.vars.errors %}
+            {% set formErrors = formErrors|merge([error.message]) %}
+        {% endfor %}
+    {% endfor %}
+    <div id="react-register-form"
+         data-action="{{ path('user_registration') }}"
+         data-csrf="{{ form.vars.token.vars.value }}"
+         data-errors="{{ formErrors|json_encode }}">
     </div>
 {% endblock %}
 
-{% block sidebar %}
-{% endblock %}
+{% block sidebar %}{% endblock %}
