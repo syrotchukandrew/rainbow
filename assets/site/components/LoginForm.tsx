@@ -25,6 +25,7 @@ export default function LoginForm({ action, csrf, error, lastUsername }: Props) 
                                 id="login_username"
                                 type="text"
                                 name="_username"
+                                autoComplete="username"
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
                                 className="form-control"
@@ -37,6 +38,7 @@ export default function LoginForm({ action, csrf, error, lastUsername }: Props) 
                                 id="login_password"
                                 type="password"
                                 name="_password"
+                                autoComplete="current-password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className="form-control"

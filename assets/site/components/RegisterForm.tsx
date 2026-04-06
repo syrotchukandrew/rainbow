@@ -19,7 +19,7 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                     {errors.length > 0 && (
                         <div className="alert alert-danger">
                             <ul className="mb-0">
-                                {errors.map((e, i) => <li key={i}>{e}</li>)}
+                                {errors.map((e) => <li key={e}>{e}</li>)}
                             </ul>
                         </div>
                     )}
@@ -30,6 +30,7 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                                 id="reg_username"
                                 type="text"
                                 name="app_bundle_user_type[username]"
+                                autoComplete="username"
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
                                 className="form-control"
@@ -41,6 +42,7 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                                 id="reg_email"
                                 type="email"
                                 name="app_bundle_user_type[email]"
+                                autoComplete="email"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 className="form-control"
@@ -52,6 +54,7 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                                 id="reg_password"
                                 type="password"
                                 name="app_bundle_user_type[plainPassword][first]"
+                                autoComplete="new-password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 className="form-control"
@@ -63,6 +66,7 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                                 id="reg_password_repeat"
                                 type="password"
                                 name="app_bundle_user_type[plainPassword][second]"
+                                autoComplete="new-password"
                                 value={passwordRepeat}
                                 onChange={e => setRepeat(e.target.value)}
                                 className="form-control"

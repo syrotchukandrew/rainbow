@@ -21,6 +21,7 @@ export default function ResetRequestForm({ action, csrf, loginUrl }: Props) {
                                 id="reset_email"
                                 type="email"
                                 name="password_reset_request_type[email]"
+                                autoComplete="email"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 className="form-control"
