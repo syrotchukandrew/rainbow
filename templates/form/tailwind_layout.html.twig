@@ -1,0 +1,58 @@
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    <div class="mb-2">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
+{% block form_label %}
+    {% if label is not same as(false) %}
+        <label{% if id is defined %} for="{{ id }}"{% endif %} class="block text-xs font-medium text-gray-600 mb-1">
+            {{ label|trans({}, translation_domain) }}
+        </label>
+    {% endif %}
+{% endblock %}
+
+{% block form_widget_simple %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}"{% endif %}
+           class="block w-full rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"/>
+{% endblock %}
+
+{% block choice_widget_collapsed %}
+    {% if multiple %}
+        {% set attr = attr|merge({multiple: 'multiple'}) %}
+    {% endif %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple{% endif %}
+            class="block w-full rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary bg-white">
+        {% if placeholder is not none %}
+            <option value=""{% if required and value is empty %} selected{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) : '' }}</option>
+        {% endif %}
+        {% if preferred_choices|length > 0 %}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {% if choices|length > 0 and separator is not none %}
+                <option disabled="disabled">{{ separator }}</option>
+            {% endif %}
+        {% endif %}
+        {% set options = choices %}
+        {{- block('choice_widget_options') -}}
+    </select>
+{% endblock %}
+
+{% block checkbox_widget %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked{% endif %}
+           class="rounded border-gray-300 text-primary focus:ring-primary"/>
+{% endblock %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        <ul class="mt-1 text-xs text-red-600">
+            {% for error in errors %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -1,16 +1,13 @@
-{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
-{{ form_start(form) }}
-<table class="table">
-    <tr>
-        <td>{{ form(form.category) }}</td>
-        <td>{{ form(form.except_floor) }}</td>
-    </tr>
-    <tr>
-        <td>{{ form(form.district) }}</td>
-        <td>{{ form(form.price) }}</td>
-    </tr>
-
-
-</table>
-{#{{ form_widget(form)}}#}
+{% form_theme form 'form/tailwind_layout.html.twig' %}
+{{ form_start(form, { attr: { class: 'flex flex-wrap gap-2 items-end' } }) }}
+    <div>{{ form_row(form.category) }}</div>
+    <div>{{ form_row(form.district) }}</div>
+    <div>{{ form_row(form.price) }}</div>
+    <div class="flex items-center gap-1 pt-4">
+        {{ form_widget(form.except_floor) }}
+        {{ form_label(form.except_floor) }}
+    </div>
+    <button type="submit" class="px-3 py-1 rounded bg-primary text-primary-foreground text-sm hover:opacity-90 mt-4">
+        {{ 'form.search.search'|trans }}
+    </button>
 {{ form_end(form) }}
