@@ -1,3 +1,9 @@
+nav:
+    locale_switcher: 'Змінити мову'
+    search: 'Пошук'
+    account: 'Акаунт'
+    open_menu: 'Відкрити меню'
+
 site:
     menu:
         homepage: Головна

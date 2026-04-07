@@ -1,3 +1,9 @@
+nav:
+    locale_switcher: 'Switch language'
+    search: 'Search'
+    account: 'Account'
+    open_menu: 'Open menu'
+
 site:
     menu:
         homepage: Home
