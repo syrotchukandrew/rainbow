@@ -10,22 +10,19 @@
 
 {% block form_label %}
     {% if label is not same as(false) %}
-        <label{% if id is defined %} for="{{ id }}"{% endif %} class="block text-xs font-medium text-gray-600 mb-1">
+        <label{% if not compound %} for="{{ id }}"{% endif %} class="block text-xs font-medium text-gray-600 mb-1">
             {{ label|trans({}, translation_domain) }}
         </label>
     {% endif %}
 {% endblock %}
 
 {% block form_widget_simple %}
-    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}"{% endif %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}"{% endif %}
            class="block w-full rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"/>
 {% endblock %}
 
 {% block choice_widget_collapsed %}
-    {% if multiple %}
-        {% set attr = attr|merge({multiple: 'multiple'}) %}
-    {% endif %}
-    <select {{ block('widget_attributes') }}{% if multiple %} multiple{% endif %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}
             class="block w-full rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary bg-white">
         {% if placeholder is not none %}
             <option value=""{% if required and value is empty %} selected{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) : '' }}</option>
