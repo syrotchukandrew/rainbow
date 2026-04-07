@@ -124,7 +124,7 @@
             <div>
                 <a href="{{ path('homepage') }}">
                     <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}"
-                         alt="АН Радуга" class="h-16 w-auto">
+                         alt="{{ 'site.logo_alt'|trans }}" class="h-16 w-auto">
                 </a>
             </div>
             <div class="bg-white border border-gray-200 rounded p-3 shadow-sm text-sm">
@@ -159,7 +159,7 @@
         </main>
     </div>
 </div>
-{% endblock %}
+{% endblock body %}
 {% block footer %}
 <footer class="border-t border-gray-200 bg-gray-50 mt-8 py-4">
     <div class="max-w-7xl mx-auto px-4">

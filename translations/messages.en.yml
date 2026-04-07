@@ -46,6 +46,7 @@ site:
     flush_comment: The comment is successfully written. After rewise by moderator, will be published.
     search: Search
     main: Home
+    logo_alt: 'Real Estate Agency Rainbow'
 
 security:
     username: Username
