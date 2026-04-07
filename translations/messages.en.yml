@@ -3,6 +3,7 @@ nav:
     search: 'Search'
     account: 'Account'
     open_menu: 'Open menu'
+    categories: 'Categories'
 
 site:
     menu:

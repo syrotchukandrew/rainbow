@@ -3,6 +3,7 @@ nav:
     search: 'Пошук'
     account: 'Акаунт'
     open_menu: 'Відкрити меню'
+    categories: 'Категорії'
 
 site:
     menu:
