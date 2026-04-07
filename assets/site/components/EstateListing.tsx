@@ -28,19 +28,25 @@ export default function EstateListing({ apiUrl }: Props) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const controller = new AbortController();
         setLoading(true);
         setError(null);
         const sep = apiUrl.includes('?') ? '&' : '?';
-        fetch(`${apiUrl}${sep}page=${page}`)
-            .then(r => r.json())
+        fetch(`${apiUrl}${sep}page=${page}`, { signal: controller.signal })
+            .then(r => {
+                if (!r.ok) throw new Error(String(r.status));
+                return r.json();
+            })
             .then((data: PagedResponse) => {
                 setResult(data);
                 setLoading(false);
             })
-            .catch(() => {
+            .catch((err: unknown) => {
+                if (err instanceof Error && err.name === 'AbortError') return;
                 setError('Помилка завантаження. Спробуйте пізніше.');
                 setLoading(false);
             });
+        return () => controller.abort();
     }, [apiUrl, page]);
 
     if (loading) return <p>Завантаження...</p>;
@@ -69,8 +75,8 @@ export default function EstateListing({ apiUrl }: Props) {
                             )}
                         </div>
                         <div className="col col-sm-4">
-                            {estate.secondaryImageUrls.map((url) => (
-                                <React.Fragment key={url}>
+                            {estate.secondaryImageUrls.map((url, i) => (
+                                <React.Fragment key={i}>
                                     <a href={`/show_estate/${estate.slug}`}>
                                         <img alt="фото нерухомості" src={url} className="img-responsive" />
                                     </a>

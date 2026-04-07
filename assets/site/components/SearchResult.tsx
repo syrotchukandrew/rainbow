@@ -35,6 +35,7 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
     }, [categorySlug, districtSlug, price, exceptFloor]);
 
     useEffect(() => {
+        const controller = new AbortController();
         setLoading(true);
         setError(null);
         const params = new URLSearchParams({ category: categorySlug, page: String(page) });
@@ -42,7 +43,7 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
         if (price) params.set('price', price);
         if (exceptFloor === '1') params.set('except_floor', '1');
 
-        fetch(`/api/public/search?${params.toString()}`)
+        fetch(`/api/public/search?${params.toString()}`, { signal: controller.signal })
             .then(r => {
                 if (!r.ok) throw new Error(String(r.status));
                 return r.json();
@@ -51,10 +52,12 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                 setResult(data);
                 setLoading(false);
             })
-            .catch(() => {
+            .catch((err: unknown) => {
+                if (err instanceof Error && err.name === 'AbortError') return;
                 setError('Помилка завантаження. Спробуйте пізніше.');
                 setLoading(false);
             });
+        return () => controller.abort();
     }, [categorySlug, districtSlug, price, exceptFloor, page]);
 
     if (loading) return <p>Завантаження...</p>;
@@ -83,8 +86,8 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                             )}
                         </div>
                         <div className="col col-sm-4">
-                            {estate.secondaryImageUrls.map((url) => (
-                                <React.Fragment key={url}>
+                            {estate.secondaryImageUrls.map((url, i) => (
+                                <React.Fragment key={i}>
                                     <a href={`/show_estate/${estate.slug}`}>
                                         <img alt="фото нерухомості" src={url} className="img-responsive" />
                                     </a>

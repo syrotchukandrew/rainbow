@@ -26,9 +26,10 @@ export default function EstateInfoPanel({ slug }: Props) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const controller = new AbortController();
         setLoading(true);
         setError(null);
-        fetch(`/api/public/estates/${slug}`)
+        fetch(`/api/public/estates/${slug}`, { signal: controller.signal })
             .then(r => {
                 if (!r.ok) throw new Error(String(r.status));
                 return r.json();
@@ -37,10 +38,12 @@ export default function EstateInfoPanel({ slug }: Props) {
                 setEstate(data);
                 setLoading(false);
             })
-            .catch(() => {
+            .catch((err: unknown) => {
+                if (err instanceof Error && err.name === 'AbortError') return;
                 setError('Помилка завантаження.');
                 setLoading(false);
             });
+        return () => controller.abort();
     }, [slug]);
 
     if (loading) return <p>Завантаження...</p>;
