@@ -1,9 +1,11 @@
 {% extends 'site/base_site.html.twig' %}
 
 {% block panel %}
-    <div style="margin-bottom: 20px">
-        <h1>
-            {{ estate.title }}
+<div class="mb-5">
+    {# Title + actions row #}
+    <div class="flex items-start flex-wrap gap-3 mb-4">
+        <h1 class="text-2xl font-bold text-gray-800 flex-1">{{ estate.title }}</h1>
+        <div class="flex items-center gap-2">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div id="react-favorite-button"
                      data-slug="{{ estate.slug }}"
@@ -13,63 +15,90 @@
                      data-label-remove="{{ 'common.delete_favorites'|trans }}">
                 </div>
             {% endif %}
-            <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-download-alt"></span> {{ 'common.downloadPDF'|trans }}
+            <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}"
+               class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded border border-blue-500 text-blue-600 hover:bg-blue-50">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                {{ 'common.downloadPDF'|trans }}
             </a>
-        </h1>
-        <div id="react-estate-slideshow"
-             data-images="{{ estate.files|map(f => asset(f.path)|imagine_filter('large'))|json_encode }}">
         </div>
-
     </div>
-    <div class="col-lg-9">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'common.description'|trans }}
+
+    {# Slideshow #}
+    <div id="react-estate-slideshow"
+         data-images="{{ estate.files|map(f => asset(f.path)|imagine_filter('large'))|json_encode }}">
+    </div>
+</div>
+
+{# Two-column layout: 3/4 main + 1/4 sidebar #}
+<div class="flex gap-6 flex-wrap">
+
+    {# Main column #}
+    <div class="flex-1 min-w-0 space-y-4">
+
+        {# Description card #}
+        <div class="rounded border border-gray-200 shadow-sm">
+            <div class="px-4 py-2 border-b border-gray-200 bg-gray-50 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <svg class="w-4 h-4 text-gray-400" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                {{ 'common.description'|trans }}
             </div>
-            <div class="panel-body">
+            <div class="p-4 text-sm text-gray-700 leading-relaxed">
                 {{ estate.description }}
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="glyphicon glyphicon-stats"></i> {{ 'common.comments'|trans }}
+
+        {# Comments card #}
+        <div class="rounded border border-gray-200 shadow-sm">
+            <div class="px-4 py-2 border-b border-gray-200 bg-gray-50 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <svg class="w-4 h-4 text-gray-400" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                {{ 'common.comments'|trans }}
             </div>
-            <br>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <div class="well">
-                    <div id="react-comment-form"
-                         data-slug="{{ estate.slug }}"
-                         data-csrf="{{ csrf_token('api_estate_comment') }}"
-                         data-placeholder="{{ 'site.comment_placeholder'|trans }}"
-                         data-submit="{{ 'site.comment_submit'|trans }}">
-                    </div>
-                </div>
-            {% else %}
-                <p>{{ 'site.sing_in_please'|trans }}</p>
-                <hr>
-            {% endif %}
-            {% for comment in estate.comments %}
-                {% if comment.enabled %}
-                    <div class="media">
-                        <div class="media-body">
-                            <h4 class="media-heading">{{ comment.createdBy }}
-                                <small>{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
-                            </h4>
-                            {{ comment.content }}
+            <div class="p-4">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="bg-gray-50 border border-gray-200 rounded p-3 mb-4">
+                        <div id="react-comment-form"
+                             data-slug="{{ estate.slug }}"
+                             data-csrf="{{ csrf_token('api_estate_comment') }}"
+                             data-placeholder="{{ 'site.comment_placeholder'|trans }}"
+                             data-submit="{{ 'site.comment_submit'|trans }}">
                         </div>
                     </div>
-                    <hr>
+                {% else %}
+                    <p class="text-sm text-gray-500 mb-3">{{ 'site.sing_in_please'|trans }}</p>
+                    <hr class="border-gray-200 mb-3">
                 {% endif %}
-            {% endfor %}
+
+                <div class="space-y-3">
+                    {% for comment in estate.comments %}
+                        {% if comment.enabled %}
+                            <div class="border-b border-gray-100 pb-3 last:border-0">
+                                <div class="flex items-baseline gap-2 mb-1">
+                                    <span class="text-sm font-medium text-gray-800">{{ comment.createdBy }}</span>
+                                    <span class="text-xs text-gray-400">{{ comment.createdAt|date('Y-m-d H:i:s') }}</span>
+                                </div>
+                                <p class="text-sm text-gray-700">{{ comment.content }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-lg-3">
+
+    {# Right sidebar column #}
+    <div class="w-64 flex-shrink-0">
         <div id="react-estate-info-panel" data-slug="{{ estate.slug }}"></div>
-        <ul>
-            <li>{{ googlePlusButton() }}</li>
-            <li>{{ twitterButton() }}</li>
-            <li>{{ facebookButton() }}</li>
-        </ul>
+        <div class="mt-4 flex gap-2 text-sm">
+            <span>{{ googlePlusButton() }}</span>
+            <span>{{ twitterButton() }}</span>
+            <span>{{ facebookButton() }}</span>
+        </div>
     </div>
+
+</div>
 {% endblock panel %}
