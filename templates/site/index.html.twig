@@ -1,7 +1,7 @@
 {% extends 'site/base_site.html.twig' %}
     {% block panel %}
         {% if apiUrl is defined %}
-            <div id="react-estate-listing" data-api-url="{{ apiUrl }}"></div>
+            <div id="react-estate-listing" data-api-url="{{ apiUrl }}" data-locale="{{ app.request.locale }}"></div>
         {% else %}
             <div class="panel">
                 {% for estate in pagination %}

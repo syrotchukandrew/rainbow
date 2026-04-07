@@ -18,7 +18,7 @@ export default function LiveSearch({ placeholder, locale }: Props) {
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        fetch('/livesearch')
+        fetch(`/${locale}/livesearch`)
             .then(r => r.json())
             .then((data: Record<string, string>) => {
                 const estates = Object.entries(data).map(([slug, title]) => ({ slug, title }));

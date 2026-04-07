@@ -22,9 +22,10 @@ interface Props {
     districtSlug: string;
     price: string;
     exceptFloor: string;
+    locale: string;
 }
 
-export default function SearchResult({ categorySlug, districtSlug, price, exceptFloor }: Props) {
+export default function SearchResult({ categorySlug, districtSlug, price, exceptFloor, locale }: Props) {
     const [result, setResult] = useState<PagedResponse | null>(null);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -71,12 +72,12 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
             {result.data.map(estate => (
                 <div key={estate.id}>
                     <h2>
-                        <a className="grey" href={`/show_estate/${estate.slug}`}>{estate.title}</a>
+                        <a className="grey" href={`/${locale}/show_estate/${estate.slug}`}>{estate.title}</a>
                     </h2>
                     <div className="row">
                         <div className="col col-sm-8">
                             {estate.primaryImageUrl && (
-                                <a href={`/show_estate/${estate.slug}`}>
+                                <a href={`/${locale}/show_estate/${estate.slug}`}>
                                     <img
                                         alt="фото нерухомості"
                                         src={estate.primaryImageUrl}
@@ -88,7 +89,7 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                         <div className="col col-sm-4">
                             {estate.secondaryImageUrls.map((url, i) => (
                                 <React.Fragment key={i}>
-                                    <a href={`/show_estate/${estate.slug}`}>
+                                    <a href={`/${locale}/show_estate/${estate.slug}`}>
                                         <img alt="фото нерухомості" src={url} className="img-responsive" />
                                     </a>
                                     <hr />
@@ -98,7 +99,7 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                     </div>
                     <h3>Опис:</h3>
                     <p>{estate.description}</p>
-                    <a href={`/show_estate/${estate.slug}`} className="btn btn-default">
+                    <a href={`/${locale}/show_estate/${estate.slug}`} className="btn btn-default">
                         Детальніше
                     </a>
                     <hr />

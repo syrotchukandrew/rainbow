@@ -69,7 +69,8 @@ if (cfEl) {
 const estateListingEl = document.getElementById('react-estate-listing');
 if (estateListingEl) {
     const apiUrl = estateListingEl.dataset.apiUrl ?? '/api/public/estates';
-    mountIsland('react-estate-listing', EstateListing, { apiUrl });
+    const locale = estateListingEl.dataset.locale ?? 'uk';
+    mountIsland('react-estate-listing', EstateListing, { apiUrl, locale });
 }
 
 // SearchResult
@@ -79,7 +80,8 @@ if (searchResultsEl) {
     const districtSlug = searchResultsEl.dataset.district ?? '';
     const price        = searchResultsEl.dataset.price ?? '';
     const exceptFloor  = searchResultsEl.dataset.exceptFloor ?? '0';
-    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor });
+    const locale       = searchResultsEl.dataset.locale ?? 'uk';
+    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor, locale });
 }
 
 // EstateInfoPanel
