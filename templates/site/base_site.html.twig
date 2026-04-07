@@ -118,58 +118,58 @@
 </nav>
 {% endblock nav %}
 {% block header %}
-    <header class="masthead">
-        <div class="container">
-                <div class="col col-sm-6">
-                    <a href="{{ path('homepage') }}">
-                        <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}">
-                    </a>
-                </div>
-                <div class="col col-sm-6">
-                    <div class="well pull-right">
-                        {{ 'site.search'|trans }}
-                        {{ render(controller("AppBundle\\Controller\\SiteController::searchAction")) }}
-                    </div>
-                </div>
+<header class="bg-gray-50 border-b border-gray-200 py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+                <a href="{{ path('homepage') }}">
+                    <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}"
+                         alt="АН Радуга" class="h-16 w-auto">
+                </a>
+            </div>
+            <div class="bg-white border border-gray-200 rounded p-3 shadow-sm text-sm">
+                <p class="text-gray-600 mb-2 font-medium">{{ 'site.search'|trans }}</p>
+                {{ render(controller("AppBundle\\Controller\\SiteController::searchAction")) }}
+            </div>
+        </div>
+        <div class="mt-2 text-sm text-gray-500">
             {{ wo_render_breadcrumbs() }}
         </div>
-    </header>
+    </div>
+</header>
 {% endblock header %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col col-sm-3">
-                {% block sidebar %}
-                    <div id="sidebar">
-                        <ul class="nav nav-stacked">
-                            <li><h3 class="highlight">{{ 'site.offers'|trans }}<i
-                                            class="glyphicon glyphicon-dashboard pull-right"></i>
-                                </h3></li>
-                            {{ render(controller('AppBundle\\Controller\\SiteController::menuAction')) }}
-                        </ul>
-                    </div>
-                {% endblock sidebar %}
-            </div>
-            <div class="col col-sm-9">
-                {% block panel %}{% endblock %}
-            </div>
-        </div>
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="flex gap-6">
+        <aside class="w-64 flex-shrink-0">
+            {% block sidebar %}
+                <div id="sidebar">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 flex items-center justify-between mb-2">
+                        {{ 'site.offers'|trans }}
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </h3>
+                    {{ render(controller('AppBundle\\Controller\\SiteController::menuAction')) }}
+                </div>
+            {% endblock sidebar %}
+        </aside>
+        <main class="flex-1 min-w-0">
+            {% block panel %}{% endblock %}
+        </main>
     </div>
+</div>
 {% endblock %}
 {% block footer %}
-    <!-- Footer -->
-    <footer class="clear-both">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-inline">
-                    <li><a href="{{ path('homepage') }}">{{ 'site.menu.homepage'|trans }}</a></li>
-                    {{ render(controller('AppBundle\\Controller\\SiteController::showMenuItemAction')) }}
-                </ul>
-                <p>Copyright &copy; Syrotchuk's Website 2016</p>
-            </div>
-        </div>
-        <!-- /.row -->
-    </footer>
+<footer class="border-t border-gray-200 bg-gray-50 mt-8 py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <ul class="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
+            <li><a href="{{ path('homepage') }}" class="hover:text-gray-900">{{ 'site.menu.homepage'|trans }}</a></li>
+            {{ render(controller('AppBundle\\Controller\\SiteController::showMenuItemAction')) }}
+        </ul>
+        <p class="text-xs text-gray-400">Copyright &copy; Syrotchuk's Website 2016</p>
+    </div>
+</footer>
 {% endblock footer %}
 
 {% block javascripts %}
