@@ -1,14 +1,25 @@
 {% for link in links %}
     {% set title = link.title %}
     {% if not link.__children %}
-        <li class="ind"><a href="{{ path('show_category', {'slug': link.title}) }}">{{ title|trans }}</a>
-    {% else %}
-        <li class="ind"><a href="#">{{ title|trans }}<span class="fa arrow"></span></a>
-    {% endif %}
-    {% if link.__children %}
-        <ul class="nav">
-            {% include "includes/menu-links.html.twig" with {'links': link.__children} %}
-        </ul>
-        {% endif %}
+        <li>
+            <a href="{{ path('show_category', {'slug': link.title}) }}"
+               class="block px-2 py-1 rounded text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                {{ title|trans }}
+            </a>
         </li>
+    {% else %}
+        <li>
+            <details class="group">
+                <summary class="flex items-center justify-between px-2 py-1 rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-900 list-none">
+                    {{ title|trans }}
+                    <svg class="w-3 h-3 flex-shrink-0 transition-transform group-open:rotate-180" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </summary>
+                <ul class="ml-3 mt-1 space-y-1 border-l border-gray-200 pl-2">
+                    {% include "includes/menu-links.html.twig" with {'links': link.__children} %}
+                </ul>
+            </details>
+        </li>
+    {% endif %}
 {% endfor %}
