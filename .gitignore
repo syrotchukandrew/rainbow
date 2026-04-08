@@ -2,7 +2,16 @@
 /app/config/parameters.yml
 /config/parameters.yaml
 /app/phpunit.xml
-/bin/
+/bin/doctrine
+/bin/doctrine-dbal
+/bin/patch-type-declarations
+/bin/php-parse
+/bin/phpunit
+/bin/simple-phpunit
+/bin/sql-formatter
+/bin/var-dump-server
+/bin/wkhtmltopdf-amd64
+/bin/yaml-lint
 /composer.phar
 /vendor/
 /var/
@@ -13,6 +22,7 @@
 /public/images/estates/
 /phpunit.xml
 /.phpunit.result.cache
+/bin/.phpunit.result.cache
 .claude/settings.local.json
 # Git worktrees
 .worktrees/

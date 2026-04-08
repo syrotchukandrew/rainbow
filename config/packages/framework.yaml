@@ -1,21 +1,23 @@
 parameters:
     locale: uk
-    app_locales: uk|en
+    app_locales: 'uk|en'
+    mailer_from_address: '%env(MAILER_FROM_ADDRESS)%'
+    mailer_from_name: '%env(MAILER_FROM_NAME)%'
 
 framework:
     translator:
         fallbacks: ["%locale%"]
-    secret:          "%secret%"
+    secret: '%env(APP_SECRET)%'
     mailer:
-        dsn: "%mailer_dsn%"
+        dsn: '%env(MAILER_DSN)%'
     router:
         strict_requirements: ~
-    assets:          ~
-    form:            ~
+    assets: ~
+    form: ~
     csrf_protection: ~
-    validation:      { enable_attributes: true }
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
+    validation: { enable_attributes: true }
+    default_locale: "%locale%"
+    trusted_hosts: ~
     session:
         storage_factory_id: session.storage.factory.native
-    fragments:       ~
+    fragments: ~

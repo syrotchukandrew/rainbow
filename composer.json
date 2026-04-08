@@ -37,8 +37,6 @@
         "doctrine/orm": "^2.11",
         "doctrine/doctrine-bundle": "^2.11",
         "symfony/monolog-bundle": "^3.7",
-        "incenteev/composer-parameter-handler": "~2.0",
-
         "hwi/oauth-bundle":                  "^2.0",
         "stof/doctrine-extensions-bundle":   "^1.12",
         "knplabs/knp-paginator-bundle":      "^6.0",
@@ -50,7 +48,8 @@
         "friendsofsymfony/jsrouting-bundle": "^3.5",
         "php-http/httplug-bundle":           "^1.19",
         "masterminds/html5": "^2.10",
-        "symfony/webpack-encore-bundle": "^2.4"
+        "symfony/webpack-encore-bundle": "^2.4",
+        "symfony/dotenv": "^8.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge":            "^7.4",
@@ -61,14 +60,6 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit":                   "^10.5",
         "fakerphp/faker":                    "^1.20"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ],
-        "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ]
     },
     "config": {
         "bin-dir": "bin",
@@ -81,9 +72,5 @@
         }
     },
     "extra": {
-        "symfony-web-dir": "public",
-        "incenteev-parameters": {
-            "file": "config/parameters.yaml"
-        }
     }
 }
