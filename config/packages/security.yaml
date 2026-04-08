@@ -1,6 +1,6 @@
 security:
     password_hashers:
-        AppBundle\Entity\User:
+        App\Entity\User:
             algorithm: bcrypt
 
     role_hierarchy:
@@ -10,7 +10,7 @@ security:
     providers:
         app_users:
             entity:
-                class:    AppBundle\Entity\User
+                class:    App\Entity\User
                 property: username
         hwi:
             id: my.custom.user_provider

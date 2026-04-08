@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: kate
+ * Date: 13.03.16
+ * Time: 22:57
+ */
+
+declare(strict_types=1);
+
+namespace App\Utils;
+
+use Doctrine\Persistence\ManagerRegistry;
+
+class SearchManager
+{
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
+    public function searchEstate(array $data): array
+    {
+        if ($data['price'] == 'more_then_50000') {
+            $price_min = 50000;
+            $price_max = null;
+        } elseif ($data['price'] == 'to_50000') {
+            $price_min = 20001;
+            $price_max = 49999;
+        } elseif ($data['price'] == 'to_20000') {
+            $price_min = 0;
+            $price_max = 20001;
+        } else {
+            $price_min = 0;
+            $price_max = null;
+        }
+        if ($data['district'] !== null) {
+            $id_district = $data['district']->getId();
+        } else {
+            $id_district = null;
+        }
+        $id_category = $data['category']->getId();
+        $except_floor = $data['except_floor'];
+        $estates = $this->doctrine->getRepository(\App\Entity\Estate::class)
+            ->findEstatesFromForm($id_category, $id_district, $price_min, $price_max, $except_floor);
+        return $estates;
+
+    }
+}

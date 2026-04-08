@@ -19,15 +19,15 @@ logout:
     path: /logout
 
 app_admin:
-    resource: "@AppBundle/Controller/Admin/"
+    resource: '../src/App/Controller/Admin/'
     type:     attribute
 
 app_api:
-    resource: "@AppBundle/Controller/Api/"
+    resource: '../src/App/Controller/Api/'
     type:     attribute
 
 app:
-    resource: "@AppBundle/Controller/"
+    resource: '../src/App/Controller/'
     type:     attribute
     prefix:   /{_locale}
     requirements:
@@ -35,12 +35,13 @@ app:
     defaults:
         _locale: "%locale%"
     exclude:
-        - "@AppBundle/Controller/Admin/"
-        - "@AppBundle/Controller/Api/"
+        - '../src/App/Controller/Admin/'
+        - '../src/App/Controller/Api/'
+
 
 homepage:
     path:     /{_locale}
-    defaults: { _controller: AppBundle\Controller\SiteController::indexAction, _locale: uk }
+    defaults: { _controller: App\Controller\SiteController::indexAction, _locale: uk }
     requirements:
         _locale: uk|en
 
