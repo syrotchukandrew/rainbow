@@ -17,7 +17,7 @@
             {% endif %}
             <a href="{{ path('pdf_estate', { 'estate': estate.slug }) }}"
                class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded border border-blue-500 text-blue-600 hover:bg-blue-50">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
                 {{ 'common.downloadPDF'|trans }}
@@ -91,7 +91,7 @@
     </div>
 
     {# Right sidebar column #}
-    <div class="w-64 flex-shrink-0">
+    <div class="w-full md:w-64 flex-shrink-0">
         <div id="react-estate-info-panel" data-slug="{{ estate.slug }}"></div>
         <div class="mt-4 flex gap-2 text-sm">
             <span>{{ googlePlusButton() }}</span>
