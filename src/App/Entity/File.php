@@ -37,7 +37,7 @@ class File
     #[Assert\File(maxSize: '5M', maxSizeMessage: 'file.size')]
     #[ORM\Column(type: 'decimal')]
     #[Gedmo\UploadableFileSize]
-    private ?int $size = null;
+    private ?string $size = null;
 
     public function getId(): ?int
     {
@@ -80,14 +80,14 @@ class File
         return $this->mimeType;
     }
 
-    public function setSize(?int $size): static
+    public function setSize(?string $size): static
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function getSize(): ?int
+    public function getSize(): ?string
     {
         return $this->size;
     }
