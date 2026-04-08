@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Estate;
+use App\Repository\CommentRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'comment')]
-#[ORM\Entity(repositoryClass: 'App\Repository\CommentRepository')]
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -17,7 +19,7 @@ class Comment
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Estate', inversedBy: 'comments', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Estate::class, inversedBy: 'comments', cascade: ['persist'])]
     private ?Estate $estate = null;
 
     #[ORM\Column(type: 'text')]
@@ -90,7 +92,7 @@ class Comment
         return $this->createdAt;
     }
 
-    public function setEstate(?\App\Entity\Estate $estate = null): static
+    public function setEstate(?Estate $estate = null): static
     {
         $this->estate = $estate;
 

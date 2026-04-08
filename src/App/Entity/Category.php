@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Estate;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[Gedmo\Tree(type: 'nested')]
 #[ORM\Table(name: 'categories')]
-#[ORM\Entity(repositoryClass: 'App\Repository\CategoryRepository')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -48,11 +50,11 @@ class Category
     private ?int $root = null;
 
     #[Gedmo\TreeParent]
-    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Category $parent = null;
 
-    #[ORM\OneToMany(targetEntity: 'Category', mappedBy: 'parent')]
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'parent')]
     #[ORM\OrderBy(['lft' => 'ASC'])]
     private Collection $children;
 
@@ -61,7 +63,7 @@ class Category
     #[ORM\Column(name: 'slug', type: 'string', length: 128)]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(targetEntity: 'App\Entity\Estate', mappedBy: 'category')]
+    #[ORM\OneToMany(targetEntity: Estate::class, mappedBy: 'category')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $estates;
 
@@ -156,14 +158,14 @@ class Category
         return $this;
     }
 
-    public function addChild(\App\Entity\Category $children): static
+    public function addChild(Category $children): static
     {
         $this->children[] = $children;
 
         return $this;
     }
 
-    public function removeChild(\App\Entity\Category $children): void
+    public function removeChild(Category $children): void
     {
         $this->children->removeElement($children);
     }
@@ -173,14 +175,14 @@ class Category
         return $this->children;
     }
 
-    public function addEstate(\App\Entity\Estate $estates): static
+    public function addEstate(Estate $estates): static
     {
         $this->estates[] = $estates;
 
         return $this;
     }
 
-    public function removeEstate(\App\Entity\Estate $estates): void
+    public function removeEstate(Estate $estates): void
     {
         $this->estates->removeElement($estates);
     }

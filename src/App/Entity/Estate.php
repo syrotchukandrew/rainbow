@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Category;
+use App\Entity\Comment;
+use App\Entity\District;
+use App\Entity\File as EstateFile;
+use App\Repository\EstateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'estate')]
-#[ORM\Entity(repositoryClass: 'App\Repository\EstateRepository')]
+#[ORM\Entity(repositoryClass: EstateRepository::class)]
 class Estate
 {
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -68,23 +72,23 @@ class Estate
     #[ORM\Column(name: 'exclusive', type: 'boolean')]
     private bool $exclusive;
 
-    #[ORM\ManyToOne(targetEntity: 'District', inversedBy: 'estates')]
+    #[ORM\ManyToOne(targetEntity: District::class, inversedBy: 'estates')]
     #[ORM\JoinColumn(name: 'district_id', referencedColumnName: 'id', nullable: false)]
     private ?District $district = null;
 
-    #[ORM\OneToMany(targetEntity: 'App\Entity\File', mappedBy: 'estate', cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: EstateFile::class, mappedBy: 'estate', cascade: ['remove'], orphanRemoval: true)]
     private Collection $files;
 
-    #[ORM\OneToOne(targetEntity: 'App\Entity\File')]
-    private ?\App\Entity\File $mainFoto = null;
+    #[ORM\OneToOne(targetEntity: EstateFile::class)]
+    private ?EstateFile $mainFoto = null;
 
     private mixed $imageFile = null;
 
-    #[ORM\OneToMany(targetEntity: 'Comment', mappedBy: 'estate', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'estate', orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $comments;
 
-    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'estates')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'estates')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
     private ?Category $category = null;
 
@@ -229,7 +233,7 @@ class Estate
         return $this->exclusive;
     }
 
-    public function setDistrict(?\App\Entity\District $district = null): static
+    public function setDistrict(?District $district = null): static
     {
         $this->district = $district;
 
@@ -241,14 +245,14 @@ class Estate
         return $this->district;
     }
 
-    public function addFile(\App\Entity\File $files): static
+    public function addFile(EstateFile $files): static
     {
         $this->files[] = $files;
 
         return $this;
     }
 
-    public function removeFile(\App\Entity\File $files): void
+    public function removeFile(EstateFile $files): void
     {
         $this->files->removeElement($files);
     }
@@ -258,14 +262,14 @@ class Estate
         return $this->files;
     }
 
-    public function addComment(\App\Entity\Comment $comments): static
+    public function addComment(Comment $comments): static
     {
         $this->comments[] = $comments;
 
         return $this;
     }
 
-    public function removeComment(\App\Entity\Comment $comments): void
+    public function removeComment(Comment $comments): void
     {
         $this->comments->removeElement($comments);
     }
@@ -275,7 +279,7 @@ class Estate
         return $this->comments;
     }
 
-    public function setCategory(?\App\Entity\Category $category = null): static
+    public function setCategory(?Category $category = null): static
     {
         $this->category = $category;
 
@@ -287,14 +291,14 @@ class Estate
         return $this->category;
     }
 
-    public function setMainFoto(?\App\Entity\File $mainFoto): static
+    public function setMainFoto(?EstateFile $mainFoto): static
     {
         $this->mainFoto = $mainFoto;
 
         return $this;
     }
 
-    public function getMainFoto(): ?\App\Entity\File
+    public function getMainFoto(): ?EstateFile
     {
         return $this->mainFoto;
     }

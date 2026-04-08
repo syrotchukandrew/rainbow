@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Estate;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +15,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\UserRepository')]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'fos_user')]
 #[UniqueEntity(fields: 'email', message: 'Email already taken')]
 #[UniqueEntity(fields: 'username', message: 'Username already taken')]
@@ -74,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\Column(name: 'credentials_expire_at', type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $credentialsExpireAt = null;
 
-    #[ORM\ManyToMany(targetEntity: 'App\Entity\Estate')]
+    #[ORM\ManyToMany(targetEntity: Estate::class)]
     #[ORM\JoinTable(
         name: 'users_estates',
         joinColumns: [new ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')],

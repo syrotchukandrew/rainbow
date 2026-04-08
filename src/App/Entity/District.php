@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Estate;
+use App\Repository\DistrictRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Table(name: 'district')]
-#[ORM\Entity(repositoryClass: 'App\Repository\DistrictRepository')]
+#[ORM\Entity(repositoryClass: DistrictRepository::class)]
 class District
 {
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -33,7 +35,7 @@ class District
     )]
     private ?string $title = null;
 
-    #[ORM\OneToMany(targetEntity: 'Estate', mappedBy: 'district')]
+    #[ORM\OneToMany(targetEntity: Estate::class, mappedBy: 'district')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $estates;
 
@@ -71,14 +73,14 @@ class District
         return $this->title;
     }
 
-    public function addEstate(\App\Entity\Estate $estates): static
+    public function addEstate(Estate $estates): static
     {
         $this->estates[] = $estates;
 
         return $this;
     }
 
-    public function removeEstate(\App\Entity\Estate $estates): void
+    public function removeEstate(Estate $estates): void
     {
         $this->estates->removeElement($estates);
     }

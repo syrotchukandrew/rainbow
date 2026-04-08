@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\MenuItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'menu_item')]
-#[ORM\Entity(repositoryClass: 'App\Repository\MenuItemRepository')]
+#[ORM\Entity(repositoryClass: MenuItemRepository::class)]
 class MenuItem
 {
     #[ORM\Column(name: 'id', type: 'integer')]

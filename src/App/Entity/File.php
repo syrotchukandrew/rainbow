@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Estate;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ class File
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Estate', inversedBy: 'files', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Estate::class, inversedBy: 'files', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'estate_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Estate $estate = null;
 
@@ -91,7 +92,7 @@ class File
         return $this->size;
     }
 
-    public function setEstate(?\App\Entity\Estate $estate = null): static
+    public function setEstate(?Estate $estate = null): static
     {
         $this->estate = $estate;
 
