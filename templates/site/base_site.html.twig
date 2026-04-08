@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock stylesheets %}
 {% block nav %}
 <nav class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
@@ -173,8 +176,7 @@
 {% endblock footer %}
 
 {% block javascripts %}
-    {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-{{ encore_entry_script_tags('site') }}
+    {{ encore_entry_script_tags('site') }}
 {% endblock javascripts %}
