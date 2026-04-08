@@ -30,7 +30,7 @@
                                     </a>
                                 {% endif %}
                             </div>
-                            <div class="w-40 flex-shrink-0 space-y-2">
+                            <div class="w-40 flex-shrink-0 space-y-2 hidden sm:block">
                                 {% if estate.files[1] is defined %}
                                     {% if estate.files[1] != estate.mainFoto %}
                                         <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
