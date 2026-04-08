@@ -18,13 +18,13 @@
                             <div class="flex-1 min-w-0">
                                 {% if estate.mainFoto is not null %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="фото квартиры купить Черкассы"
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
                                              src="{{ asset(estate.mainFoto.path) |imagine_filter('large') }}"
                                              class="w-full h-auto rounded">
                                     </a>
                                 {% else %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="фото квартиры купить Черкассы"
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
                                              src="{{ asset(estate.files[0].path) |imagine_filter('large') }}"
                                              class="w-full h-auto rounded">
                                     </a>
@@ -34,7 +34,7 @@
                                 {% if estate.files[1] is defined %}
                                     {% if estate.files[1] != estate.mainFoto %}
                                         <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                            <img alt="фото квартиры купить Черкассы"
+                                            <img alt="{{ 'site.estate_photo_alt'|trans }}"
                                                  src="{{ asset("#{estate.files[1].path}") |imagine_filter('medium') }}"
                                                  class="w-full h-auto rounded">
                                         </a>
@@ -42,7 +42,7 @@
                                 {% endif %}
                                 {% if estate.files[2] is defined %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="фото квартиры купить Черкассы"
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
                                              src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}"
                                              class="w-full h-auto rounded">
                                     </a>

@@ -48,6 +48,7 @@ site:
     search: Search
     main: Home
     logo_alt: 'Real Estate Agency Rainbow'
+    estate_photo_alt: 'apartment photo for sale in Cherkasy'
 
 security:
     username: Username

@@ -48,6 +48,7 @@ site:
     search: Пошук
     main: Головна
     logo_alt: 'АН Радуга'
+    estate_photo_alt: 'фото квартири купити Черкаси'
 
 security:
     username: Ім'я користувача
