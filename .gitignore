@@ -1,5 +1,7 @@
 /app/bootstrap.php.cache
 /app/config/parameters.yml
+.env.local
+.env.*.local
 /config/parameters.yaml
 /app/phpunit.xml
 /bin/doctrine

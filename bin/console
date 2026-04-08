@@ -4,7 +4,6 @@
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\ErrorHandler\Debug;
 
 set_time_limit(0);
 
@@ -23,7 +22,6 @@ $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod'));
 
 if ($debug) {
     umask(0000);
-    Debug::enable();
 }
 
 $kernel = new Kernel($env, $debug);
