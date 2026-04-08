@@ -71,6 +71,11 @@
             "block-insecure": false
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
     "extra": {
     }
 }

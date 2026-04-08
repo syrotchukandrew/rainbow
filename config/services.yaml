@@ -10,7 +10,6 @@ services:
             - '../src/App/Entity'
             - '../src/App/Form'
             - '../src/App/Repository'
-            - '../src/App/Tests'
             - '../src/App/DataFixtures'
 
     App\DataFixtures\ORM\Dev\:
