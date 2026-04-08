@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set('Europe/Kyiv');
-
 use Symfony\Component\HttpFoundation\Request;
 
 $loader = require __DIR__.'/../vendor/autoload.php';

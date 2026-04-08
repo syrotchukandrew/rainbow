@@ -2,28 +2,10 @@
 <?php
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Dotenv\Dotenv;
 
-set_time_limit(0);
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-require __DIR__.'/../vendor/autoload.php';
-
-if (!isset($_SERVER['APP_ENV'])) {
-    if (!class_exists(Dotenv::class)) {
-        throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
-    }
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
-}
-
-$input = new ArgvInput();
-$env = $input->getParameterOption(['--env', '-e'], $_SERVER['APP_ENV'] ?? 'dev');
-$debug = (bool) ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod'));
-
-if ($debug) {
-    umask(0000);
-}
-
-$kernel = new Kernel($env, $debug);
-$application = new Application($kernel);
-$application->run($input);
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    return new Application($kernel);
+};
