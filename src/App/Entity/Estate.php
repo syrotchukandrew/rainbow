@@ -63,7 +63,7 @@ class Estate
     #[ORM\Column(name: 'price', type: 'integer', nullable: true)]
     private ?int $price = null;
 
-    #[ORM\Column(name: 'floor', type: 'array', nullable: true)]
+    #[ORM\Column(name: 'floor', type: 'json', nullable: true)]
     private mixed $floor = null;
 
     #[ORM\Column(name: 'first_last_floor', type: 'boolean', nullable: true)]

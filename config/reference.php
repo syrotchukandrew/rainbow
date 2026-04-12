@@ -188,7 +188,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         only_exceptions?: bool|Param, // Default: false
  *         only_main_requests?: bool|Param, // Default: false
  *         dsn?: scalar|Param|null, // Default: "file:%kernel.cache_dir%/profiler"
- *         collect_serializer_data?: bool|Param, // Enables the serializer data collector and profiler panel. // Default: false
+ *         collect_serializer_data?: true|Param, // Default: true
  *     },
  *     workflows?: bool|array{
  *         enabled?: bool|Param, // Default: false
@@ -232,7 +232,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: bool|Param, // Default: false
  *         resource?: scalar|Param|null,
  *         type?: scalar|Param|null,
- *         cache_dir?: scalar|Param|null, // Deprecated: Setting the "framework.router.cache_dir.cache_dir" configuration option is deprecated. It will be removed in version 8.0. // Default: "%kernel.build_dir%"
  *         default_uri?: scalar|Param|null, // The default URI used to generate URLs in a non-HTTP context. // Default: null
  *         http_port?: scalar|Param|null, // Default: 80
  *         https_port?: scalar|Param|null, // Default: 443
@@ -256,8 +255,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         gc_maxlifetime?: scalar|Param|null,
  *         save_path?: scalar|Param|null, // Defaults to "%kernel.cache_dir%/sessions" if the "handler_id" option is not null.
  *         metadata_update_threshold?: int|Param, // Seconds to wait between 2 session metadata updates. // Default: 0
- *         sid_length?: int|Param, // Deprecated: Setting the "framework.session.sid_length.sid_length" configuration option is deprecated. It will be removed in version 8.0. No alternative is provided as PHP 8.4 has deprecated the related option.
- *         sid_bits_per_character?: int|Param, // Deprecated: Setting the "framework.session.sid_bits_per_character.sid_bits_per_character" configuration option is deprecated. It will be removed in version 8.0. No alternative is provided as PHP 8.4 has deprecated the related option.
  *     },
  *     request?: bool|array{ // Request configuration
  *         enabled?: bool|Param, // Default: false
@@ -331,11 +328,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     validation?: bool|array{ // Validation configuration
  *         enabled?: bool|Param, // Default: true
- *         cache?: scalar|Param|null, // Deprecated: Setting the "framework.validation.cache.cache" configuration option is deprecated. It will be removed in version 8.0.
  *         enable_attributes?: bool|Param, // Default: true
  *         static_method?: list<scalar|Param|null>,
  *         translation_domain?: scalar|Param|null, // Default: "validators"
- *         email_validation_mode?: "html5"|"html5-allow-no-tld"|"strict"|"loose"|Param, // Default: "html5"
+ *         email_validation_mode?: "html5"|"html5-allow-no-tld"|"strict"|Param, // Default: "html5"
  *         mapping?: array{
  *             paths?: list<scalar|Param|null>,
  *         },
@@ -347,9 +343,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         auto_mapping?: array<string, array{ // Default: []
  *             services?: list<scalar|Param|null>,
  *         }>,
- *     },
- *     annotations?: bool|array{
- *         enabled?: bool|Param, // Default: false
  *     },
  *     serializer?: bool|array{ // Serializer configuration
  *         enabled?: bool|Param, // Default: true
@@ -382,7 +375,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     property_info?: bool|array{ // Property info configuration
  *         enabled?: bool|Param, // Default: true
- *         with_constructor_extractor?: bool|Param, // Registers the constructor extractor.
+ *         with_constructor_extractor?: bool|Param, // Registers the constructor extractor. // Default: true
  *     },
  *     cache?: array{ // Cache configuration
  *         prefix_seed?: scalar|Param|null, // Used to namespace cache keys when using several apps with the same shared backend. // Default: "_%kernel.project_dir%.%kernel.container_class%"
@@ -693,7 +686,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type SecurityConfig = array{
  *     access_denied_url?: scalar|Param|null, // Default: null
  *     session_fixation_strategy?: "none"|"migrate"|"invalidate"|Param, // Default: "migrate"
- *     hide_user_not_found?: bool|Param, // Deprecated: The "hide_user_not_found" option is deprecated and will be removed in 8.0. Use the "expose_security_errors" option instead.
  *     expose_security_errors?: \Symfony\Component\Security\Http\Authentication\ExposeSecurityLevel::None|\Symfony\Component\Security\Http\Authentication\ExposeSecurityLevel::AccountStatus|\Symfony\Component\Security\Http\Authentication\ExposeSecurityLevel::All|Param, // Default: "none"
  *     erase_credentials?: bool|Param, // Default: true
  *     access_decision_manager?: array{
@@ -955,9 +947,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                     claim?: scalar|Param|null, // Claim which contains the user identifier (e.g.: sub, email..). // Default: "sub"
  *                     audience?: scalar|Param|null, // Audience set in the token, for validation purpose.
  *                     issuers?: list<scalar|Param|null>,
- *                     algorithm?: array<mixed>,
  *                     algorithms?: list<scalar|Param|null>,
- *                     key?: scalar|Param|null, // Deprecated: The "key" option is deprecated and will be removed in 8.0. Use the "keyset" option instead. // JSON-encoded JWK used to sign the token (must contain a "kty" key).
  *                     keyset?: scalar|Param|null, // JSON-encoded JWKSet used to sign the token (must contain a list of valid public keys).
  *                     encryption?: bool|array{
  *                         enabled?: bool|Param, // Default: false
@@ -1036,7 +1026,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     }>,
  *     autoescape_service?: scalar|Param|null, // Default: null
  *     autoescape_service_method?: scalar|Param|null, // Default: null
- *     base_template_class?: scalar|Param|null, // Deprecated: The child node "base_template_class" at path "twig.base_template_class" is deprecated.
  *     cache?: scalar|Param|null, // Default: true
  *     charset?: scalar|Param|null, // Default: "%kernel.charset%"
  *     debug?: bool|Param, // Default: "%kernel.debug%"
@@ -1072,7 +1061,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         bubble?: bool|Param, // Default: true
  *         interactive_only?: bool|Param, // Default: false
  *         app_name?: scalar|Param|null, // Default: null
- *         fill_extra_context?: bool|Param, // Default: false
  *         include_stacktraces?: bool|Param, // Default: false
  *         process_psr_3_messages?: array{
  *             enabled?: bool|Param|null, // Default: null
@@ -1092,7 +1080,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         activation_strategy?: scalar|Param|null, // Default: null
  *         stop_buffering?: bool|Param, // Default: true
  *         passthru_level?: scalar|Param|null, // Default: null
- *         excluded_404s?: list<scalar|Param|null>,
  *         excluded_http_codes?: list<array{ // Default: []
  *             code?: scalar|Param|null,
  *             urls?: list<scalar|Param|null>,
@@ -1106,9 +1093,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         url?: scalar|Param|null,
  *         exchange?: scalar|Param|null,
  *         exchange_name?: scalar|Param|null, // Default: "log"
- *         room?: scalar|Param|null,
- *         message_format?: scalar|Param|null, // Default: "text"
- *         api_version?: scalar|Param|null, // Default: null
  *         channel?: scalar|Param|null, // Default: null
  *         bot_name?: scalar|Param|null, // Default: "Monolog"
  *         use_attachment?: scalar|Param|null, // Default: true
@@ -1117,9 +1101,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         icon_emoji?: scalar|Param|null, // Default: null
  *         webhook_url?: scalar|Param|null,
  *         exclude_fields?: list<scalar|Param|null>,
- *         team?: scalar|Param|null,
- *         notify?: scalar|Param|null, // Default: false
- *         nickname?: scalar|Param|null, // Default: "Monolog"
  *         token?: scalar|Param|null,
  *         region?: scalar|Param|null,
  *         source?: scalar|Param|null,
@@ -1137,12 +1118,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         store?: scalar|Param|null, // Default: null
  *         connection_timeout?: scalar|Param|null,
  *         persistent?: bool|Param,
- *         dsn?: scalar|Param|null,
- *         hub_id?: scalar|Param|null, // Default: null
- *         client_id?: scalar|Param|null, // Default: null
- *         auto_log_stacks?: scalar|Param|null, // Default: false
- *         release?: scalar|Param|null, // Default: null
- *         environment?: scalar|Param|null, // Default: null
  *         message_type?: scalar|Param|null, // Default: 0
  *         parse_mode?: scalar|Param|null, // Default: null
  *         disable_webpage_preview?: bool|Param|null, // Default: null
@@ -1152,7 +1127,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         topic?: int|Param, // Default: null
  *         factor?: int|Param, // Default: 1
  *         tags?: list<scalar|Param|null>,
- *         console_formater_options?: mixed, // Deprecated: "monolog.handlers..console_formater_options.console_formater_options" is deprecated, use "monolog.handlers..console_formater_options.console_formatter_options" instead.
  *         console_formatter_options?: mixed, // Default: []
  *         formatter?: scalar|Param|null,
  *         nested?: bool|Param, // Default: false
@@ -1162,15 +1136,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             port?: scalar|Param|null, // Default: 12201
  *             chunk_size?: scalar|Param|null, // Default: 1420
  *             encoder?: "json"|"compressed_json"|Param,
- *         },
- *         mongo?: string|array{
- *             id?: scalar|Param|null,
- *             host?: scalar|Param|null,
- *             port?: scalar|Param|null, // Default: 27017
- *             user?: scalar|Param|null,
- *             pass?: scalar|Param|null,
- *             database?: scalar|Param|null, // Default: "monolog"
- *             collection?: scalar|Param|null, // Default: "logs"
  *         },
  *         mongodb?: string|array{
  *             id?: scalar|Param|null, // ID of a MongoDB\Client service
@@ -1214,7 +1179,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             id?: scalar|Param|null,
  *             method?: scalar|Param|null, // Default: null
  *         },
- *         lazy?: bool|Param, // Default: true
  *         verbosity_levels?: array{
  *             VERBOSITY_QUIET?: scalar|Param|null, // Default: "ERROR"
  *             VERBOSITY_NORMAL?: scalar|Param|null, // Default: "WARNING"
@@ -1233,7 +1197,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default_connection?: scalar|Param|null,
  *         types?: array<string, string|array{ // Default: []
  *             class?: scalar|Param|null,
- *             commented?: bool|Param, // Deprecated: The doctrine-bundle type commenting features were removed; the corresponding config parameter was deprecated in 2.0 and will be dropped in 3.0.
  *         }>,
  *         driver_schemes?: array<string, scalar|Param|null>,
  *         connections?: array<string, array{ // Default: []
@@ -1243,7 +1206,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             port?: scalar|Param|null, // Defaults to null at runtime.
  *             user?: scalar|Param|null, // Defaults to "root" at runtime.
  *             password?: scalar|Param|null, // Defaults to null at runtime.
- *             override_url?: bool|Param, // Deprecated: The "doctrine.dbal.override_url" configuration key is deprecated.
  *             dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database name, this option has no effects for the SQLite platform
  *             application_name?: scalar|Param|null,
  *             charset?: scalar|Param|null,
@@ -1264,61 +1226,25 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             sslcrl?: scalar|Param|null, // The file name of the SSL certificate revocation list for PostgreSQL.
  *             pooled?: bool|Param, // True to use a pooled server with the oci8/pdo_oracle driver
  *             MultipleActiveResultSets?: bool|Param, // Configuring MultipleActiveResultSets for the pdo_sqlsrv driver
- *             use_savepoints?: bool|Param, // Use savepoints for nested transactions
  *             instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the name of a particular instance.
  *             connectstring?: scalar|Param|null, // Complete Easy Connect connection descriptor, see https://docs.oracle.com/database/121/NETAG/naming.htm.When using this option, you will still need to provide the user and password parameters, but the other parameters will no longer be used. Note that when using this parameter, the getHost and getPort methods from Doctrine\DBAL\Connection will no longer function as expected.
  *             driver?: scalar|Param|null, // Default: "pdo_mysql"
- *             platform_service?: scalar|Param|null, // Deprecated: The "platform_service" configuration key is deprecated since doctrine-bundle 2.9. DBAL 4 will not support setting a custom platform via connection params anymore.
  *             auto_commit?: bool|Param,
  *             schema_filter?: scalar|Param|null,
  *             logging?: bool|Param, // Default: true
  *             profiling?: bool|Param, // Default: true
  *             profiling_collect_backtrace?: bool|Param, // Enables collecting backtraces when profiling is enabled // Default: false
  *             profiling_collect_schema_errors?: bool|Param, // Enables collecting schema errors when profiling is enabled // Default: true
- *             disable_type_comments?: bool|Param,
  *             server_version?: scalar|Param|null,
  *             idle_connection_ttl?: int|Param, // Default: 600
  *             driver_class?: scalar|Param|null,
  *             wrapper_class?: scalar|Param|null,
- *             keep_slave?: bool|Param, // Deprecated: The "keep_slave" configuration key is deprecated since doctrine-bundle 2.2. Use the "keep_replica" configuration key instead.
  *             keep_replica?: bool|Param,
  *             options?: array<string, mixed>,
  *             mapping_types?: array<string, scalar|Param|null>,
  *             default_table_options?: array<string, scalar|Param|null>,
- *             schema_manager_factory?: scalar|Param|null, // Default: "doctrine.dbal.legacy_schema_manager_factory"
+ *             schema_manager_factory?: scalar|Param|null, // Default: "doctrine.dbal.default_schema_manager_factory"
  *             result_cache?: scalar|Param|null,
- *             slaves?: array<string, array{ // Default: []
- *                 url?: scalar|Param|null, // A URL with connection information; any parameter value parsed from this string will override explicitly set parameters
- *                 dbname?: scalar|Param|null,
- *                 host?: scalar|Param|null, // Defaults to "localhost" at runtime.
- *                 port?: scalar|Param|null, // Defaults to null at runtime.
- *                 user?: scalar|Param|null, // Defaults to "root" at runtime.
- *                 password?: scalar|Param|null, // Defaults to null at runtime.
- *                 override_url?: bool|Param, // Deprecated: The "doctrine.dbal.override_url" configuration key is deprecated.
- *                 dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database name, this option has no effects for the SQLite platform
- *                 application_name?: scalar|Param|null,
- *                 charset?: scalar|Param|null,
- *                 path?: scalar|Param|null,
- *                 memory?: bool|Param,
- *                 unix_socket?: scalar|Param|null, // The unix socket to use for MySQL
- *                 persistent?: bool|Param, // True to use as persistent connection for the ibm_db2 driver
- *                 protocol?: scalar|Param|null, // The protocol to use for the ibm_db2 driver (default to TCPIP if omitted)
- *                 service?: bool|Param, // True to use SERVICE_NAME as connection parameter instead of SID for Oracle
- *                 servicename?: scalar|Param|null, // Overrules dbname parameter if given and used as SERVICE_NAME or SID connection parameter for Oracle depending on the service parameter.
- *                 sessionMode?: scalar|Param|null, // The session mode to use for the oci8 driver
- *                 server?: scalar|Param|null, // The name of a running database server to connect to for SQL Anywhere.
- *                 default_dbname?: scalar|Param|null, // Override the default database (postgres) to connect to for PostgreSQL connexion.
- *                 sslmode?: scalar|Param|null, // Determines whether or with what priority a SSL TCP/IP connection will be negotiated with the server for PostgreSQL.
- *                 sslrootcert?: scalar|Param|null, // The name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.
- *                 sslcert?: scalar|Param|null, // The path to the SSL client certificate file for PostgreSQL.
- *                 sslkey?: scalar|Param|null, // The path to the SSL client key file for PostgreSQL.
- *                 sslcrl?: scalar|Param|null, // The file name of the SSL certificate revocation list for PostgreSQL.
- *                 pooled?: bool|Param, // True to use a pooled server with the oci8/pdo_oracle driver
- *                 MultipleActiveResultSets?: bool|Param, // Configuring MultipleActiveResultSets for the pdo_sqlsrv driver
- *                 use_savepoints?: bool|Param, // Use savepoints for nested transactions
- *                 instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the name of a particular instance.
- *                 connectstring?: scalar|Param|null, // Complete Easy Connect connection descriptor, see https://docs.oracle.com/database/121/NETAG/naming.htm.When using this option, you will still need to provide the user and password parameters, but the other parameters will no longer be used. Note that when using this parameter, the getHost and getPort methods from Doctrine\DBAL\Connection will no longer function as expected.
- *             }>,
  *             replicas?: array<string, array{ // Default: []
  *                 url?: scalar|Param|null, // A URL with connection information; any parameter value parsed from this string will override explicitly set parameters
  *                 dbname?: scalar|Param|null,
@@ -1326,7 +1252,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 port?: scalar|Param|null, // Defaults to null at runtime.
  *                 user?: scalar|Param|null, // Defaults to "root" at runtime.
  *                 password?: scalar|Param|null, // Defaults to null at runtime.
- *                 override_url?: bool|Param, // Deprecated: The "doctrine.dbal.override_url" configuration key is deprecated.
  *                 dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database name, this option has no effects for the SQLite platform
  *                 application_name?: scalar|Param|null,
  *                 charset?: scalar|Param|null,
@@ -1347,7 +1272,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 sslcrl?: scalar|Param|null, // The file name of the SSL certificate revocation list for PostgreSQL.
  *                 pooled?: bool|Param, // True to use a pooled server with the oci8/pdo_oracle driver
  *                 MultipleActiveResultSets?: bool|Param, // Configuring MultipleActiveResultSets for the pdo_sqlsrv driver
- *                 use_savepoints?: bool|Param, // Use savepoints for nested transactions
  *                 instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the name of a particular instance.
  *                 connectstring?: scalar|Param|null, // Complete Easy Connect connection descriptor, see https://docs.oracle.com/database/121/NETAG/naming.htm.When using this option, you will still need to provide the user and password parameters, but the other parameters will no longer be used. Note that when using this parameter, the getHost and getPort methods from Doctrine\DBAL\Connection will no longer function as expected.
  *             }>,
@@ -1355,14 +1279,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     orm?: array{
  *         default_entity_manager?: scalar|Param|null,
- *         auto_generate_proxy_classes?: scalar|Param|null, // Auto generate mode possible values are: "NEVER", "ALWAYS", "FILE_NOT_EXISTS", "EVAL", "FILE_NOT_EXISTS_OR_CHANGED", this option is ignored when the "enable_native_lazy_objects" option is true // Default: false
- *         enable_lazy_ghost_objects?: bool|Param, // Enables the new implementation of proxies based on lazy ghosts instead of using the legacy implementation // Default: false
- *         enable_native_lazy_objects?: bool|Param, // Enables the new native implementation of PHP lazy objects instead of generated proxies // Default: false
- *         proxy_dir?: scalar|Param|null, // Configures the path where generated proxy classes are saved when using non-native lazy objects, this option is ignored when the "enable_native_lazy_objects" option is true // Default: "%kernel.build_dir%/doctrine/orm/Proxies"
- *         proxy_namespace?: scalar|Param|null, // Defines the root namespace for generated proxy classes when using non-native lazy objects, this option is ignored when the "enable_native_lazy_objects" option is true // Default: "Proxies"
+ *         enable_native_lazy_objects?: bool|Param, // Deprecated: The "enable_native_lazy_objects" option is deprecated and will be removed in DoctrineBundle 4.0, as native lazy objects are now always enabled. // Default: true
  *         controller_resolver?: bool|array{
  *             enabled?: bool|Param, // Default: true
- *             auto_mapping?: bool|Param|null, // Set to false to disable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: null
+ *             auto_mapping?: bool|Param, // Deprecated: The "doctrine.orm.controller_resolver.auto_mapping.auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
  *             evict_cache?: bool|Param, // Set to true to fetch the entity from the database instead of using the cache, if any // Default: false
  *         },
  *         entity_managers?: array<string, array{ // Default: []
@@ -1402,8 +1322,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             fetch_mode_subselect_batch_size?: scalar|Param|null,
  *             repository_factory?: scalar|Param|null, // Default: "doctrine.orm.container_repository_factory"
  *             schema_ignore_classes?: list<scalar|Param|null>,
- *             report_fields_where_declared?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.16 and will be mandatory in ORM 3.0. See https://github.com/doctrine/orm/pull/10455. // Default: false
- *             validate_xml_mapping?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.14. See https://github.com/doctrine/orm/pull/6728. // Default: false
+ *             validate_xml_mapping?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.14 and will be mandatory in ORM 3.0. See https://github.com/doctrine/orm/pull/6728. // Default: false
  *             second_level_cache?: array{
  *                 region_cache_driver?: string|array{
  *                     type?: scalar|Param|null, // Default: null
@@ -1511,255 +1430,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     skip_translation_on_load?: bool|Param, // Default: false
  *     metadata_cache_pool?: scalar|Param|null, // Default: null
  * }
- * @psalm-type HttplugConfig = array{
- *     clients?: array<string, array{ // Default: []
- *         factory?: scalar|Param|null, // The service id of a factory to use when creating the adapter. // Default: "httplug.factory.auto"
- *         service?: scalar|Param|null, // The service id of the client to use. // Default: null
- *         public?: bool|Param|null, // Set to true if you really cannot use dependency injection and need to make the client service public. // Default: null
- *         flexible_client?: bool|Param, // Set to true to get the client wrapped in a FlexibleHttpClient which emulates async or sync behavior. // Default: false
- *         http_methods_client?: bool|Param, // Set to true to get the client wrapped in a HttpMethodsClient which emulates provides functions for HTTP verbs. // Default: false
- *         batch_client?: bool|Param, // Set to true to get the client wrapped in a BatchClient which allows you to send multiple request at the same time. // Default: false
- *         config?: mixed, // Default: []
- *         plugins?: list<array{ // Default: []
- *             authentication?: array<string, array{ // Default: []
- *                 type?: "basic"|"bearer"|"wsse"|"service"|"query_param"|"header"|Param,
- *                 username?: scalar|Param|null,
- *                 password?: scalar|Param|null,
- *                 token?: scalar|Param|null,
- *                 service?: scalar|Param|null,
- *                 header_name?: scalar|Param|null,
- *                 header_value?: scalar|Param|null,
- *                 params?: list<scalar|Param|null>,
- *             }>,
- *             cache?: bool|array{ // Configure HTTP caching, requires the php-http/cache-plugin package
- *                 enabled?: bool|Param, // Default: false
- *                 cache_pool?: scalar|Param|null, // This must be a service id to a service implementing Psr\Cache\CacheItemPoolInterface
- *                 stream_factory?: scalar|Param|null, // This must be a service id to a service implementing Psr\Http\Message\StreamFactoryInterface // Default: "httplug.psr17_stream_factory"
- *                 config?: array{
- *                     cache_key_generator?: scalar|Param|null, // This must be a service id to a service implementing Http\Client\Common\Plugin\Cache\Generator\CacheKeyGenerator
- *                     cache_lifetime?: scalar|Param|null, // The minimum time we should store a cache item
- *                     default_ttl?: scalar|Param|null, // The default max age of a Response
- *                     blacklisted_paths?: list<scalar|Param|null>,
- *                     hash_algo?: "md2"|"md4"|"md5"|"sha1"|"sha224"|"sha256"|"sha384"|"sha512/224"|"sha512/256"|"sha512"|"sha3-224"|"sha3-256"|"sha3-384"|"sha3-512"|"ripemd128"|"ripemd160"|"ripemd256"|"ripemd320"|"whirlpool"|"tiger128,3"|"tiger160,3"|"tiger192,3"|"tiger128,4"|"tiger160,4"|"tiger192,4"|"snefru"|"snefru256"|"gost"|"gost-crypto"|"adler32"|"crc32"|"crc32b"|"crc32c"|"fnv132"|"fnv1a32"|"fnv164"|"fnv1a64"|"joaat"|"murmur3a"|"murmur3c"|"murmur3f"|"xxh32"|"xxh64"|"xxh3"|"xxh128"|"haval128,3"|"haval160,3"|"haval192,3"|"haval224,3"|"haval256,3"|"haval128,4"|"haval160,4"|"haval192,4"|"haval224,4"|"haval256,4"|"haval128,5"|"haval160,5"|"haval192,5"|"haval224,5"|"haval256,5"|Param, // Hashing algorithm to use
- *                     methods?: list<scalar|Param|null>,
- *                     cache_listeners?: list<scalar|Param|null>,
- *                     respect_cache_headers?: scalar|Param|null, // Whether we should care about cache headers or not [DEPRECATED]
- *                     respect_response_cache_directives?: mixed, // A list of cache directives to respect when caching responses. Omit or set to null to respect the default set of directives.
- *                 },
- *             },
- *             cookie?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 cookie_jar?: scalar|Param|null, // This must be a service id to a service implementing Http\Message\CookieJar
- *             },
- *             history?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 journal?: scalar|Param|null, // This must be a service id to a service implementing Http\Client\Common\Plugin\Journal
- *             },
- *             decoder?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 use_content_encoding?: scalar|Param|null, // Default: true
- *             },
- *             logger?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 logger?: scalar|Param|null, // This must be a service id to a service implementing Psr\Log\LoggerInterface // Default: "logger"
- *                 formatter?: scalar|Param|null, // This must be a service id to a service implementing Http\Message\Formatter // Default: null
- *             },
- *             redirect?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 preserve_header?: scalar|Param|null, // Default: true
- *                 use_default_for_multiple?: scalar|Param|null, // Default: true
- *             },
- *             retry?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 retry?: scalar|Param|null, // Default: 1
- *             },
- *             stopwatch?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 stopwatch?: scalar|Param|null, // This must be a service id to a service extending Symfony\Component\Stopwatch\Stopwatch // Default: "debug.stopwatch"
- *             },
- *             error?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 only_server_exception?: scalar|Param|null, // Default: false
- *             },
- *             throttle?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 name?: scalar|Param|null, // Rate limiter service name from symfony/rate-limiter configuration. E.g. for a rate limiter http_client you specify limiter.http_client here
- *                 key?: scalar|Param|null, // Key to avoid sharing this rate limiter with other clients or other services. You can use the name of the client for example. // Default: null
- *                 tokens?: int|Param, // How many tokens spending per request // Default: 1
- *                 max_time?: float|Param, // Maximum accepted waiting time in seconds // Default: null
- *             },
- *             reference?: bool|array{ // Reference to a plugin service
- *                 enabled?: bool|Param, // Default: false
- *                 id?: scalar|Param|null, // Service id of a plugin
- *             },
- *             add_host?: bool|array{ // Set scheme, host and port in the request URI.
- *                 enabled?: bool|Param, // Default: false
- *                 host?: scalar|Param|null, // Host name including protocol and optionally the port number, e.g. https://api.local:8000
- *                 replace?: scalar|Param|null, // Whether to replace the host if request already specifies one // Default: false
- *             },
- *             add_path?: bool|array{ // Add a base path to the request.
- *                 enabled?: bool|Param, // Default: false
- *                 path?: scalar|Param|null, // Path to be added, e.g. /api/v1
- *             },
- *             base_uri?: bool|array{ // Set a base URI to the request.
- *                 enabled?: bool|Param, // Default: false
- *                 uri?: scalar|Param|null, // Base Uri including protocol, optionally the port number and prepend path, e.g. https://api.local:8000/api
- *                 replace?: scalar|Param|null, // Whether to replace the host if request already specifies one // Default: false
- *             },
- *             content_type?: bool|array{ // Detect the content type of a request body and set the Content-Type header if it is not already set.
- *                 enabled?: bool|Param, // Default: false
- *                 skip_detection?: bool|Param, // Whether to skip detection when request body is larger than size_limit // Default: false
- *                 size_limit?: scalar|Param|null, // Skip content type detection if request body is larger than size_limit bytes
- *             },
- *             header_append?: bool|array{ // Append headers to the request. If the header already exists the value will be appended to the current value.
- *                 enabled?: bool|Param, // Default: false
- *                 headers?: array<string, scalar|Param|null>,
- *             },
- *             header_defaults?: bool|array{ // Set header to default value if it does not exist.
- *                 enabled?: bool|Param, // Default: false
- *                 headers?: array<string, scalar|Param|null>,
- *             },
- *             header_set?: bool|array{ // Set headers to requests. If the header does not exist it wil be set, if the header already exists it will be replaced.
- *                 enabled?: bool|Param, // Default: false
- *                 headers?: array<string, scalar|Param|null>,
- *             },
- *             header_remove?: bool|array{ // Remove headers from requests.
- *                 enabled?: bool|Param, // Default: false
- *                 headers?: list<scalar|Param|null>,
- *             },
- *             query_defaults?: bool|array{ // Sets query parameters to default value if they are not present in the request.
- *                 enabled?: bool|Param, // Default: false
- *                 parameters?: array<string, scalar|Param|null>,
- *             },
- *             request_seekable_body?: bool|array{ // Ensure that the request body is seekable so that several plugins can look into it.
- *                 enabled?: bool|Param, // Default: false
- *                 use_file_buffer?: bool|Param, // Whether to use a file buffer if the stream is too big for a memory buffer // Default: true
- *                 memory_buffer_size?: scalar|Param|null, // Maximum memory size in bytes before using a file buffer if use_file_buffer is true. Defaults to 2097152 (2 MB)
- *             },
- *             response_seekable_body?: bool|array{ // Ensure that the response body is seekable so that several plugins can look into it.
- *                 enabled?: bool|Param, // Default: false
- *                 use_file_buffer?: bool|Param, // Whether to use a file buffer if the stream is too big for a memory buffer // Default: true
- *                 memory_buffer_size?: scalar|Param|null, // Maximum memory size in bytes before using a file buffer if use_file_buffer is true. Defaults to 2097152 (2 MB)
- *             },
- *             vcr?: bool|array{ // Record response to be replayed during tests or development cycle.
- *                 enabled?: bool|Param, // Default: false
- *                 mode?: "record"|"replay"|"replay_or_record"|Param, // What should be the behavior of the plugin?
- *                 recorder?: scalar|Param|null, // Which recorder to use. Can be "in_memory", "filesystem" or the ID of your service implementing Http\Client\Plugin\Vcr\Recorder\RecorderInterface and Http\Client\Plugin\Vcr\Recorder\PlayerInterface. When using filesystem, specify "fixtures_directory" as well. // Default: "filesystem"
- *                 naming_strategy?: scalar|Param|null, // Which naming strategy to use. Add the ID of your service implementing Http\Client\Plugin\Vcr\NamingStrategy\NamingStrategyInterface to override the default one. // Default: "default"
- *                 naming_strategy_options?: array{ // See http://docs.php-http.org/en/latest/plugins/vcr.html#the-naming-strategy for more details
- *                     hash_headers?: list<scalar|Param|null>,
- *                     hash_body_methods?: list<scalar|Param|null>,
- *                 },
- *                 fixtures_directory?: scalar|Param|null, // Where the responses will be stored and replay from when using the filesystem recorder. Should be accessible to your VCS.
- *             },
- *         }>,
- *     }>,
- *     plugins?: array{ // Global plugin configuration. Plugins need to be explicitly added to clients.
- *         authentication?: array<string, array{ // Default: []
- *             type?: "basic"|"bearer"|"wsse"|"service"|"query_param"|"header"|Param,
- *             username?: scalar|Param|null,
- *             password?: scalar|Param|null,
- *             token?: scalar|Param|null,
- *             service?: scalar|Param|null,
- *             header_name?: scalar|Param|null,
- *             header_value?: scalar|Param|null,
- *             params?: list<scalar|Param|null>,
- *         }>,
- *         cache?: bool|array{ // Configure HTTP caching, requires the php-http/cache-plugin package
- *             enabled?: bool|Param, // Default: false
- *             cache_pool?: scalar|Param|null, // This must be a service id to a service implementing Psr\Cache\CacheItemPoolInterface
- *             stream_factory?: scalar|Param|null, // This must be a service id to a service implementing Psr\Http\Message\StreamFactoryInterface // Default: "httplug.psr17_stream_factory"
- *             config?: array{
- *                 cache_key_generator?: scalar|Param|null, // This must be a service id to a service implementing Http\Client\Common\Plugin\Cache\Generator\CacheKeyGenerator
- *                 cache_lifetime?: scalar|Param|null, // The minimum time we should store a cache item
- *                 default_ttl?: scalar|Param|null, // The default max age of a Response
- *                 blacklisted_paths?: list<scalar|Param|null>,
- *                 hash_algo?: "md2"|"md4"|"md5"|"sha1"|"sha224"|"sha256"|"sha384"|"sha512/224"|"sha512/256"|"sha512"|"sha3-224"|"sha3-256"|"sha3-384"|"sha3-512"|"ripemd128"|"ripemd160"|"ripemd256"|"ripemd320"|"whirlpool"|"tiger128,3"|"tiger160,3"|"tiger192,3"|"tiger128,4"|"tiger160,4"|"tiger192,4"|"snefru"|"snefru256"|"gost"|"gost-crypto"|"adler32"|"crc32"|"crc32b"|"crc32c"|"fnv132"|"fnv1a32"|"fnv164"|"fnv1a64"|"joaat"|"murmur3a"|"murmur3c"|"murmur3f"|"xxh32"|"xxh64"|"xxh3"|"xxh128"|"haval128,3"|"haval160,3"|"haval192,3"|"haval224,3"|"haval256,3"|"haval128,4"|"haval160,4"|"haval192,4"|"haval224,4"|"haval256,4"|"haval128,5"|"haval160,5"|"haval192,5"|"haval224,5"|"haval256,5"|Param, // Hashing algorithm to use
- *                 methods?: list<scalar|Param|null>,
- *                 cache_listeners?: list<scalar|Param|null>,
- *                 respect_cache_headers?: scalar|Param|null, // Whether we should care about cache headers or not [DEPRECATED]
- *                 respect_response_cache_directives?: mixed, // A list of cache directives to respect when caching responses. Omit or set to null to respect the default set of directives.
- *             },
- *         },
- *         cookie?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             cookie_jar?: scalar|Param|null, // This must be a service id to a service implementing Http\Message\CookieJar
- *         },
- *         history?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             journal?: scalar|Param|null, // This must be a service id to a service implementing Http\Client\Common\Plugin\Journal
- *         },
- *         decoder?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             use_content_encoding?: scalar|Param|null, // Default: true
- *         },
- *         logger?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             logger?: scalar|Param|null, // This must be a service id to a service implementing Psr\Log\LoggerInterface // Default: "logger"
- *             formatter?: scalar|Param|null, // This must be a service id to a service implementing Http\Message\Formatter // Default: null
- *         },
- *         redirect?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             preserve_header?: scalar|Param|null, // Default: true
- *             use_default_for_multiple?: scalar|Param|null, // Default: true
- *         },
- *         retry?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             retry?: scalar|Param|null, // Default: 1
- *         },
- *         stopwatch?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             stopwatch?: scalar|Param|null, // This must be a service id to a service extending Symfony\Component\Stopwatch\Stopwatch // Default: "debug.stopwatch"
- *         },
- *         error?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             only_server_exception?: scalar|Param|null, // Default: false
- *         },
- *         throttle?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             name?: scalar|Param|null, // Rate limiter service name from symfony/rate-limiter configuration. E.g. for a rate limiter http_client you specify limiter.http_client here
- *             key?: scalar|Param|null, // Key to avoid sharing this rate limiter with other clients or other services. You can use the name of the client for example. // Default: null
- *             tokens?: int|Param, // How many tokens spending per request // Default: 1
- *             max_time?: float|Param, // Maximum accepted waiting time in seconds // Default: null
- *         },
- *     },
- *     default_client_autowiring?: bool|Param, // Set to false to not autowire HttpClient and HttpAsyncClient. // Default: true
- *     main_alias?: array{ // Configure which service the main alias point to.
- *         client?: scalar|Param|null, // Default: "httplug.client.default"
- *         psr18_client?: scalar|Param|null, // Default: "httplug.psr18_client.default"
- *         message_factory?: scalar|Param|null, // Default: "httplug.message_factory.default"
- *         uri_factory?: scalar|Param|null, // Default: "httplug.uri_factory.default"
- *         stream_factory?: scalar|Param|null, // Default: "httplug.stream_factory.default"
- *         psr17_request_factory?: scalar|Param|null, // Default: "httplug.psr17_request_factory.default"
- *         psr17_response_factory?: scalar|Param|null, // Default: "httplug.psr17_response_factory.default"
- *         psr17_stream_factory?: scalar|Param|null, // Default: "httplug.psr17_stream_factory.default"
- *         psr17_uri_factory?: scalar|Param|null, // Default: "httplug.psr17_uri_factory.default"
- *         psr17_uploaded_file_factory?: scalar|Param|null, // Default: "httplug.psr17_uploaded_file_factory.default"
- *         psr17_server_request_factory?: scalar|Param|null, // Default: "httplug.psr17_server_request_factory.default"
- *     },
- *     classes?: array{ // Overwrite a service class instead of using the discovery mechanism.
- *         client?: scalar|Param|null, // Default: null
- *         psr18_client?: scalar|Param|null, // Default: null
- *         message_factory?: scalar|Param|null, // Default: null
- *         uri_factory?: scalar|Param|null, // Default: null
- *         stream_factory?: scalar|Param|null, // Default: null
- *         psr17_request_factory?: scalar|Param|null, // Default: null
- *         psr17_response_factory?: scalar|Param|null, // Default: null
- *         psr17_stream_factory?: scalar|Param|null, // Default: null
- *         psr17_uri_factory?: scalar|Param|null, // Default: null
- *         psr17_uploaded_file_factory?: scalar|Param|null, // Default: null
- *         psr17_server_request_factory?: scalar|Param|null, // Default: null
- *     },
- *     profiling?: bool|array{ // Extend the debug profiler with information about requests.
- *         enabled?: bool|Param, // Turn the toolbar on or off. Defaults to kernel debug mode. // Default: true
- *         formatter?: scalar|Param|null, // Default: null
- *         captured_body_length?: scalar|Param|null, // Limit long HTTP message bodies to x characters. If set to 0 we do not read the message body. If null the body will not be truncated. Only available with the default formatter (FullHttpMessageFormatter). // Default: 0
- *     },
- *     discovery?: array{ // Control what clients should be found by the discovery.
- *         client?: scalar|Param|null, // Set to "auto" to see auto discovered client in the web profiler. If provided a service id for a client then this client will be found by auto discovery. // Default: "auto"
- *         async_client?: scalar|Param|null, // Set to "auto" to see auto discovered client in the web profiler. If provided a service id for a client then this client will be found by auto discovery. // Default: null
- *     },
- * }
  * @psalm-type HwiOauthConfig = array{
  *     firewall_names?: list<scalar|Param|null>,
  *     target_path_parameter?: scalar|Param|null, // Default: null
@@ -1792,7 +1462,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         use_authorization_to_get_token?: scalar|Param|null,
  *         paths?: array<string, mixed>,
  *         options?: array<string, scalar|Param|null>,
- *         ...<mixed>
+ *         ...<string, mixed>
  *     }>,
  * }
  * @psalm-type KnpPaginatorConfig = array{
@@ -1934,7 +1604,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         env?: list<scalar|Param|null>,
  *     },
  * }
- * @psalm-type WhiteOctoberBreadcrumbsConfig = array{
+ * @psalm-type HulutiBreadcrumbsConfig = array{
  *     separator?: scalar|Param|null, // Default: "/"
  *     separatorClass?: scalar|Param|null, // Default: "separator"
  *     listId?: scalar|Param|null, // Default: "wo-breadcrumbs"
@@ -1943,7 +1613,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     linkRel?: scalar|Param|null, // Default: ""
  *     locale?: scalar|Param|null, // Default: null
  *     translation_domain?: scalar|Param|null, // Default: null
- *     viewTemplate?: scalar|Param|null, // Default: "@WhiteOctoberBreadcrumbs/microdata.html.twig"
+ *     viewTemplate?: scalar|Param|null, // Default: "@HulutiBreadcrumbs/microdata.html.twig"
  * }
  * @psalm-type FosJsRoutingConfig = array{
  *     serializer?: scalar|Param|null,
@@ -1993,12 +1663,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     monolog?: MonologConfig,
  *     doctrine?: DoctrineConfig,
  *     stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
- *     httplug?: HttplugConfig,
  *     hwi_oauth?: HwiOauthConfig,
  *     knp_paginator?: KnpPaginatorConfig,
  *     liip_imagine?: LiipImagineConfig,
  *     knp_snappy?: KnpSnappyConfig,
- *     white_october_breadcrumbs?: WhiteOctoberBreadcrumbsConfig,
+ *     huluti_breadcrumbs?: HulutiBreadcrumbsConfig,
  *     fos_js_routing?: FosJsRoutingConfig,
  *     webpack_encore?: WebpackEncoreConfig,
  *     debug?: DebugConfig,
@@ -2013,12 +1682,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         doctrine?: DoctrineConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
- *         httplug?: HttplugConfig,
  *         hwi_oauth?: HwiOauthConfig,
  *         knp_paginator?: KnpPaginatorConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         knp_snappy?: KnpSnappyConfig,
- *         white_october_breadcrumbs?: WhiteOctoberBreadcrumbsConfig,
+ *         huluti_breadcrumbs?: HulutiBreadcrumbsConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         debug?: DebugConfig,
@@ -2034,12 +1702,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         doctrine?: DoctrineConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
- *         httplug?: HttplugConfig,
  *         hwi_oauth?: HwiOauthConfig,
  *         knp_paginator?: KnpPaginatorConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         knp_snappy?: KnpSnappyConfig,
- *         white_october_breadcrumbs?: WhiteOctoberBreadcrumbsConfig,
+ *         huluti_breadcrumbs?: HulutiBreadcrumbsConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         debug?: DebugConfig,

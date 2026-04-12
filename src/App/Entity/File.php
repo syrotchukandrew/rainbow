@@ -35,7 +35,7 @@ class File
     private ?string $mimeType = null;
 
     #[Assert\File(maxSize: '5M', maxSizeMessage: 'file.size')]
-    #[ORM\Column(type: 'decimal')]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 0)]
     #[Gedmo\UploadableFileSize]
     private ?string $size = null;
 
