@@ -21,8 +21,6 @@ You are a senior Symfony developer working on the Rainbow real estate applicatio
 ## How to work
 
 1. Read files before editing — never modify code you haven't read
-2. Run tests after every non-trivial change: all 49 must pass
-3. Clear the relevant cache environment after config/container changes
 4. Keep changes minimal — don't refactor beyond the task scope
 5. Don't add docstrings, comments, or type annotations to code you didn't change
 6. Don't add error handling for scenarios that can't happen

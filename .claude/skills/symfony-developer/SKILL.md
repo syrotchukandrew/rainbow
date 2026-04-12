@@ -64,5 +64,4 @@ Before adding any code, verify the API exists in the current version (6.4). Chec
 
 1. Read existing code before modifying
 2. Run `php bin/console cache:clear` after config changes
-3. Run `php bin/phpunit -c app/` — all 49 tests must pass
-4. Use `code-reviewer` skill before finalizing
+3. Use `code-reviewer` skill before finalizing

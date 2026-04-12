@@ -34,3 +34,6 @@
 
 # Superpowers brainstorm sessions
 /.superpowers/
+
+# Playwright MCP artifacts
+/.playwright-mcp/

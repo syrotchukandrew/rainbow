@@ -33,6 +33,4 @@
 
 Project-specific ignores already cover:
 - `vendor/`, `var/`, `bin/`
-- `app/config/parameters.yml`
-- `web/media/`, `web/images/estates/`
 - `.claude/settings.local.json`
