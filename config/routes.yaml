@@ -1,9 +1,9 @@
 hwi_oauth_redirect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.php"
     prefix:   /connect
 
 hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.php"
     prefix:   /login-social
 
 facebook_login:
@@ -49,4 +49,4 @@ _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
 
 fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing-sf4.xml"
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.php"

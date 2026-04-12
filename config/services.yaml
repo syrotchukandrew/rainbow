@@ -39,10 +39,10 @@ services:
 
     App\Utils\BreadcrumpsMaker:
         arguments:
-            - '@white_october_breadcrumbs'
+            - '@huluti_breadcrumbs'
 
     App\Controller\SiteController:
         public: true
         bind:
-            $breadcrumbs: '@white_october_breadcrumbs'
+            $breadcrumbs: '@huluti_breadcrumbs'
             $pdf: '@knp_snappy.pdf'

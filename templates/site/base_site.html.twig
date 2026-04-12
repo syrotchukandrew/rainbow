@@ -38,7 +38,7 @@
                 <ul class="hidden group-hover:block absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded shadow-lg min-w-max z-50 py-1">
                     {% for locale in locales() %}
                         <li>
-                            <a href="{{ path(app.request.get('_route', 'homepage'), app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}"
+                            <a href="{{ path(app.request.attributes.get('_route', 'homepage'), app.request.attributes.get('_route_params', [])|merge({ _locale: locale.code })) }}"
                                class="block px-4 py-2 text-sm hover:bg-gray-100 {% if app.request.locale == locale.code %}font-semibold text-primary{% else %}text-gray-700{% endif %}">
                                 {{ locale.name|capitalize }}
                             </a>
@@ -99,7 +99,7 @@
                 {{ render(controller('App\\Controller\\SiteController::showMenuItemAction')) }}
                 <hr class="border-gray-200 my-1">
                 {% for locale in locales() %}
-                    <a href="{{ path(app.request.get('_route', 'homepage'), app.request.get('_route_params', [])|merge({ _locale: locale.code })) }}"
+                    <a href="{{ path(app.request.attributes.get('_route', 'homepage'), app.request.attributes.get('_route_params', [])|merge({ _locale: locale.code })) }}"
                        class="py-1 {% if app.request.locale == locale.code %}font-semibold text-primary{% else %}text-gray-700{% endif %} hover:text-primary">
                         {{ locale.name|capitalize }}
                     </a>
