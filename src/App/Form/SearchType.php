@@ -16,7 +16,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SearchType extends AbstractType
 {
@@ -51,10 +50,7 @@ class SearchType extends AbstractType
                     ),
                     'required' => false,
                 )
-            )
-            ->add('search', SubmitType::class, ['label' => 'form.search.search',
-                'attr' => ['class' => 'btn btn-default']
-            ]);
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

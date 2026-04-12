@@ -127,7 +127,7 @@
             <div>
                 <a href="{{ path('homepage') }}">
                     <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}"
-                         alt="{{ 'site.logo_alt'|trans }}" class="h-16 w-auto">
+                         alt="{{ 'site.logo_alt'|trans }}" class="h-28 w-auto">
                 </a>
             </div>
             <div class="bg-white border border-gray-200 rounded p-3 shadow-sm text-sm">
@@ -166,10 +166,10 @@
 {% block footer %}
 <footer class="border-t border-gray-200 bg-gray-50 mt-8 py-4">
     <div class="max-w-7xl mx-auto px-4">
-        <ul class="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
-            <li><a href="{{ path('homepage') }}" class="hover:text-gray-900">{{ 'site.menu.homepage'|trans }}</a></li>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
+            <a href="{{ path('homepage') }}" class="hover:text-gray-900">{{ 'site.menu.homepage'|trans }}</a>
             {{ render(controller('App\\Controller\\SiteController::showMenuItemAction')) }}
-        </ul>
+        </div>
         <p class="text-xs text-gray-400">Copyright &copy; Syrotchuk's Website 2016</p>
     </div>
 </footer>
