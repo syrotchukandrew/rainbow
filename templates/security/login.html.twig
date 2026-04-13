@@ -1,11 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'site/base_site.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('site') }}
-{% endblock %}
+{% block sidebar %}{% endblock %}
 
-{% block body %}
+{% block panel %}
     <div id="react-login-form"
          data-action="{{ path('security_login_check') }}"
          data-csrf="{{ csrf_token('authenticate') }}"
@@ -13,5 +10,3 @@
          data-last-username="{{ last_username }}">
     </div>
 {% endblock %}
-
-{% block sidebar %}{% endblock %}

@@ -1,11 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'site/base_site.html.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('site') }}
-{% endblock %}
+{% block sidebar %}{% endblock %}
 
-{% block body %}
+{% block panel %}
     <div id="react-reset-request-form"
          data-action="{{ path('security_reset_request') }}"
          data-csrf="{{ form.vars.token.vars.value }}"
