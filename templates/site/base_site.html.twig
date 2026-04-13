@@ -170,7 +170,7 @@
             <a href="{{ path('homepage') }}" class="hover:text-gray-900">{{ 'site.menu.homepage'|trans }}</a>
             {{ render(controller('App\\Controller\\SiteController::showMenuItemAction')) }}
         </div>
-        <p class="text-xs text-gray-400">Copyright &copy; Syrotchuk's Website 2016</p>
+        <p class="text-xs text-gray-400">Copyright &copy; Syrotchuk's Website {{ "now"|date("Y") }}</p>
     </div>
 </footer>
 {% endblock footer %}
