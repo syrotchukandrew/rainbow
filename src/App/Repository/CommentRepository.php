@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityRepository;
 class CommentRepository extends EntityRepository
 {
 
-    public function getDisabledComments()
+    public function getDisabledComments(): array
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
@@ -25,6 +25,13 @@ class CommentRepository extends EntityRepository
                 ORDER BY c.createdAt DESC
             ');
         return $query->getResult();
+    }
+
+    public function countDisabledComments(): int
+    {
+        return (int) $this->getEntityManager()
+            ->createQuery('SELECT COUNT(c.id) FROM App\Entity\Comment c WHERE c.enabled = false')
+            ->getSingleScalarResult();
     }
 
     public function getEnabledComments()

@@ -14,33 +14,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class EstateRepository extends EntityRepository
 {
-    public function getEstateExclusiveWithFiles()
+    public function getEstateExclusiveWithFiles(): array
     {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT e, f
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT e, f, mf
                 FROM App\Entity\Estate e
                 LEFT JOIN e.files f
-                WHERE (e.exclusive = true)
+                LEFT JOIN e.mainFoto mf
+                WHERE e.exclusive = true
                 ORDER BY e.updatedAt DESC
-            ');
-        return $query->getResult();
-
+            ')
+            ->getResult();
     }
 
-    public function getEstateFromCategory($slug)
+    public function getEstateFromCategory(string $slug): array
     {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT e, c, f
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT e, c, f, mf
                 FROM App\Entity\Estate e
                 LEFT JOIN e.category c
                 LEFT JOIN e.files f
-                WHERE (c.title = :slug)
+                LEFT JOIN e.mainFoto mf
+                WHERE c.title = :slug
                 ORDER BY e.createdAt DESC
-            ');
-        $query->setParameter('slug', $slug);
-        return $query->getResult();
+            ')
+            ->setParameter('slug', $slug)
+            ->getResult();
     }
 
     public function getEstateWithDistrictComment($slug)

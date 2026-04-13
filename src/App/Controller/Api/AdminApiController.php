@@ -30,11 +30,11 @@ class AdminApiController extends AbstractController
     #[Route('/comments/pending-count', name: 'api_admin_comments_pending_count', methods: ['GET'])]
     public function pendingCount(): JsonResponse
     {
-        $comments = $this->doctrine
+        $count = $this->doctrine
             ->getRepository(Comment::class)
-            ->getDisabledComments();
+            ->countDisabledComments();
 
-        return new JsonResponse(['count' => count($comments)]);
+        return new JsonResponse(['count' => $count]);
     }
 
     #[Route('/comments', name: 'api_admin_comments_list', methods: ['GET'])]
