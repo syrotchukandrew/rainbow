@@ -164,7 +164,7 @@ class AddUserCommand extends Command
         if (empty($email)) {
             throw new \Exception('The email can not be empty');
         }
-        if (false === strpos($email, '@')) {
+        if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception('The email should look like a real email');
         }
         return $email;
