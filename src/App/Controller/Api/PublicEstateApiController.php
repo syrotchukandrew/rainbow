@@ -13,6 +13,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api/public')]
@@ -24,11 +25,24 @@ class PublicEstateApiController extends AbstractController
         private ManagerRegistry $doctrine,
         private CacheManager $imagineCacheManager,
         private SearchManager $searchManager,
+        private RateLimiterFactory $apiPublicLimiter,
     ) {}
+
+    private function checkRateLimit(Request $request): ?JsonResponse
+    {
+        $limiter = $this->apiPublicLimiter->create($request->getClientIp());
+        if (!$limiter->consume()->isAccepted()) {
+            return $this->json(['error' => 'Too Many Requests', 'code' => 429], 429);
+        }
+        return null;
+    }
 
     #[Route('/estates', name: 'api_public_estates', methods: ['GET'])]
     public function estatesAction(Request $request): JsonResponse
     {
+        if ($rateLimitResponse = $this->checkRateLimit($request)) {
+            return $rateLimitResponse;
+        }
         $em = $this->doctrine->getManager();
         $categorySlug = $request->query->get('category');
         $page = max(1, $request->query->getInt('page', 1));
@@ -57,6 +71,9 @@ class PublicEstateApiController extends AbstractController
     #[Route('/search', name: 'api_public_search', methods: ['GET'])]
     public function searchAction(Request $request): JsonResponse
     {
+        if ($rateLimitResponse = $this->checkRateLimit($request)) {
+            return $rateLimitResponse;
+        }
         $em = $this->doctrine->getManager();
         $categorySlug = $request->query->get('category');
         $page = max(1, $request->query->getInt('page', 1));
@@ -95,8 +112,11 @@ class PublicEstateApiController extends AbstractController
     }
 
     #[Route('/estates/{slug}', name: 'api_public_estate_detail', methods: ['GET'])]
-    public function estateDetailAction(string $slug): JsonResponse
+    public function estateDetailAction(string $slug, Request $request): JsonResponse
     {
+        if ($rateLimitResponse = $this->checkRateLimit($request)) {
+            return $rateLimitResponse;
+        }
         $em = $this->doctrine->getManager();
         $estate = $em->getRepository(Estate::class)->getEstateWithDistrictComment($slug);
 

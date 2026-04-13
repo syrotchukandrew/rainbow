@@ -24,6 +24,11 @@ services:
         resource: '../src/App/Controller'
         public: true
 
+    App\Controller\Api\PublicEstateApiController:
+        public: true
+        bind:
+            $apiPublicLimiter: '@limiter.api_public'
+
     my.custom.user_provider:
         alias: App\Security\Core\User\OAuthUserProvider
         public: true
@@ -46,3 +51,4 @@ services:
         bind:
             $breadcrumbs: '@huluti_breadcrumbs'
             $pdf: '@knp_snappy.pdf'
+            $livesearchLimiter: '@limiter.livesearch'

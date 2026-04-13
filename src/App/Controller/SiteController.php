@@ -23,6 +23,7 @@ use App\Utils\SearchManager;
 use App\Utils\Searcher;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Knp\Snappy\Pdf;
@@ -50,6 +51,7 @@ class SiteController extends AbstractController
     private Pdf $pdf;
     private Breadcrumbs $breadcrumbs;
     private CacheInterface $cache;
+    private RateLimiterFactory $livesearchLimiter;
 
     public function __construct(
         ManagerRegistry $doctrine,
@@ -60,7 +62,8 @@ class SiteController extends AbstractController
         Searcher $searcher,
         Pdf $pdf,
         Breadcrumbs $breadcrumbs,
-        CacheInterface $cache
+        CacheInterface $cache,
+        RateLimiterFactory $livesearchLimiter
     ) {
         $this->doctrine = $doctrine;
         $this->paginator = $paginator;
@@ -71,6 +74,7 @@ class SiteController extends AbstractController
         $this->pdf = $pdf;
         $this->breadcrumbs = $breadcrumbs;
         $this->cache = $cache;
+        $this->livesearchLimiter = $livesearchLimiter;
     }
 
     #[Route('/', name: 'homepage', methods: ['GET'])]
@@ -248,6 +252,11 @@ class SiteController extends AbstractController
     #[Route('/livesearch', name: 'livesearch', options: ['expose' => true], methods: ['GET', 'POST'])]
     public function livesearchAction(Request $request): Response
     {
+        $limiter = $this->livesearchLimiter->create($request->getClientIp());
+        if (!$limiter->consume()->isAccepted()) {
+            return new Response('Too Many Requests', 429);
+        }
+
         if ($request->isMethod('GET')) {
             return new Response(json_encode($this->searcher->search()));
         }
