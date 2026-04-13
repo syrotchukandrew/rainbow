@@ -17,14 +17,15 @@ class CommentRepository extends EntityRepository
 
     public function getDisabledComments(): array
     {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT c
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT c, est
                 FROM App\Entity\Comment c
-                WHERE (c.enabled = false)
+                LEFT JOIN c.estate est
+                WHERE c.enabled = false
                 ORDER BY c.createdAt DESC
-            ');
-        return $query->getResult();
+            ')
+            ->getResult();
     }
 
     public function countDisabledComments(): int
@@ -34,27 +35,29 @@ class CommentRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getEnabledComments()
+    public function getEnabledComments(): array
     {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT c
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT c, est
                 FROM App\Entity\Comment c
-                WHERE (c.enabled = true)
+                LEFT JOIN c.estate est
+                WHERE c.enabled = true
                 ORDER BY c.createdAt DESC
-            ');
-        return $query->getResult();
+            ')
+            ->getResult();
     }
 
-    public function findAllComments()
+    public function findAllComments(): array
     {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('
-                SELECT c
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT c, est
                 FROM App\Entity\Comment c
+                LEFT JOIN c.estate est
                 ORDER BY c.createdAt DESC
-            ');
-        return $query->getResult();
+            ')
+            ->getResult();
     }
 
 }
