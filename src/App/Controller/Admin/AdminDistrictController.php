@@ -31,8 +31,7 @@ class AdminDistrictController extends AbstractController
     #[Route('/districts', name: 'admin_districts', methods: ['GET'])]
     public function districtsAction(Request $request): Response
     {
-        $districts = $this->doctrine->getRepository(\App\Entity\District::class)->findAll();
-        return $this->render('admin/district/districts.html.twig', array('districts' => $districts));
+        return $this->render('admin/district/districts.html.twig');
     }
 
     #[Route('/district/show/{slug}', name: 'admin_district_show', methods: ['GET'])]

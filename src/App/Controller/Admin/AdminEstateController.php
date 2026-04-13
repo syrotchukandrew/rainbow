@@ -44,15 +44,16 @@ class AdminEstateController extends AbstractController
     #[Route('/', name: 'admin_index', methods: ['GET'])]
     public function indexAction(Request $request): Response
     {
-        $users = $this->doctrine->getRepository(\App\Entity\User::class)->findAll();
-        $districts = $this->doctrine->getRepository(\App\Entity\District::class)->findAll();
-        $comments = $this->doctrine->getRepository(\App\Entity\Comment::class)->getDisabledComments();
-        $estates = $this->doctrine->getRepository(\App\Entity\Estate::class)->findAll();
+        $em = $this->doctrine->getManager();
+        $countUsers = (int) $em->createQuery('SELECT COUNT(u.id) FROM App\Entity\User u')->getSingleScalarResult();
+        $countDistricts = (int) $em->createQuery('SELECT COUNT(d.id) FROM App\Entity\District d')->getSingleScalarResult();
+        $countDisabledComments = $this->doctrine->getRepository(\App\Entity\Comment::class)->countDisabledComments();
+        $countEstates = (int) $em->createQuery('SELECT COUNT(e.id) FROM App\Entity\Estate e')->getSingleScalarResult();
         return $this->render('admin/index.html.twig', array(
-            'count_disabled_comments' => count($comments),
-            'count_estates' => count($estates),
-            'count_users' => count($users),
-            'count_districts' => count($districts),
+            'count_disabled_comments' => $countDisabledComments,
+            'count_estates' => $countEstates,
+            'count_users' => $countUsers,
+            'count_districts' => $countDistricts,
         ));
     }
 
