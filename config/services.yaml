@@ -37,7 +37,7 @@ services:
         bind:
             $locales: '%app_locales%'
 
-    App\Utils\BreadcrumpsMaker:
+    App\Utils\BreadcrumbsMaker:
         arguments:
             - '@huluti_breadcrumbs'
 

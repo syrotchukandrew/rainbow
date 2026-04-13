@@ -17,7 +17,7 @@ use App\Entity\MenuItem;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\SearchType;
-use App\Utils\BreadcrumpsMaker;
+use App\Utils\BreadcrumbsMaker;
 use App\Utils\FinalCategoryFinder;
 use App\Utils\SearchManager;
 use App\Utils\Searcher;
@@ -41,7 +41,7 @@ class SiteController extends AbstractController
 
     private ManagerRegistry $doctrine;
     private PaginatorInterface $paginator;
-    private BreadcrumpsMaker $breadcrumpsMaker;
+    private BreadcrumbsMaker $breadcrumbsMaker;
     private FinalCategoryFinder $finalCategoryFinder;
     private SearchManager $searchManager;
     private Searcher $searcher;
@@ -51,7 +51,7 @@ class SiteController extends AbstractController
     public function __construct(
         ManagerRegistry $doctrine,
         PaginatorInterface $paginator,
-        BreadcrumpsMaker $breadcrumpsMaker,
+        BreadcrumbsMaker $breadcrumbsMaker,
         FinalCategoryFinder $finalCategoryFinder,
         SearchManager $searchManager,
         Searcher $searcher,
@@ -60,7 +60,7 @@ class SiteController extends AbstractController
     ) {
         $this->doctrine = $doctrine;
         $this->paginator = $paginator;
-        $this->breadcrumpsMaker = $breadcrumpsMaker;
+        $this->breadcrumbsMaker = $breadcrumbsMaker;
         $this->finalCategoryFinder = $finalCategoryFinder;
         $this->searchManager = $searchManager;
         $this->searcher = $searcher;
@@ -88,7 +88,7 @@ class SiteController extends AbstractController
     #[Route('/show_category/{slug}', name: 'show_category', methods: ['GET'])]
     public function showCategoryAction(#[MapEntity(mapping: ['slug' => 'title'])] Category $category): Response
     {
-        $this->breadcrumpsMaker->makeBreadcrumps($category);
+        $this->breadcrumbsMaker->makeBreadcrumbs($category);
         return $this->render("site/index.html.twig", [
             'apiUrl' => '/api/public/estates?category=' . $category->getSlug(),
         ]);
@@ -99,7 +99,7 @@ class SiteController extends AbstractController
     {
         $em = $this->doctrine->getManager();
         $estate = $em->getRepository(\App\Entity\Estate::class)->getEstateWithDistrictComment($slug);
-        $this->breadcrumpsMaker->makeBreadcrumps($estate->getCategory(), $estate);
+        $this->breadcrumbsMaker->makeBreadcrumbs($estate->getCategory(), $estate);
 
         return $this->render('site/show_estate.html.twig', array('estate' => $estate));
     }

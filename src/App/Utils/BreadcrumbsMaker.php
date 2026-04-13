@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kate
- * Date: 13.03.16
- * Time: 22:57
- */
 
 declare(strict_types=1);
 
@@ -12,7 +6,7 @@ namespace App\Utils;
 
 use Huluti\BreadcrumbsBundle\Model\Breadcrumbs;
 
-class BreadcrumpsMaker
+class BreadcrumbsMaker
 {
     private $breadcrumbs;
 
@@ -21,7 +15,7 @@ class BreadcrumpsMaker
         $this->breadcrumbs = $breadcrumbs;
     }
 
-    public function makeBreadcrumps($category, $estate = null)
+    public function makeBreadcrumbs($category, $estate = null)
     {
         if ($estate) {
             $this->breadcrumbs->prependItem($estate->getTitle());
