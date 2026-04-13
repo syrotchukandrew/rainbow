@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -38,13 +39,24 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProvider
 
         if (null === $user) {
             $email = $response->getEmail();
+            if ($email === null || $email === '') {
+                throw new CustomUserMessageAuthenticationException(
+                    'Your OAuth account did not provide an email address. Please log in with a different method.'
+                );
+            }
+
             $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
 
             if (null === $user) {
-                $user = new User();
                 $username = $service === 'vkontakte'
-                    ? $response->getLastName().' '.$response->getFirstName()
-                    : ($response->getNickname() ?? $email);
+                    ? trim($response->getLastName().' '.$response->getFirstName())
+                    : ($response->getNickname() ?? '');
+
+                if ($username === '') {
+                    $username = strstr($email, '@', true);
+                }
+
+                $user = new User();
                 $user->setUsername($username);
                 $user->setEmail($email);
                 $user->setEnabled(true);
