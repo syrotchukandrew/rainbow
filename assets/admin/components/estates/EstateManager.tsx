@@ -15,7 +15,25 @@ interface EstateRow {
 
 type SortKey = keyof Pick<EstateRow, 'title' | 'category' | 'price' | 'createdAt' | 'district'>;
 
-export default function EstateManager() {
+interface Labels {
+    loading: string;
+    title: string;
+    category: string;
+    price: string;
+    created_at: string;
+    district: string;
+    exclusive: string;
+    action: string;
+    yes: string;
+    show: string;
+    change: string;
+}
+
+interface Props {
+    labels: Labels;
+}
+
+export default function EstateManager({ labels }: Props) {
     const [rows, setRows] = useState<EstateRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [sortKey, setSortKey] = useState<SortKey>('createdAt');
@@ -58,20 +76,20 @@ export default function EstateManager() {
     }
 
     if (loading) {
-        return <p className="px-4 py-6 text-sm text-gray-400">Завантаження...</p>;
+        return <p className="px-4 py-6 text-sm text-gray-400">{labels.loading}</p>;
     }
 
     return (
         <table className="w-full text-sm text-left border-collapse">
             <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
-                    {th('Назва', 'title')}
-                    {th('Категорія', 'category')}
-                    {th('Ціна', 'price')}
-                    {th('Створено', 'createdAt')}
-                    {th('Район', 'district')}
-                    <th className="px-4 py-3 font-medium text-gray-700">Ексклюзив</th>
-                    <th className="px-4 py-3 font-medium text-gray-700 w-40">Дії</th>
+                    {th(labels.title, 'title')}
+                    {th(labels.category, 'category')}
+                    {th(labels.price, 'price')}
+                    {th(labels.created_at, 'createdAt')}
+                    {th(labels.district, 'district')}
+                    <th className="px-4 py-3 font-medium text-gray-700">{labels.exclusive}</th>
+                    <th className="px-4 py-3 font-medium text-gray-700 w-40">{labels.action}</th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -82,11 +100,11 @@ export default function EstateManager() {
                         <td className="px-4 py-3 text-gray-700">{row.price}</td>
                         <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{row.createdAt}</td>
                         <td className="px-4 py-3 text-gray-700">{row.district ?? '—'}</td>
-                        <td className="px-4 py-3 text-gray-700">{row.exclusive ? 'Так' : '-'}</td>
+                        <td className="px-4 py-3 text-gray-700">{row.exclusive ? labels.yes : '-'}</td>
                         <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
-                                <a href={row.showUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Показати</a>
-                                <a href={row.editUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Змінити</a>
+                                <a href={row.showUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">{labels.show}</a>
+                                <a href={row.editUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">{labels.change}</a>
                             </div>
                         </td>
                     </tr>

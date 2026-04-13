@@ -6,11 +6,24 @@ interface District {
     title: string;
 }
 
-interface Props {
-    csrf: string;
+interface Labels {
+    title: string;
+    slug: string;
+    save: string;
+    cancel: string;
+    edit: string;
+    delete: string;
+    confirm_delete: string;
+    placeholder: string;
+    add: string;
 }
 
-export default function DistrictManager({ csrf }: Props) {
+interface Props {
+    csrf: string;
+    labels: Labels;
+}
+
+export default function DistrictManager({ csrf, labels }: Props) {
     const [districts, setDistricts] = useState<District[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [newTitle, setNewTitle] = useState('');
@@ -72,7 +85,7 @@ export default function DistrictManager({ csrf }: Props) {
     }
 
     async function handleDelete(slug: string) {
-        if (!window.confirm('Видалити район?')) return;
+        if (!window.confirm(labels.confirm_delete)) return;
         setError(null);
         const res = await fetch(`/api/admin/districts/${slug}`, {
             method: 'DELETE',
@@ -98,8 +111,8 @@ export default function DistrictManager({ csrf }: Props) {
                 <thead>
                     <tr className="border-b border-gray-200 bg-gray-50">
                         <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
-                        <th className="px-4 py-3 font-medium text-gray-700">Назва</th>
-                        <th className="px-4 py-3 font-medium text-gray-700 w-40">Псевдонім</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">{labels.title}</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-40">{labels.slug}</th>
                         <th className="px-4 py-3 font-medium text-gray-700 w-48"></th>
                     </tr>
                 </thead>
@@ -116,8 +129,8 @@ export default function DistrictManager({ csrf }: Props) {
                                             onChange={e => setEditTitle(e.target.value)}
                                             autoFocus
                                         />
-                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">Зберегти</button>
-                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingSlug(null)}>Скасувати</button>
+                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">{labels.save}</button>
+                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingSlug(null)}>{labels.cancel}</button>
                                     </form>
                                 ) : d.title}
                             </td>
@@ -126,10 +139,10 @@ export default function DistrictManager({ csrf }: Props) {
                                 {editingSlug !== d.slug && (
                                     <div className="flex items-center gap-2">
                                         <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(d)}>
-                                            Редагувати
+                                            {labels.edit}
                                         </button>
                                         <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(d.slug)}>
-                                            Видалити
+                                            {labels.delete}
                                         </button>
                                     </div>
                                 )}
@@ -142,12 +155,12 @@ export default function DistrictManager({ csrf }: Props) {
             <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
                 <input
                     className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
-                    placeholder="Назва нового району"
+                    placeholder={labels.placeholder}
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
                 />
                 <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" disabled={creating}>
-                    Додати
+                    {labels.add}
                 </button>
             </form>
         </div>

@@ -31,39 +31,47 @@ if (sidebarEl) {
 }
 
 // EstateManager
-if (document.getElementById('react-admin-estates')) {
-    mountIsland('react-admin-estates', EstateManager, {});
+const estatesEl = document.getElementById('react-admin-estates');
+if (estatesEl) {
+    const labels = JSON.parse(estatesEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-estates', EstateManager, { labels });
 }
 
 // CategoryManager
-if (document.getElementById('react-admin-categories')) {
-    mountIsland('react-admin-categories', CategoryManager, {});
+const categoriesEl = document.getElementById('react-admin-categories');
+if (categoriesEl) {
+    const labels = JSON.parse(categoriesEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-categories', CategoryManager, { labels });
 }
 
 // DistrictManager
 const districtsEl = document.getElementById('react-admin-districts');
 if (districtsEl) {
     const csrf = districtsEl.dataset.csrf ?? '';
-    mountIsland('react-admin-districts', DistrictManager, { csrf });
+    const labels = JSON.parse(districtsEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-districts', DistrictManager, { csrf, labels });
 }
 
 // CommentManager
 const commentsEl = document.getElementById('react-admin-comments');
 if (commentsEl) {
     const csrf = commentsEl.dataset.csrf ?? '';
-    mountIsland('react-admin-comments', CommentManager, { csrf });
+    const labels = JSON.parse(commentsEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-comments', CommentManager, { csrf, labels });
 }
 
 // UserManager
 const usersEl = document.getElementById('react-admin-users');
 if (usersEl) {
     const csrf = usersEl.dataset.csrf ?? '';
-    mountIsland('react-admin-users', UserManager, { csrf });
+    const labels = JSON.parse(usersEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-users', UserManager, { csrf, labels });
 }
 
 // MenuItemManager
 const menuItemsEl = document.getElementById('react-admin-menu-items');
 if (menuItemsEl) {
     const csrf = menuItemsEl.dataset.csrf ?? '';
-    mountIsland('react-admin-menu-items', MenuItemManager, { csrf });
+    const labels = JSON.parse(menuItemsEl.dataset.labels ?? '{}');
+    mountIsland('react-admin-menu-items', MenuItemManager, { csrf, labels });
 }

@@ -16,11 +16,20 @@ interface EstateDetail {
     district: District | null;
 }
 
-interface Props {
-    slug: string;
+interface Labels {
+    loading: string;
+    error_loading_short: string;
+    price: string;
+    district: string;
+    floor_label: string;
 }
 
-export default function EstateInfoPanel({ slug }: Props) {
+interface Props {
+    slug: string;
+    labels: Labels;
+}
+
+export default function EstateInfoPanel({ slug, labels }: Props) {
     const [estate, setEstate] = useState<EstateDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -40,13 +49,13 @@ export default function EstateInfoPanel({ slug }: Props) {
             })
             .catch((err: unknown) => {
                 if (err instanceof Error && err.name === 'AbortError') return;
-                setError('Помилка завантаження.');
+                setError(labels.error_loading_short);
                 setLoading(false);
             });
         return () => controller.abort();
     }, [slug]);
 
-    if (loading) return <p>Завантаження...</p>;
+    if (loading) return <p>{labels.loading}</p>;
     if (error) return <p>{error}</p>;
     if (!estate) return null;
 
@@ -54,7 +63,7 @@ export default function EstateInfoPanel({ slug }: Props) {
         <>
             <div className="mb-4 rounded border border-gray-200">
                 <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
-                    Ціна
+                    {labels.price}
                 </div>
                 <div className="px-4 py-3 text-sm text-gray-800">
                     {estate.price !== null ? `${estate.price}\u00a0дол.` : '—'}
@@ -63,7 +72,7 @@ export default function EstateInfoPanel({ slug }: Props) {
             {estate.district && (
                 <div className="mb-4 rounded border border-gray-200">
                     <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
-                        Район
+                        {labels.district}
                     </div>
                     <div className="px-4 py-3 text-sm text-gray-800">
                         {estate.district.title}
@@ -73,7 +82,7 @@ export default function EstateInfoPanel({ slug }: Props) {
             {estate.floor && (
                 <div className="mb-4 rounded border border-gray-200">
                     <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
-                        Поверх / Поверховість
+                        {labels.floor_label}
                     </div>
                     <div className="px-4 py-3 text-sm text-gray-800">
                         {estate.floor.floor} / {estate.floor.count_floor}

@@ -13,7 +13,7 @@
                         <img src="{{ asset("#{estate.files[3].path}") }}" class="w-48 h-32 object-cover rounded" alt="">
                     {% endif %}
                 </div>
-                <h3 class="text-sm font-medium text-gray-700 mb-1">Короткий опис</h3>
+                <h3 class="text-sm font-medium text-gray-700 mb-1">{{ 'site.summary'|trans }}</h3>
                 <p class="text-sm text-gray-600">{{ estate.description }}</p>
             </div>
         {% endfor %}

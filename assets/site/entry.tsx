@@ -70,7 +70,8 @@ const estateListingEl = document.getElementById('react-estate-listing');
 if (estateListingEl) {
     const apiUrl = estateListingEl.dataset.apiUrl ?? '/api/public/estates';
     const locale = estateListingEl.dataset.locale ?? 'uk';
-    mountIsland('react-estate-listing', EstateListing, { apiUrl, locale });
+    const labels = JSON.parse(estateListingEl.dataset.labels ?? '{}');
+    mountIsland('react-estate-listing', EstateListing, { apiUrl, locale, labels });
 }
 
 // SearchResult
@@ -81,14 +82,16 @@ if (searchResultsEl) {
     const price        = searchResultsEl.dataset.price ?? '';
     const exceptFloor  = searchResultsEl.dataset.exceptFloor ?? '0';
     const locale       = searchResultsEl.dataset.locale ?? 'uk';
-    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor, locale });
+    const labels       = JSON.parse(searchResultsEl.dataset.labels ?? '{}');
+    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor, locale, labels });
 }
 
 // EstateInfoPanel
 const estateInfoPanelEl = document.getElementById('react-estate-info-panel');
 if (estateInfoPanelEl) {
-    const slug = estateInfoPanelEl.dataset.slug ?? '';
-    mountIsland('react-estate-info-panel', EstateInfoPanel, { slug });
+    const slug   = estateInfoPanelEl.dataset.slug ?? '';
+    const labels = JSON.parse(estateInfoPanelEl.dataset.labels ?? '{}');
+    mountIsland('react-estate-info-panel', EstateInfoPanel, { slug, labels });
 }
 
 // LoginForm

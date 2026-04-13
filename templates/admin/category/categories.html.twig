@@ -1,15 +1,23 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
     <div class="flex items-center justify-between mb-4">
-        <h1 class="text-xl font-semibold text-gray-900">Категорії</h1>
+        <h1 class="text-xl font-semibold text-gray-900">{{ 'admin.categories_heading'|trans }}</h1>
         <div class="flex gap-2">
             <a href="{{ path('admin_category_root_new') }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
-                + Додати кореневу категорію
+                {{ 'admin.add_root_category'|trans }}
             </a>
             <a href="{{ path('admin_category_new') }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
-                + Додати категорію
+                {{ 'admin.add_category'|trans }}
             </a>
         </div>
     </div>
-    <div id="react-admin-categories"></div>
+    <div id="react-admin-categories" data-labels="{{ {
+        loading: 'admin.loading'|trans,
+        title: 'admin.title'|trans,
+        up: 'admin.up'|trans,
+        down: 'admin.down'|trans,
+        action: 'admin.action'|trans,
+        delete: 'admin.delete'|trans,
+        change: 'admin.change'|trans
+    }|json_encode }}"></div>
 {% endblock panel %}

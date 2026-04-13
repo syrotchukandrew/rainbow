@@ -1,5 +1,27 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1 class="text-xl font-semibold text-gray-900 mb-4">Користувачі</h1>
-    <div id="react-admin-users" data-csrf="{{ csrf_token('api_admin_user') }}"></div>
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">{{ 'admin.users_heading'|trans }}</h1>
+    <div id="react-admin-users"
+         data-csrf="{{ csrf_token('api_admin_user') }}"
+         data-labels="{{ {
+             loading: 'admin.loading'|trans,
+             username: 'admin.username'|trans,
+             role: 'admin.role'|trans,
+             email: 'admin.email'|trans,
+             last_login: 'admin.last_login'|trans,
+             status: 'admin.status'|trans,
+             lock_action: 'admin.lock_action'|trans,
+             manager_role: 'admin.manager_role'|trans,
+             estates: 'admin.estates'|trans,
+             manager: 'admin.manager'|trans,
+             user: 'security.user'|trans,
+             no_logins: 'admin.no_logins'|trans,
+             locked: 'admin.locked'|trans,
+             active: 'admin.active'|trans,
+             user_unlocked: 'admin.user_unlocked'|trans,
+             user_locked: 'admin.user_locked'|trans,
+             make_user: 'admin.make_user'|trans,
+             make_manager: 'admin.make_manager'|trans,
+             show: 'admin.show'|trans
+         }|json_encode }}"></div>
 {% endblock panel %}

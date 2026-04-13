@@ -6,11 +6,25 @@ interface MenuItemData {
     description: string | null;
 }
 
-interface Props {
-    csrf: string;
+interface Labels {
+    title: string;
+    description: string;
+    save: string;
+    cancel: string;
+    edit: string;
+    delete: string;
+    confirm_delete: string;
+    add: string;
+    placeholder_title: string;
+    placeholder_desc: string;
 }
 
-export default function MenuItemManager({ csrf }: Props) {
+interface Props {
+    csrf: string;
+    labels: Labels;
+}
+
+export default function MenuItemManager({ csrf, labels }: Props) {
     const [items, setItems] = useState<MenuItemData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [newTitle, setNewTitle] = useState('');
@@ -73,7 +87,7 @@ export default function MenuItemManager({ csrf }: Props) {
     }
 
     async function handleDelete(id: number) {
-        if (!window.confirm('Видалити пункт меню?')) return;
+        if (!window.confirm(labels.confirm_delete)) return;
         setError(null);
         const res = await fetch(`/api/admin/menu-items/${id}`, {
             method: 'DELETE',
@@ -99,8 +113,8 @@ export default function MenuItemManager({ csrf }: Props) {
                 <thead>
                     <tr className="border-b border-gray-200 bg-gray-50">
                         <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
-                        <th className="px-4 py-3 font-medium text-gray-700 w-48">Назва</th>
-                        <th className="px-4 py-3 font-medium text-gray-700">Опис</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-48">{labels.title}</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">{labels.description}</th>
                         <th className="px-4 py-3 font-medium text-gray-700 w-48"></th>
                     </tr>
                 </thead>
@@ -131,19 +145,19 @@ export default function MenuItemManager({ csrf }: Props) {
                                 {editingId === m.id ? (
                                     <form onSubmit={e => handleUpdate(e, m.id)} className="flex items-center gap-2">
                                         <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
-                                            Зберегти
+                                            {labels.save}
                                         </button>
                                         <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingId(null)}>
-                                            Скасувати
+                                            {labels.cancel}
                                         </button>
                                     </form>
                                 ) : (
                                     <div className="flex items-center gap-2">
                                         <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(m)}>
-                                            Редагувати
+                                            {labels.edit}
                                         </button>
                                         <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(m.id)}>
-                                            Видалити
+                                            {labels.delete}
                                         </button>
                                     </div>
                                 )}
@@ -156,18 +170,18 @@ export default function MenuItemManager({ csrf }: Props) {
             <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
                 <input
                     className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
-                    placeholder="Назва"
+                    placeholder={labels.placeholder_title}
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
                 />
                 <input
                     className="flex-[2] min-w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
-                    placeholder="Опис"
+                    placeholder={labels.placeholder_desc}
                     value={newDesc}
                     onChange={e => setNewDesc(e.target.value)}
                 />
                 <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
-                    Додати
+                    {labels.add}
                 </button>
             </form>
         </div>

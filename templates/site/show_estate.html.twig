@@ -92,7 +92,13 @@
 
     {# Right sidebar column #}
     <div class="w-full md:w-64 flex-shrink-0">
-        <div id="react-estate-info-panel" data-slug="{{ estate.slug }}"></div>
+        <div id="react-estate-info-panel" data-slug="{{ estate.slug }}" data-labels="{{ {
+            loading: 'site.loading'|trans,
+            error_loading_short: 'site.error_loading_short'|trans,
+            price: 'common.price'|trans,
+            district: 'common.district'|trans,
+            floor_label: 'site.floor_label'|trans
+        }|json_encode }}"></div>
         <div class="mt-4 flex gap-2 text-sm">
             <span>{{ googlePlusButton() }}</span>
             <span>{{ twitterButton() }}</span>

@@ -1,7 +1,14 @@
 {% extends 'site/base_site.html.twig' %}
 {% block panel %}
     {% if apiUrl is defined %}
-        <div id="react-estate-listing" data-api-url="{{ apiUrl }}" data-locale="{{ app.request.locale }}"></div>
+        <div id="react-estate-listing" data-api-url="{{ apiUrl }}" data-locale="{{ app.request.locale }}" data-labels="{{ {
+            loading: 'site.loading'|trans,
+            error_loading: 'site.error_loading'|trans,
+            no_listings: 'site.no_listings'|trans,
+            photo_alt: 'site.photo_alt'|trans,
+            description_label: 'site.description_label'|trans,
+            more: 'site.more'|trans
+        }|json_encode }}"></div>
     {% else %}
         <div class="space-y-6">
             {% for estate in pagination %}

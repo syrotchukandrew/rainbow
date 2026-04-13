@@ -6,23 +6,23 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b border-gray-200">
             <tr>
-                <th class="px-4 py-3 text-left font-medium text-gray-700 w-40">Поле</th>
-                <th class="px-4 py-3 text-left font-medium text-gray-700">Значення</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700 w-40">{{ 'admin.field'|trans }}</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ 'admin.value'|trans }}</th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-            <tr><td class="px-4 py-3 text-gray-500">Ідентифікатор</td><td class="px-4 py-3 text-gray-900">{{ estate.id }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Назва</td><td class="px-4 py-3 text-gray-900">{{ estate.title }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Псевдонім</td><td class="px-4 py-3 text-gray-900">{{ estate.slug }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Ким створено</td><td class="px-4 py-3 text-gray-900">{{ estate.createdBy }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Дата створення</td><td class="px-4 py-3 text-gray-900">{{ estate.createdAt|date("d F Y H:i:s") }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Дата редагування</td><td class="px-4 py-3 text-gray-900">{{ estate.updatedAt|date("d F Y H:i:s") }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Опис</td><td class="px-4 py-3 text-gray-900">{{ estate.description }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Ціна</td><td class="px-4 py-3 text-gray-900">{{ estate.price }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Ексклюзив</td><td class="px-4 py-3 text-gray-900">{{ estate.exclusive }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Район</td><td class="px-4 py-3 text-gray-900">{{ estate.district.title }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.id'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.id }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.title'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.title }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.slug'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.slug }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.created_by'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.createdBy }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.created_at'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.createdAt|date("d F Y H:i:s") }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.updated_at'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.updatedAt|date("d F Y H:i:s") }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'common.description'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.description }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'common.price'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.price }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.exclusive'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.exclusive }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'common.district'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.district.title }}</td></tr>
             <tr>
-                <td class="px-4 py-3 text-gray-500">Фото</td>
+                <td class="px-4 py-3 text-gray-500">{{ 'admin.main_photo'|trans }}</td>
                 <td class="px-4 py-3">
                     {% if estate.files[0] %}
                         <div class="flex flex-wrap gap-2">
@@ -39,21 +39,21 @@
                     {% endif %}
                 </td>
             </tr>
-            <tr><td class="px-4 py-3 text-gray-500">Кількість коментарів</td><td class="px-4 py-3 text-gray-900">{{ estate.comments|length }}</td></tr>
-            <tr><td class="px-4 py-3 text-gray-500">Категорія</td><td class="px-4 py-3 text-gray-900">{{ estate.category.title|trans }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.comments_count'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.comments|length }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.nav.categories'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.category.title|trans }}</td></tr>
             {% if estate.floor %}
-            <tr><td class="px-4 py-3 text-gray-500">Поверховість</td><td class="px-4 py-3 text-gray-900">{{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}</td></tr>
+            <tr><td class="px-4 py-3 text-gray-500">{{ 'admin.floor_info'|trans }}</td><td class="px-4 py-3 text-gray-900">{{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}</td></tr>
             {% endif %}
             </tbody>
         </table>
     </div>
     <div class="flex gap-3 mt-4">
         <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700">
-            Змінити
+            {{ 'admin.change'|trans }}
         </a>
         {{ include('admin/estate/_form.html.twig', {
             form: delete_form,
-            button_label: 'Видалити',
+            button_label: 'admin.delete'|trans,
             button_css: 'inline-flex items-center px-3 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 cursor-pointer',
             show_confirmation: true,
         }, with_context = false) }}

@@ -11,11 +11,25 @@ interface CommentItem {
 
 type TabStatus = 'pending' | 'published' | 'all';
 
-interface Props {
-    csrf: string;
+interface Labels {
+    tab_pending: string;
+    tab_published: string;
+    tab_all: string;
+    content: string;
+    author: string;
+    date: string;
+    no_comments: string;
+    publish: string;
+    delete: string;
+    confirm_delete: string;
 }
 
-export default function CommentManager({ csrf }: Props) {
+interface Props {
+    csrf: string;
+    labels: Labels;
+}
+
+export default function CommentManager({ csrf, labels }: Props) {
     const [tab, setTab] = useState<TabStatus>('pending');
     const [comments, setComments] = useState<CommentItem[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -47,7 +61,7 @@ export default function CommentManager({ csrf }: Props) {
     }
 
     async function handleDelete(id: number) {
-        if (!window.confirm('Видалити коментар?')) return;
+        if (!window.confirm(labels.confirm_delete)) return;
         setError(null);
         const res = await fetch(`/api/admin/comments/${id}`, {
             method: 'DELETE',
@@ -62,9 +76,9 @@ export default function CommentManager({ csrf }: Props) {
     }
 
     const tabs: { key: TabStatus; label: string }[] = [
-        { key: 'pending', label: 'Неопубліковані' },
-        { key: 'published', label: 'Опубліковані' },
-        { key: 'all', label: 'Всі' },
+        { key: 'pending', label: labels.tab_pending },
+        { key: 'published', label: labels.tab_published },
+        { key: 'all', label: labels.tab_all },
     ];
 
     return (
@@ -95,9 +109,9 @@ export default function CommentManager({ csrf }: Props) {
                 <thead>
                     <tr className="border-b border-gray-200 bg-gray-50">
                         <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
-                        <th className="px-4 py-3 font-medium text-gray-700">Контент</th>
-                        <th className="px-4 py-3 font-medium text-gray-700 w-36">Автор</th>
-                        <th className="px-4 py-3 font-medium text-gray-700 w-36">Дата</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">{labels.content}</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-36">{labels.author}</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-36">{labels.date}</th>
                         <th className="px-4 py-3 font-medium text-gray-700 w-40"></th>
                     </tr>
                 </thead>
@@ -105,7 +119,7 @@ export default function CommentManager({ csrf }: Props) {
                     {comments.length === 0 ? (
                         <tr>
                             <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
-                                Немає коментарів
+                                {labels.no_comments}
                             </td>
                         </tr>
                     ) : comments.map(c => (
@@ -121,14 +135,14 @@ export default function CommentManager({ csrf }: Props) {
                                             className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200"
                                             onClick={() => handleApprove(c.id)}
                                         >
-                                            Опублікувати
+                                            {labels.publish}
                                         </button>
                                     )}
                                     <button
                                         className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200"
                                         onClick={() => handleDelete(c.id)}
                                     >
-                                        Видалити
+                                        {labels.delete}
                                     </button>
                                 </div>
                             </td>

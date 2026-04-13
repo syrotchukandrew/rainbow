@@ -5,6 +5,14 @@
          data-district="{{ districtSlug }}"
          data-price="{{ price }}"
          data-except-floor="{{ exceptFloor }}"
-         data-locale="{{ app.request.locale }}">
+         data-locale="{{ app.request.locale }}"
+         data-labels="{{ {
+             loading: 'site.loading'|trans,
+             error_loading: 'site.error_loading'|trans,
+             no_results: 'site.no_results'|trans,
+             photo_alt: 'site.photo_alt'|trans,
+             description_label: 'site.description_label'|trans,
+             more: 'site.more'|trans
+         }|json_encode }}">
     </div>
 {% endblock panel %}

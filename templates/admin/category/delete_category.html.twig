@@ -1,15 +1,15 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block panel %}
-    <h1 class="text-xl font-semibold text-gray-900 mb-2">Видалити категорію</h1>
-    <p class="text-sm text-gray-500 mb-2">Ця форма дозволяє видаляти категорії.</p>
-    <p class="text-sm text-red-600 mb-6">Увага! Видалення категорії призведе до видалення всіх об'єктів, які відносяться до цієї категорії!</p>
+    <h1 class="text-xl font-semibold text-gray-900 mb-2">{{ 'admin.delete_category_heading'|trans }}</h1>
+    <p class="text-sm text-gray-500 mb-2">{{ 'admin.delete_category_desc'|trans }}</p>
+    <p class="text-sm text-red-600 mb-6">{{ 'admin.delete_category_warning'|trans }}</p>
     <div class="bg-white border border-gray-200 rounded-lg p-6 max-w-lg">
         {{ form_start(delete_form) }}
         {{ form_row(delete_form.title) }}
         <div class="flex gap-3 mt-4">
-            <input type="submit" value="Видалити" class="inline-flex items-center px-3 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 cursor-pointer"/>
-            <a href="{{ path('admin_categories') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">Назад до списку</a>
+            <input type="submit" value="{{ 'admin.delete'|trans }}" class="inline-flex items-center px-3 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 cursor-pointer"/>
+            <a href="{{ path('admin_categories') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">{{ 'admin.back'|trans }}</a>
         </div>
         {{ form_end(delete_form) }}
     </div>

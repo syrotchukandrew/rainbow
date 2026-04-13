@@ -17,12 +17,22 @@ interface PagedResponse {
     perPage: number;
 }
 
+interface Labels {
+    loading: string;
+    error_loading: string;
+    no_listings: string;
+    photo_alt: string;
+    description_label: string;
+    more: string;
+}
+
 interface Props {
     apiUrl: string;
     locale: string;
+    labels: Labels;
 }
 
-export default function EstateListing({ apiUrl, locale }: Props) {
+export default function EstateListing({ apiUrl, locale, labels }: Props) {
     const [result, setResult] = useState<PagedResponse | null>(null);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -44,15 +54,15 @@ export default function EstateListing({ apiUrl, locale }: Props) {
             })
             .catch((err: unknown) => {
                 if (err instanceof Error && err.name === 'AbortError') return;
-                setError('Помилка завантаження. Спробуйте пізніше.');
+                setError(labels.error_loading);
                 setLoading(false);
             });
         return () => controller.abort();
     }, [apiUrl, page]);
 
-    if (loading) return <p>Завантаження...</p>;
+    if (loading) return <p>{labels.loading}</p>;
     if (error) return <p>{error}</p>;
-    if (!result || result.data.length === 0) return <p>Оголошення не знайдено.</p>;
+    if (!result || result.data.length === 0) return <p>{labels.no_listings}</p>;
 
     const totalPages = Math.ceil(result.total / result.perPage);
 
@@ -70,7 +80,7 @@ export default function EstateListing({ apiUrl, locale }: Props) {
                             <div className="flex-1 min-w-0">
                                 {estate.primaryImageUrl && (
                                     <a href={`/${locale}/show_estate/${estate.slug}`}>
-                                        <img alt="фото нерухомості" src={estate.primaryImageUrl} className="w-full h-auto rounded" />
+                                        <img alt={labels.photo_alt} src={estate.primaryImageUrl} className="w-full h-auto rounded" />
                                     </a>
                                 )}
                             </div>
@@ -78,18 +88,18 @@ export default function EstateListing({ apiUrl, locale }: Props) {
                                 <div className="w-40 flex-shrink-0 space-y-2 hidden sm:block">
                                     {estate.secondaryImageUrls.map((url, i) => (
                                         <a key={i} href={`/${locale}/show_estate/${estate.slug}`}>
-                                            <img alt="фото нерухомості" src={url} className="w-full h-auto rounded" />
+                                            <img alt={labels.photo_alt} src={url} className="w-full h-auto rounded" />
                                         </a>
                                     ))}
                                 </div>
                             )}
                         </div>
-                        <h3 className="text-sm font-semibold text-gray-600 mt-3 mb-1">Опис:</h3>
+                        <h3 className="text-sm font-semibold text-gray-600 mt-3 mb-1">{labels.description_label}</h3>
                         <div className="text-sm text-gray-700">{estate.description}</div>
                         <div className="mt-3">
                             <a href={`/${locale}/show_estate/${estate.slug}`}
                                className="inline-block px-3 py-1.5 text-sm rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
-                                Детальніше
+                                {labels.more}
                             </a>
                         </div>
                     </div>

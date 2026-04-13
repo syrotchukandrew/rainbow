@@ -4,7 +4,7 @@
     <p>{{ item.description }}</p>
     {{ include('admin/menu_item/_form.html.twig', {
         form: delete_form,
-        button_label: 'Удалить',
+        button_label: 'admin.delete'|trans,
         button_css: 'inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer',
         show_confirmation: true,
     }, with_context = false) }}

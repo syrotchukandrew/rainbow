@@ -17,15 +17,25 @@ interface PagedResponse {
     perPage: number;
 }
 
+interface Labels {
+    loading: string;
+    error_loading: string;
+    no_results: string;
+    photo_alt: string;
+    description_label: string;
+    more: string;
+}
+
 interface Props {
     categorySlug: string;
     districtSlug: string;
     price: string;
     exceptFloor: string;
     locale: string;
+    labels: Labels;
 }
 
-export default function SearchResult({ categorySlug, districtSlug, price, exceptFloor, locale }: Props) {
+export default function SearchResult({ categorySlug, districtSlug, price, exceptFloor, locale, labels }: Props) {
     const [result, setResult] = useState<PagedResponse | null>(null);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -55,15 +65,15 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
             })
             .catch((err: unknown) => {
                 if (err instanceof Error && err.name === 'AbortError') return;
-                setError('Помилка завантаження. Спробуйте пізніше.');
+                setError(labels.error_loading);
                 setLoading(false);
             });
         return () => controller.abort();
     }, [categorySlug, districtSlug, price, exceptFloor, page]);
 
-    if (loading) return <p>Завантаження...</p>;
+    if (loading) return <p>{labels.loading}</p>;
     if (error) return <p>{error}</p>;
-    if (!result || result.data.length === 0) return <p>За вашим запитом нічого не знайдено.</p>;
+    if (!result || result.data.length === 0) return <p>{labels.no_results}</p>;
 
     const totalPages = Math.ceil(result.total / result.perPage);
 
@@ -79,7 +89,7 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                             {estate.primaryImageUrl && (
                                 <a href={`/${locale}/show_estate/${estate.slug}`}>
                                     <img
-                                        alt="фото нерухомості"
+                                        alt={labels.photo_alt}
                                         src={estate.primaryImageUrl}
                                         className="w-full h-auto"
                                     />
@@ -90,17 +100,17 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                             {estate.secondaryImageUrls.map((url, i) => (
                                 <React.Fragment key={i}>
                                     <a href={`/${locale}/show_estate/${estate.slug}`}>
-                                        <img alt="фото нерухомості" src={url} className="w-full h-auto" />
+                                        <img alt={labels.photo_alt} src={url} className="w-full h-auto" />
                                     </a>
                                     <hr />
                                 </React.Fragment>
                             ))}
                         </div>
                     </div>
-                    <h3>Опис:</h3>
+                    <h3>{labels.description_label}</h3>
                     <p>{estate.description}</p>
                     <a href={`/${locale}/show_estate/${estate.slug}`} className="inline-block px-4 py-2 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">
-                        Детальніше
+                        {labels.more}
                     </a>
                     <hr />
                 </div>
