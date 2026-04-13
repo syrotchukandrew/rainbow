@@ -98,6 +98,16 @@ class EstateRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findByTitleSearch(string $search): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.title LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orderBy('e.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findEstatesFromForm($id_category, $id_district, $price_min, $price_max, $except_floor)
     {
         $em = $this->getEntityManager();

@@ -25,27 +25,27 @@ class Searcher
         $this->requestStack = $requestStack;
     }
 
-    public function search()
+    public function search(): array
     {
-        $allEstates = $this->doctrine->getRepository(\App\Entity\Estate::class)->findAll();
         $request = $this->requestStack->getCurrentRequest();
         $slug = $request->query->get('slug', '');
-        $method = $request->getMethod();
-        $slugsTitles = array();
-        $estates = array();
-        foreach ($allEstates as $estate) {
-            $estateTitle = $estate->getTitle();
-            if ($slug !== '' && stristr($estateTitle, $slug)) {
-                $estateSlug = $estate->getSlug();
-                $slugsTitles[$estateSlug] = $estateTitle;
-                $estates[] = $estate;
+
+        if ($slug === '') {
+            return [];
+        }
+
+        $estates = $this->doctrine->getRepository(\App\Entity\Estate::class)
+            ->findByTitleSearch($slug);
+
+        if ($request->getMethod() === 'GET') {
+            $slugsTitles = [];
+            foreach ($estates as $estate) {
+                $slugsTitles[$estate->getSlug()] = $estate->getTitle();
             }
+            return $slugsTitles;
         }
-        if ($method == 'GET') {
-            return ($slugsTitles);
-        } else {
-            return ($estates);
-        }
+
+        return $estates;
     }
 
 }
