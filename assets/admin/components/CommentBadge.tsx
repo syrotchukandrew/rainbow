@@ -22,5 +22,5 @@ export default function CommentBadge({ url }: Props) {
 
     if (count === 0) return null;
 
-    return <span className="badge">{count}</span>;
+    return <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-xs font-bold rounded-full bg-red-500 text-white">{count}</span>;
 }

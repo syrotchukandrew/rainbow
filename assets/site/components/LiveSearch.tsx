@@ -50,29 +50,26 @@ export default function LiveSearch({ placeholder, locale }: Props) {
     }, []);
 
     return (
-        <div ref={wrapperRef} style={{ position: 'relative' }} className="form-inline">
-            <div className="input-group">
+        <div ref={wrapperRef} className="relative">
+            <div className="flex">
                 <input
                     type="text"
-                    className="form-control"
+                    className="flex-1 border border-gray-300 rounded-l px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                     placeholder={placeholder}
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                 />
-                <div className="input-group-btn">
-                    <button type="button" className="btn btn-default">
-                        <i className="glyphicon glyphicon-search" />
-                    </button>
-                </div>
+                <button type="button" className="px-3 py-2 border border-l-0 border-gray-300 rounded-r bg-gray-50 text-gray-600 hover:bg-gray-100">
+                    ⌕
+                </button>
             </div>
             {open && (
-                <ul
-                    className="dropdown-menu"
-                    style={{ display: 'block', width: '100%', top: '100%', left: 0 }}
-                >
+                <ul className="absolute z-50 w-full top-full left-0 mt-0.5 bg-white border border-gray-200 rounded shadow-md text-sm">
                     {results.map(estate => (
                         <li key={estate.slug}>
-                            <a href={`/${locale}/show_estate/${estate.slug}`}>{estate.title}</a>
+                            <a href={`/${locale}/show_estate/${estate.slug}`} className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                                {estate.title}
+                            </a>
                         </li>
                     ))}
                 </ul>

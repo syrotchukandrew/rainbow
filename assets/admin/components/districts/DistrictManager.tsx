@@ -32,12 +32,14 @@ export default function DistrictManager({ csrf }: Props) {
     async function handleCreate(e: React.FormEvent) {
         e.preventDefault();
         setError(null);
+        setCreating(true);
         const res = await fetch('/api/admin/districts', {
             method: 'POST',
             headers: headers(),
             body: JSON.stringify({ title: newTitle }),
         });
         const data = await res.json();
+        setCreating(false);
         if (!res.ok) {
             setError(data.error ?? 'Error');
             return;
@@ -86,44 +88,48 @@ export default function DistrictManager({ csrf }: Props) {
 
     return (
         <div>
-            {error && <div className="alert alert-danger">{error}</div>}
-            <table className="table table-striped">
+            {error && (
+                <div className="mb-4 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
+
+            <table className="w-full text-sm text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Назва</th>
-                        <th>Псевдонім</th>
-                        <th><i className="fa fa-cogs" /></th>
+                    <tr className="border-b border-gray-200 bg-gray-50">
+                        <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Назва</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-40">Псевдонім</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-48"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                     {districts.map(d => (
-                        <tr key={d.slug}>
-                            <td>{d.id}</td>
-                            <td>
+                        <tr key={d.slug} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-gray-500">{d.id}</td>
+                            <td className="px-4 py-3 text-gray-900">
                                 {editingSlug === d.slug ? (
-                                    <form onSubmit={e => handleUpdate(e, d.slug)} style={{ display: 'flex', gap: 4 }}>
+                                    <form onSubmit={e => handleUpdate(e, d.slug)} className="flex items-center gap-2">
                                         <input
-                                            className="form-control input-sm"
+                                            className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                                             value={editTitle}
                                             onChange={e => setEditTitle(e.target.value)}
                                             autoFocus
                                         />
-                                        <button type="submit" className="btn btn-sm btn-success">Зберегти</button>
-                                        <button type="button" className="btn btn-sm btn-default" onClick={() => setEditingSlug(null)}>Скасувати</button>
+                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">Зберегти</button>
+                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingSlug(null)}>Скасувати</button>
                                     </form>
                                 ) : d.title}
                             </td>
-                            <td>{d.slug}</td>
-                            <td>
+                            <td className="px-4 py-3 text-gray-500">{d.slug}</td>
+                            <td className="px-4 py-3">
                                 {editingSlug !== d.slug && (
-                                    <div className="item-actions">
-                                        <button className="btn btn-sm btn-default" onClick={() => startEdit(d)}>
-                                            <i className="fa fa-edit" /> Редагувати
+                                    <div className="flex items-center gap-2">
+                                        <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(d)}>
+                                            Редагувати
                                         </button>
-                                        {' '}
-                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(d.slug)}>
-                                            <i className="fa fa-trash" /> Видалити
+                                        <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(d.slug)}>
+                                            Видалити
                                         </button>
                                     </div>
                                 )}
@@ -132,16 +138,16 @@ export default function DistrictManager({ csrf }: Props) {
                     ))}
                 </tbody>
             </table>
-            <form onSubmit={handleCreate} className="form-inline" style={{ marginTop: 16 }}>
+
+            <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
                 <input
-                    className="form-control"
+                    className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                     placeholder="Назва нового району"
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
-                    style={{ marginRight: 8 }}
                 />
-                <button type="submit" className="btn btn-success" disabled={creating}>
-                    <i className="fa fa-plus" /> Додати
+                <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" disabled={creating}>
+                    Додати
                 </button>
             </form>
         </div>

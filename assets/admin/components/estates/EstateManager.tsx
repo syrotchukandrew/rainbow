@@ -48,44 +48,46 @@ export default function EstateManager() {
     function th(label: string, key: SortKey) {
         const arrow = sortKey === key ? (sortAsc ? ' ▲' : ' ▼') : '';
         return (
-            <th style={{ cursor: 'pointer' }} onClick={() => handleSort(key)}>
+            <th
+                className="px-4 py-3 font-medium text-gray-700 cursor-pointer select-none hover:text-gray-900"
+                onClick={() => handleSort(key)}
+            >
                 {label}{arrow}
             </th>
         );
     }
 
     if (loading) {
-        return <p>Завантаження...</p>;
+        return <p className="px-4 py-6 text-sm text-gray-400">Завантаження...</p>;
     }
 
     return (
-        <table className="table table-striped">
+        <table className="w-full text-sm text-left border-collapse">
             <thead>
-                <tr>
+                <tr className="border-b border-gray-200 bg-gray-50">
                     {th('Назва', 'title')}
                     {th('Категорія', 'category')}
                     {th('Ціна', 'price')}
                     {th('Створено', 'createdAt')}
                     {th('Район', 'district')}
-                    <th>Ексклюзив</th>
-                    <th>Дії</th>
+                    <th className="px-4 py-3 font-medium text-gray-700">Ексклюзив</th>
+                    <th className="px-4 py-3 font-medium text-gray-700 w-40">Дії</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
                 {sorted.map(row => (
-                    <tr key={row.id}>
-                        <td>{row.title}</td>
-                        <td>{row.category ?? '—'}</td>
-                        <td>{row.price}</td>
-                        <td>{row.createdAt}</td>
-                        <td>{row.district ?? '—'}</td>
-                        <td>{row.exclusive ? 'Так' : '-'}</td>
-                        <td>
-                            <a href={row.showUrl} className="btn btn-sm btn-default">Показати</a>
-                            {' '}
-                            <a href={row.editUrl} className="btn btn-sm btn-default">
-                                <i className="fa fa-edit" /> Змінити
-                            </a>
+                    <tr key={row.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-gray-900">{row.title}</td>
+                        <td className="px-4 py-3 text-gray-700">{row.category ?? '—'}</td>
+                        <td className="px-4 py-3 text-gray-700">{row.price}</td>
+                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{row.createdAt}</td>
+                        <td className="px-4 py-3 text-gray-700">{row.district ?? '—'}</td>
+                        <td className="px-4 py-3 text-gray-700">{row.exclusive ? 'Так' : '-'}</td>
+                        <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                                <a href={row.showUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Показати</a>
+                                <a href={row.editUrl} className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">Змінити</a>
+                            </div>
                         </td>
                     </tr>
                 ))}

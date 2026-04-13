@@ -66,54 +66,59 @@ export default function UserManager({ csrf }: Props) {
 
     return (
         <div>
-            {error && <div className="alert alert-danger">{error}</div>}
-            <table className="table table-striped">
+            {error && (
+                <div className="mb-4 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
+
+            <table className="w-full text-sm text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>Ім'я користувача</th>
-                        <th>Роль</th>
-                        <th>Email</th>
-                        <th>Останній вхід</th>
-                        <th>Стан</th>
-                        <th>Блокування</th>
-                        <th>Роль менеджера</th>
-                        <th>Об'єкти</th>
+                    <tr className="border-b border-gray-200 bg-gray-50">
+                        <th className="px-4 py-3 font-medium text-gray-700">Ім'я користувача</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Роль</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Email</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Останній вхід</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Стан</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-40">Блокування</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-48">Роль менеджера</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-28">Об'єкти</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                     {users.map(u => (
-                        <tr key={u.username}>
-                            <td>{u.username}</td>
-                            <td>{u.roles.includes('ROLE_MANAGER') ? 'Менеджер' : 'Користувач'}</td>
-                            <td>{u.email}</td>
-                            <td>{u.lastLogin ?? 'Немає входів'}</td>
-                            <td>{u.locked ? 'Заблокований' : 'Активний'}</td>
-                            <td>
+                        <tr key={u.username} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-gray-900">{u.username}</td>
+                            <td className="px-4 py-3 text-gray-700">{u.roles.includes('ROLE_MANAGER') ? 'Менеджер' : 'Користувач'}</td>
+                            <td className="px-4 py-3 text-gray-700">{u.email}</td>
+                            <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{u.lastLogin ?? 'Немає входів'}</td>
+                            <td className="px-4 py-3 text-gray-700">{u.locked ? 'Заблокований' : 'Активний'}</td>
+                            <td className="px-4 py-3">
                                 {u.locked ? (
-                                    <button className="btn btn-sm btn-success" onClick={() => handleUnlock(u.username)}>
-                                        <i className="fa fa-edit" /> Розблокувати
+                                    <button className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" onClick={() => handleUnlock(u.username)}>
+                                        Розблокувати
                                     </button>
                                 ) : (
-                                    <button className="btn btn-sm btn-danger" onClick={() => handleLock(u.username)}>
-                                        <i className="fa fa-edit" /> Заблокувати
+                                    <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleLock(u.username)}>
+                                        Заблокувати
                                     </button>
                                 )}
                             </td>
-                            <td>
+                            <td className="px-4 py-3">
                                 {u.roles.includes('ROLE_MANAGER') ? (
-                                    <button className="btn btn-sm btn-danger" onClick={() => handleMakeUser(u.username)}>
-                                        <i className="fa fa-edit" /> Зробити користувачем
+                                    <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleMakeUser(u.username)}>
+                                        Зробити користувачем
                                     </button>
                                 ) : (
-                                    <button className="btn btn-sm btn-success" onClick={() => handleMakeManager(u.username)}>
-                                        <i className="fa fa-edit" /> Призначити менеджером
+                                    <button className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" onClick={() => handleMakeManager(u.username)}>
+                                        Призначити менеджером
                                     </button>
                                 )}
                             </td>
-                            <td>
+                            <td className="px-4 py-3">
                                 {u.roles.includes('ROLE_MANAGER') ? (
-                                    <a href={`/admin/estates/${u.username}`} className="btn btn-sm btn-primary">
-                                        <i className="fa fa-edit" /> Показати
+                                    <a href={`/admin/estates/${u.username}`} className="px-3 py-1 text-xs font-medium rounded bg-blue-100 text-blue-700 hover:bg-blue-200">
+                                        Показати
                                     </a>
                                 ) : '-'}
                             </td>

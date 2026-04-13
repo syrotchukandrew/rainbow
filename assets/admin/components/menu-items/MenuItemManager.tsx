@@ -89,53 +89,61 @@ export default function MenuItemManager({ csrf }: Props) {
 
     return (
         <div>
-            {error && <div className="alert alert-danger">{error}</div>}
-            <table className="table table-striped">
+            {error && (
+                <div className="mb-4 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
+
+            <table className="w-full text-sm text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Назва</th>
-                        <th>Опис</th>
-                        <th><i className="fa fa-cogs" /></th>
+                    <tr className="border-b border-gray-200 bg-gray-50">
+                        <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-48">Назва</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Опис</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-48"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                     {items.map(m => (
-                        <tr key={m.id}>
-                            <td>{m.id}</td>
-                            <td>
+                        <tr key={m.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-gray-500">{m.id}</td>
+                            <td className="px-4 py-3 text-gray-900">
                                 {editingId === m.id ? (
                                     <input
-                                        className="form-control input-sm"
+                                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                                         value={editTitle}
                                         onChange={e => setEditTitle(e.target.value)}
                                         autoFocus
                                     />
                                 ) : m.title}
                             </td>
-                            <td>
+                            <td className="px-4 py-3 text-gray-700">
                                 {editingId === m.id ? (
                                     <input
-                                        className="form-control input-sm"
+                                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                                         value={editDesc}
                                         onChange={e => setEditDesc(e.target.value)}
                                     />
                                 ) : (m.description ?? '')}
                             </td>
-                            <td>
+                            <td className="px-4 py-3">
                                 {editingId === m.id ? (
-                                    <form onSubmit={e => handleUpdate(e, m.id)} style={{ display: 'flex', gap: 4 }}>
-                                        <button type="submit" className="btn btn-sm btn-success">Зберегти</button>
-                                        <button type="button" className="btn btn-sm btn-default" onClick={() => setEditingId(null)}>Скасувати</button>
+                                    <form onSubmit={e => handleUpdate(e, m.id)} className="flex items-center gap-2">
+                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
+                                            Зберегти
+                                        </button>
+                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingId(null)}>
+                                            Скасувати
+                                        </button>
                                     </form>
                                 ) : (
-                                    <div className="item-actions">
-                                        <button className="btn btn-sm btn-default" onClick={() => startEdit(m)}>
-                                            <i className="fa fa-edit" /> Редагувати
+                                    <div className="flex items-center gap-2">
+                                        <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(m)}>
+                                            Редагувати
                                         </button>
-                                        {' '}
-                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(m.id)}>
-                                            <i className="fa fa-trash" /> Видалити
+                                        <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(m.id)}>
+                                            Видалити
                                         </button>
                                     </div>
                                 )}
@@ -144,23 +152,22 @@ export default function MenuItemManager({ csrf }: Props) {
                     ))}
                 </tbody>
             </table>
-            <form onSubmit={handleCreate} style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+
+            <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
                 <input
-                    className="form-control"
+                    className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                     placeholder="Назва"
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
-                    style={{ flex: '1 1 200px' }}
                 />
                 <input
-                    className="form-control"
+                    className="flex-[2] min-w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
                     placeholder="Опис"
                     value={newDesc}
                     onChange={e => setNewDesc(e.target.value)}
-                    style={{ flex: '2 1 300px' }}
                 />
-                <button type="submit" className="btn btn-success">
-                    <i className="fa fa-plus" /> Додати
+                <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
+                    Додати
                 </button>
             </form>
         </div>

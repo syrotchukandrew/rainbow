@@ -29,7 +29,6 @@ class EstateType extends AbstractType
                 'label' => 'form.estate.description',
                 'attr' => [
                     'placeholder' => 'form.estate.description_placeholder',
-                    'class' => 'form-control',
                     'rows' => 5,
                     'cols' => 120,
                 ]

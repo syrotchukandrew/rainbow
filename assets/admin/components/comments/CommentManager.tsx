@@ -69,53 +69,66 @@ export default function CommentManager({ csrf }: Props) {
 
     return (
         <div>
-            <ul className="nav nav-tabs" style={{ marginBottom: 16 }}>
+            <div className="flex border-b border-gray-200 mb-4">
                 {tabs.map(t => (
-                    <li key={t.key} className={tab === t.key ? 'active' : ''}>
-                        <a href="#" onClick={e => { e.preventDefault(); setTab(t.key); }}>{t.label}</a>
-                    </li>
+                    <button
+                        key={t.key}
+                        onClick={() => setTab(t.key)}
+                        className={`px-4 py-2 text-sm font-medium -mb-px border-b-2 ${
+                            tab === t.key
+                                ? 'border-gray-900 text-gray-900'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        }`}
+                    >
+                        {t.label}
+                    </button>
                 ))}
-            </ul>
+            </div>
 
-            {error && <div className="alert alert-danger">{error}</div>}
+            {error && (
+                <div className="mb-4 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
 
-            <table className="table table-striped">
+            <table className="w-full text-sm text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Контент</th>
-                        <th>Автор</th>
-                        <th>Дата</th>
-                        <th><i className="fa fa-cogs" /></th>
+                    <tr className="border-b border-gray-200 bg-gray-50">
+                        <th className="px-4 py-3 font-medium text-gray-700 w-12">ID</th>
+                        <th className="px-4 py-3 font-medium text-gray-700">Контент</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-36">Автор</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-36">Дата</th>
+                        <th className="px-4 py-3 font-medium text-gray-700 w-40"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100">
                     {comments.length === 0 ? (
-                        <tr><td colSpan={5} className="text-center text-muted">Немає коментарів</td></tr>
+                        <tr>
+                            <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
+                                Немає коментарів
+                            </td>
+                        </tr>
                     ) : comments.map(c => (
-                        <tr key={c.id}>
-                            <td>{c.id}</td>
-                            <td>{c.content}</td>
-                            <td>{c.createdBy}</td>
-                            <td>{c.createdAt}</td>
-                            <td>
-                                <div className="item-actions">
+                        <tr key={c.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-gray-500">{c.id}</td>
+                            <td className="px-4 py-3 text-gray-900">{c.content}</td>
+                            <td className="px-4 py-3 text-gray-700">{c.createdBy}</td>
+                            <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{c.createdAt}</td>
+                            <td className="px-4 py-3">
+                                <div className="flex items-center gap-2">
                                     {!c.enabled && (
-                                        <>
-                                            <button
-                                                className="btn btn-sm btn-default"
-                                                onClick={() => handleApprove(c.id)}
-                                            >
-                                                Опублікувати
-                                            </button>
-                                            {' '}
-                                        </>
+                                        <button
+                                            className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200"
+                                            onClick={() => handleApprove(c.id)}
+                                        >
+                                            Опублікувати
+                                        </button>
                                     )}
                                     <button
-                                        className="btn btn-sm btn-danger"
+                                        className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200"
                                         onClick={() => handleDelete(c.id)}
                                     >
-                                        <i className="fa fa-trash" /> Видалити
+                                        Видалити
                                     </button>
                                 </div>
                             </td>

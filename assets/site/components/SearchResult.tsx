@@ -68,29 +68,29 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
     const totalPages = Math.ceil(result.total / result.perPage);
 
     return (
-        <div className="panel">
+        <div>
             {result.data.map(estate => (
                 <div key={estate.id}>
                     <h2>
                         <a className="grey" href={`/${locale}/show_estate/${estate.slug}`}>{estate.title}</a>
                     </h2>
-                    <div className="row">
-                        <div className="col col-sm-8">
+                    <div className="flex gap-4">
+                        <div className="flex-[2] min-w-0">
                             {estate.primaryImageUrl && (
                                 <a href={`/${locale}/show_estate/${estate.slug}`}>
                                     <img
                                         alt="фото нерухомості"
                                         src={estate.primaryImageUrl}
-                                        className="img-responsive"
+                                        className="w-full h-auto"
                                     />
                                 </a>
                             )}
                         </div>
-                        <div className="col col-sm-4">
+                        <div className="flex-1 min-w-0">
                             {estate.secondaryImageUrls.map((url, i) => (
                                 <React.Fragment key={i}>
                                     <a href={`/${locale}/show_estate/${estate.slug}`}>
-                                        <img alt="фото нерухомості" src={url} className="img-responsive" />
+                                        <img alt="фото нерухомості" src={url} className="w-full h-auto" />
                                     </a>
                                     <hr />
                                 </React.Fragment>
@@ -99,20 +99,19 @@ export default function SearchResult({ categorySlug, districtSlug, price, except
                     </div>
                     <h3>Опис:</h3>
                     <p>{estate.description}</p>
-                    <a href={`/${locale}/show_estate/${estate.slug}`} className="btn btn-default">
+                    <a href={`/${locale}/show_estate/${estate.slug}`} className="inline-block px-4 py-2 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200">
                         Детальніше
                     </a>
                     <hr />
                 </div>
             ))}
             {totalPages > 1 && (
-                <div className="navigation">
+                <div className="flex flex-wrap gap-1 mt-4">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                         <button
                             key={p}
                             onClick={() => setPage(p)}
-                            className={`btn btn-sm ${p === page ? 'btn-primary' : 'btn-default'}`}
-                            style={{ margin: '0 2px' }}
+                            className={`px-3 py-1 text-sm font-medium rounded ${p === page ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                         >
                             {p}
                         </button>

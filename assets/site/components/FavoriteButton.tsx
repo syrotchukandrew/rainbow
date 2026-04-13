@@ -32,13 +32,11 @@ export default function FavoriteButton({ slug, favorited: initialFavorited, csrf
     return (
         <button
             type="button"
-            className="btn btn-info btn-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded bg-sky-100 text-sky-700 hover:bg-sky-200 disabled:opacity-50"
             onClick={toggle}
             disabled={loading}
         >
-            <span className="glyphicon glyphicon-star-empty" />
-            {' '}
-            {favorited ? labelRemove : labelAdd}
+            ☆ {favorited ? labelRemove : labelAdd}
         </button>
     );
 }

@@ -18,23 +18,23 @@ export default function EstateSlideshow({ images }: Props) {
     if (images.length === 0) return null;
 
     return (
-        <div style={{ position: 'relative', marginBottom: '20px' }}>
+        <div className="relative mb-5">
             <img
                 src={images[current]}
                 alt=""
-                style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
+                className="w-full max-h-96 object-cover"
             />
             {images.length > 1 && (
-                <div style={{ textAlign: 'center', marginTop: '8px' }}>
+                <div className="text-center mt-2">
                     <button
-                        className="btn btn-default btn-sm"
+                        className="px-3 py-1 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
                         onClick={() => setCurrent(i => (i - 1 + images.length) % images.length)}
                     >
                         ‹
                     </button>
-                    <span style={{ margin: '0 8px' }}>{current + 1} / {images.length}</span>
+                    <span className="mx-2">{current + 1} / {images.length}</span>
                     <button
-                        className="btn btn-default btn-sm"
+                        className="px-3 py-1 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
                         onClick={() => setCurrent(i => (i + 1) % images.length)}
                     >
                         ›

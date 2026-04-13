@@ -43,9 +43,9 @@ export default function CommentForm({ slug, csrf, placeholder, submit }: Props) 
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="mb-3">
                 <textarea
-                    className="form-control"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 resize-none disabled:opacity-50"
                     rows={4}
                     placeholder={placeholder}
                     value={content}
@@ -54,14 +54,14 @@ export default function CommentForm({ slug, csrf, placeholder, submit }: Props) 
                 />
             </div>
             {status === 'success' && (
-                <div className="alert alert-success">Comment submitted for review.</div>
+                <div className="mb-3 rounded bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">Comment submitted for review.</div>
             )}
             {status === 'error' && (
-                <div className="alert alert-danger">{errorMsg}</div>
+                <div className="mb-3 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{errorMsg}</div>
             )}
             <button
                 type="submit"
-                className="btn btn-primary"
+                className="px-4 py-2 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
                 disabled={status === 'sending' || !content.trim()}
             >
                 {status === 'sending' ? '...' : submit}

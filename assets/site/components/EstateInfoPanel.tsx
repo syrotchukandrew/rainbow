@@ -52,30 +52,30 @@ export default function EstateInfoPanel({ slug }: Props) {
 
     return (
         <>
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <i className="glyphicon glyphicon-stats" /> Ціна
+            <div className="mb-4 rounded border border-gray-200">
+                <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+                    Ціна
                 </div>
-                <div className="panel-body">
+                <div className="px-4 py-3 text-sm text-gray-800">
                     {estate.price !== null ? `${estate.price}\u00a0дол.` : '—'}
                 </div>
             </div>
             {estate.district && (
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <i className="glyphicon glyphicon-stats" /> Район
+                <div className="mb-4 rounded border border-gray-200">
+                    <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+                        Район
                     </div>
-                    <div className="panel-body">
+                    <div className="px-4 py-3 text-sm text-gray-800">
                         {estate.district.title}
                     </div>
                 </div>
             )}
             {estate.floor && (
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <i className="glyphicon glyphicon-stats" /> Поверх / Поверховість
+                <div className="mb-4 rounded border border-gray-200">
+                    <div className="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+                        Поверх / Поверховість
                     </div>
-                    <div className="panel-body">
+                    <div className="px-4 py-3 text-sm text-gray-800">
                         {estate.floor.floor} / {estate.floor.count_floor}
                     </div>
                 </div>
