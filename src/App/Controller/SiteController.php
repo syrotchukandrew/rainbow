@@ -23,6 +23,8 @@ use App\Utils\SearchManager;
 use App\Utils\Searcher;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +49,7 @@ class SiteController extends AbstractController
     private Searcher $searcher;
     private Pdf $pdf;
     private Breadcrumbs $breadcrumbs;
+    private CacheInterface $cache;
 
     public function __construct(
         ManagerRegistry $doctrine,
@@ -56,7 +59,8 @@ class SiteController extends AbstractController
         SearchManager $searchManager,
         Searcher $searcher,
         Pdf $pdf,
-        Breadcrumbs $breadcrumbs
+        Breadcrumbs $breadcrumbs,
+        CacheInterface $cache
     ) {
         $this->doctrine = $doctrine;
         $this->paginator = $paginator;
@@ -66,6 +70,7 @@ class SiteController extends AbstractController
         $this->searcher = $searcher;
         $this->pdf = $pdf;
         $this->breadcrumbs = $breadcrumbs;
+        $this->cache = $cache;
     }
 
     #[Route('/', name: 'homepage', methods: ['GET'])]
@@ -78,9 +83,12 @@ class SiteController extends AbstractController
     #[Route('/menu', name: 'menu', methods: ['GET'])]
     public function menuAction(Request $request): Response
     {
-        $em = $this->doctrine->getManager();
-        $categoryEntity = $em->getRepository(\App\Entity\Category::class);
-        $categories = $categoryEntity->childrenHierarchy();
+        $categories = $this->cache->get('site_menu_categories', function (ItemInterface $item): array {
+            $item->expiresAfter(3600);
+            return $this->doctrine->getManager()
+                ->getRepository(\App\Entity\Category::class)
+                ->childrenHierarchy();
+        });
 
         return $this->render("includes/menu.html.twig", ['links' => $categories]);
     }
@@ -176,8 +184,12 @@ class SiteController extends AbstractController
     #[Route('/menu_item', name: 'show_menu_item', methods: ['GET'])]
     public function showMenuItemAction(Request $request): Response
     {
-        $em = $this->doctrine->getManager();
-        $menuitems = $em->getRepository(\App\Entity\MenuItem::class)->findAll();
+        $menuitems = $this->cache->get('site_menu_items', function (ItemInterface $item): array {
+            $item->expiresAfter(3600);
+            return $this->doctrine->getManager()
+                ->getRepository(\App\Entity\MenuItem::class)
+                ->findAll();
+        });
         return $this->render('includes/menu_items.html.twig', array('items' => $menuitems));
     }
 
