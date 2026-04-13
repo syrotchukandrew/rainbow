@@ -1,10 +1,12 @@
 {{ form_start(form) }}
 {{ form_widget(form) }}
 
-<input type="submit" value="{{ button_label|default('Удалить') }}"
-       class="{{ button_css|default("btn btn-primary") }}"/>
+<div class="flex gap-3 mt-4">
+    <input type="submit" value="{{ button_label|default('Видалити') }}"
+           class="{{ button_css|default('inline-flex items-center px-3 py-2 bg-primary text-primary-foreground rounded text-sm font-medium hover:opacity-90 cursor-pointer') }}"/>
 
-<a href="{{ path('admin_estates') }}" class="btn btn-primary">
-    Назад к списку
-</a>
+    <a href="{{ path('admin_estates') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
+        Назад до списку
+    </a>
+</div>
 {{ form_end(form) }}

@@ -1,105 +1,40 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block panel %}
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Администрирование</h1>
-        </div>
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">Адміністрування</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <a href="{{ path('admin_comments') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_disabled_comments }}</div>
+                <div class="mt-1 text-sm text-gray-500">Нові коментарі</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до коментарів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_estates') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_estates }}</div>
+                <div class="mt-1 text-sm text-gray-500">Об'єкти</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до об'єктів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_users') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_users }}</div>
+                <div class="mt-1 text-sm text-gray-500">Користувачі</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до користувачів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_districts') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_districts }}</div>
+                <div class="mt-1 text-sm text-gray-500">Райони</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до районів &rarr;</div>
+        </a>
+
     </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{ count_disabled_comments }}</div>
-                            <div>Новые комментарии!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href={{ path('admin_comments') }}>
-                    <div class="panel-footer">
-                        <span class="pull-left">Перейти к комментариям</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-tasks fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{ count_estates }}</div>
-                            <div>Работа с объектами</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ path('admin_estates') }}">
-                    <div class="panel-footer">
-                        <span class="pull-left">Перейти к объектам</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{ count_users }}</div>
-                            <div>Пользователи</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ path('admin_users') }}">
-                    <div class="panel-footer">
-                        <span class="pull-left">Перейти к пользователям</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{ count_districts }}</div>
-                            <div>Работа с районами!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ path('admin_districts') }}">
-                    <div class="panel-footer">
-                        <span class="pull-left">Перейти к районам</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
 {% endblock panel %}
-

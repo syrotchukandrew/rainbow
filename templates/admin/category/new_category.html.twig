@@ -1,14 +1,16 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block panel %}
-    <h1>Добавить категорию</h1>
-    <p>Эта форма позволяет добавлять новые категории, которые будут потомками выбраной родительской категории </p>
-    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
-    {{ form_start(form) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.parent) }}
-        <input type="submit" value="Добавить" class="btn btn-default"/>
-        <a href="{{ path('admin_categories') }}" class="btn btn-default">Назад к списку</a>
-    {{ form_end(form) }}
+    <h1 class="text-xl font-semibold text-gray-900 mb-2">Додати категорію</h1>
+    <p class="text-sm text-gray-500 mb-6">Ця форма дозволяє додавати нові категорії, які будуть нащадками вибраної батьківської категорії</p>
+    <div class="bg-white border border-gray-200 rounded-lg p-6 max-w-lg">
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.parent) }}
+        <div class="flex gap-3 mt-4">
+            <input type="submit" value="Додати" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"/>
+            <a href="{{ path('admin_categories') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">Назад до списку</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
-

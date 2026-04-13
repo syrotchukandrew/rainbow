@@ -47,7 +47,7 @@ class UserController extends AbstractController
         $pagination = $this->paginator->paginate(
             $estates,
             $request->query->getInt('page', 1),
-            10
+            20
         );
         return $this->render('admin/user/estates_manager.html.twig', array('pagination' => $pagination));
     }

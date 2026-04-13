@@ -1,5 +1,5 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1>Райони</h1>
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Райони</h1>
     <div id="react-admin-districts" data-csrf="{{ csrf_token('api_admin_district') }}"></div>
 {% endblock panel %}

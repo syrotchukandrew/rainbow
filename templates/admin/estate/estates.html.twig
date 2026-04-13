@@ -1,8 +1,10 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1>Об'єкти нерухомості</h1>
-    <a href="{{ path('admin_estate_new') }}" class="btn btn-lg btn-block btn-success">
-        <i class="fa fa-plus"></i> Додати новий
-    </a>
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-xl font-semibold text-gray-900">Об'єкти нерухомості</h1>
+        <a href="{{ path('admin_estate_new') }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700">
+            + Додати новий
+        </a>
+    </div>
     <div id="react-admin-estates"></div>
 {% endblock panel %}

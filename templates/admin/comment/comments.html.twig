@@ -1,5 +1,5 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1>Коментарі</h1>
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Коментарі</h1>
     <div id="react-admin-comments" data-csrf="{{ csrf_token('api_admin_comment') }}"></div>
 {% endblock panel %}

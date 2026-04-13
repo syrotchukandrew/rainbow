@@ -1,51 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block nav %}
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path('admin_index') }}">Панель администрирования</a>
-        </div>
-
-        <ul class="nav navbar-top-links navbar-right" style="background-color: #eeeeee">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="{{ path('homepage') }}"><i class="fa fa-gear fa-fw"></i> Перейти на сайт</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Выйти(из учетной записи)</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-{% endblock nav %}
-
 {% block body %}
+<div class="flex h-screen bg-gray-100 overflow-hidden">
+
     {% block sidebar %}
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <div id="react-admin-sidebar" data-items="{{ [
-                    { 'route': path('admin_estates'),    'label': 'Об\'єкти' },
-                    { 'route': path('admin_districts'),  'label': 'Райони' },
-                    { 'route': path('admin_users'),      'label': 'Користувачі' },
-                    { 'route': path('admin_categories'), 'label': 'Категорії' },
-                    { 'route': path('admin_comments'),   'label': 'Коментарі', 'badgeUrl': '/api/admin/comments/pending-count' },
-                    { 'route': path('admin_items'),      'label': 'Меню' }
-                ]|json_encode }}"></div>
-            </div>
+    <aside class="w-56 bg-gray-800 flex-shrink-0 flex flex-col">
+        <div class="h-14 flex items-center px-4 border-b border-gray-700">
+            <a href="{{ path('admin_index') }}" class="text-white text-sm font-semibold leading-tight">Панель адміністрування</a>
         </div>
+        <nav class="flex-1 overflow-y-auto py-2">
+            <div id="react-admin-sidebar" data-items="{{ [
+                { 'route': path('admin_estates'),    'label': 'Об\'єкти' },
+                { 'route': path('admin_districts'),  'label': 'Райони' },
+                { 'route': path('admin_users'),      'label': 'Користувачі' },
+                { 'route': path('admin_categories'), 'label': 'Категорії' },
+                { 'route': path('admin_comments'),   'label': 'Коментарі', 'badgeUrl': '/api/admin/comments/pending-count' },
+                { 'route': path('admin_items'),      'label': 'Меню' }
+            ]|json_encode }}"></div>
+        </nav>
+    </aside>
     {% endblock sidebar %}
 
-    <div class="wrapper">
-        <div id="page-wrapper">
-            {% block panel %}
-            {% endblock %}
-        </div>
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <header class="h-14 bg-white border-b border-gray-200 flex items-center justify-end px-6 flex-shrink-0 gap-4">
+            <a href="{{ path('homepage') }}" class="text-sm text-gray-600 hover:text-gray-900">На сайт</a>
+            <a href="{{ path('logout') }}" class="text-sm text-gray-600 hover:text-gray-900">Вийти</a>
+        </header>
+        <main class="flex-1 overflow-auto p-6">
+            {% block panel %}{% endblock %}
+        </main>
     </div>
 
+</div>
 {% endblock body %}
 
 {% block javascripts %}

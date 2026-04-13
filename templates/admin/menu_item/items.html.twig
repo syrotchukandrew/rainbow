@@ -1,5 +1,5 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1>Пункти меню</h1>
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Пункти меню</h1>
     <div id="react-admin-menu-items" data-csrf="{{ csrf_token('api_admin_menu_item') }}"></div>
 {% endblock panel %}

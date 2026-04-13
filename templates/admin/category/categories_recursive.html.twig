@@ -1,34 +1,36 @@
 {% for category in categories %}
-    {% set title = category.title %}
     {% if category %}
-        <tr>
-            <td>
+        <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-900">
                 {% for i in 0..category.lvl %}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                 {% endfor %}
-                {{ category.title|trans }}</td>
-            <td>
+                {{ category.title|trans }}
+            </td>
+            <td class="px-4 py-3">
                 {% if category.lvl != 0 %}
                     <a href="{{ path('admin_category_up', {'slug': category.slug}) }}">
-                        <img src="{{ asset('images/admin/arrow-up.png') }}" alt="Вверх"/>
+                        <img src="{{ asset('images/admin/arrow-up.png') }}" alt="Вгору"/>
                     </a>
                 {% endif %}
             </td>
-            <td>
+            <td class="px-4 py-3">
                 {% if category.lvl != 0 %}
                     <a href="{{ path('admin_category_down', {'slug': category.slug}) }}">
                         <img src="{{ asset('images/admin/arrow-down.png') }}" alt="Вниз"/>
                     </a>
                 {% endif %}
             </td>
-            <td>
-                <div class="item-actions">
+            <td class="px-4 py-3">
+                <div class="flex gap-2">
                     <a href="{{ path('admin_category_delete', { 'slug': category.slug }) }}"
-                       class="btn btn-sm btn-default">
-                        Удалить </a>
+                       class="inline-flex items-center px-2 py-1 border border-gray-300 rounded text-xs text-gray-700 bg-white hover:bg-gray-50">
+                        Видалити
+                    </a>
                     <a href="{{ path('admin_category_edit', { 'slug': category.slug }) }}"
-                       class="btn btn-sm btn-default">
-                        <i class="fa fa-edit"></i> Изменить </a>
+                       class="inline-flex items-center px-2 py-1 border border-gray-300 rounded text-xs text-gray-700 bg-white hover:bg-gray-50">
+                        Змінити
+                    </a>
                 </div>
             </td>
         </tr>

@@ -1,25 +1,27 @@
 {% extends "admin/base_admin.html.twig" %}
 {% block panel %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Content</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>{{ comment.id }}</td>
-            <td>{{ comment.content }}</td>
-            <td>{{ include('admin/comment/_form.html.twig', {
-                    form: delete_form,
-                    button_label: 'Удалить',
-                    button_css: 'btn btn-default',
-                    show_confirmation: true,
-                }, with_context = false) }}</td>
-        </tr>
-        </tbody>
-    </table>
-
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">Коментар</h1>
+    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden max-w-2xl mb-4">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">ID</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Контент</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Дія</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="px-4 py-3 text-gray-900">{{ comment.id }}</td>
+                <td class="px-4 py-3 text-gray-900">{{ comment.content }}</td>
+                <td class="px-4 py-3">{{ include('admin/comment/_form.html.twig', {
+                        form: delete_form,
+                        button_label: 'Видалити',
+                        button_css: 'inline-flex items-center px-2 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700 cursor-pointer',
+                        show_confirmation: true,
+                    }, with_context = false) }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock panel %}

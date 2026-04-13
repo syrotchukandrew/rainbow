@@ -1,5 +1,5 @@
 {% extends 'admin/base_admin.html.twig' %}
 {% block panel %}
-    <h1>Користувачі</h1>
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Користувачі</h1>
     <div id="react-admin-users" data-csrf="{{ csrf_token('api_admin_user') }}"></div>
 {% endblock panel %}
