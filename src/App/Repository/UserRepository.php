@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,11 +15,14 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     public function findByRole(string $role): array
     {
-        return $this->createQueryBuilder('user')
-            ->where('user.roles LIKE :roles')
-            ->setParameter('roles', '%"'.$role.'"%')
-            ->getQuery()
-            ->getResult();
+        $em = $this->getEntityManager();
+        $rsm = new ResultSetMappingBuilder($em);
+        $rsm->addRootEntityFromClassMetadata(User::class, 'u');
+
+        return $em->createNativeQuery(
+            'SELECT * FROM fos_user u WHERE JSON_CONTAINS(u.roles, :role)',
+            $rsm
+        )->setParameter('role', json_encode($role))->getResult();
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
