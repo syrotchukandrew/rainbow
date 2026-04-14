@@ -1,0 +1,20 @@
+{% extends 'site/base_site.html.twig' %}
+
+{% block sidebar %}{% endblock %}
+
+{% block panel %}
+    {% set formErrors = [] %}
+    {% for error in form.vars.errors %}
+        {% set formErrors = formErrors|merge([error.message]) %}
+    {% endfor %}
+    {% for field in form.children %}
+        {% for error in field.vars.errors %}
+            {% set formErrors = formErrors|merge([error.message]) %}
+        {% endfor %}
+    {% endfor %}
+    <div id="react-register-form"
+         data-action="{{ path('user_registration') }}"
+         data-csrf="{{ form.vars.token.vars.value }}"
+         data-errors="{{ formErrors|json_encode }}">
+    </div>
+{% endblock %}

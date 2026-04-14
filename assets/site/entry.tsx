@@ -1,0 +1,123 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import LiveSearch from './components/LiveSearch';
+import EstateSlideshow from './components/EstateSlideshow';
+import FavoriteButton from './components/FavoriteButton';
+import CommentForm from './components/CommentForm';
+import EstateListing from './components/EstateListing';
+import SearchResult from './components/SearchResult';
+import EstateInfoPanel from './components/EstateInfoPanel';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
+import ResetRequestForm from './components/ResetRequestForm';
+
+function mountIsland<P extends object>(
+    id: string,
+    Component: React.ComponentType<P>,
+    props: P,
+): void {
+    const el = document.getElementById(id);
+    if (el) {
+        ReactDOM.createRoot(el).render(
+            <React.StrictMode>
+                <Component {...props} />
+            </React.StrictMode>,
+        );
+    }
+}
+
+// LiveSearch
+const lsEl = document.getElementById('react-live-search');
+if (lsEl) {
+    mountIsland('react-live-search', LiveSearch, {
+        placeholder: lsEl.dataset.placeholder ?? '',
+        locale: lsEl.dataset.locale ?? 'uk',
+    });
+}
+
+// EstateSlideshow
+const slideshowEl = document.getElementById('react-estate-slideshow');
+if (slideshowEl) {
+    const images: string[] = JSON.parse(slideshowEl.dataset.images ?? '[]');
+    mountIsland('react-estate-slideshow', EstateSlideshow, { images });
+}
+
+// FavoriteButton
+const fbEl = document.getElementById('react-favorite-button');
+if (fbEl) {
+    mountIsland('react-favorite-button', FavoriteButton, {
+        slug: fbEl.dataset.slug ?? '',
+        favorited: fbEl.dataset.favorited === 'true',
+        csrf: fbEl.dataset.csrf ?? '',
+        labelAdd: fbEl.dataset.labelAdd ?? '',
+        labelRemove: fbEl.dataset.labelRemove ?? '',
+    });
+}
+
+// CommentForm
+const cfEl = document.getElementById('react-comment-form');
+if (cfEl) {
+    mountIsland('react-comment-form', CommentForm, {
+        slug: cfEl.dataset.slug ?? '',
+        csrf: cfEl.dataset.csrf ?? '',
+        placeholder: cfEl.dataset.placeholder ?? '',
+        submit: cfEl.dataset.submit ?? 'Submit',
+    });
+}
+
+// EstateListing
+const estateListingEl = document.getElementById('react-estate-listing');
+if (estateListingEl) {
+    const apiUrl = estateListingEl.dataset.apiUrl ?? '/api/public/estates';
+    const locale = estateListingEl.dataset.locale ?? 'uk';
+    const labels = JSON.parse(estateListingEl.dataset.labels ?? '{}');
+    mountIsland('react-estate-listing', EstateListing, { apiUrl, locale, labels });
+}
+
+// SearchResult
+const searchResultsEl = document.getElementById('react-search-results');
+if (searchResultsEl) {
+    const categorySlug = searchResultsEl.dataset.category ?? '';
+    const districtSlug = searchResultsEl.dataset.district ?? '';
+    const price        = searchResultsEl.dataset.price ?? '';
+    const exceptFloor  = searchResultsEl.dataset.exceptFloor ?? '0';
+    const locale       = searchResultsEl.dataset.locale ?? 'uk';
+    const labels       = JSON.parse(searchResultsEl.dataset.labels ?? '{}');
+    mountIsland('react-search-results', SearchResult, { categorySlug, districtSlug, price, exceptFloor, locale, labels });
+}
+
+// EstateInfoPanel
+const estateInfoPanelEl = document.getElementById('react-estate-info-panel');
+if (estateInfoPanelEl) {
+    const slug   = estateInfoPanelEl.dataset.slug ?? '';
+    const labels = JSON.parse(estateInfoPanelEl.dataset.labels ?? '{}');
+    mountIsland('react-estate-info-panel', EstateInfoPanel, { slug, labels });
+}
+
+// LoginForm
+const loginFormEl = document.getElementById('react-login-form');
+if (loginFormEl) {
+    const action       = loginFormEl.dataset.action ?? '';
+    const csrf         = loginFormEl.dataset.csrf ?? '';
+    const error        = loginFormEl.dataset.error ?? '';
+    const lastUsername = loginFormEl.dataset.lastUsername ?? '';
+    mountIsland('react-login-form', LoginForm, { action, csrf, error, lastUsername });
+}
+
+// RegisterForm
+const registerFormEl = document.getElementById('react-register-form');
+if (registerFormEl) {
+    const action = registerFormEl.dataset.action ?? '';
+    const csrf   = registerFormEl.dataset.csrf ?? '';
+    const errors: string[] = JSON.parse(registerFormEl.dataset.errors ?? '[]');
+    mountIsland('react-register-form', RegisterForm, { action, csrf, errors });
+}
+
+// ResetRequestForm
+const resetFormEl = document.getElementById('react-reset-request-form');
+if (resetFormEl) {
+    const action   = resetFormEl.dataset.action ?? '';
+    const csrf     = resetFormEl.dataset.csrf ?? '';
+    const loginUrl = resetFormEl.dataset.loginUrl ?? '';
+    mountIsland('react-reset-request-form', ResetRequestForm, { action, csrf, loginUrl });
+}

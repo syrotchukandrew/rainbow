@@ -1,0 +1,54 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\:
+        resource: '../src/App'
+        exclude:
+            - '../src/App/Entity'
+            - '../src/App/Form'
+            - '../src/App/Repository'
+            - '../src/App/DataFixtures'
+
+    App\DataFixtures\ORM\Dev\:
+        resource: '../src/App/DataFixtures/ORM/Dev'
+        tags: ['doctrine.fixture.orm']
+
+    App\DataFixtures\ORM\Deploy\:
+        resource: '../src/App/DataFixtures/ORM/Deploy'
+        tags: ['doctrine.fixture.orm']
+
+    App\Controller\:
+        resource: '../src/App/Controller'
+        public: true
+
+    App\Controller\Api\PublicEstateApiController:
+        public: true
+        bind:
+            $apiPublicLimiter: '@limiter.api_public'
+
+    my.custom.user_provider:
+        alias: App\Security\Core\User\OAuthUserProvider
+        public: true
+
+    App\EventListener\RedirectToPreferredLocaleListener:
+        bind:
+            $locales: '%app_locales%'
+            $defaultLocale: '%locale%'
+
+    App\Twig\AppExtension:
+        bind:
+            $locales: '%app_locales%'
+
+    App\Utils\BreadcrumbsMaker:
+        arguments:
+            - '@huluti_breadcrumbs'
+
+    App\Controller\SiteController:
+        public: true
+        bind:
+            $breadcrumbs: '@huluti_breadcrumbs'
+            $pdf: '@knp_snappy.pdf'
+            $livesearchLimiter: '@limiter.livesearch'

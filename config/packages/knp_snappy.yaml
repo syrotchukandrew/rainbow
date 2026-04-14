@@ -1,0 +1,12 @@
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     /usr/bin/wkhtmltopdf
+        options:
+            lowquality: false
+            encoding: UTF-8
+    image:
+        enabled:    true
+        binary:     /usr/bin/wkhtmltopdf
+        options:    []
+    temporary_folder: "%kernel.cache_dir%/snappy"

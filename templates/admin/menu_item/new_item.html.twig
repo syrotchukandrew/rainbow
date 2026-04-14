@@ -1,0 +1,17 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Пункти другорядного меню</h1>
+    <div class="flex border-b border-gray-200 mb-6 gap-0">
+        <a href="{{ path('admin_items') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-400">Показати всі</a>
+        <a href="{{ path('admin_add_menu_item') }}" class="px-4 py-2 text-sm font-medium text-gray-900 border-b-2 border-gray-900">Додати новий</a>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-lg p-6 max-w-lg">
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        <div class="mt-4">
+            <input type="submit" value="Додати" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"/>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock panel %}

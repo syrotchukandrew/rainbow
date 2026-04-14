@@ -1,0 +1,19 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">{{ 'admin.menu_items_heading'|trans }}</h1>
+    <div id="react-admin-menu-items"
+         data-csrf="{{ csrf_token('api_admin_menu_item') }}"
+         data-labels="{{ {
+             loading: 'admin.loading'|trans,
+             title: 'admin.title'|trans,
+             description: 'common.description'|trans,
+             save: 'admin.save'|trans,
+             cancel: 'admin.cancel'|trans,
+             edit: 'admin.edit'|trans,
+             delete: 'admin.delete'|trans,
+             confirm_delete: 'admin.confirm_delete_menu_item'|trans,
+             add: 'admin.add'|trans,
+             placeholder_title: 'admin.menu_item_placeholder_title'|trans,
+             placeholder_desc: 'admin.menu_item_placeholder_desc'|trans
+         }|json_encode }}"></div>
+{% endblock panel %}

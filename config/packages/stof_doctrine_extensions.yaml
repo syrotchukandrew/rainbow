@@ -1,0 +1,9 @@
+stof_doctrine_extensions:
+    default_locale: uk
+    orm:
+        default:
+            tree: true
+            sluggable: true
+            blameable: true
+            uploadable: true
+            timestampable: true

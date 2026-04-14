@@ -1,0 +1,18 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">{{ 'admin.districts_heading'|trans }}</h1>
+    <div id="react-admin-districts"
+         data-csrf="{{ csrf_token('api_admin_district') }}"
+         data-labels="{{ {
+             loading: 'admin.loading'|trans,
+             title: 'admin.title'|trans,
+             slug: 'admin.slug'|trans,
+             save: 'admin.save'|trans,
+             cancel: 'admin.cancel'|trans,
+             edit: 'admin.edit'|trans,
+             delete: 'admin.delete'|trans,
+             confirm_delete: 'admin.confirm_delete_district'|trans,
+             placeholder: 'admin.new_district_placeholder'|trans,
+             add: 'admin.add'|trans
+         }|json_encode }}"></div>
+{% endblock panel %}

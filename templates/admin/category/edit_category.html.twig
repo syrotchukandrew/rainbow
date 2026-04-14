@@ -1,0 +1,12 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">Редагувати категорію</h1>
+    <div class="bg-white border border-gray-200 rounded-lg p-6 max-w-lg">
+        {{ include('admin/category/_form.html.twig', {
+            form: edit_form,
+            button_label: 'Зберегти',
+            include_back_to_home_link: true,
+        }, with_context = false) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">Редагувати об'єкт</h1>
+    <div class="bg-white border border-gray-200 rounded-lg p-6 max-w-2xl">
+        {{ form_start(edit_form) }}
+        <p class="text-sm text-gray-600 mb-3">Фото наявні на сайті</p>
+        {% if estate.files[0] %}
+            <div class="flex flex-wrap gap-3 mb-4">
+                {% for foto in estate.files %}
+                    <div class="text-center">
+                        <img class="w-24 h-24 object-cover rounded border border-gray-200"
+                             src="{{ asset("#{foto.path}") | imagine_filter('little') }}" alt="">
+                        <div class="text-xs text-gray-500 mt-1">{{ foto.id }}</div>
+                        <div class="text-xs mt-1">
+                            {% if estate.mainFoto %}
+                                {% if foto.id == estate.mainFoto.id %}
+                                    <span class="text-green-600 font-medium">Основне фото</span>
+                                {% else %}
+                                    <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}"
+                                       class="text-blue-600 hover:underline">
+                                        Зробити основним
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{{ path('do_main_foto', { 'slug': estate.slug, 'id': foto.id }) }}"
+                                   class="text-blue-600 hover:underline">
+                                    Зробити основним
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <p class="text-sm text-gray-500 mb-4">Для видалення фото необхідно зняти галочку навпроти відповідного фото</p>
+        {{ form_row(edit_form.files) }}
+        {{ form_row(edit_form.imageFile) }}
+        {{ include('admin/estate/_form.html.twig', {
+            form: edit_form,
+            button_label: 'Зберегти',
+            include_back_to_home_link: true,
+        }, with_context = false) }}
+        {{ form_end(edit_form) }}
+    </div>
+{% endblock %}

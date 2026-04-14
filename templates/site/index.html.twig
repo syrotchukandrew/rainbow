@@ -1,0 +1,77 @@
+{% extends 'site/base_site.html.twig' %}
+{% block panel %}
+    {% if apiUrl is defined %}
+        <div id="react-estate-listing" data-api-url="{{ apiUrl }}" data-locale="{{ app.request.locale }}" data-labels="{{ {
+            loading: 'site.loading'|trans,
+            error_loading: 'site.error_loading'|trans,
+            no_listings: 'site.no_listings'|trans,
+            photo_alt: 'site.photo_alt'|trans,
+            description_label: 'site.description_label'|trans,
+            more: 'site.more'|trans
+        }|json_encode }}"></div>
+    {% else %}
+        <div class="space-y-6">
+            {% for estate in pagination %}
+                <div class="rounded border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="p-4">
+                        <h2 class="text-lg font-semibold mb-3">
+                            <a class="text-gray-800 hover:text-primary"
+                               href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                {{ estate.title }}
+                            </a>
+                        </h2>
+
+                        <div class="flex gap-4">
+                            <div class="flex-1 min-w-0">
+                                {% if estate.mainFoto is not null %}
+                                    <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                             src="{{ asset(estate.mainFoto.path) |imagine_filter('large') }}"
+                                             class="w-full h-auto rounded">
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                             src="{{ asset(estate.files[0].path) |imagine_filter('large') }}"
+                                             class="w-full h-auto rounded">
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="w-40 flex-shrink-0 space-y-2 hidden sm:block">
+                                {% if estate.files[1] is defined %}
+                                    {% if estate.files[1] != estate.mainFoto %}
+                                        <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                            <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                                 src="{{ asset("#{estate.files[1].path}") |imagine_filter('medium') }}"
+                                                 class="w-full h-auto rounded">
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                {% if estate.files[2] is defined %}
+                                    <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
+                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                             src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}"
+                                             class="w-full h-auto rounded">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <h3 class="text-sm font-semibold text-gray-600 mt-3 mb-1">{{ 'site.summary'|trans }}:</h3>
+                        <div class="text-sm text-gray-700">{{ estate.description }}</div>
+                        <div class="mt-3">
+                            <a href="{{ path('show_estate', { 'slug': estate.slug }) }}"
+                               class="inline-block px-3 py-1.5 text-sm rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
+                                {{ 'site.more'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="mt-4">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock panel %}

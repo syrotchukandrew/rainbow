@@ -1,0 +1,22 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-xl font-semibold text-gray-900">{{ 'admin.estates_heading'|trans }}</h1>
+        <a href="{{ path('admin_estate_new') }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700">
+            {{ 'admin.add_new'|trans }}
+        </a>
+    </div>
+    <div id="react-admin-estates" data-labels="{{ {
+        loading: 'admin.loading'|trans,
+        title: 'admin.title'|trans,
+        category: 'admin.nav.categories'|trans,
+        price: 'common.price'|trans,
+        created_at: 'admin.created_at'|trans,
+        district: 'common.district'|trans,
+        exclusive: 'admin.exclusive'|trans,
+        action: 'admin.action'|trans,
+        yes: 'admin.yes'|trans,
+        show: 'admin.show'|trans,
+        change: 'admin.change'|trans
+    }|json_encode }}"></div>
+{% endblock panel %}

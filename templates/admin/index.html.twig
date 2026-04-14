@@ -1,0 +1,40 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">Адміністрування</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <a href="{{ path('admin_comments') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_disabled_comments }}</div>
+                <div class="mt-1 text-sm text-gray-500">Нові коментарі</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до коментарів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_estates') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_estates }}</div>
+                <div class="mt-1 text-sm text-gray-500">Об'єкти</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до об'єктів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_users') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_users }}</div>
+                <div class="mt-1 text-sm text-gray-500">Користувачі</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до користувачів &rarr;</div>
+        </a>
+
+        <a href="{{ path('admin_districts') }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="p-5">
+                <div class="text-3xl font-bold text-gray-900">{{ count_districts }}</div>
+                <div class="mt-1 text-sm text-gray-500">Райони</div>
+            </div>
+            <div class="border-t border-gray-100 px-5 py-3 text-xs text-blue-600 font-medium">Перейти до районів &rarr;</div>
+        </a>
+
+    </div>
+{% endblock panel %}

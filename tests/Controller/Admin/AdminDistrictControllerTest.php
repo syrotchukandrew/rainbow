@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Controller\Admin;
+
+use App\Tests\Controller\BaseTestController;
+
+class AdminDistrictControllerTest extends BaseTestController
+{
+    public function testDistricts()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_admin',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $crawler = $client->request('GET', '/admin/districts');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(
+            1,
+            $crawler->filter('h1')
+        );
+    }
+
+    public function testDistrictShow()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_admin',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $slug = $em
+            ->getRepository(\App\Entity\District::class)
+            ->findOneBy([])->getSlug();
+        $crawler = $client->request('GET', "/admin/district/show/{$slug}");
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(
+            1,
+            $crawler->filter('h1')
+        );
+    }
+
+    public function testNewDistrict()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_admin',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $crawler = $client->request('GET', "/admin/district/new");
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(
+            1,
+            $crawler->filter('h1')
+        );
+    }
+
+    public function testDistrictEdit()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_admin',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $slug = $em
+            ->getRepository(\App\Entity\District::class)
+            ->findOneBy([])->getSlug();
+        $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertCount(
+            1,
+            $crawler->filter('h1')
+        );
+    }
+
+    public function testDistrictEditManager()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user_manager2',
+            'PHP_AUTH_PW'   => 'qweasz',
+        ));
+        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $slug = $em
+            ->getRepository(\App\Entity\District::class)
+            ->findOneBy([])->getSlug();
+        $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+}
