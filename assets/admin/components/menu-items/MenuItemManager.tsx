@@ -129,6 +129,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                                         className="h-9"
                                         value={editTitle}
                                         onChange={e => setEditTitle(e.target.value)}
+                                        onKeyDown={e => { if (e.key === 'Enter') handleUpdate(m.id); }}
                                         autoFocus
                                     />
                                 ) : m.title}
@@ -139,6 +140,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                                         className="h-9"
                                         value={editDesc}
                                         onChange={e => setEditDesc(e.target.value)}
+                                        onKeyDown={e => { if (e.key === 'Enter') handleUpdate(m.id); }}
                                     />
                                 ) : (m.description ?? '')}
                             </td>
