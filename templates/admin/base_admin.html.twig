@@ -8,7 +8,7 @@
         <div class="h-14 flex items-center px-4 border-b border-gray-700">
             <a href="{{ path('admin_index') }}" class="text-white text-sm font-semibold leading-tight">{{ 'admin.panel_title'|trans }}</a>
         </div>
-        <nav class="flex-1 overflow-y-auto py-2">
+        <div class="flex-1 overflow-y-auto py-2">
             <div id="react-admin-sidebar" data-items="{{ [
                 { 'route': path('admin_estates'),    'label': 'admin.nav.estates'|trans },
                 { 'route': path('admin_districts'),  'label': 'admin.nav.districts'|trans },
@@ -17,7 +17,7 @@
                 { 'route': path('admin_comments'),   'label': 'admin.nav.comments'|trans, 'badgeUrl': '/api/admin/comments/pending-count' },
                 { 'route': path('admin_items'),      'label': 'admin.nav.menu'|trans }
             ]|json_encode }}"></div>
-        </nav>
+        </div>
     </aside>
     {% endblock sidebar %}
 
