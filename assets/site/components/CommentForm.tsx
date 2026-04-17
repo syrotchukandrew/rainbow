@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     slug: string;
@@ -44,7 +45,9 @@ export default function CommentForm({ slug, csrf, placeholder, submit }: Props) 
     return (
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
+                <label htmlFor="comment_content" className="sr-only">{placeholder}</label>
                 <textarea
+                    id="comment_content"
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 resize-none disabled:opacity-50"
                     rows={4}
                     placeholder={placeholder}
@@ -59,13 +62,12 @@ export default function CommentForm({ slug, csrf, placeholder, submit }: Props) 
             {status === 'error' && (
                 <div className="mb-3 rounded bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{errorMsg}</div>
             )}
-            <button
+            <Button
                 type="submit"
-                className="px-4 py-2 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
                 disabled={status === 'sending' || !content.trim()}
             >
                 {status === 'sending' ? '...' : submit}
-            </button>
+            </Button>
         </form>
     );
 }

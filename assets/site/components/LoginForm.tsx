@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface Props {
     action: string;
@@ -25,14 +27,13 @@ export default function LoginForm({ action, csrf, error, lastUsername }: Props) 
                         <label htmlFor="login_username" className="block text-sm font-medium text-gray-700 mb-1">
                             Логін
                         </label>
-                        <input
+                        <Input
                             id="login_username"
                             type="text"
                             name="_username"
                             autoComplete="username"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             autoFocus
                         />
                     </div>
@@ -40,23 +41,19 @@ export default function LoginForm({ action, csrf, error, lastUsername }: Props) 
                         <label htmlFor="login_password" className="block text-sm font-medium text-gray-700 mb-1">
                             Пароль
                         </label>
-                        <input
+                        <Input
                             id="login_password"
                             type="password"
                             name="_password"
                             autoComplete="current-password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <input type="hidden" name="_csrf_token" value={csrf} />
-                    <button
-                        type="submit"
-                        className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:opacity-90"
-                    >
+                    <Button type="submit" className="w-full">
                         Увійти
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface Props {
     action: string;
@@ -18,23 +20,19 @@ export default function ResetRequestForm({ action, csrf, loginUrl }: Props) {
                         <label htmlFor="reset_email" className="block text-sm font-medium text-gray-700 mb-1">
                             Email
                         </label>
-                        <input
+                        <Input
                             id="reset_email"
                             type="email"
                             name="password_reset_request_type[email]"
                             autoComplete="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <input type="hidden" name="password_reset_request_type[_token]" value={csrf} />
-                    <button
-                        type="submit"
-                        className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:opacity-90"
-                    >
+                    <Button type="submit" className="w-full">
                         Надіслати
-                    </button>
+                    </Button>
                 </form>
                 <p className="mt-4 text-sm text-center">
                     <a href={loginUrl} className="text-gray-600 hover:text-gray-900">Увійти</a>

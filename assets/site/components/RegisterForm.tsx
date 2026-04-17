@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface Props {
     action: string;
@@ -28,65 +30,58 @@ export default function RegisterForm({ action, csrf, errors }: Props) {
                         <label htmlFor="reg_username" className="block text-sm font-medium text-gray-700 mb-1">
                             Логін
                         </label>
-                        <input
+                        <Input
                             id="reg_username"
                             type="text"
                             name="app_bundle_user_type[username]"
                             autoComplete="username"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="reg_email" className="block text-sm font-medium text-gray-700 mb-1">
                             Email
                         </label>
-                        <input
+                        <Input
                             id="reg_email"
                             type="email"
                             name="app_bundle_user_type[email]"
                             autoComplete="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="reg_password" className="block text-sm font-medium text-gray-700 mb-1">
                             Пароль
                         </label>
-                        <input
+                        <Input
                             id="reg_password"
                             type="password"
                             name="app_bundle_user_type[plainPassword][first]"
                             autoComplete="new-password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <div className="mb-6">
                         <label htmlFor="reg_password_repeat" className="block text-sm font-medium text-gray-700 mb-1">
                             Повторіть пароль
                         </label>
-                        <input
+                        <Input
                             id="reg_password_repeat"
                             type="password"
                             name="app_bundle_user_type[plainPassword][second]"
                             autoComplete="new-password"
                             value={passwordRepeat}
                             onChange={e => setRepeat(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
                     </div>
                     <input type="hidden" name="app_bundle_user_type[_token]" value={csrf} />
-                    <button
-                        type="submit"
-                        className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:opacity-90"
-                    >
+                    <Button type="submit" className="w-full">
                         Зареєструватись
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>
