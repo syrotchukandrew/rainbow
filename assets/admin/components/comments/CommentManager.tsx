@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface CommentItem {
     id: number;
@@ -85,17 +86,18 @@ export default function CommentManager({ csrf, labels }: Props) {
         <div>
             <div className="flex border-b border-gray-200 mb-4">
                 {tabs.map(t => (
-                    <button
+                    <Button
                         key={t.key}
+                        variant="ghost"
                         onClick={() => setTab(t.key)}
-                        className={`px-4 py-2 text-sm font-medium -mb-px border-b-2 ${
+                        className={`rounded-none -mb-px border-b-2 ${
                             tab === t.key
                                 ? 'border-gray-900 text-gray-900'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                         }`}
                     >
                         {t.label}
-                    </button>
+                    </Button>
                 ))}
             </div>
 
@@ -127,23 +129,19 @@ export default function CommentManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-500">{c.id}</td>
                             <td className="px-4 py-3 text-gray-900">{c.content}</td>
                             <td className="px-4 py-3 text-gray-700">{c.createdBy}</td>
-                            <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{c.createdAt}</td>
+                            <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                                <time dateTime={c.createdAt ?? ''}>{c.createdAt}</time>
+                            </td>
                             <td className="px-4 py-3">
                                 <div className="flex items-center gap-2">
                                     {!c.enabled && (
-                                        <button
-                                            className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200"
-                                            onClick={() => handleApprove(c.id)}
-                                        >
+                                        <Button variant="success" size="sm" onClick={() => handleApprove(c.id)}>
                                             {labels.publish}
-                                        </button>
+                                        </Button>
                                     )}
-                                    <button
-                                        className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200"
-                                        onClick={() => handleDelete(c.id)}
-                                    >
+                                    <Button variant="destructive" size="sm" onClick={() => handleDelete(c.id)}>
                                         {labels.delete}
-                                    </button>
+                                    </Button>
                                 </div>
                             </td>
                         </tr>

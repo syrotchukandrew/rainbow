@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface UserItem {
     id: number;
@@ -117,24 +118,24 @@ export default function UserManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-700">{u.locked ? labels.locked : labels.active}</td>
                             <td className="px-4 py-3">
                                 {u.locked ? (
-                                    <button className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" onClick={() => handleUnlock(u.username)}>
+                                    <Button variant="success" size="sm" onClick={() => handleUnlock(u.username)}>
                                         {labels.user_unlocked}
-                                    </button>
+                                    </Button>
                                 ) : (
-                                    <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleLock(u.username)}>
+                                    <Button variant="destructive" size="sm" onClick={() => handleLock(u.username)}>
                                         {labels.user_locked}
-                                    </button>
+                                    </Button>
                                 )}
                             </td>
                             <td className="px-4 py-3">
                                 {u.roles.includes('ROLE_MANAGER') ? (
-                                    <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleMakeUser(u.username)}>
+                                    <Button variant="destructive" size="sm" onClick={() => handleMakeUser(u.username)}>
                                         {labels.make_user}
-                                    </button>
+                                    </Button>
                                 ) : (
-                                    <button className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" onClick={() => handleMakeManager(u.username)}>
+                                    <Button variant="success" size="sm" onClick={() => handleMakeManager(u.username)}>
                                         {labels.make_manager}
-                                    </button>
+                                    </Button>
                                 )}
                             </td>
                             <td className="px-4 py-3">
