@@ -34,6 +34,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editTitle, setEditTitle] = useState('');
     const [editDesc, setEditDesc] = useState('');
+    const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
         fetch('/api/admin/menu-items')
@@ -72,6 +73,8 @@ export default function MenuItemManager({ csrf, labels }: Props) {
     }
 
     async function handleUpdate(id: number) {
+        if (updating) return;
+        setUpdating(true);
         setError(null);
         const res = await fetch(`/api/admin/menu-items/${id}`, {
             method: 'PUT',
@@ -81,9 +84,11 @@ export default function MenuItemManager({ csrf, labels }: Props) {
         const data = await res.json();
         if (!res.ok) {
             setError(data.error ?? 'Error');
+            setUpdating(false);
             return;
         }
         setItems(prev => prev.map(m => m.id === id ? data : m));
+        setUpdating(false);
         setEditingId(null);
     }
 
@@ -147,7 +152,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3">
                                 {editingId === m.id ? (
                                     <div className="flex items-center gap-2">
-                                        <Button type="button" variant="success" size="sm" onClick={() => handleUpdate(m.id)}>
+                                        <Button type="button" variant="success" size="sm" onClick={() => handleUpdate(m.id)} disabled={updating}>
                                             {labels.save}
                                         </Button>
                                         <Button type="button" variant="secondary" size="sm" onClick={() => setEditingId(null)}>
