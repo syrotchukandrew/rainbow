@@ -71,8 +71,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
         setError(null);
     }
 
-    async function handleUpdate(e: React.FormEvent, id: number) {
-        e.preventDefault();
+    async function handleUpdate(id: number) {
         setError(null);
         const res = await fetch(`/api/admin/menu-items/${id}`, {
             method: 'PUT',
@@ -143,14 +142,14 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             </td>
                             <td className="px-4 py-3">
                                 {editingId === m.id ? (
-                                    <form onSubmit={e => handleUpdate(e, m.id)} className="flex items-center gap-2">
-                                        <Button type="submit" variant="success" size="sm">
+                                    <div className="flex items-center gap-2">
+                                        <Button type="button" variant="success" size="sm" onClick={() => handleUpdate(m.id)}>
                                             {labels.save}
                                         </Button>
                                         <Button type="button" variant="secondary" size="sm" onClick={() => setEditingId(null)}>
                                             {labels.cancel}
                                         </Button>
-                                    </form>
+                                    </div>
                                 ) : (
                                     <div className="flex items-center gap-2">
                                         <Button type="button" variant="secondary" size="sm" onClick={() => startEdit(m)}>
