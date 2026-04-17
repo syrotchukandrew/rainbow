@@ -88,6 +88,7 @@ export default function CommentManager({ csrf, labels }: Props) {
                 {tabs.map(t => (
                     <Button
                         key={t.key}
+                        type="button"
                         variant="ghost"
                         onClick={() => setTab(t.key)}
                         className={`rounded-none -mb-px border-b-2 ${
