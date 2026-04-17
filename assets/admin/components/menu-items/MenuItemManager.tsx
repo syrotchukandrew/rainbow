@@ -126,6 +126,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-900">
                                 {editingId === m.id ? (
                                     <Input
+                                        className="h-9"
                                         value={editTitle}
                                         onChange={e => setEditTitle(e.target.value)}
                                         autoFocus
@@ -135,6 +136,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-700">
                                 {editingId === m.id ? (
                                     <Input
+                                        className="h-9"
                                         value={editDesc}
                                         onChange={e => setEditDesc(e.target.value)}
                                     />

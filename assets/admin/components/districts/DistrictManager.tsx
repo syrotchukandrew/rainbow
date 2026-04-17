@@ -126,7 +126,7 @@ export default function DistrictManager({ csrf, labels }: Props) {
                                 {editingSlug === d.slug ? (
                                     <form onSubmit={e => handleUpdate(e, d.slug)} className="flex items-center gap-2">
                                         <Input
-                                            className="flex-1"
+                                            className="flex-1 h-9"
                                             value={editTitle}
                                             onChange={e => setEditTitle(e.target.value)}
                                             autoFocus
