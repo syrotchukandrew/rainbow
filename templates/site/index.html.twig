@@ -25,13 +25,13 @@
                             <div class="flex-1 min-w-0">
                                 {% if estate.mainFoto is not null %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                        <img alt="{{ 'site.photo_alt'|trans }}"
                                              src="{{ asset(estate.mainFoto.path) |imagine_filter('large') }}"
                                              class="w-full h-auto rounded">
                                     </a>
                                 {% else %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                        <img alt="{{ 'site.photo_alt'|trans }}"
                                              src="{{ asset(estate.files[0].path) |imagine_filter('large') }}"
                                              class="w-full h-auto rounded">
                                     </a>
@@ -41,7 +41,7 @@
                                 {% if estate.files[1] is defined %}
                                     {% if estate.files[1] != estate.mainFoto %}
                                         <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                            <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                            <img alt="{{ 'site.photo_alt'|trans }}"
                                                  src="{{ asset("#{estate.files[1].path}") |imagine_filter('medium') }}"
                                                  class="w-full h-auto rounded">
                                         </a>
@@ -49,7 +49,7 @@
                                 {% endif %}
                                 {% if estate.files[2] is defined %}
                                     <a href="{{ path('show_estate', { 'slug': estate.slug }) }}">
-                                        <img alt="{{ 'site.estate_photo_alt'|trans }}"
+                                        <img alt="{{ 'site.photo_alt'|trans }}"
                                              src="{{ asset("#{estate.files[2].path}") |imagine_filter('medium') }}"
                                              class="w-full h-auto rounded">
                                     </a>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
 
-                        <h3 class="text-sm font-semibold text-gray-600 mt-3 mb-1">{{ 'site.summary'|trans }}:</h3>
+                        <h3 class="text-sm font-semibold text-gray-600 mt-3 mb-1">{{ 'site.description_label'|trans }}</h3>
                         <div class="text-sm text-gray-700">{{ estate.description }}</div>
                         <div class="mt-3">
                             <a href="{{ path('show_estate', { 'slug': estate.slug }) }}"
