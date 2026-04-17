@@ -34,6 +34,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editTitle, setEditTitle] = useState('');
     const [editDesc, setEditDesc] = useState('');
+    const [creating, setCreating] = useState(false);
     const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
@@ -49,20 +50,26 @@ export default function MenuItemManager({ csrf, labels }: Props) {
 
     async function handleCreate(e: React.FormEvent) {
         e.preventDefault();
+        if (creating) return;
+        setCreating(true);
         setError(null);
-        const res = await fetch('/api/admin/menu-items', {
-            method: 'POST',
-            headers: headers(),
-            body: JSON.stringify({ title: newTitle, description: newDesc }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-            setError(data.error ?? 'Error');
-            return;
+        try {
+            const res = await fetch('/api/admin/menu-items', {
+                method: 'POST',
+                headers: headers(),
+                body: JSON.stringify({ title: newTitle, description: newDesc }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                setError(data.error ?? 'Error');
+                return;
+            }
+            setItems(prev => [...prev, data]);
+            setNewTitle('');
+            setNewDesc('');
+        } finally {
+            setCreating(false);
         }
-        setItems(prev => [...prev, data]);
-        setNewTitle('');
-        setNewDesc('');
     }
 
     function startEdit(item: MenuItemData) {
@@ -76,20 +83,22 @@ export default function MenuItemManager({ csrf, labels }: Props) {
         if (updating) return;
         setUpdating(true);
         setError(null);
-        const res = await fetch(`/api/admin/menu-items/${id}`, {
-            method: 'PUT',
-            headers: headers(),
-            body: JSON.stringify({ title: editTitle, description: editDesc }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-            setError(data.error ?? 'Error');
+        try {
+            const res = await fetch(`/api/admin/menu-items/${id}`, {
+                method: 'PUT',
+                headers: headers(),
+                body: JSON.stringify({ title: editTitle, description: editDesc }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                setError(data.error ?? 'Error');
+                return;
+            }
+            setItems(prev => prev.map(m => m.id === id ? data : m));
+            setEditingId(null);
+        } finally {
             setUpdating(false);
-            return;
         }
-        setItems(prev => prev.map(m => m.id === id ? data : m));
-        setUpdating(false);
-        setEditingId(null);
     }
 
     async function handleDelete(id: number) {
@@ -188,7 +197,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                     value={newDesc}
                     onChange={e => setNewDesc(e.target.value)}
                 />
-                <Button type="submit" variant="success">
+                <Button type="submit" variant="success" disabled={creating}>
                     {labels.add}
                 </Button>
             </form>
