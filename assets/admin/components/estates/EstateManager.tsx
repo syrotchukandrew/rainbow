@@ -98,7 +98,9 @@ export default function EstateManager({ labels }: Props) {
                         <td className="px-4 py-3 text-gray-900">{row.title}</td>
                         <td className="px-4 py-3 text-gray-700">{row.category ?? '—'}</td>
                         <td className="px-4 py-3 text-gray-700">{row.price}</td>
-                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{row.createdAt}</td>
+                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                            <time dateTime={row.createdAt}>{row.createdAt}</time>
+                        </td>
                         <td className="px-4 py-3 text-gray-700">{row.district ?? '—'}</td>
                         <td className="px-4 py-3 text-gray-700">{row.exclusive ? labels.yes : '-'}</td>
                         <td className="px-4 py-3">
