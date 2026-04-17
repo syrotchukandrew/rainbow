@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface MenuItemData {
     id: number;
@@ -124,8 +126,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-500">{m.id}</td>
                             <td className="px-4 py-3 text-gray-900">
                                 {editingId === m.id ? (
-                                    <input
-                                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                                    <Input
                                         value={editTitle}
                                         onChange={e => setEditTitle(e.target.value)}
                                         autoFocus
@@ -134,8 +135,7 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             </td>
                             <td className="px-4 py-3 text-gray-700">
                                 {editingId === m.id ? (
-                                    <input
-                                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                                    <Input
                                         value={editDesc}
                                         onChange={e => setEditDesc(e.target.value)}
                                     />
@@ -144,21 +144,21 @@ export default function MenuItemManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3">
                                 {editingId === m.id ? (
                                     <form onSubmit={e => handleUpdate(e, m.id)} className="flex items-center gap-2">
-                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
+                                        <Button type="submit" variant="success" size="sm">
                                             {labels.save}
-                                        </button>
-                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingId(null)}>
+                                        </Button>
+                                        <Button type="button" variant="secondary" size="sm" onClick={() => setEditingId(null)}>
                                             {labels.cancel}
-                                        </button>
+                                        </Button>
                                     </form>
                                 ) : (
                                     <div className="flex items-center gap-2">
-                                        <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(m)}>
+                                        <Button type="button" variant="secondary" size="sm" onClick={() => startEdit(m)}>
                                             {labels.edit}
-                                        </button>
-                                        <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(m.id)}>
+                                        </Button>
+                                        <Button type="button" variant="destructive" size="sm" onClick={() => handleDelete(m.id)}>
                                             {labels.delete}
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             </td>
@@ -168,21 +168,21 @@ export default function MenuItemManager({ csrf, labels }: Props) {
             </table>
 
             <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
-                <input
-                    className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                <Input
+                    className="flex-1 min-w-48"
                     placeholder={labels.placeholder_title}
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
                 />
-                <input
-                    className="flex-[2] min-w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                <Input
+                    className="flex-[2] min-w-72"
                     placeholder={labels.placeholder_desc}
                     value={newDesc}
                     onChange={e => setNewDesc(e.target.value)}
                 />
-                <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">
+                <Button type="submit" variant="success">
                     {labels.add}
-                </button>
+                </Button>
             </form>
         </div>
     );

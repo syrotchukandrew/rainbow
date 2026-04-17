@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface District {
     id: number;
@@ -123,14 +125,14 @@ export default function DistrictManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3 text-gray-900">
                                 {editingSlug === d.slug ? (
                                     <form onSubmit={e => handleUpdate(e, d.slug)} className="flex items-center gap-2">
-                                        <input
-                                            className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                                        <Input
+                                            className="flex-1"
                                             value={editTitle}
                                             onChange={e => setEditTitle(e.target.value)}
                                             autoFocus
                                         />
-                                        <button type="submit" className="px-3 py-1 text-xs font-medium rounded bg-green-100 text-green-800 hover:bg-green-200">{labels.save}</button>
-                                        <button type="button" className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => setEditingSlug(null)}>{labels.cancel}</button>
+                                        <Button type="submit" variant="success" size="sm">{labels.save}</Button>
+                                        <Button type="button" variant="secondary" size="sm" onClick={() => setEditingSlug(null)}>{labels.cancel}</Button>
                                     </form>
                                 ) : d.title}
                             </td>
@@ -138,12 +140,12 @@ export default function DistrictManager({ csrf, labels }: Props) {
                             <td className="px-4 py-3">
                                 {editingSlug !== d.slug && (
                                     <div className="flex items-center gap-2">
-                                        <button className="px-3 py-1 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200" onClick={() => startEdit(d)}>
+                                        <Button type="button" variant="secondary" size="sm" onClick={() => startEdit(d)}>
                                             {labels.edit}
-                                        </button>
-                                        <button className="px-3 py-1 text-xs font-medium rounded bg-red-100 text-red-700 hover:bg-red-200" onClick={() => handleDelete(d.slug)}>
+                                        </Button>
+                                        <Button type="button" variant="destructive" size="sm" onClick={() => handleDelete(d.slug)}>
                                             {labels.delete}
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             </td>
@@ -153,15 +155,15 @@ export default function DistrictManager({ csrf, labels }: Props) {
             </table>
 
             <form onSubmit={handleCreate} className="mt-4 flex flex-wrap gap-2">
-                <input
-                    className="flex-1 min-w-48 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                <Input
+                    className="flex-1 min-w-48"
                     placeholder={labels.placeholder}
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
                 />
-                <button type="submit" className="px-4 py-1.5 text-sm font-medium rounded bg-green-100 text-green-800 hover:bg-green-200" disabled={creating}>
+                <Button type="submit" variant="success" disabled={creating}>
                     {labels.add}
-                </button>
+                </Button>
             </form>
         </div>
     );
