@@ -27,7 +27,8 @@
 
     {# Slideshow #}
     <div id="react-estate-slideshow"
-         data-images="{{ estate.files|map(f => asset(f.path)|imagine_filter('large'))|json_encode }}">
+         data-images="{{ estate.files|map(f => asset(f.path)|imagine_filter('large'))|json_encode }}"
+         data-title="{{ estate.title }}">
     </div>
 </div>
 

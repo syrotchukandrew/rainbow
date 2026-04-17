@@ -39,7 +39,8 @@ if (lsEl) {
 const slideshowEl = document.getElementById('react-estate-slideshow');
 if (slideshowEl) {
     const images: string[] = JSON.parse(slideshowEl.dataset.images ?? '[]');
-    mountIsland('react-estate-slideshow', EstateSlideshow, { images });
+    const title = slideshowEl.dataset.title ?? '';
+    mountIsland('react-estate-slideshow', EstateSlideshow, { images, title });
 }
 
 // FavoriteButton

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     images: string[];
+    title: string;
 }
 
-export default function EstateSlideshow({ images }: Props) {
+export default function EstateSlideshow({ images, title }: Props) {
     const [current, setCurrent] = useState(0);
 
     useEffect(() => {
@@ -21,24 +23,26 @@ export default function EstateSlideshow({ images }: Props) {
         <div className="relative mb-5">
             <img
                 src={images[current]}
-                alt=""
+                alt={title}
                 className="w-full max-h-96 object-cover"
             />
             {images.length > 1 && (
                 <div className="text-center mt-2">
-                    <button
-                        className="px-3 py-1 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    <Button
+                        variant="secondary"
+                        size="sm"
                         onClick={() => setCurrent(i => (i - 1 + images.length) % images.length)}
                     >
                         ‹
-                    </button>
+                    </Button>
                     <span className="mx-2">{current + 1} / {images.length}</span>
-                    <button
-                        className="px-3 py-1 text-sm font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    <Button
+                        variant="secondary"
+                        size="sm"
                         onClick={() => setCurrent(i => (i + 1) % images.length)}
                     >
                         ›
-                    </button>
+                    </Button>
                 </div>
             )}
         </div>
