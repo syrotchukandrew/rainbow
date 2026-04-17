@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface EstateSummary {
     id: number;
@@ -69,7 +70,7 @@ export default function EstateListing({ apiUrl, locale, labels }: Props) {
     return (
         <div className="space-y-6">
             {result.data.map(estate => (
-                <div key={estate.id} className="rounded border border-gray-200 shadow-sm overflow-hidden">
+                <article key={estate.id} className="rounded border border-gray-200 shadow-sm overflow-hidden">
                     <div className="p-4">
                         <h2 className="text-lg font-semibold mb-3">
                             <a className="text-gray-800 hover:text-primary" href={`/${locale}/show_estate/${estate.slug}`}>
@@ -103,18 +104,20 @@ export default function EstateListing({ apiUrl, locale, labels }: Props) {
                             </a>
                         </div>
                     </div>
-                </div>
+                </article>
             ))}
             {totalPages > 1 && (
                 <div className="flex gap-1 mt-4">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                        <button
+                        <Button
                             key={p}
+                            type="button"
+                            variant={p === page ? 'default' : 'outline'}
+                            size="sm"
                             onClick={() => setPage(p)}
-                            className={`px-3 py-1 text-sm rounded border ${p === page ? 'bg-gray-800 text-white border-gray-800' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
                         >
                             {p}
-                        </button>
+                        </Button>
                     ))}
                 </div>
             )}
