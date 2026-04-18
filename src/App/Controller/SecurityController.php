@@ -18,14 +18,17 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     private AuthenticationUtils $authenticationUtils;
 
-    public function __construct(AuthenticationUtils $authenticationUtils)
-    {
+    public function __construct(
+        AuthenticationUtils $authenticationUtils,
+        private readonly RateLimiterFactory $passwordResetLimiter,
+    ) {
         $this->authenticationUtils = $authenticationUtils;
     }
 
@@ -68,6 +71,12 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $limiter = $this->passwordResetLimiter->create($request->getClientIp());
+            if (!$limiter->consume()->isAccepted()) {
+                $this->addFlash('error', 'security.too_many_requests');
+                return $this->redirectToRoute('security_reset_request');
+            }
+
             $email = $form->get('email')->getData();
             $em = $doctrine->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
@@ -111,6 +120,12 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $limiter = $this->passwordResetLimiter->create($request->getClientIp());
+            if (!$limiter->consume()->isAccepted()) {
+                $this->addFlash('error', 'security.too_many_requests');
+                return $this->redirectToRoute('security_reset_request');
+            }
+
             $user->setPassword($passwordHasher->hashPassword($user, $user->getPlainPassword()));
             $user->setConfirmationToken(null);
             $user->setPasswordRequestedAt(null);
