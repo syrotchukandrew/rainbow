@@ -101,22 +101,34 @@ class SiteControllerTest extends WebTestCase
 
     public function testAddDeleteEstateToFavorites()
     {
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'PHP_AUTH_USER' => 'user_manager0',
+            'PHP_AUTH_PW' => 'qweasz',
+        ]);
         $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
         $slug = $em
             ->getRepository(\App\Entity\Estate::class)
             ->findOneBy([])->getSlug();
-        $users = $em
+        $user = $em
             ->getRepository(\App\Entity\User::class)
-            ->findByRole('ROLE_MANAGER');
-        $user = $users[0];
+            ->findOneBy(['username' => 'user_manager0']);
+        $userId = $user->getId();
         $countBefore = count($user->getEstates());
-        $client->request('GET', "/en/add_favorites/{$slug}/{$user->getId()}");
+
+        $client->request('GET', "/en/add_favorites/{$slug}/{$userId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $countAfter = count($user->getEstates());
-        $client->request('GET', "/en/delete_favorites/{$slug}/{$user->getId()}");
+
+        $em->clear();
+        $userAfter = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $countAfter = count($userAfter->getEstates());
+
+        $client->request('GET', "/en/delete_favorites/{$slug}/{$userId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $countComeBack = count($user->getEstates());
+
+        $em->clear();
+        $userComeBack = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $countComeBack = count($userComeBack->getEstates());
+
         $this->assertEquals($countBefore, ($countAfter - 1), (string) $countComeBack);
     }
 }

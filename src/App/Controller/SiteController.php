@@ -204,11 +204,14 @@ class SiteController extends AbstractController
     }
 
     #[Route('/add_favorites/{estate}/{user}', name: 'add_estate_to_favorites', methods: ['GET', 'POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function addEstateToFavoritesAction(
         #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
         #[MapEntity(mapping: ['user' => 'id'])] User $user,
-        Request $request
     ): RedirectResponse {
+        if ($this->getUser()->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
         $em = $this->doctrine->getManager();
         if (!$user->hasEstate($estate)) {
             $user->addEstate($estate);
@@ -220,11 +223,14 @@ class SiteController extends AbstractController
     }
 
     #[Route('/delete_favorites/{estate}/{user}', name: 'delete_estate_from_favorites', methods: ['GET', 'POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function deleteEstateFromFavoritesAction(
         #[MapEntity(mapping: ['estate' => 'slug'])] Estate $estate,
         #[MapEntity(mapping: ['user' => 'id'])] User $user,
-        Request $request
     ): RedirectResponse {
+        if ($this->getUser()->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
         $em = $this->doctrine->getManager();
         if ($user->hasEstate($estate)) {
             $user->removeEstate($estate);
