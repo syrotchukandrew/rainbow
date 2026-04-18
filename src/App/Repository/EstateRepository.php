@@ -98,6 +98,54 @@ class EstateRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findPublishedPaginated(int $page, int $limit): array
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.files', 'f')
+            ->leftJoin('e.mainFoto', 'mf')
+            ->where('e.exclusive = true')
+            ->orderBy('e.updatedAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countPublished(): int
+    {
+        return (int) $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->where('e.exclusive = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findByCategoryTitlePaginated(string $categoryTitle, int $page, int $limit): array
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.category', 'c')
+            ->leftJoin('e.files', 'f')
+            ->leftJoin('e.mainFoto', 'mf')
+            ->where('c.title = :title')
+            ->setParameter('title', $categoryTitle)
+            ->orderBy('e.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByCategoryTitle(string $categoryTitle): int
+    {
+        return (int) $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->leftJoin('e.category', 'c')
+            ->where('c.title = :title')
+            ->setParameter('title', $categoryTitle)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function findByTitleSearch(string $search): array
     {
         return $this->createQueryBuilder('e')

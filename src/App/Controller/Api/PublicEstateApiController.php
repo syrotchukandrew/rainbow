@@ -47,21 +47,23 @@ class PublicEstateApiController extends AbstractController
         $categorySlug = $request->query->get('category');
         $page = max(1, $request->query->getInt('page', 1));
 
+        /** @var \App\Repository\EstateRepository $estateRepo */
+        $estateRepo = $em->getRepository(Estate::class);
+
         if ($categorySlug !== null) {
             $category = $em->getRepository(Category::class)->findOneBy(['slug' => $categorySlug]);
             if ($category === null) {
                 return $this->json(['error' => 'Category not found', 'code' => 404], 404);
             }
-            $estates = $em->getRepository(Estate::class)->getEstateFromCategory($category->getTitle());
+            $estates = $estateRepo->findByCategoryTitlePaginated($category->getTitle(), $page, self::PER_PAGE);
+            $total = $estateRepo->countByCategoryTitle($category->getTitle());
         } else {
-            $estates = $em->getRepository(Estate::class)->getEstateExclusiveWithFiles();
+            $estates = $estateRepo->findPublishedPaginated($page, self::PER_PAGE);
+            $total = $estateRepo->countPublished();
         }
 
-        $total = count($estates);
-        $slice = array_slice($estates, ($page - 1) * self::PER_PAGE, self::PER_PAGE);
-
         return $this->json([
-            'data'    => array_map(fn(Estate $e) => $this->serializeEstateSummary($e), $slice),
+            'data'    => array_map(fn(Estate $e) => $this->serializeEstateSummary($e), $estates),
             'total'   => $total,
             'page'    => $page,
             'perPage' => self::PER_PAGE,
