@@ -406,6 +406,10 @@ class AdminApiController extends AbstractController
             return new JsonResponse(['error' => 'Not found'], 404);
         }
 
+        if ($district->getEstates()->count() > 0) {
+            return new JsonResponse(['error' => 'District has linked estates and cannot be deleted.'], 409);
+        }
+
         $em = $this->doctrine->getManager();
         $em->remove($district);
         $em->flush();
