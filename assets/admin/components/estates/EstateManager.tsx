@@ -17,6 +17,7 @@ type SortKey = keyof Pick<EstateRow, 'title' | 'category' | 'price' | 'createdAt
 
 interface Labels {
     loading: string;
+    error_loading: string;
     title: string;
     category: string;
     price: string;
@@ -36,13 +37,16 @@ interface Props {
 export default function EstateManager({ labels }: Props) {
     const [rows, setRows] = useState<EstateRow[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [sortKey, setSortKey] = useState<SortKey>('createdAt');
     const [sortAsc, setSortAsc] = useState(false);
 
     useEffect(() => {
+        setError(null);
         fetch('/api/admin/estates')
             .then(r => r.json())
-            .then((data: EstateRow[]) => { setRows(data); setLoading(false); });
+            .then((data: EstateRow[]) => { setRows(data); setLoading(false); })
+            .catch(() => { setError(labels.error_loading); setLoading(false); });
     }, []);
 
     function handleSort(key: SortKey) {
@@ -77,6 +81,10 @@ export default function EstateManager({ labels }: Props) {
 
     if (loading) {
         return <p className="px-4 py-6 text-sm text-gray-400">{labels.loading}</p>;
+    }
+
+    if (error) {
+        return <div className="p-3 rounded bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>;
     }
 
     return (

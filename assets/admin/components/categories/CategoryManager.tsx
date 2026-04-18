@@ -13,6 +13,7 @@ interface CategoryRow {
 
 interface Labels {
     loading: string;
+    error_loading: string;
     title: string;
     up: string;
     down: string;
@@ -28,15 +29,22 @@ interface Props {
 export default function CategoryManager({ labels }: Props) {
     const [rows, setRows] = useState<CategoryRow[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        setError(null);
         fetch('/api/admin/categories')
             .then(r => r.json())
-            .then((data: CategoryRow[]) => { setRows(data); setLoading(false); });
+            .then((data: CategoryRow[]) => { setRows(data); setLoading(false); })
+            .catch(() => { setError(labels.error_loading); setLoading(false); });
     }, []);
 
     if (loading) {
         return <p className="px-4 py-6 text-sm text-gray-400">{labels.loading}</p>;
+    }
+
+    if (error) {
+        return <div className="p-3 rounded bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>;
     }
 
     return (
