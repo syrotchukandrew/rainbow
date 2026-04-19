@@ -120,29 +120,9 @@
     </div>
 </nav>
 {% endblock nav %}
-{% block header %}
-<header class="bg-gray-50 border-b border-gray-200 py-4">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex items-center justify-between flex-wrap gap-4">
-            <div>
-                <a href="{{ path('homepage') }}">
-                    <img src="{{ asset("images/logo/logo_main.png") |imagine_filter('logo') }}"
-                         alt="{{ 'site.logo_alt'|trans }}" class="h-28 w-auto">
-                </a>
-            </div>
-            <div class="bg-white border border-gray-200 rounded p-3 shadow-sm text-sm">
-                <p class="text-gray-600 mb-2 font-medium">{{ 'site.search'|trans }}</p>
-                {{ render(controller("App\\Controller\\SiteController::searchAction")) }}
-            </div>
-        </div>
-        <div class="mt-2 text-sm text-gray-500">
-            {{ wo_render_breadcrumbs() }}
-        </div>
-    </div>
-</header>
-{% endblock header %}
 {% block body %}
 <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="mb-2 text-sm text-[#8a7d6e]">{{ wo_render_breadcrumbs() }}</div>
     <div class="flex gap-6">
         <aside class="w-64 flex-shrink-0">
             {% block sidebar %}
