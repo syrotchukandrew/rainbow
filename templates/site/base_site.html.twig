@@ -144,13 +144,13 @@
 </div>
 {% endblock body %}
 {% block footer %}
-<footer class="border-t border-gray-200 bg-gray-50 mt-8 py-4">
+<footer class="bg-[#2c2420] mt-8 py-4">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
-            <a href="{{ path('homepage') }}" class="hover:text-gray-900">{{ 'site.menu.homepage'|trans }}</a>
+        <div class="flex flex-wrap gap-4 text-sm text-[#c8bfb0] mb-2">
+            <a href="{{ path('homepage') }}" class="hover:text-white">{{ 'site.menu.homepage'|trans }}</a>
             {{ render(controller('App\\Controller\\SiteController::showMenuItemAction')) }}
         </div>
-        <p class="text-xs text-gray-400">Copyright &copy; Syrotchuk's Website {{ "now"|date("Y") }}</p>
+        <p class="text-xs text-[#8a7d6e]">Copyright &copy; Syrotchuk's Website {{ "now"|date("Y") }}</p>
     </div>
 </footer>
 {% endblock footer %}
