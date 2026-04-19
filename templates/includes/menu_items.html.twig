@@ -1,3 +1,5 @@
+<div id="menu-items">
 {% for item in items %}
     <a href="{{ path('show_description_menu_item', {'id': item.id}) }}" class="text-[#c8bfb0] hover:text-[#e8c47a] py-1 text-sm">{{ item.title }}</a>
 {% endfor %}
+</div>

@@ -68,7 +68,7 @@ class SiteControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(
             count($menuItems),
-            $crawler->filter('a')->count()
+            $crawler->filter('#menu-items a')->count()
         );
     }
 
