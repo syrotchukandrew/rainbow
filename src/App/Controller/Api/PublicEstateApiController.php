@@ -95,18 +95,18 @@ class PublicEstateApiController extends AbstractController
             $district = $em->getRepository(District::class)->findOneBy(['slug' => $districtSlug]);
         }
 
-        $estates = $this->searchManager->searchEstate([
+        $searchData = [
             'category'     => $category,
             'district'     => $district,
             'price'        => $request->query->get('price', ''),
             'except_floor' => (bool) $request->query->getInt('except_floor', 0),
-        ]);
+        ];
 
-        $total = count($estates);
-        $slice = array_slice($estates, ($page - 1) * self::PER_PAGE, self::PER_PAGE);
+        $total = $this->searchManager->countEstate($searchData);
+        $estates = $this->searchManager->searchEstatePaginated($searchData, $page, self::PER_PAGE);
 
         return $this->json([
-            'data'    => array_map(fn(Estate $e) => $this->serializeEstateSummary($e), $slice),
+            'data'    => array_map(fn(Estate $e) => $this->serializeEstateSummary($e), $estates),
             'total'   => $total,
             'page'    => $page,
             'perPage' => self::PER_PAGE,

@@ -178,4 +178,49 @@ class EstateRepository extends EntityRepository
         $query->setParameter('price_max', $price_max);
         return $query->getResult();
     }
+
+    public function countEstatesFromForm(int $idCategory, ?int $idDistrict, int $priceMin, ?int $priceMax, bool $exceptFloor): int
+    {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT COUNT(e.id)
+            FROM App\Entity\Estate e
+            LEFT JOIN e.district d
+            LEFT JOIN e.category c
+            WHERE (c.id = :id_category)
+            AND (:except_floor != true or e.firstLastFloor = false)
+            AND (:id_district is null or d.id = :id_district)
+            AND (e.price >= :price_min)
+            AND (:price_max is null or e.price <= :price_max)
+        ');
+        $query->setParameter('id_district', $idDistrict);
+        $query->setParameter('id_category', $idCategory);
+        $query->setParameter('except_floor', $exceptFloor);
+        $query->setParameter('price_min', $priceMin);
+        $query->setParameter('price_max', $priceMax);
+        return (int) $query->getSingleScalarResult();
+    }
+
+    public function findEstatesFromFormPaginated(int $idCategory, ?int $idDistrict, int $priceMin, ?int $priceMax, bool $exceptFloor, int $page, int $limit): array
+    {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT e, d, c, f
+            FROM App\Entity\Estate e
+            LEFT JOIN e.district d
+            LEFT JOIN e.files f
+            LEFT JOIN e.category c
+            WHERE (c.id = :id_category)
+            AND (:except_floor != true or e.firstLastFloor = false)
+            AND (:id_district is null or d.id = :id_district)
+            AND (e.price >= :price_min)
+            AND (:price_max is null or e.price <= :price_max)
+        ');
+        $query->setParameter('id_district', $idDistrict);
+        $query->setParameter('id_category', $idCategory);
+        $query->setParameter('except_floor', $exceptFloor);
+        $query->setParameter('price_min', $priceMin);
+        $query->setParameter('price_max', $priceMax);
+        $query->setFirstResult(($page - 1) * $limit);
+        $query->setMaxResults($limit);
+        return $query->getResult();
+    }
 }
