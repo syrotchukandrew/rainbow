@@ -82,6 +82,7 @@ security:
     reset_password_success: Пароль успішно змінено. Увійдіть у систему.
     reset_new_password: Новий пароль
     reset_save: Зберегти пароль
+    too_many_requests: 'Забагато запитів. Будь ласка, спробуйте пізніше.'
 
 admin:
     back_to_list: Назад до списку

@@ -82,6 +82,7 @@ security:
     reset_password_success: Your password has been reset. Please log in.
     reset_new_password: Choose new password
     reset_save: Save new password
+    too_many_requests: 'Too many requests. Please try again later.'
 
 admin:
     back_to_list: Back to list

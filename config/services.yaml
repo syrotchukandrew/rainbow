@@ -29,6 +29,11 @@ services:
         bind:
             $apiPublicLimiter: '@limiter.api_public'
 
+    App\Controller\SecurityController:
+        public: true
+        bind:
+            $passwordResetLimiter: '@limiter.password_reset'
+
     my.custom.user_provider:
         alias: App\Security\Core\User\OAuthUserProvider
         public: true
