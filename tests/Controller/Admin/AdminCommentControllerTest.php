@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\Comment;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminCommentControllerTest extends BaseTestController
 {
@@ -59,9 +61,9 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $id = $em
-            ->getRepository(\App\Entity\Comment::class)
+            ->getRepository(Comment::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/admin/comment/show/{$id}");
 
@@ -78,10 +80,10 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
 
         // Ensure there is at least one disabled comment regardless of prior test runs
-        $anyComment = $em->getRepository(\App\Entity\Comment::class)->findOneBy([]);
+        $anyComment = $em->getRepository(Comment::class)->findOneBy([]);
         if ($anyComment->isEnabled()) {
             $anyComment->setEnabled(false);
             $em->flush();
@@ -89,14 +91,14 @@ class AdminCommentControllerTest extends BaseTestController
         }
 
         $comments = $em
-            ->getRepository(\App\Entity\Comment::class)
+            ->getRepository(Comment::class)
             ->getDisabledComments();
         $countCommentsBefore = count($comments);
         $client->request('GET', "/admin/comment_enable/{$comments[0]->getId()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $comments = $em
-            ->getRepository(\App\Entity\Comment::class)
+            ->getRepository(Comment::class)
             ->getDisabledComments();
         $countCommentsAfter = count($comments);
 
@@ -109,9 +111,9 @@ class AdminCommentControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW' => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         // Use any comment — the 403 auth check fires before any state change
-        $comment = $em->getRepository(\App\Entity\Comment::class)->findOneBy([]);
+        $comment = $em->getRepository(Comment::class)->findOneBy([]);
 
         $client->request('GET', "/admin/comment_enable/{$comment->getId()}");
         $this->assertEquals(403, $client->getResponse()->getStatusCode());

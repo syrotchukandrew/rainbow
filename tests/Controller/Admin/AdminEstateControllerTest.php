@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\Estate;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminEstateControllerTest extends BaseTestController
 {
@@ -40,9 +42,9 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/estate/show/{$slug}");
 
@@ -74,9 +76,9 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/estate/edit/{$slug}");
 
@@ -94,9 +96,9 @@ class AdminEstateControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $estate = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findOneBy([]);
         $files = $estate->getFiles();
         $foto = $files[0];
@@ -109,7 +111,7 @@ class AdminEstateControllerTest extends BaseTestController
         $client->request('GET', "/admin/do_main_foto/{$estate->getSlug()}/{$fotoId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $freshEstate = $em->getRepository(\App\Entity\Estate::class)->find($estateId);
+        $freshEstate = $em->getRepository(Estate::class)->find($estateId);
         $this->assertNotNull($freshEstate->getMainFoto());
         $this->assertEquals($fotoId, $freshEstate->getMainFoto()->getId());
     }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\Category;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminCategoryControllerTest extends BaseTestController
 {
@@ -59,9 +61,9 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/category/edit/{$slug}");
 
@@ -78,9 +80,9 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy([])->getSlug();
 
         $crawler = $client->request('GET', "/admin/category/edit/{$slug}");
@@ -95,10 +97,10 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_PW'   => 'qweasz',
         ));
 
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $repo = $em->getRepository(\App\Entity\Category::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $repo = $em->getRepository(Category::class);
         $category = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[0];
@@ -108,7 +110,7 @@ class AdminCategoryControllerTest extends BaseTestController
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $category = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[1];
@@ -118,9 +120,9 @@ class AdminCategoryControllerTest extends BaseTestController
         $client->request('GET', "/admin/category/up/{$child->getSlug()}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        $repo = $em->getRepository(\App\Entity\Category::class);
+        $repo = $em->getRepository(Category::class);
         $category = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy(array('parent' => null));
         $children = $repo->children($category);
         $child = $children[0];
@@ -135,9 +137,9 @@ class AdminCategoryControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Category::class)
+            ->getRepository(Category::class)
             ->findOneBy([])->getSlug();
 
         $client->request('GET', "/admin/category/up/{$slug}");

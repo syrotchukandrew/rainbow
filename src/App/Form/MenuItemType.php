@@ -10,10 +10,11 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\MenuItem;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuItemType extends AbstractType
@@ -33,7 +34,7 @@ class MenuItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\MenuItem',
+            'data_class' => MenuItem::class,
         ));
     }
 

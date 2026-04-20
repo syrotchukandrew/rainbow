@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -16,11 +18,11 @@ class BaseTestController extends WebTestCase
         {
         }
 
-    protected function logIn($role): \Symfony\Bundle\FrameworkBundle\KernelBrowser
+    protected function logIn($role): KernelBrowser
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $user = $em->getRepository(\App\Entity\User::class)->findByRole($role)[0];
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $user = $em->getRepository(User::class)->findByRole($role)[0];
         $client->loginUser($user);
         return $client;
     }

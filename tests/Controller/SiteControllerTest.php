@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Entity\Estate;
+use App\Entity\MenuItem;
+use App\Entity\User;
+use App\Utils\FinalCategoryFinder;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -30,9 +35,9 @@ class SiteControllerTest extends WebTestCase
     public function testShowEstate()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/en/show_estate/{$slug}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -45,7 +50,7 @@ class SiteControllerTest extends WebTestCase
     public function testShowCategory()
     {
         $client = static::createClient();
-        $categories = $client->getContainer()->get(\App\Utils\FinalCategoryFinder::class)->findFinalCategories();
+        $categories = $client->getContainer()->get(FinalCategoryFinder::class)->findFinalCategories();
         $crawler = $client->request('GET', "/en/show_category/{$categories[0]->getTitle()}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertCount(
@@ -61,9 +66,9 @@ class SiteControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', "/en/menu_item");
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $menuItems = $em
-            ->getRepository(\App\Entity\MenuItem::class)
+            ->getRepository(MenuItem::class)
             ->findAll();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(
@@ -75,9 +80,9 @@ class SiteControllerTest extends WebTestCase
     public function testShowDescriptionMenuItem()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $menuItems = $em
-            ->getRepository(\App\Entity\MenuItem::class)
+            ->getRepository(MenuItem::class)
             ->findAll();
 
         $crawler = $client->request('GET', "/en/description_menu/{$menuItems[0]->getId()}}");
@@ -91,9 +96,9 @@ class SiteControllerTest extends WebTestCase
     public function testPdfEstate()
     {
         $client = static::createClient();
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $estates = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findAll();
         $client->request('GET', "/en/pdf/{$estates[0]->getSlug()}");
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -105,12 +110,12 @@ class SiteControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'user_manager0',
             'PHP_AUTH_PW' => 'qweasz',
         ]);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\Estate::class)
+            ->getRepository(Estate::class)
             ->findOneBy([])->getSlug();
         $user = $em
-            ->getRepository(\App\Entity\User::class)
+            ->getRepository(User::class)
             ->findOneBy(['username' => 'user_manager0']);
         $userId = $user->getId();
         $countBefore = count($user->getEstates());
@@ -119,14 +124,14 @@ class SiteControllerTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $em->clear();
-        $userAfter = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $userAfter = $em->getRepository(User::class)->find($userId);
         $countAfter = count($userAfter->getEstates());
 
         $client->request('GET', "/en/delete_favorites/{$slug}/{$userId}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         $em->clear();
-        $userComeBack = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $userComeBack = $em->getRepository(User::class)->find($userId);
         $countComeBack = count($userComeBack->getEstates());
 
         $this->assertEquals($countBefore, ($countAfter - 1), (string) $countComeBack);

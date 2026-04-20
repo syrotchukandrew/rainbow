@@ -10,10 +10,11 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Comment;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
 
 class CommentType extends AbstractType
 {
@@ -26,7 +27,7 @@ class CommentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Comment',
+            'data_class' => Comment::class,
         ));
     }
     public function getBlockPrefix(): string

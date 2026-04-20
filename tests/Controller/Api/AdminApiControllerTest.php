@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Api;
 
+use App\Entity\Comment;
+use App\Entity\District;
+use App\Entity\MenuItem;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class AdminApiControllerTest extends BaseTestController
 {
@@ -79,8 +84,8 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertEquals('Test District Api', $data['title']);
         $this->assertNotEmpty($data['slug']);
 
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $district = $em->getRepository(\App\Entity\District::class)->find($data['id']);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $district = $em->getRepository(District::class)->find($data['id']);
         if ($district) {
             $em->remove($district);
             $em->flush();
@@ -103,8 +108,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testUpdateDistrictSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $district = $em->getRepository(\App\Entity\District::class)->findOneBy([]);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $district = $em->getRepository(District::class)->findOneBy([]);
         $originalTitle = $district->getTitle();
         $districtId = $district->getId();
         $slug = $district->getSlug();
@@ -121,7 +126,7 @@ class AdminApiControllerTest extends BaseTestController
 
         // Restore by ID since slug may have changed due to Gedmo Sluggable
         $em->clear();
-        $district = $em->getRepository(\App\Entity\District::class)->find($districtId);
+        $district = $em->getRepository(District::class)->find($districtId);
         $district->setTitle($originalTitle);
         $em->flush();
     }
@@ -140,8 +145,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testDeleteDistrictSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $district = new \App\Entity\District();
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $district = new District();
         $district->setTitle('District To Delete');
         $em->persist($district);
         $em->flush();
@@ -154,7 +159,7 @@ class AdminApiControllerTest extends BaseTestController
         ]);
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
-        $deleted = $em->getRepository(\App\Entity\District::class)->findOneBy(['slug' => $slug]);
+        $deleted = $em->getRepository(District::class)->findOneBy(['slug' => $slug]);
         $this->assertNull($deleted);
     }
 
@@ -207,8 +212,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testApproveCommentRequiresAdmin(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_manager2', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $comment = $em->getRepository(\App\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $comment = $em->getRepository(Comment::class)->findOneBy(['enabled' => false]);
         $client->request('POST', "/api/admin/comments/{$comment->getId()}/approve", [], [], [
             'HTTP_X-CSRF-Token' => 'any-token',
         ]);
@@ -218,8 +223,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testApproveCommentRequiresValidCsrf(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $comment = $em->getRepository(\App\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $comment = $em->getRepository(Comment::class)->findOneBy(['enabled' => false]);
         $client->request('POST', "/api/admin/comments/{$comment->getId()}/approve", [], [], [
             'HTTP_X-CSRF-Token' => 'invalid-token',
         ]);
@@ -229,8 +234,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testApproveCommentSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $comment = $em->getRepository(\App\Entity\Comment::class)->findOneBy(['enabled' => false]);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $comment = $em->getRepository(Comment::class)->findOneBy(['enabled' => false]);
         $commentId = $comment->getId();
 
         $csrf = $this->getCommentCsrfToken($client);
@@ -244,7 +249,7 @@ class AdminApiControllerTest extends BaseTestController
 
         // Restore
         $em->clear();
-        $approved = $em->getRepository(\App\Entity\Comment::class)->find($commentId);
+        $approved = $em->getRepository(Comment::class)->find($commentId);
         $approved->setEnabled(false);
         $em->flush();
     }
@@ -271,8 +276,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testDeleteCommentSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $comment = new \App\Entity\Comment();
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $comment = new Comment();
         $comment->setContent('Comment to delete in test');
         $comment->setEnabled(false);
         $comment->setCreatedBy('user_admin');
@@ -288,7 +293,7 @@ class AdminApiControllerTest extends BaseTestController
         ]);
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
-        $deleted = $em->getRepository(\App\Entity\Comment::class)->find($commentId);
+        $deleted = $em->getRepository(Comment::class)->find($commentId);
         $this->assertNull($deleted);
     }
 
@@ -427,8 +432,8 @@ class AdminApiControllerTest extends BaseTestController
         $this->assertEquals('Test Menu Item Api', $data['title']);
         $this->assertEquals('Test desc', $data['description']);
 
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $item = $em->getRepository(\App\Entity\MenuItem::class)->find($data['id']);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $item = $em->getRepository(MenuItem::class)->find($data['id']);
         if ($item) {
             $em->remove($item);
             $em->flush();
@@ -451,8 +456,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testUpdateMenuItemSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $item = $em->getRepository(\App\Entity\MenuItem::class)->findOneBy([]);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $item = $em->getRepository(MenuItem::class)->findOneBy([]);
         $originalTitle = $item->getTitle();
         $itemId = $item->getId();
 
@@ -468,7 +473,7 @@ class AdminApiControllerTest extends BaseTestController
 
         // Restore
         $em->clear();
-        $restored = $em->getRepository(\App\Entity\MenuItem::class)->find($itemId);
+        $restored = $em->getRepository(MenuItem::class)->find($itemId);
         $restored->setTitle($originalTitle);
         $em->flush();
     }
@@ -487,8 +492,8 @@ class AdminApiControllerTest extends BaseTestController
     public function testDeleteMenuItemSuccess(): void
     {
         $client = static::createClient([], ['PHP_AUTH_USER' => 'user_admin', 'PHP_AUTH_PW' => 'qweasz']);
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
-        $item = new \App\Entity\MenuItem();
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $item = new MenuItem();
         $item->setTitle('MenuItem To Delete');
         $em->persist($item);
         $em->flush();
@@ -501,7 +506,7 @@ class AdminApiControllerTest extends BaseTestController
         ]);
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
-        $deleted = $em->getRepository(\App\Entity\MenuItem::class)->find($itemId);
+        $deleted = $em->getRepository(MenuItem::class)->find($itemId);
         $this->assertNull($deleted);
     }
 
@@ -548,7 +553,7 @@ class AdminApiControllerTest extends BaseTestController
         }
     }
 
-    private function getCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    private function getCsrfToken(KernelBrowser $client): string
     {
         // The districts page embeds the CSRF token in data-csrf;
         // extract from HTML to avoid SessionNotFoundException outside a request
@@ -556,19 +561,19 @@ class AdminApiControllerTest extends BaseTestController
         return $crawler->filter('#react-admin-districts')->attr('data-csrf');
     }
 
-    private function getCommentCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    private function getCommentCsrfToken(KernelBrowser $client): string
     {
         $crawler = $client->request('GET', '/admin/comments');
         return $crawler->filter('#react-admin-comments')->attr('data-csrf');
     }
 
-    private function getUserCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    private function getUserCsrfToken(KernelBrowser $client): string
     {
         $crawler = $client->request('GET', '/admin/users');
         return $crawler->filter('#react-admin-users')->attr('data-csrf');
     }
 
-    private function getMenuItemCsrfToken(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): string
+    private function getMenuItemCsrfToken(KernelBrowser $client): string
     {
         $crawler = $client->request('GET', '/admin/menu_items');
         return $crawler->filter('#react-admin-menu-items')->attr('data-csrf');

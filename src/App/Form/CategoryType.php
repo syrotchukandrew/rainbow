@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class CategoryType extends AbstractType
@@ -25,7 +26,7 @@ class CategoryType extends AbstractType
             $builder
                 ->add('parent', EntityType::class, array(
                     'required' => false,
-                    'class' => 'App\Entity\Category',
+                    'class' => Category::class,
                     'choice_label' => 'title',
                     'label' => 'form.category.parent',
                 ));
@@ -35,7 +36,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Category',
+            'data_class' => Category::class,
             'isForm_cat' => null,
         ));
     }

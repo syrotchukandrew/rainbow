@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\District;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminDistrictControllerTest extends BaseTestController
 {
@@ -29,9 +31,9 @@ class AdminDistrictControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\District::class)
+            ->getRepository(District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/district/show/{$slug}");
 
@@ -63,9 +65,9 @@ class AdminDistrictControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\District::class)
+            ->getRepository(District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
 
@@ -82,9 +84,9 @@ class AdminDistrictControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $slug = $em
-            ->getRepository(\App\Entity\District::class)
+            ->getRepository(District::class)
             ->findOneBy([])->getSlug();
         $crawler = $client->request('GET', "/admin/district/edit/{$slug}");
 

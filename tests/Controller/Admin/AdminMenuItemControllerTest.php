@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\MenuItem;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminMenuItemControllerTest extends BaseTestController
 {
@@ -29,9 +31,9 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $id = $em
-            ->getRepository(\App\Entity\MenuItem::class)
+            ->getRepository(MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/admin/menu_item/show/{$id}");
 
@@ -63,9 +65,9 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $id = $em
-            ->getRepository(\App\Entity\MenuItem::class)
+            ->getRepository(MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/admin/menu_item/edit/{$id}");
 
@@ -82,9 +84,9 @@ class AdminMenuItemControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_manager2',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $id = $em
-            ->getRepository(\App\Entity\MenuItem::class)
+            ->getRepository(MenuItem::class)
             ->findOneBy([])->getId();
         $crawler = $client->request('GET', "/admin/menu_item/edit/{$id}");
 

@@ -10,12 +10,14 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Category;
+use App\Entity\District;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class SearchType extends AbstractType
 {
@@ -23,7 +25,7 @@ class SearchType extends AbstractType
     {
         $builder
             ->add('category', EntityType::class, array(
-                'class' => 'App\Entity\Category',
+                'class' => Category::class,
                 'choices' => $options['categories_choices'],
                 'label' => 'form.search.category',
                 'choice_label' => 'title',
@@ -34,7 +36,7 @@ class SearchType extends AbstractType
 
             ))
             ->add('district', EntityType::class, array(
-                'class' => 'App\Entity\District',
+                'class' => District::class,
                 'placeholder' => 'form.search.district',
                 'choice_label' => 'title',
                 'label' => 'form.search.district_label',

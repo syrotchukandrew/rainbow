@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Category;
+use App\Entity\District;
+use App\Entity\Estate;
+use App\Entity\File;
+use App\Form\FloorType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use App\Form\FloorType;
 
 class EstateType extends AbstractType
 {
@@ -34,12 +39,12 @@ class EstateType extends AbstractType
                 ]
             ))
             ->add('district', EntityType::class, array(
-                'class' => 'App\Entity\District',
+                'class' => District::class,
                 'choice_label' => 'title',
                 'label' => 'form.estate.district',
             ))
             ->add('category', EntityType::class, array(
-                'class' => 'App\Entity\Category',
+                'class' => Category::class,
                 'choices' => $options['categories_choices'],
                 'label' => 'form.estate.category',
                 'choice_label' => 'title',
@@ -66,8 +71,8 @@ class EstateType extends AbstractType
         if ($options['isDeleteImages']) {
             $builder
                 ->add('files', EntityType::class, array(
-                    'class' => 'App\Entity\File',
-                    'query_builder' => function (\Doctrine\ORM\EntityRepository $repository) use ($estate) {
+                    'class' => File::class,
+                    'query_builder' => function (EntityRepository $repository) use ($estate) {
                         return $repository->createQueryBuilder('file')
                             ->where('file.estate = ?1')
                             ->setParameter(1, $estate);
@@ -84,7 +89,7 @@ class EstateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Estate',
+            'data_class' => Estate::class,
             'categories_choices' => null,
             'isDeleteImages' => null,
         ));

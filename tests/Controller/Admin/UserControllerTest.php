@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Admin;
 
+use App\Entity\User;
 use App\Tests\Controller\BaseTestController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserControllerTest extends BaseTestController
 {
@@ -52,9 +54,9 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $users = $em
-            ->getRepository(\App\Entity\User::class)
+            ->getRepository(User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[1];
         $crawler = $client->request('GET', "/admin/estates/{$user->getUserIdentifier()}");
@@ -72,9 +74,9 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $users = $em
-            ->getRepository(\App\Entity\User::class)
+            ->getRepository(User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $userId = $user->getId();
@@ -84,18 +86,18 @@ class UserControllerTest extends BaseTestController
         if (!$user->isEnabled()) {
             $client->request('GET', "/admin/users/unlock_user/{$username}");
             $em->clear();
-            $user = $em->getRepository(\App\Entity\User::class)->find($userId);
+            $user = $em->getRepository(User::class)->find($userId);
         }
         $this->assertEquals(true, $user->isEnabled());
         $client->request('GET', "/admin/users/lock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $user = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $user = $em->getRepository(User::class)->find($userId);
         $this->assertEquals(false, $user->isEnabled());
         $client->request('GET', "/admin/users/unlock_user/{$username}");
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $em->clear();
-        $user = $em->getRepository(\App\Entity\User::class)->find($userId);
+        $user = $em->getRepository(User::class)->find($userId);
         $this->assertEquals(true, $user->isEnabled());
 
         static::ensureKernelShutdown();
@@ -115,9 +117,9 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $users = $em
-            ->getRepository(\App\Entity\User::class)
+            ->getRepository(User::class)
             ->findByRole('ROLE_MANAGER');
         $user = $users[0];
         $this->assertEquals(true, $user->hasRole('ROLE_MANAGER'));
@@ -133,7 +135,7 @@ class UserControllerTest extends BaseTestController
             'PHP_AUTH_USER' => 'user_admin',
             'PHP_AUTH_PW'   => 'qweasz',
         ));
-        $em = $client->getContainer()->get(\Doctrine\ORM\EntityManagerInterface::class);
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
         $query = $em->createQuery(
                 'SELECT u FROM App\Entity\User u
              WHERE NOT u.roles LIKE :role2
