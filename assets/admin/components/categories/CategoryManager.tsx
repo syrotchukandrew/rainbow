@@ -34,7 +34,10 @@ export default function CategoryManager({ labels }: Props) {
     useEffect(() => {
         setError(null);
         fetch('/api/admin/categories')
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(String(r.status));
+                return r.json();
+            })
             .then((data: CategoryRow[]) => { setRows(data); setLoading(false); })
             .catch(() => { setError(labels.error_loading); setLoading(false); });
     }, []);
