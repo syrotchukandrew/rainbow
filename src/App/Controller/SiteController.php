@@ -12,6 +12,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\District;
 use App\Entity\Estate;
 use App\Entity\MenuItem;
 use App\Entity\User;
@@ -39,8 +40,8 @@ use Huluti\BreadcrumbsBundle\Model\Breadcrumbs;
 
 class SiteController extends AbstractController
 {
-    private const ITEMS_PER_PAGE = 5;
-    private const LIVESEARCH_ITEMS_PER_PAGE = 10;
+    private const int ITEMS_PER_PAGE = 5;
+    private const int LIVESEARCH_ITEMS_PER_PAGE = 10;
 
     private ManagerRegistry $doctrine;
     private PaginatorInterface $paginator;
@@ -90,7 +91,7 @@ class SiteController extends AbstractController
         $categories = $this->cache->get('site_menu_categories', function (ItemInterface $item): array {
             $item->expiresAfter(3600);
             return $this->doctrine->getManager()
-                ->getRepository(\App\Entity\Category::class)
+                ->getRepository(Category::class)
                 ->childrenHierarchy();
         });
 
@@ -110,7 +111,7 @@ class SiteController extends AbstractController
     public function showEstateAction(Request $request, $slug): Response
     {
         $em = $this->doctrine->getManager();
-        $estate = $em->getRepository(\App\Entity\Estate::class)->getEstateWithDistrictComment($slug);
+        $estate = $em->getRepository(Estate::class)->getEstateWithDistrictComment($slug);
         $this->breadcrumbsMaker->makeBreadcrumbs($estate->getCategory(), $estate);
 
         return $this->render('site/show_estate.html.twig', array('estate' => $estate));
@@ -169,9 +170,9 @@ class SiteController extends AbstractController
         $searchForm->handleRequest($request);
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $data = $searchForm->getData();
-            /** @var \App\Entity\Category $category */
+            /** @var Category $category */
             $category = $data['category'];
-            /** @var \App\Entity\District|null $district */
+            /** @var District|null $district */
             $district = $data['district'];
 
             return $this->render('site/search_result.html.twig', [
@@ -191,7 +192,7 @@ class SiteController extends AbstractController
         $menuitems = $this->cache->get('site_menu_items', function (ItemInterface $item): array {
             $item->expiresAfter(3600);
             return $this->doctrine->getManager()
-                ->getRepository(\App\Entity\MenuItem::class)
+                ->getRepository(MenuItem::class)
                 ->findAll();
         });
         return $this->render('includes/menu_items.html.twig', array('items' => $menuitems));

@@ -23,7 +23,7 @@ use App\Entity\User;
 #[AsCommand(name: 'app:add-user', description: 'Creates users and stores them in the database')]
 class AddUserCommand extends Command
 {
-    private const MAX_ATTEMPTS = 5;
+    private const int MAX_ATTEMPTS = 5;
 
     private EntityManagerInterface $entityManager;
     private UserPasswordHasherInterface $passwordHasher;
@@ -115,11 +115,11 @@ class AddUserCommand extends Command
         $plainPassword = $input->getArgument('password');
         $email = $input->getArgument('email');
         $isAdmin = $input->getOption('is-admin');
-        $existingUser = $this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(array('username' => $username));
+        $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(array('username' => $username));
         if (null !== $existingUser) {
             throw new \RuntimeException(sprintf('There is already a user registered with the "%s" username.', $username));
         }
-        $existingEmail = $this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(array('email' => $email));
+        $existingEmail = $this->entityManager->getRepository(User::class)->findOneBy(array('email' => $email));
         if (null !== $existingEmail) {
             throw new \RuntimeException(sprintf('There is already a user registered with the "%s" email.', $email));
         }

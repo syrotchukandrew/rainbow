@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Entity\Estate;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -34,7 +35,7 @@ class Searcher
             return [];
         }
 
-        $estates = $this->doctrine->getRepository(\App\Entity\Estate::class)
+        $estates = $this->doctrine->getRepository(Estate::class)
             ->findByTitleSearch($slug);
 
         if ($request->getMethod() === 'GET') {

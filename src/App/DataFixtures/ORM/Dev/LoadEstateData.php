@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\ORM\Dev;
 
+use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\District;
 use App\Entity\Estate;
 use App\Entity\File;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -23,7 +25,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $estate->setDescription($faker->sentence);
             $estate->setPrice($faker->numberBetween(10000, 500000));
             $estate->setCreatedBy('user_manager' . rand(0, 2));
-            $estate->setDistrict($this->getReference('district' . rand(1, 10), \App\Entity\District::class));
+            $estate->setDistrict($this->getReference('district' . rand(1, 10), District::class));
 
             $exclusive = rand(1, 10);
             if ($exclusive == 10) {
@@ -60,7 +62,7 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
             $quart = rand(0, 9);
             if ($quart <= 3) {
                 $cat = rand(1, 5);
-                $estate->setCategory($this->getReference('category' . $cat, \App\Entity\Category::class));
+                $estate->setCategory($this->getReference('category' . $cat, Category::class));
                 $countFloors = rand(4, 16);
                 $estate->setFloor(array('floor' => rand(1, $countFloors), 'count_floor' => $countFloors));
                 $floor = $estate->getFloor();
@@ -71,10 +73,10 @@ class LoadEstateData extends AbstractFixture implements OrderedFixtureInterface
                 }
             } elseif ($quart == 4 || $quart == 5) {
                 $cat = rand(13, 14);
-                $estate->setCategory($this->getReference('category' . $cat, \App\Entity\Category::class));
+                $estate->setCategory($this->getReference('category' . $cat, Category::class));
             } else {
                 $cat = rand(6, 12);
-                $estate->setCategory($this->getReference('category' . $cat, \App\Entity\Category::class));
+                $estate->setCategory($this->getReference('category' . $cat, Category::class));
             }
 
             $manager->persist($estate);

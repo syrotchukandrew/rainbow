@@ -7,6 +7,7 @@ namespace App\Controller\Api;
 use App\Entity\Category;
 use App\Entity\District;
 use App\Entity\Estate;
+use App\Repository\EstateRepository;
 use App\Utils\SearchManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/api/public')]
 class PublicEstateApiController extends AbstractController
 {
-    private const PER_PAGE = 5;
+    private const int PER_PAGE = 5;
 
     public function __construct(
         private ManagerRegistry $doctrine,
@@ -47,7 +48,7 @@ class PublicEstateApiController extends AbstractController
         $categorySlug = $request->query->get('category');
         $page = max(1, $request->query->getInt('page', 1));
 
-        /** @var \App\Repository\EstateRepository $estateRepo */
+        /** @var EstateRepository $estateRepo */
         $estateRepo = $em->getRepository(Estate::class);
 
         if ($categorySlug !== null) {

@@ -30,7 +30,7 @@ class FileManager
         $this->uploadableManager = $uploadableManager;
     }
 
-    private const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    private const array ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
     public function fileManager($estate)
     {

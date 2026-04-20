@@ -37,7 +37,7 @@ class AdminCategoryController extends AbstractController
     public function newCategoryRootAction(Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -60,7 +60,7 @@ class AdminCategoryController extends AbstractController
     public function newCategoryAction(Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $form->handleRequest($request);
@@ -85,7 +85,7 @@ class AdminCategoryController extends AbstractController
     public function categoryEditAction(#[MapEntity(mapping: ['slug' => 'slug'])] Category $category, Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         $editForm = $this->createForm(CategoryType::class, $category, array('isForm_cat' => true));
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -108,7 +108,7 @@ class AdminCategoryController extends AbstractController
     public function categoryDeleteAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category): Response
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         $deleteForm = $this->createForm(CategoryType::class, $category, ['method' => 'DELETE']);
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
@@ -129,7 +129,7 @@ class AdminCategoryController extends AbstractController
     public function categoryUpAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         if ($category->getParent()) {
             $repo->moveUp($category);
             $repo->verify();
@@ -144,7 +144,7 @@ class AdminCategoryController extends AbstractController
     public function categoryDownAction(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Category $category): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $repo = $entityManager->getRepository(\App\Entity\Category::class);
+        $repo = $entityManager->getRepository(Category::class);
         if ($category->getParent()) {
             $repo->moveDown($category);
             $repo->verify();

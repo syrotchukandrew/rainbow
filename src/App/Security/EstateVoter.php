@@ -13,10 +13,10 @@ use App\Entity\Estate;
 
 class EstateVoter extends Voter
 {
-    public const VIEW = 'view';
-    public const CREATE = 'create';
-    public const EDIT = 'edit';
-    public const REMOVE = 'remove';
+    public const string VIEW = 'view';
+    public const string CREATE = 'create';
+    public const string EDIT = 'edit';
+    public const string REMOVE = 'remove';
 
     /**
      * @var AccessDecisionManagerInterface

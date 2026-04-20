@@ -43,7 +43,7 @@ class AdminCommentController extends AbstractController
     #[Route('/comments/all', name: 'admin_all_comments', methods: ['GET'])]
     public function allCommentsAction(Request $request): Response
     {
-        $comments = $this->doctrine->getRepository(\App\Entity\Comment::class)->findAllComments();
+        $comments = $this->doctrine->getRepository(Comment::class)->findAllComments();
         $pagination = $this->paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
@@ -55,7 +55,7 @@ class AdminCommentController extends AbstractController
     #[Route('/comments/published', name: 'admin_published_comments', methods: ['GET'])]
     public function publishedCommentsAction(Request $request): Response
     {
-        $comments = $this->doctrine->getRepository(\App\Entity\Comment::class)->getEnabledComments();
+        $comments = $this->doctrine->getRepository(Comment::class)->getEnabledComments();
         $pagination = $this->paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
@@ -108,7 +108,7 @@ class AdminCommentController extends AbstractController
     #[Route('', name: 'count_disables_comments', methods: ['GET'])]
     public function countDisablesCommentsAction(Request $request): Response
     {
-        $comments = $this->doctrine->getRepository(\App\Entity\Comment::class)->getDisabledComments();
+        $comments = $this->doctrine->getRepository(Comment::class)->getDisabledComments();
         return $this->render("admin/comment/count_disables_comment.html.twig",
             array("count_disables_comments" => count($comments)));
     }

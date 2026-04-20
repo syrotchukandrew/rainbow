@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Comment;
 use App\Entity\Estate;
 use App\Entity\File;
 use App\Form\EstateType;
@@ -47,7 +48,7 @@ class AdminEstateController extends AbstractController
         $em = $this->doctrine->getManager();
         $countUsers = (int) $em->createQuery('SELECT COUNT(u.id) FROM App\Entity\User u')->getSingleScalarResult();
         $countDistricts = (int) $em->createQuery('SELECT COUNT(d.id) FROM App\Entity\District d')->getSingleScalarResult();
-        $countDisabledComments = $this->doctrine->getRepository(\App\Entity\Comment::class)->countDisabledComments();
+        $countDisabledComments = $this->doctrine->getRepository(Comment::class)->countDisabledComments();
         $countEstates = (int) $em->createQuery('SELECT COUNT(e.id) FROM App\Entity\Estate e')->getSingleScalarResult();
         return $this->render('admin/index.html.twig', array(
             'count_disabled_comments' => $countDisabledComments,
@@ -66,7 +67,7 @@ class AdminEstateController extends AbstractController
     #[Route('/estate/show/{slug}', name: 'admin_estate_show', methods: ['GET'])]
     public function estateShowAction(string $slug, Request $request): Response
     {
-        $estate = $this->doctrine->getRepository(\App\Entity\Estate::class)->getOneEstateWithAll($slug);
+        $estate = $this->doctrine->getRepository(Estate::class)->getOneEstateWithAll($slug);
         $deleteForm = $this->createDeleteForm($estate);
         return $this->render('admin/estate/show_estate.html.twig', array(
             'estate' => $estate,
@@ -102,7 +103,7 @@ class AdminEstateController extends AbstractController
     #[Route('/estate/edit/{slug}', name: 'admin_estate_edit', methods: ['GET', 'POST'])]
     public function estateEditAction(string $slug, Request $request): Response
     {
-        $estate = $this->doctrine->getRepository(\App\Entity\Estate::class)->getOneEstateWithAll($slug);
+        $estate = $this->doctrine->getRepository(Estate::class)->getOneEstateWithAll($slug);
         $entityManager = $this->doctrine->getManager();
         $this->denyAccessUnlessGranted('edit', $estate);
         $finalCategories = $this->finalCategoryFinder->findFinalCategories();

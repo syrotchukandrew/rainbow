@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Entity\Estate;
 use Doctrine\Persistence\ManagerRegistry;
 
 class SearchManager
@@ -28,7 +29,7 @@ class SearchManager
         $idDistrict = $data['district']?->getId();
         $idCategory = $data['category']->getId();
         $exceptFloor = $data['except_floor'];
-        return $this->doctrine->getRepository(\App\Entity\Estate::class)
+        return $this->doctrine->getRepository(Estate::class)
             ->findEstatesFromForm($idCategory, $idDistrict, $priceMin, $priceMax, $exceptFloor);
     }
 
@@ -37,7 +38,7 @@ class SearchManager
         [$priceMin, $priceMax] = $this->resolvePriceRange($data['price']);
         $idDistrict = $data['district']?->getId();
         $idCategory = $data['category']->getId();
-        return $this->doctrine->getRepository(\App\Entity\Estate::class)
+        return $this->doctrine->getRepository(Estate::class)
             ->countEstatesFromForm($idCategory, $idDistrict, $priceMin, $priceMax, $data['except_floor']);
     }
 
@@ -46,7 +47,7 @@ class SearchManager
         [$priceMin, $priceMax] = $this->resolvePriceRange($data['price']);
         $idDistrict = $data['district']?->getId();
         $idCategory = $data['category']->getId();
-        return $this->doctrine->getRepository(\App\Entity\Estate::class)
+        return $this->doctrine->getRepository(Estate::class)
             ->findEstatesFromFormPaginated($idCategory, $idDistrict, $priceMin, $priceMax, $data['except_floor'], $page, $limit);
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Estate;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +44,7 @@ class UserController extends AbstractController
     #[Route('/estates/{slug}', name: 'admin_estates_manager', methods: ['GET'])]
     public function showEstatesManagerAction(Request $request, $slug): Response
     {
-        $estates = $this->doctrine->getManager()->getRepository(\App\Entity\Estate::class)
+        $estates = $this->doctrine->getManager()->getRepository(Estate::class)
             ->getEstatesOfManager($slug);
         $pagination = $this->paginator->paginate(
             $estates,
@@ -57,7 +59,7 @@ class UserController extends AbstractController
     public function lockUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $user = $this->doctrine->getRepository(\App\Entity\User::class)->findOneBy(array('username' => $username));
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('username' => $username));
         $user->setEnabled(false);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -68,7 +70,7 @@ class UserController extends AbstractController
     public function unlockUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $user = $this->doctrine->getRepository(\App\Entity\User::class)->findOneBy(array('username' => $username));
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('username' => $username));
         $user->setEnabled(true);
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -79,7 +81,7 @@ class UserController extends AbstractController
     public function doManagerAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $user = $this->doctrine->getRepository(\App\Entity\User::class)->findOneBy(array('username' => $username));
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('username' => $username));
         $user->addRole('ROLE_MANAGER');
         $entityManager->flush();
         return $this->redirectToRoute('admin_users');
@@ -90,7 +92,7 @@ class UserController extends AbstractController
     public function doUserAction(Request $request, $username): RedirectResponse
     {
         $entityManager = $this->doctrine->getManager();
-        $user = $this->doctrine->getRepository(\App\Entity\User::class)->findOneBy(array('username' => $username));
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('username' => $username));
         if ($user->hasRole('ROLE_MANAGER')) {
             $user->removeRole('ROLE_MANAGER');
             $entityManager->flush();
