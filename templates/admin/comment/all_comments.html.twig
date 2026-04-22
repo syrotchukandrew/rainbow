@@ -1,0 +1,45 @@
+{% extends "admin/base_admin.html.twig" %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">Коментарі</h1>
+    <div class="flex border-b border-gray-200 mb-4 gap-0">
+        <a href="{{ path('admin_comments') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-400">Неопубліковані</a>
+        <a href="{{ path('admin_published_comments') }}" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-400">Опубліковані</a>
+        <a href="{{ path('admin_all_comments') }}" class="px-4 py-2 text-sm font-medium text-gray-900 border-b-2 border-gray-900">Всі</a>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Id</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Контент</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Створено</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">Дії</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+            {% for comment in pagination %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 text-gray-700">{{ comment.id }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ comment.content }}</td>
+                    <td class="px-4 py-3 text-gray-500">{{ comment.createdAt|date('d.m.Y H:i:s') }}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex gap-2">
+                            {% if not comment.enabled %}
+                                <a href="{{ path('admin_enable_comment', {'id': comment.id }) }}" class="inline-flex items-center px-2 py-1 border border-gray-300 rounded text-xs text-gray-700 bg-white hover:bg-gray-50">
+                                    Опублікувати
+                                </a>
+                            {% endif %}
+                            <a href="{{ path('admin_comment_show', {'id': comment.id }) }}" class="inline-flex items-center px-2 py-1 border border-gray-300 rounded text-xs text-gray-700 bg-white hover:bg-gray-50">
+                                Показати
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock panel %}

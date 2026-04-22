@@ -1,0 +1,11 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.description }}</p>
+    {{ include('admin/menu_item/_form.html.twig', {
+        form: delete_form,
+        button_label: 'admin.delete'|trans,
+        button_css: 'inline-flex items-center px-3 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 cursor-pointer',
+        show_confirmation: true,
+    }, with_context = false) }}
+{% endblock panel %}

@@ -1,0 +1,221 @@
+nav:
+    locale_switcher: 'Змінити мову'
+    search: 'Пошук'
+    account: 'Акаунт'
+    open_menu: 'Відкрити меню'
+    categories: 'Категорії'
+
+site:
+    menu:
+        homepage: Головна
+        about: Про нас
+        contacts: Контакти
+    offers: Наші пропозиції
+    category:
+        houses: Будинки
+        house:
+            in_town: Будинки в місті
+            outside: Будинки за містом
+        flats: Квартири
+        flat:
+            room: Кімната
+            studio: Однокімнатні квартири
+            two_rooms: Двокімнатні квартири
+            three_rooms: Трикімнатні квартири
+            multiroom: Багатокімнатні
+        steads: Ділянки
+        stead:
+            cottage: Дачні ділянки
+            in_town: Ділянки в місті
+            outside: Ділянки за містом
+        rent_of_dwelling: Оренда житла
+        rent:
+            houses: Будинки в оренду
+            flats: Квартири в оренду
+        commerces: Комерція
+        commerce:
+            rent: Оренда комерції
+            buy: Продаж комерції
+    recommend: Порадь друзям
+    summary: Короткий опис
+    more: Детальніше
+    num_comments: "%count% коментар|%count% коментарі|%count% коментарів"
+    exclusive_estates: Ексклюзивні об'єкти
+    sing_in_please: Щоб залишити коментар, будь ласка, зареєструйтесь
+    comment_placeholder: 'Ваш коментар...'
+    comment_submit: 'Надіслати'
+    flush_comment: Коментар успішно збережено. Після перевірки модератором буде опубліковано.
+    search: Пошук
+    main: Головна
+    logo_alt: 'АН Радуга'
+    estate_photo_alt: 'фото квартири купити Черкаси'
+    loading: Завантаження...
+    error_loading: Помилка завантаження. Спробуйте пізніше.
+    error_loading_short: Помилка завантаження.
+    no_results: За вашим запитом нічого не знайдено.
+    no_listings: Оголошення не знайдено.
+    photo_alt: фото нерухомості
+    floor_label: Поверх / Поверховість
+    description_label: 'Опис:'
+
+security:
+    username: Ім'я користувача
+    password: Пароль
+    repeat_password: Повторіть пароль
+    register: Зареєструватись
+    login_form: Авторизація
+    login: Увійти
+    login_social: Увійти через соціальні мережі:
+    log:
+        facebook: Увійти через Facebook
+        google: Увійти через Google
+        vk: Увійти через VK
+    logout: Вийти
+    registration: Реєстрація
+    admin: Панель адміністрування
+    user: Користувач
+    user_email: Електронна пошта
+    forgotten_password: Забули пароль?
+    reset_send: Надіслати посилання
+    reset_email_sent: Якщо акаунт з таким email існує, посилання для скидання пароля надіслано.
+    reset_token_invalid: Посилання для скидання пароля недійсне або застаріле.
+    reset_password_success: Пароль успішно змінено. Увійдіть у систему.
+    reset_new_password: Новий пароль
+    reset_save: Зберегти пароль
+    too_many_requests: 'Забагато запитів. Будь ласка, спробуйте пізніше.'
+
+admin:
+    back_to_list: Назад до списку
+    title: Назва
+    action: Дія
+    user_locked: Заблокувати
+    user_unlocked: Розблокувати
+    make_manager: Призначити менеджером
+    make_user: Зробити користувачем
+    id: Ідентифікатор
+    panel_title: Панель адміністрування
+    go_to_site: На сайт
+    loading: Завантаження...
+    delete: Видалити
+    back: Назад до списку
+    return_back: Повернутись назад
+    change: Змінити
+    add: Додати
+    save: Зберегти
+    cancel: Скасувати
+    edit: Редагувати
+    show: Показати
+    yes: Так
+    up: Вверх
+    down: Вниз
+    slug: Псевдонім
+    created_by: Ким створено
+    created_at: Дата створення
+    updated_at: Дата редагування
+    exclusive: Ексклюзив
+    main_photo: Фото
+    comments_count: Кількість коментарів
+    floor_info: Поверховість
+    field: Поле
+    value: Значення
+    tab_pending: Неопубліковані
+    tab_published: Опубліковані
+    tab_all: Всі
+    author: Автор
+    date: Дата
+    content: Контент
+    no_comments: Немає коментарів
+    publish: Опублікувати
+    confirm_delete_comment: Видалити коментар?
+    confirm_delete_district: Видалити район?
+    confirm_delete_menu_item: Видалити пункт меню?
+    menu_item_placeholder_title: Назва
+    menu_item_placeholder_desc: Опис
+    new_district_placeholder: Назва нового району
+    username: "Ім'я користувача"
+    role: Роль
+    email: Email
+    last_login: Останній вхід
+    status: Стан
+    lock_action: Блокування
+    manager_role: Роль менеджера
+    estates: "Об'єкти"
+    manager: Менеджер
+    no_logins: Немає входів
+    locked: Заблокований
+    active: Активний
+    estates_heading: "Об'єкти нерухомості"
+    add_new: "+ Додати новий"
+    categories_heading: Категорії
+    add_root_category: "+ Додати кореневу категорію"
+    add_category: "+ Додати категорію"
+    districts_heading: Райони
+    users_heading: Користувачі
+    menu_items_heading: Пункти меню
+    comments_heading: Коментарі
+    comment_heading: Коментар
+    delete_category_heading: Видалити категорію
+    delete_category_desc: Ця форма дозволяє видаляти категорії.
+    delete_category_warning: "Увага! Видалення категорії призведе до видалення всіх об'єктів, які відносяться до цієї категорії!"
+    nav:
+        estates: "Об'єкти"
+        districts: Райони
+        users: Користувачі
+        categories: Категорії
+        comments: Коментарі
+        menu: Меню сайту
+
+common:
+    submit: Надіслати
+    foto: Фото
+    published_at: Опубліковано
+    update_at: Відредаговано
+    show: Показати
+    edit: Редагувати
+    content: Зміст
+    add: Додати
+    description: Опис
+    add_favorites: Додати до обраного
+    delete_favorites: Видалити з обраного
+    favorite_estates: Ваші обрані об'єкти
+    save: Зберегти
+    downloadPDF: Завантажити PDF
+    comments: Коментарі
+    price: Ціна
+    district: Район
+    search:
+        placeholder: Введіть об'єкт пошуку тут
+
+form:
+    search:
+        district: Оберіть район
+        price: Оберіть ціну
+        search: Пошук
+        disable_floor: Виключити перший/останній поверхи
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: більше 50000
+        category: Категорія
+        district_label: Район
+        price_label: Ціна
+    estate:
+        title: Заголовок об'єкта нерухомості
+        description: Опис об'єкта нерухомості
+        description_placeholder: Додайте опис тут
+        district: Оберіть район зі списку
+        category: Оберіть категорію зі списку
+        image_file: Додайте фото нерухомості
+        exclusive: Додати до ексклюзиву?
+        floor: Поверховість для квартир у багатоповерхівках
+        price: Ціна в доларах
+        files: Фото на сайті
+    category:
+        title: Назва категорії
+        parent: Оберіть батьківську категорію зі списку
+    district:
+        title: Назва району
+    floor:
+        floor: На якому поверсі знаходиться квартира
+        count_floor: Скільки поверхів у багатоповерхівці
+    menu_item:
+        title: Назва меню

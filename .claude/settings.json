@@ -1,0 +1,24 @@
+{
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "40"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(composer install:*)",
+      "Bash(php app/console cache:clear)",
+      "Bash(ls /Users/andrew/www/rainbow/docker* /Users/andrew/www/rainbow/Docker*)",
+      "Bash(docker compose:*)",
+      "Bash(php bin/phpunit -c app/)",
+      "Bash(curl:*)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(docker exec:*)",
+      "Bash(git stash:*)",
+      "Bash(git worktree:*)",
+      "Bash(npm install:*)",
+      "Bash(ls /Users/andrew/www/rainbow/docker-compose*)",
+      "Bash(docker ps:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm list:*)"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{% extends 'site/base_site.html.twig' %}
+
+{% block sidebar %}{% endblock %}
+
+{% block panel %}
+    {% for message in app.flashes('error') %}
+        <div class="mb-4 p-3 rounded bg-red-50 border border-red-200 text-sm text-red-700">{{ message|trans }}</div>
+    {% endfor %}
+    <div id="react-reset-request-form"
+         data-action="{{ path('security_reset_request') }}"
+         data-csrf="{{ form.vars.token.vars.value }}"
+         data-login-url="{{ path('security_login_form') }}">
+    </div>
+{% endblock %}

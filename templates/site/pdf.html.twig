@@ -1,0 +1,57 @@
+<h2>
+    {{ estate.title }}
+</h2>
+ {% if estate.files[0] %}
+         <img class="border border-gray-200 rounded p-1" src={{ absolute_url(asset("#{estate.files[0].path}") | imagine_filter('medium')) }}>
+ {% endif %}
+<br>
+<div class="mb-4 border border-gray-200 rounded">
+    <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+        Цена
+    </div>
+    <div class="px-4 py-3 text-sm">
+        {{ estate.price }}&#032грн.
+    </div>
+</div>
+<div class="mb-4 border border-gray-200 rounded">
+    <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+        Район
+    </div>
+    <div class="px-4 py-3 text-sm">
+        {{ estate.district.title }}
+    </div>
+</div>
+{% if estate.floor %}
+    <div class="mb-4 border border-gray-200 rounded">
+        <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+            Этаж/Этажность
+        </div>
+        <div class="px-4 py-3 text-sm">
+            {{ estate.floor['floor'] }} / {{ estate.floor['count_floor'] }}
+        </div>
+    </div>
+{% endif %}
+<div class="mb-4 border border-gray-200 rounded">
+    <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+        {{ 'common.description'|trans }}
+    </div>
+    <div class="px-4 py-3 text-sm">
+        {{ estate.description }}
+    </div>
+</div>
+<br><br>
+<div class="mb-4 border border-gray-200 rounded">
+    <div class="px-4 py-2 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
+        Комментарии
+    </div>
+    {% for comment in estate.comments %}
+        {% if comment.enabled %}
+            <div class="px-4 py-3 border-b border-gray-100">
+                <p class="font-medium text-sm">{{ comment.createdBy }}
+                    <small class="text-gray-500">{{ comment.createdAt|date('Y-m-d H:i:s') }}</small>
+                </p>
+                {{ comment.content }}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

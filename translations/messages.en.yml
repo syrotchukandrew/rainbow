@@ -1,0 +1,222 @@
+nav:
+    locale_switcher: 'Switch language'
+    search: 'Search'
+    account: 'Account'
+    open_menu: 'Open menu'
+    categories: 'Categories'
+
+site:
+    menu:
+        homepage: Home
+        about: About us
+        contacts: Contacts
+    offers: Our offers
+    category:
+        houses: Houses
+        house:
+            in_town: Houses in the town
+            outside: Suburb houses
+        flats: Flats
+        flat:
+            room: Room
+            studio: Studio apartment
+            two_rooms: Tworoom apartment
+            three_rooms: Threeroom apartment
+            multiroom: Multiroom apartment
+        steads: Steads
+        stead:
+            cottage: Steads for cottage
+            in_town: Steads in the town
+            outside: Steads outside the town
+        rent_of_dwelling: Rent of dwelling
+        rent:
+            houses: Houses for rent
+            flats: Flats for rent
+        commerces: Commerce
+        commerce:
+            rent: Commerce for rent
+            buy: Commerce for buy
+    recommend: Recommend to friends
+    summary: Summary
+    more: More
+    num_comments: "%count% comment|%count% comments"
+    exclusive_estates: Exlusive estates
+    sing_in_please: Sing in, please, to leave a comment and a rate
+    comment_placeholder: 'Your comment...'
+    comment_submit: 'Submit'
+    flush_comment: The comment is successfully written. After rewise by moderator, will be published.
+    search: Search
+    main: Home
+    logo_alt: 'Real Estate Agency Rainbow'
+    estate_photo_alt: 'apartment photo for sale in Cherkasy'
+    loading: Loading...
+    error_loading: Loading error. Please try again later.
+    error_loading_short: Loading error.
+    no_results: No results found for your query.
+    no_listings: No listings found.
+    photo_alt: property photo
+    floor_label: Floor / Total floors
+    description_label: 'Description:'
+
+security:
+    username: Username
+    password: Password
+    repeat_password: Repeat password
+    register: Register
+    login_form: Secure Sign in
+    login_social: 'Login via social network:'
+    log:
+        facebook: Login via Facebook
+        google: Login via Google
+        vk: Login via VK
+    login: login
+    logout: Logout
+    registration: Registration
+    admin: Admin dashboard
+    user: User
+    user_email: Email
+    forgotten_password: Forgotten password?
+    reset_send: Send reset link
+    reset_email_sent: If an account with that email exists, a reset link has been sent.
+    reset_token_invalid: The reset link is invalid or has expired.
+    reset_password_success: Your password has been reset. Please log in.
+    reset_new_password: Choose new password
+    reset_save: Save new password
+    too_many_requests: 'Too many requests. Please try again later.'
+
+admin:
+    back_to_list: Back to list
+    title: Title
+    action: Action
+    user_locked: Lock
+    user_unlocked: Unlock
+    make_manager: Make manager
+    make_user: Make user
+    id: ID
+    panel_title: Admin panel
+    go_to_site: Go to site
+    loading: Loading...
+    delete: Delete
+    back: Back to list
+    return_back: Go back
+    change: Edit
+    add: Add
+    save: Save
+    cancel: Cancel
+    edit: Edit
+    show: Show
+    yes: Yes
+    up: Up
+    down: Down
+    slug: Slug
+    created_by: Created by
+    created_at: Created at
+    updated_at: Updated at
+    exclusive: Exclusive
+    main_photo: Photo
+    comments_count: Comments count
+    floor_info: Floor info
+    field: Field
+    value: Value
+    tab_pending: Pending
+    tab_published: Published
+    tab_all: All
+    author: Author
+    date: Date
+    content: Content
+    no_comments: No comments
+    publish: Publish
+    confirm_delete_comment: Delete comment?
+    confirm_delete_district: Delete district?
+    confirm_delete_menu_item: Delete menu item?
+    menu_item_placeholder_title: Title
+    menu_item_placeholder_desc: Description
+    new_district_placeholder: New district name
+    username: Username
+    role: Role
+    email: Email
+    last_login: Last login
+    status: Status
+    lock_action: Lock
+    manager_role: Manager role
+    estates: Estates
+    manager: Manager
+    no_logins: No logins
+    locked: Locked
+    active: Active
+    estates_heading: Real estate objects
+    add_new: '+ Add new'
+    categories_heading: Categories
+    add_root_category: '+ Add root category'
+    add_category: '+ Add category'
+    districts_heading: Districts
+    users_heading: Users
+    menu_items_heading: Menu items
+    comments_heading: Comments
+    comment_heading: Comment
+    delete_category_heading: Delete category
+    delete_category_desc: This form allows you to delete categories.
+    delete_category_warning: 'Warning! Deleting a category will delete all estates belonging to this category!'
+    nav:
+        estates: Estates
+        districts: Districts
+        users: Users
+        categories: Categories
+        comments: Comments
+        menu: Site menu
+
+common:
+    submit: Submit
+    foto: Foto
+    published_at: Published at
+    update_at: Updated at
+    show: Show
+    edit: Edit
+    content: 'Content:'
+    add: Add
+    description: Description
+    add_favorites: Add to favorites
+    delete_favorites: Delete from favorites
+    favorite_estates: Your favorite estates
+    save: Save
+    downloadPDF: Download PDF
+    comments: Comments
+    price: Price
+    district: District
+    search:
+        placeholder: Start typing
+
+form:
+    search:
+        district: Choose district
+        price: Choose price
+        search: Search
+        disable_floor: Disable first/last floor
+        to_20000: 0 - 20000
+        to_50000: 20001 - 50000
+        more_then_50000: more then 50000
+        category: Category
+        district_label: District
+        price_label: Price
+    estate:
+        title: Estate title
+        description: Estate description
+        description_placeholder: Add description here
+        district: Choose district from list
+        category: Choose category from list
+        image_file: Add estate photo
+        exclusive: Add to exclusive?
+        floor: Floor info for apartments in multi-story buildings
+        price: Price in USD
+        files: Photos on site
+    category:
+        title: Category name
+        parent: Choose parent category from list
+    district:
+        title: District name
+    floor:
+        floor: Which floor is the apartment on
+        count_floor: How many floors in the building
+    menu_item:
+        title: Menu item name
+

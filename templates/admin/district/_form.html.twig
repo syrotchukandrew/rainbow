@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+{{ form_widget(form) }}
+
+<div class="flex gap-3 mt-4">
+    <input type="submit" value="{{ button_label|default('admin.delete'|trans) }}"
+           class="{{ button_css|default('inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 cursor-pointer') }}"/>
+
+    <a href="{{ path('admin_districts') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
+        {{ 'admin.back'|trans }}
+    </a>
+</div>
+{{ form_end(form) }}

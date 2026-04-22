@@ -1,0 +1,33 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-6">{{ district.title }}</h1>
+    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden max-w-lg mb-4">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ 'admin.id'|trans }}</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ 'admin.title'|trans }}</th>
+                <th class="px-4 py-3 text-left font-medium text-gray-700">{{ 'admin.slug'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="px-4 py-3 text-gray-900">{{ district.id }}</td>
+                    <td class="px-4 py-3 text-gray-900">{{ district.title }}</td>
+                    <td class="px-4 py-3 text-gray-900">{{ district.slug }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="flex gap-3">
+        <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">
+            {{ 'admin.edit'|trans }}
+        </a>
+        {{ include('admin/district/_form.html.twig', {
+            form: delete_form,
+            button_label: 'admin.delete'|trans,
+            button_css: 'inline-flex items-center px-3 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 cursor-pointer',
+            show_confirmation: true,
+        }, with_context = false) }}
+    </div>
+{% endblock panel %}

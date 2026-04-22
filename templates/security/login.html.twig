@@ -1,0 +1,12 @@
+{% extends 'site/base_site.html.twig' %}
+
+{% block sidebar %}{% endblock %}
+
+{% block panel %}
+    <div id="react-login-form"
+         data-action="{{ path('security_login_check') }}"
+         data-csrf="{{ csrf_token('authenticate') }}"
+         data-error="{{ error ? error.messageKey|trans(error.messageData, 'security') : '' }}"
+         data-last-username="{{ last_username }}">
+    </div>
+{% endblock %}

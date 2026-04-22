@@ -1,0 +1,57 @@
+security:
+    password_hashers:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    role_hierarchy:
+        ROLE_MANAGER: ROLE_USER
+        ROLE_ADMIN:   ROLE_MANAGER
+
+    providers:
+        app_users:
+            entity:
+                class:    App\Entity\User
+                property: username
+        hwi:
+            id: my.custom.user_provider
+
+    firewalls:
+        main:
+            pattern:     ^/
+            lazy:        true
+            provider:    app_users
+            entry_point: form_login
+            form_login:
+                check_path:   security_login_check
+                login_path:   security_login_form
+                failure_path: security_login_form
+                enable_csrf:  true
+
+            oauth:
+                resource_owners:
+                    facebook:   "/login/check-facebook"
+                    google:     "/login/check-google"
+                    vkontakte:  "/login/check-vkontakte"
+                login_path:        security_login_form
+                use_forward:       false
+                failure_path:      security_login_form
+                provider:          app_users
+                oauth_user_provider:
+                    service: my.custom.user_provider
+
+            http_basic:
+                provider: app_users
+
+            logout:
+                path:   /logout
+                target: /
+
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+    access_control:
+        - { path: ^/login$,        role: PUBLIC_ACCESS }
+        - { path: ^/register,      role: PUBLIC_ACCESS }
+        - { path: ^/reset-password, role: PUBLIC_ACCESS }
+        - { path: ^/admin/,        role: ROLE_ADMIN }

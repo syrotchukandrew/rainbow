@@ -1,0 +1,19 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block panel %}
+    <h1 class="text-xl font-semibold text-gray-900 mb-4">{{ 'admin.comments_heading'|trans }}</h1>
+    <div id="react-admin-comments"
+         data-csrf="{{ csrf_token('api_admin_comment') }}"
+         data-labels="{{ {
+             loading: 'admin.loading'|trans,
+             tab_pending: 'admin.tab_pending'|trans,
+             tab_published: 'admin.tab_published'|trans,
+             tab_all: 'admin.tab_all'|trans,
+             content: 'admin.content'|trans,
+             author: 'admin.author'|trans,
+             date: 'admin.date'|trans,
+             no_comments: 'admin.no_comments'|trans,
+             publish: 'admin.publish'|trans,
+             delete: 'admin.delete'|trans,
+             confirm_delete: 'admin.confirm_delete_comment'|trans
+         }|json_encode }}"></div>
+{% endblock panel %}

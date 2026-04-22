@@ -1,0 +1,22 @@
+{% if wo_breadcrumbs()|length %}
+    <ol class="flex items-center flex-wrap gap-1 text-sm text-gray-500" itemscope itemtype="http://schema.org/BreadcrumbList">
+        {% for b in breadcrumbs %}
+            <li class="flex items-center" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                {% if not loop.first %}
+                    <span class="mx-1 text-gray-400">/</span>
+                {% endif %}
+                {% if b.url and not loop.last %}
+                    <a href="{{ b.url }}" class="hover:text-gray-700 hover:underline" itemprop="item">
+                        <span itemprop="name">{% if b.translate is defined and b.translate == true %}{{- b.text | trans(b.translationParameters, translation_domain, locale) -}}{% else %}{{- b.text -}}{% endif %}</span>
+                    </a>
+                {% else %}
+                    <span class="text-gray-700 font-medium" itemprop="name">{% if b.translate is defined and b.translate == true %}{{- b.text | trans(b.translationParameters, translation_domain, locale) -}}{% else %}{{- b.text -}}{% endif %}</span>
+                    {% if b.url %}
+                        <meta itemprop="item" content="{{ b.url }}" />
+                    {% endif %}
+                {% endif %}
+                <meta itemprop="position" content="{{ loop.index }}" />
+            </li>
+        {% endfor %}
+    </ol>
+{% endif %}

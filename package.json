@@ -4,7 +4,11 @@
   "description": "Kate&Andrew project for geekhub's final challenge",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "encore dev",
+    "dev-server": "encore dev-server",
+    "watch": "encore dev --watch",
+    "build": "encore production"
   },
   "repository": {
     "type": "git",
@@ -19,12 +23,42 @@
     "url": "https://github.com/syrotchukandrew/rainbow/issues"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
     "bower": "~1.7.7",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "gulp": "~3.9.1",
-    "less": "~2.6.0",
-    "gulp-less": "~3.0.5",
     "gulp-clean": "~0.3.1",
     "gulp-concat": "~2.6.0",
-    "gulp-uglify": "~1.5.2"
+    "gulp-less": "~3.0.5",
+    "gulp-uglify": "~1.5.2",
+    "less": "~2.6.0",
+    "lucide-react": "^1.7.0",
+    "pgwslideshow": "^2.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@symfony/webpack-encore": "^5.3.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "ajv": "^8.18.0",
+    "autoprefixer": "^10.4.27",
+    "babel-loader": "^10.1.1",
+    "core-js": "^3.49.0",
+    "css-loader": "^7.1.4",
+    "postcss": "^8.5.8",
+    "postcss-loader": "^8.2.1",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.19",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2",
+    "webpack-notifier": "^1.15.0"
   }
 }
