@@ -13,8 +13,8 @@
         {{ form_row(form.floor) }}
         {{ form_row(form.price) }}
         <div class="flex gap-3 mt-4">
-            <input type="submit" value="Створити об'єкт" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"/>
-            {{ form_widget(form.saveAndCreateNew, { label: 'Зберегти і створити ще', attr: { class: 'inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer' } }) }}
+            <input type="submit" value="Створити об'єкт" class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700 cursor-pointer"/>
+            {{ form_widget(form.saveAndCreateNew, { label: 'Зберегти і створити ще', attr: { class: 'inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700 cursor-pointer' } }) }}
             <a href="{{ path('admin_index') }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
                 Назад до списку
             </a>

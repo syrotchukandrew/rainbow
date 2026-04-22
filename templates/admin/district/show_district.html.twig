@@ -20,7 +20,7 @@
         </table>
     </div>
     <div class="flex gap-3">
-        <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded text-sm text-gray-700 bg-white hover:bg-gray-50">
+        <a href="{{ path('admin_district_edit', { 'slug': district.slug }) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">
             {{ 'admin.edit'|trans }}
         </a>
         {{ include('admin/district/_form.html.twig', {

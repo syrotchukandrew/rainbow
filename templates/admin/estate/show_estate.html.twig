@@ -48,7 +48,7 @@
         </table>
     </div>
     <div class="flex gap-3 mt-4">
-        <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700">
+        <a href="{{ path('admin_estate_edit', { 'slug': estate.slug }) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">
             {{ 'admin.change'|trans }}
         </a>
         {{ include('admin/estate/_form.html.twig', {
